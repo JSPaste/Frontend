@@ -1,6 +1,7 @@
 import LogoIcon from '@/icons/LogoIcon';
 import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 import {
+	Box,
 	Flex,
 	IconButton,
 	Spacer,
@@ -68,46 +69,53 @@ export default memo(function Controls({
 	return (
 		<>
 			<SettingsModal isOpen={isOpen} onClose={onClose} />
-			<Flex
-				w="100%"
-				gap="10px"
-				bg="controls"
-				py="8px"
-				px="12px"
-				direction="row"
-				alignItems="center"
-			>
-				<IconButton
-					size="sm"
-					aria-label="Home"
-					color="primary"
-					icon={<LogoIcon fontSize="30px" />}
-					onClick={() => (location.href = '/')}
-				/>
-				<Spacer />
-				<ActionButton
-					icon={<MdSave fontSize="20px" />}
-					label="Save"
-					onClick={handleSave}
-					isLoading={isSaveLoading}
-				/>
-				<ActionButton
-					icon={<MdEdit fontSize="20px" />}
-					label="Edit"
-					onClick={() => null}
-					isDisabled={!documentId}
-				/>
-				<ActionButton
-					icon={<MdSubject fontSize="20px" />}
-					label="View Raw"
-					onClick={() => null}
-					isDisabled={!documentId}
-				/>
-				<ActionButton
-					icon={<MdSettings fontSize="20px" />}
-					label="Settings"
-					onClick={() => onOpen()}
-				/>
+			<Flex direction="column" w="100%">
+				<Box w="100%" h="48px" />
+				<Flex
+					bottom="0"
+					left="0"
+					zIndex={2}
+					position="fixed"
+					w="100%"
+					gap="10px"
+					bg="controls"
+					py="8px"
+					px="12px"
+					direction="row"
+					alignItems="center"
+				>
+					<IconButton
+						size="sm"
+						aria-label="Home"
+						color="primary"
+						icon={<LogoIcon fontSize="30px" />}
+						onClick={() => (location.href = '/')}
+					/>
+					<Spacer />
+					<ActionButton
+						icon={<MdSave fontSize="20px" />}
+						label="Save"
+						onClick={handleSave}
+						isLoading={isSaveLoading}
+					/>
+					<ActionButton
+						icon={<MdEdit fontSize="20px" />}
+						label="Edit"
+						onClick={() => null}
+						isDisabled={!documentId}
+					/>
+					<ActionButton
+						icon={<MdSubject fontSize="20px" />}
+						label="View Raw"
+						onClick={() => null}
+						isDisabled={!documentId}
+					/>
+					<ActionButton
+						icon={<MdSettings fontSize="20px" />}
+						label="Settings"
+						onClick={() => onOpen()}
+					/>
+				</Flex>
 			</Flex>
 		</>
 	);
