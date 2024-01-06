@@ -1,4 +1,4 @@
-import { MdEdit, MdSave, MdSubject } from 'react-icons/md';
+import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 import { Flex, IconButton, Spacer, Tooltip } from '@chakra-ui/react';
 import LogoIcon from '@/icons/LogoIcon';
 
@@ -50,6 +50,10 @@ export default function Controls() {
 			<ActionButton
 				icon={<MdSubject fontSize="20px" />}
 				label="View Raw"
+			/>
+			<ActionButton
+				icon={<MdSettings fontSize="20px" />}
+				label="Settings"
 			/>
 		</Flex>
 	);
