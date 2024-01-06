@@ -1,4 +1,3 @@
-import LogoIcon from '@/icons/LogoIcon';
 import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 import {
 	Box,
@@ -9,8 +8,9 @@ import {
 	useDisclosure,
 	useToast,
 } from '@chakra-ui/react';
-import { SettingsModal } from '../modals/SettingsModal';
+import SettingsModal from '../modals/SettingsModal';
 import React, { memo, useState } from 'react';
+import LogoIcon from '@/icons/LogoIcon';
 import { JSP } from 'jspaste';
 
 function ActionButton({

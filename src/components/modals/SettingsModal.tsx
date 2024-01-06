@@ -18,11 +18,10 @@ import {
 } from '@chakra-ui/react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 
-// TODO: Add working theme and lang selection
-export const SettingsModal = ({
+export default function SettingModal({
 	isOpen,
 	onClose,
-}: Readonly<{ isOpen: boolean; onClose: any }>) => {
+}: Readonly<{ isOpen: boolean; onClose: any }>) {
 	return (
 		<Modal
 			size="md"
@@ -90,4 +89,4 @@ export const SettingsModal = ({
 			</ModalContent>
 		</Modal>
 	);
-};
+}
