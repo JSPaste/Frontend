@@ -49,7 +49,7 @@ export default function RootLayout({
 					property="og:description"
 					content="Create and share code with JSPaste! The developer website for easy code sharing."
 				/>
-				<meta property="og:image" content="./logo.webp" />
+				<meta property="og:image" content="/logo.webp" />
 				<meta
 					property="og:keywords"
 					content="JSPaste,developer,javascript,hastebin,TSPaste,pastebin,tnfAngel"
@@ -62,7 +62,7 @@ export default function RootLayout({
 					property="twitter:description"
 					content="JSPaste for real-time data on system performance and status."
 				/>
-				<meta property="twitter:image" content="./logo.webp" />
+				<meta property="twitter:image" content="/logo.webp" />
 				<meta property="twitter:site" content="@tnfAngel" />
 				<meta property="twitter:site:id" content="@tnfAngel" />
 				<meta property="twitter:creator" content="@tnfAngel" />
