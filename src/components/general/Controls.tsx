@@ -5,7 +5,8 @@ import LogoIcon from '@/icons/LogoIcon';
 function ActionButton({
 	icon,
 	label,
-}: Readonly<{ icon: React.ReactElement; label: string }>) {
+	onClick,
+}: Readonly<{ icon: React.ReactElement; label: string; onClick: () => void }>) {
 	return (
 		<Tooltip
 			label={label}
@@ -21,6 +22,7 @@ function ActionButton({
 				aria-label={label}
 				color="primary"
 				icon={icon}
+				onClick={onClick}
 			/>
 		</Tooltip>
 	);
@@ -45,15 +47,25 @@ export default function Controls() {
 				onClick={() => (location.href = '/')}
 			/>
 			<Spacer />
-			<ActionButton icon={<MdSave fontSize="20px" />} label="Save" />
-			<ActionButton icon={<MdEdit fontSize="20px" />} label="Edit" />
+			<ActionButton
+				icon={<MdSave fontSize="20px" />}
+				label="Save"
+				onClick={() => null}
+			/>
+			<ActionButton
+				icon={<MdEdit fontSize="20px" />}
+				label="Edit"
+				onClick={() => null}
+			/>
 			<ActionButton
 				icon={<MdSubject fontSize="20px" />}
 				label="View Raw"
+				onClick={() => null}
 			/>
 			<ActionButton
 				icon={<MdSettings fontSize="20px" />}
 				label="Settings"
+				onClick={() => null}
 			/>
 		</Flex>
 	);
