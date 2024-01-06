@@ -31,7 +31,7 @@ export default function Controls() {
 		<Flex
 			w="100%"
 			gap="10px"
-			bg="#222222"
+			bg="controls"
 			py="8px"
 			px="12px"
 			direction="row"
@@ -40,7 +40,7 @@ export default function Controls() {
 			<IconButton
 				size="sm"
 				aria-label="Home"
-				color="#FFE184"
+				color="primary"
 				icon={<LogoIcon fontSize="30px" />}
 				onClick={() => (location.href = '/')}
 			/>
