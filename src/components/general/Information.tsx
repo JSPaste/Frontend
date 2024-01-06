@@ -1,5 +1,6 @@
 import LogoIcon from '@/icons/LogoIcon';
 import { Flex, Text } from '@chakra-ui/react';
+import { EditorInformation } from '../screens/IndexScreen';
 
 function InformationLabel({
 	label,
@@ -10,7 +11,7 @@ function InformationLabel({
 			{label}
 		</Text>
 	);
-    
+
 	return icon ? (
 		<Flex direction="row" alignItems="center" gap="5px">
 			{icon}
@@ -21,7 +22,11 @@ function InformationLabel({
 	);
 }
 
-export default function Information() {
+export default function Information({
+	lineNumber,
+	columnNumber,
+	languageString,
+}: Readonly<EditorInformation>) {
 	return (
 		<Flex
 			w="100%"
@@ -36,8 +41,8 @@ export default function Information() {
 				label="JSPaste v10.1.1"
 				icon={<LogoIcon fontSize="15px" />}
 			/>
-			<InformationLabel label="Ln 23 Col 2" />
-			<InformationLabel label="Language: Typescript" />
+			<InformationLabel label={`Ln ${lineNumber} Col ${columnNumber}`} />
+			<InformationLabel label={`Language: ${languageString}`} />
 		</Flex>
 	);
 }
