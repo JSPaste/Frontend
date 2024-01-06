@@ -39,7 +39,7 @@ export default function RootLayout({
 					name="keywords"
 					content="JSPaste,developer,javascript,hastebin,TSPaste,pastebin,tnfAngel"
 				/>
-				<meta name="theme-color" content="#ffe184" />
+				<meta name="theme-color" content="#FFE184" />
 				<meta name="author" content="JSPaste" />
 				<meta property="og:type" content="website" />
 				<meta property="og:url" content="https://jspaste.eu/" />
