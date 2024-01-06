@@ -17,12 +17,7 @@ export default memo(function Editor({
 
 	const isFirstEditRef = useRef<boolean>(true);
 
-	const newLine = `
-`;
-
-	const defaultCode = `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.${newLine.repeat(
-		2,
-	)}`;
+	const defaultCode = `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.`;
 
 	const updateInformation = useCallback(
 		(editor: any) => {
@@ -56,7 +51,10 @@ export default memo(function Editor({
 
 					monaco.editor.setTheme('jspaste');
 
-					editor.setPosition({ lineNumber: 3, column: 0 });
+					editor.setPosition({
+						lineNumber: 1,
+						column: defaultCode.length + 1,
+					});
 
 					editor.focus();
 
@@ -71,13 +69,13 @@ export default memo(function Editor({
 				onChange={(value, ce) => {
 					if (isFirstEditRef.current) {
 						isFirstEditRef.current = false;
-						console.log('Resetting editor..');
+
 						editorRef.current?.setValue(
-							newLine.repeat(2) +
-								ce.changes.map((c) => c.text).join(''),
+							ce.changes.map((c) => c.text).join(''),
 						);
+
 						editorRef.current?.setPosition({
-							lineNumber: 3,
+							lineNumber: 1,
 							column: 2,
 						});
 					}
