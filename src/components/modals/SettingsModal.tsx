@@ -1,27 +1,28 @@
 'use client';
 
 import {
+	FormControl,
+	FormLabel,
 	Grid,
 	GridItem,
-	Stack,
-	Select,
+	Heading,
 	Modal,
 	ModalBody,
-	ModalHeader,
-	ModalContent,
-	ModalOverlay,
 	ModalCloseButton,
-	FormLabel,
-	FormControl,
-	Heading,
+	ModalContent,
 	ModalFooter,
+	ModalHeader,
+	ModalOverlay,
+	Select,
+	Stack,
 } from '@chakra-ui/react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 
+// TODO: Add working theme and lang selection
 export const SettingsModal = ({
 	isOpen,
 	onClose,
-}: Readonly<{ isOpen: boolean; onClose: () => any }>) => {
+}: Readonly<{ isOpen: boolean; onClose: any }>) => {
 	return (
 		<Modal
 			size="md"
