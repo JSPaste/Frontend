@@ -29,6 +29,7 @@ export default function SettingModal({
 			isOpen={isOpen}
 			onClose={onClose}
 			scrollBehavior="inside"
+			returnFocusOnClose={false}
 		>
 			<ModalOverlay backdropFilter="blur(4px);" />
 
