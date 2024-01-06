@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import { MdEdit, MdSave, MdSubject } from 'react-icons/md';
 import { Flex, IconButton, Spacer, Tooltip } from '@chakra-ui/react';
+import LogoIcon from '@/icons/LogoIcon';
 
 function ActionButton({
 	icon,
@@ -37,18 +37,20 @@ export default function Footer() {
 			direction="row"
 			alignItems="center"
 		>
-			<Image
-				width={35}
-				height={35}
-				alt="JSPaste"
-				src="/logo.webp"
-				style={{ cursor: 'pointer' }}
+			<IconButton
+				size="sm"
+				aria-label="Home"
+				color="#FFE184"
+				icon={<LogoIcon fontSize="30px" />}
 				onClick={() => (location.href = '/')}
 			/>
 			<Spacer />
 			<ActionButton icon={<MdSave fontSize="20px" />} label="Save" />
 			<ActionButton icon={<MdEdit fontSize="20px" />} label="Edit" />
-			<ActionButton icon={<MdSubject fontSize="20px" />} label="View Raw" />
+			<ActionButton
+				icon={<MdSubject fontSize="20px" />}
+				label="View Raw"
+			/>
 		</Flex>
 	);
 }
