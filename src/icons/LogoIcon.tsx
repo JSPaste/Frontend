@@ -7,7 +7,7 @@ export default function LogoIcon(props: Readonly<IconProps>) {
 			y="0px"
 			width="100%"
 			viewBox="0 0 460 460"
-			enable-background="new 0 0 460 460"
+			enableBackground="new 0 0 460 460"
 			{...props}
 		>
 			<path
