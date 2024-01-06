@@ -10,13 +10,7 @@ export default function Footer() {
 			bg="#222222"
 			padding="10px"
 		>
-			<Image
-				width={35}
-				height={35}
-				alt="JSPaste"
-				src="/logo.webp"
-				style={{ borderRadius: '10px' }}
-			/>
+			<Image width={35} height={35} alt="JSPaste" src="/logo.webp" />
 		</Flex>
 	);
 }
