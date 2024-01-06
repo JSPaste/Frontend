@@ -76,12 +76,12 @@ export const SettingsModal = ({
 							<GridItem
 								w="100%"
 								h="150px"
-								bg="#DFEBEB"
+								bg="#FFFFFF"
 							></GridItem>
 							<GridItem
 								w="100%"
 								h="150px"
-								bg="#FFFFFF"
+								bg="#DFEBEB"
 							></GridItem>
 						</Grid>
 					</Stack>
