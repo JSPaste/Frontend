@@ -1,7 +1,10 @@
-import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
-import { Flex, IconButton, Spacer, Tooltip } from '@chakra-ui/react';
+
 import LogoIcon from '@/icons/LogoIcon';
+import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
+import { Flex, IconButton, Spacer, Tooltip, useDisclosure } from '@chakra-ui/react';
+import { SettingsModal } from '../modals/SettingsModal';
 import { memo } from 'react';
+
 
 function ActionButton({
 	icon,
@@ -35,6 +38,7 @@ function ActionButton({
 		</Tooltip>
 	);
 }
+
 
 export default memo(function Controls({
 	documentId,
@@ -77,7 +81,7 @@ export default memo(function Controls({
 			<ActionButton
 				icon={<MdSettings fontSize="20px" />}
 				label="Settings"
-				onClick={() => null}
+				onClick={() => onOpen()}
 			/>
 		</Flex>
 	);
