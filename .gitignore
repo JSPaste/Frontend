@@ -21,12 +21,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
-*.env*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
 # envfiles
+.env
 .env.production
 .env.development

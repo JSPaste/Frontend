@@ -11,7 +11,7 @@ export default function LogoIcon(props: Readonly<IconProps>) {
 			{...props}
 		>
 			<path
-				fill="#FDE083"
+				fill="#FFE184"
 				opacity="1.000000"
 				stroke="none"
 				d="
@@ -51,7 +51,7 @@ M283.354614,323.214630
 z"
 			/>
 			<path
-				fill="#FDE083"
+				fill="#FFE184"
 				opacity="1.000000"
 				stroke="none"
 				d="

@@ -9,8 +9,8 @@ function ActionButton({
 	return (
 		<Tooltip
 			label={label}
-			bg="#525252"
-			color="#FFFFFF"
+			bg="tooltip"
+			color="text"
 			placement="top"
 			m="5px"
 			gutter={5}
@@ -19,7 +19,7 @@ function ActionButton({
 			<IconButton
 				size="sm"
 				aria-label={label}
-				color="#FFE184"
+				color="primary"
 				icon={icon}
 			/>
 		</Tooltip>

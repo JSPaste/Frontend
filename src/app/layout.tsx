@@ -18,6 +18,8 @@ const theme = extendTheme({
 		primary: '#FFE184',
 		controls: '#222222',
 		editor: '#2E2E2E',
+		tooltip: '#464646',
+		text: '#EBEBEB',
 	},
 });
 
@@ -29,7 +31,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<head>
-				<title>JSPaste</title>
+				<title>
+					JSPaste - The developer website for easy code sharing.
+				</title>
 				<meta
 					name="viewport"
 					content="initial-scale=1, width=device-width"
