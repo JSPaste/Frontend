@@ -15,7 +15,7 @@ export default memo(function Editor({
 }>) {
 	const editorRef = useRef<any>(null);
 
-	const defaultCode = `// Start writing code here!
+	const defaultCode = `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.
 
 `;
 
