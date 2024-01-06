@@ -14,6 +14,11 @@ const theme = extendTheme({
 		initialColorMode: 'dark',
 		useSystemColorMode: false,
 	},
+	colors: {
+		primary: '#FFE184',
+		controls: '#222222',
+		editor: '#2E2E2E',
+	},
 });
 
 export default function RootLayout({
@@ -76,7 +81,7 @@ export default function RootLayout({
 				/>
 				<ChakraProvider theme={theme}>
 					<CacheProvider>
-						<Box h="100%" w="100%" bg="#202020">
+						<Box h="100%" w="100%" bg="editor">
 							{children}
 						</Box>
 					</CacheProvider>
