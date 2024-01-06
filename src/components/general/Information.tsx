@@ -1,6 +1,7 @@
 import LogoIcon from '@/icons/LogoIcon';
 import { Flex, Text } from '@chakra-ui/react';
-import { EditorInformation } from '../screens/IndexScreen';
+import { EditorInformation } from '@/components/screens/IndexScreen';
+import React from 'react';
 
 function InformationLabel({
 	label,

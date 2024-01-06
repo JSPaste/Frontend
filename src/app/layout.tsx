@@ -1,6 +1,6 @@
 'use client';
 
-import '../styles/global.scss';
+import '@/styles/global.scss';
 import { CacheProvider } from '@chakra-ui/next-js';
 import {
 	Box,
@@ -8,6 +8,7 @@ import {
 	ColorModeScript,
 	extendTheme,
 } from '@chakra-ui/react';
+import React from 'react';
 
 const theme = extendTheme({
 	config: {

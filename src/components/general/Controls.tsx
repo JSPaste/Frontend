@@ -8,7 +8,7 @@ import {
 	useDisclosure,
 } from '@chakra-ui/react';
 import { SettingsModal } from '../modals/SettingsModal';
-import { memo } from 'react';
+import React, { memo } from 'react';
 
 function ActionButton({
 	icon,
