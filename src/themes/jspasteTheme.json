@@ -1,8 +1,8 @@
 {
-    "base": "vs-dark",
-    "inherit": true,
-    "rules": [],
-    "colors": {
-        "editor.background": "#2C2C2C00"
-    }
+	"base": "vs-dark",
+	"inherit": true,
+	"rules": [],
+	"colors": {
+		"editor.background": "#2C2C2C00"
+	}
 }

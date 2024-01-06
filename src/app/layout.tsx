@@ -3,10 +3,10 @@
 import '../styles/global.scss';
 import { CacheProvider } from '@chakra-ui/next-js';
 import {
-	extendTheme,
+	Box,
 	ChakraProvider,
 	ColorModeScript,
-	Box,
+	extendTheme,
 } from '@chakra-ui/react';
 
 const theme = extendTheme({
