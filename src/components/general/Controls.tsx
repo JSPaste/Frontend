@@ -70,11 +70,11 @@ export default memo(function Controls({
 		<>
 			<SettingsModal isOpen={isOpen} onClose={onClose} />
 			<Flex direction="column" w="100%">
-				<Box w="100%" h="48px" />
+				<Box w="100%" h="48px" zIndex={100} />
 				<Flex
 					bottom="0"
 					left="0"
-					zIndex={2}
+					zIndex={200}
 					position="fixed"
 					w="100%"
 					gap="10px"
