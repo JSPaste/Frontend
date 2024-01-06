@@ -2,13 +2,13 @@
 
 import { Flex } from '@chakra-ui/react';
 import Editor from '../general/Editor';
-import Footer from '../general/Footer';
+import Controls from '../general/Controls';
 
 export default function IndexScreen() {
 	return (
 		<Flex w="100%" h="100%" gap="0px" direction="column">
 			<Editor />
-			<Footer />
+			<Controls />
 		</Flex>
 	);
 }

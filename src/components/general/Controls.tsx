@@ -26,7 +26,7 @@ function ActionButton({
 	);
 }
 
-export default function Footer() {
+export default function Controls() {
 	return (
 		<Flex
 			w="100%"
