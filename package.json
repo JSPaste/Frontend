@@ -19,6 +19,7 @@
 		"@chakra-ui/react": "^2.8.2",
 		"@chakra-ui/system": "^2.6.2",
 		"@monaco-editor/react": "^4.6.0",
+		"jspaste": "^10.1.1",
 		"million": "^2.6.4",
 		"next": "~14.0.0",
 		"react": "~18.2.0",
