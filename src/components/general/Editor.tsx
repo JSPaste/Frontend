@@ -70,12 +70,12 @@ export default memo(function Editor({
 					if (isFirstEditRef.current) {
 						isFirstEditRef.current = false;
 
-						editorRef.current?.setValue(
-							ce.changes.map((c) => c.text).join(''),
-						);
+						const changes = ce.changes.map((c) => c.text).join('');
+
+						editorRef.current?.setValue(changes);
 
 						editorRef.current?.setPosition({
-							lineNumber: 1,
+							lineNumber: changes.split('\n').length,
 							column: 2,
 						});
 					}
