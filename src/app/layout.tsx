@@ -18,6 +18,8 @@ const theme = extendTheme({
 		primary: '#FFE184',
 		controls: '#222222',
 		editor: '#2E2E2E',
+		tooltip: '#464646',
+		text: '#EBEBEB',
 	},
 });
 
