@@ -2,15 +2,43 @@ import { Box, Spinner } from '@chakra-ui/react';
 import MonacoEditor from '@monaco-editor/react';
 import jspasteTheme from '../../themes/jspasteTheme.json';
 import { EditorInformation } from '../screens/IndexScreen';
+import { memo, useCallback, useEffect, useRef } from 'react';
 
-export default function Editor({
+export default memo(function Editor({
 	setInformation,
+	setValue,
+	value,
 }: Readonly<{
 	setInformation: (info: EditorInformation) => void;
+	setValue: (value: string) => void;
+	value: string;
 }>) {
+	const editorRef = useRef<any>(null);
+
 	const defaultCode = `// Start writing code here!
 
 `;
+
+	const updateInformation = useCallback(
+		(editor: any) => {
+			const pos = editor.getPosition();
+
+			setInformation({
+				lineNumber: pos.lineNumber,
+				columnNumber: pos.column,
+				languageString: 'Typescript',
+			});
+		},
+		[setInformation],
+	);
+
+	useEffect(() => {
+		const editor = editorRef.current;
+
+		if (editor) {
+			updateInformation(editor);
+		}
+	}, [editorRef, value, updateInformation]);
 
 	return (
 		<Box h="100%" w="100%" bg="editor">
@@ -27,13 +55,16 @@ export default function Editor({
 
 					editor.focus();
 
-					console.log(editor);
+					editorRef.current = editor;
+
+					updateInformation(editor);
 				}}
 				defaultValue={defaultCode}
 				options={{
 					padding: { top: 15, bottom: 15 },
 				}}
+				onChange={(value) => setValue(value ?? '')}
 			/>
 		</Box>
 	);
-}
+});

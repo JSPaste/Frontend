@@ -19,6 +19,8 @@ export default function IndexScreen() {
 		languageString: 'Typescript',
 	});
 
+	const [value, setValue] = useState<string>('');
+
 	return (
 		<Flex w="100%" h="100%" gap="0px" direction="column">
 			<Information
@@ -26,7 +28,11 @@ export default function IndexScreen() {
 				columnNumber={information.columnNumber}
 				languageString={information.languageString}
 			/>
-			<Editor setInformation={setInformation} />
+			<Editor
+				setInformation={setInformation}
+				setValue={setValue}
+				value={value}
+			/>
 			<Controls />
 		</Flex>
 	);

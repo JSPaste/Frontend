@@ -1,6 +1,7 @@
 import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 import { Flex, IconButton, Spacer, Tooltip } from '@chakra-ui/react';
 import LogoIcon from '@/icons/LogoIcon';
+import { memo } from 'react';
 
 function ActionButton({
 	icon,
@@ -35,7 +36,9 @@ function ActionButton({
 	);
 }
 
-export default function Controls({ documentId }: Readonly<{ documentId?: string }>) {
+export default memo(function Controls({
+	documentId,
+}: Readonly<{ documentId?: string }>) {
 	return (
 		<Flex
 			w="100%"
@@ -78,4 +81,4 @@ export default function Controls({ documentId }: Readonly<{ documentId?: string 
 			/>
 		</Flex>
 	);
-}
+});
