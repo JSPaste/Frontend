@@ -1,36 +1,24 @@
 'use client';
 
-import '@/styles/global.scss';
-import { CacheProvider } from '@chakra-ui/next-js';
-import {
-	Box,
-	ChakraProvider,
-	ColorModeScript,
-	extendTheme,
-} from '@chakra-ui/react';
 import React from 'react';
-
-const theme = extendTheme({
-	config: {
-		initialColorMode: 'dark',
-		useSystemColorMode: false,
-	},
-	colors: {
-		primary: '#FFE184',
-		information: '#272727',
-		controls: '#222222',
-		editor: '#2E2E2E',
-		tooltip: '#464646',
-		text: '#EBEBEB',
-		textMuted: '#949494',
-	},
-});
+import '@/styles/global.scss';
+import useTheme from '@/hooks/useTheme';
+import { CacheProvider } from '@chakra-ui/next-js';
+import { Box, ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 
 export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const [themeId, _setThemeId, themes] = useTheme();
+
+	console.log(themeId);
+
+	const theme = themes.find((theme) => theme.id === themeId) ?? themes[0];
+
+	console.log(theme.chakraTheme.colors.text);
+
 	return (
 		<html lang="en">
 			<head>
@@ -84,9 +72,9 @@ export default function RootLayout({
 			</head>
 			<body>
 				<ColorModeScript
-					initialColorMode={theme.config.initialColorMode}
+					initialColorMode={theme.chakraTheme.config.initialColorMode}
 				/>
-				<ChakraProvider theme={theme}>
+				<ChakraProvider theme={theme.chakraTheme}>
 					<CacheProvider>
 						<Box h="100%" w="100%" bg="editor">
 							{children}

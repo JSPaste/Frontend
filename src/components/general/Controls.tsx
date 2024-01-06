@@ -8,10 +8,10 @@ import {
 	useDisclosure,
 	useToast,
 } from '@chakra-ui/react';
-import SettingsModal from '../modals/SettingsModal';
-import React, { memo, useState } from 'react';
-import LogoIcon from '@/icons/LogoIcon';
 import { JSP } from 'jspaste';
+import LogoIcon from '@/icons/LogoIcon';
+import React, { memo, useState } from 'react';
+import SettingsModal from '../modals/SettingsModal';
 
 function ActionButton({
 	icon,

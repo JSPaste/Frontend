@@ -1,6 +1,8 @@
 'use client';
 
+import useTheme from '@/hooks/useTheme';
 import {
+	Button,
 	FormControl,
 	FormLabel,
 	Grid,
@@ -13,15 +15,23 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
-	Select,
 	Stack,
+	useDisclosure,
 } from '@chakra-ui/react';
-import { MdKeyboardArrowDown } from 'react-icons/md';
+import { MdAutoAwesome, MdKeyboardArrowDown } from 'react-icons/md';
+import SelectModal from './SelectModal';
 
 export default function SettingModal({
 	isOpen,
 	onClose,
 }: Readonly<{ isOpen: boolean; onClose: any }>) {
+	const [themeId, setThemeId, themes] = useTheme();
+	const {
+		isOpen: isThemeOpen,
+		onClose: onThemeClose,
+		onOpen: onThemeOpen,
+	} = useDisclosure();
+
 	return (
 		<Modal
 			size="md"
@@ -31,12 +41,10 @@ export default function SettingModal({
 			scrollBehavior="inside"
 			returnFocusOnClose={false}
 		>
-			<ModalOverlay backdropFilter="blur(4px);" />
-
-			<ModalContent bg="controls">
+			<ModalOverlay />
+			<ModalContent bg="popup">
 				<ModalHeader>Settings</ModalHeader>
 				<ModalCloseButton />
-
 				<ModalBody>
 					<Stack spacing="15px">
 						<FormControl
@@ -49,17 +57,31 @@ export default function SettingModal({
 									Language
 								</Heading>
 
-								<Select
-									id="language"
-									onClick={() => {}}
-									placeholder="Select a language..."
-									icon={<MdKeyboardArrowDown />}
+								<Button
+									id="theme"
+									rightIcon={<MdKeyboardArrowDown />}
+									onClick={onThemeOpen}
 								>
-									<option value="typescript">
-										TypeScript
-									</option>
-									<option value="rust">Rust</option>
-								</Select>
+									{themes.find(
+										(theme) => theme.id === themeId,
+									)?.name ?? themes[0].name}
+								</Button>
+								<SelectModal
+									isOpen={isThemeOpen}
+									onClose={onThemeClose}
+									listItems={themes.map(({ id, name }) => ({
+										id,
+										name,
+										details:
+											themeId === id
+												? 'Recently used'
+												: 'Set theme',
+										icon: <MdAutoAwesome />,
+									}))}
+									initialSelectedId={themeId}
+									onPreview={setThemeId}
+									onSelect={setThemeId}
+								/>
 							</FormLabel>
 						</FormControl>
 
