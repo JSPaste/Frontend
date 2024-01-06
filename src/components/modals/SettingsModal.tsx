@@ -64,13 +64,25 @@ export const SettingsModal = ({
 						</FormControl>
 
 						<Heading size="sm" mb="10px">
-							Theme
+							Theme selector
 						</Heading>
 
 						<Grid gap="10px" templateColumns="repeat(3, 1fr)">
-							<GridItem w="100%" h="150px" bg="red"></GridItem>
-							<GridItem w="100%" h="150px" bg="red"></GridItem>
-							<GridItem w="100%" h="150px" bg="red"></GridItem>
+							<GridItem
+								w="100%"
+								h="150px"
+								bg="#7289DA"
+							></GridItem>
+							<GridItem
+								w="100%"
+								h="150px"
+								bg="#DFEBEB"
+							></GridItem>
+							<GridItem
+								w="100%"
+								h="150px"
+								bg="#FFFFFF"
+							></GridItem>
 						</Grid>
 					</Stack>
 				</ModalBody>
