@@ -7,6 +7,7 @@ import {
 	Spacer,
 	Tooltip,
 	useDisclosure,
+	useToast,
 } from '@chakra-ui/react';
 import { SettingsModal } from '../modals/SettingsModal';
 import React, { memo, useState } from 'react';
@@ -56,12 +57,25 @@ export default memo(function Controls({
 
 	const [isSaveLoading, setIsSaveLoading] = useState(false);
 
+	const toast = useToast();
+
 	const jsp = new JSP();
 
 	async function handleSave() {
 		setIsSaveLoading(true);
 		const result = await jsp.publish(value).catch(() => null);
 		setIsSaveLoading(false);
+
+		if (!result)
+			toast({
+				title: 'An error occurred, please try again.',
+				description: 'Check your Internet connection and try again.',
+				position: 'top-right',
+				status: 'error',
+				variant: 'subtle',
+				isClosable: true,
+				duration: 10000,
+			});
 
 		console.log(result);
 	}

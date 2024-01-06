@@ -52,7 +52,7 @@ export const SettingsModal = ({
 								<Select
 									id="language"
 									onClick={() => {}}
-									placeholder="Select language..."
+									placeholder="Select a language..."
 									icon={<MdKeyboardArrowDown />}
 								>
 									<option value="typescript">

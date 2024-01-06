@@ -15,9 +15,14 @@ export default memo(function Editor({
 }>) {
 	const editorRef = useRef<any>(null);
 
-	const defaultCode = `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.
+	const isFirstEditRef = useRef<boolean>(true);
 
+	const newLine = `
 `;
+
+	const defaultCode = `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.${newLine.repeat(
+		2,
+	)}`;
 
 	const updateInformation = useCallback(
 		(editor: any) => {
@@ -63,7 +68,22 @@ export default memo(function Editor({
 				options={{
 					padding: { top: 15, bottom: 15 },
 				}}
-				onChange={(value) => setValue(value ?? '')}
+				onChange={(value, ce) => {
+					if (isFirstEditRef.current) {
+						isFirstEditRef.current = false;
+						console.log('Resetting editor..');
+						editorRef.current?.setValue(
+							newLine.repeat(2) +
+								ce.changes.map((c) => c.text).join(''),
+						);
+						editorRef.current?.setPosition({
+							lineNumber: 3,
+							column: 2,
+						});
+					}
+
+					setValue(value ?? '');
+				}}
 			/>
 		</Box>
 	);
