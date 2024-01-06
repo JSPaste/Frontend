@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [stable]
+    types: [opened, synchronize]
+
+jobs:
+  avoid_redundancy_lint_pretty_and_cache_deps:
+    runs-on: ubuntu-22.04
+    permissions: write-all
+    steps:
+      - name: Cancel Previous Redundant Builds
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{ github.token }}
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'pnpm'
+          node-version: 18
+      - name: Install dependencies
+        run: pnpm install
+      - name: Lint
+        run: pnpm lint
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
+        with:
+          prettier_options: --write .
+     
+
+  build:
+    needs: [avoid_redundancy_lint_pretty_and_cache_deps]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'pnpm'
+          node-version: 18
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build
+        run: pnpm build
+
+    
