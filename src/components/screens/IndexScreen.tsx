@@ -2,9 +2,15 @@
 
 import { useState } from 'react';
 import { Flex } from '@chakra-ui/react';
-import Editor from '../general/Editor';
-import Controls from '../general/Controls';
-import Information from '../general/Information';
+import dynamic from 'next/dynamic';
+
+const Information = dynamic(() => import('@/components/general/Information'), {
+	ssr: false,
+});
+const Editor = dynamic(() => import('@/components/general/Editor'));
+const Controls = dynamic(() => import('@/components/general/Controls'), {
+	ssr: false,
+});
 
 export interface EditorInformation {
 	lineNumber: number;

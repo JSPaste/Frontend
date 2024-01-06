@@ -8,7 +8,7 @@ import {
 	useDisclosure,
 } from '@chakra-ui/react';
 import { SettingsModal } from '../modals/SettingsModal';
-import { memo, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { JSP } from 'jspaste';
 
 function ActionButton({
