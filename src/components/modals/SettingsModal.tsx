@@ -68,9 +68,21 @@ export const SettingsModal = ({
 						</Heading>
 
 						<Grid gap="10px" templateColumns="repeat(3, 1fr)">
-							<GridItem w="100%" h="150px" bg="#7289DA"></GridItem>
-							<GridItem w="100%" h="150px" bg="#DFEBEB"></GridItem>
-							<GridItem w="100%" h="150px" bg="#FFFFFF"></GridItem>
+							<GridItem
+								w="100%"
+								h="150px"
+								bg="#7289DA"
+							></GridItem>
+							<GridItem
+								w="100%"
+								h="150px"
+								bg="#DFEBEB"
+							></GridItem>
+							<GridItem
+								w="100%"
+								h="150px"
+								bg="#FFFFFF"
+							></GridItem>
 						</Grid>
 					</Stack>
 				</ModalBody>
