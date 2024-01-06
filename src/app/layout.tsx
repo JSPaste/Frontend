@@ -29,7 +29,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<head>
-				<title>JSPaste - The developer website for easy code sharing.</title>
+				<title>
+					JSPaste - The developer website for easy code sharing.
+				</title>
 				<meta
 					name="viewport"
 					content="initial-scale=1, width=device-width"

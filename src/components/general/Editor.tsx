@@ -6,9 +6,9 @@ export default function Editor() {
 	const defaultCode = `
 // Start writing code here!
 
-`
+`;
 
-	return(
+	return (
 		<Box h="100%" w="100%" bg="editor">
 			<MonacoEditor
 				theme="vs-dark"
