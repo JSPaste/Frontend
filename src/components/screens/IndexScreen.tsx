@@ -4,13 +4,9 @@ import { useState } from 'react';
 import { Flex } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
 
-const Information = dynamic(() => import('@/components/general/Information'), {
-	ssr: false,
-});
+const Information = dynamic(() => import('@/components/general/Information'));
 const Editor = dynamic(() => import('@/components/general/Editor'));
-const Controls = dynamic(() => import('@/components/general/Controls'), {
-	ssr: false,
-});
+const Controls = dynamic(() => import('@/components/general/Controls'));
 
 export interface EditorInformation {
 	lineNumber: number;
@@ -39,7 +35,7 @@ export default function IndexScreen() {
 				setValue={setValue}
 				value={value}
 			/>
-			<Controls />
+			<Controls value={value} />
 		</Flex>
 	);
 }
