@@ -15,9 +15,7 @@ export default memo(function Editor({
 }>) {
 	const editorRef = useRef<any>(null);
 
-	const defaultCode = `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.
-
-`;
+	const defaultCode = `// Start writing your code here! When you're done, hit the save button to generate a unique URL with your content.`;
 
 	const updateInformation = useCallback(
 		(editor: any) => {
