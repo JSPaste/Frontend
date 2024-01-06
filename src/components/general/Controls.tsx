@@ -108,9 +108,14 @@ export default memo(function Controls({
 					<Spacer />
 					<ActionButton
 						icon={<MdSave fontSize="20px" />}
-						label="Save"
+						label={
+							!value
+								? 'You need to write something to save!'
+								: 'Save'
+						}
 						onClick={handleSave}
 						isLoading={isSaveLoading}
+						isDisabled={!value}
 					/>
 					<ActionButton
 						icon={<MdEdit fontSize="20px" />}
