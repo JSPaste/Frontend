@@ -16,10 +16,12 @@ const theme = extendTheme({
 	},
 	colors: {
 		primary: '#FFE184',
+		information: '#272727',
 		controls: '#222222',
 		editor: '#2E2E2E',
 		tooltip: '#464646',
 		text: '#EBEBEB',
+		textMuted: '#949494',
 	},
 });
 
