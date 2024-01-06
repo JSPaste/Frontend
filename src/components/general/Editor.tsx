@@ -1,7 +1,7 @@
 import { Box, Spinner } from '@chakra-ui/react';
 import MonacoEditor from '@monaco-editor/react';
-import jspasteTheme from '../../themes/jspasteTheme.json';
-import { EditorInformation } from '../screens/IndexScreen';
+import jspasteTheme from '@/themes/jspasteTheme.json';
+import { EditorInformation } from '@/components/screens/IndexScreen';
 import { memo, useCallback, useEffect, useRef } from 'react';
 
 export default memo(function Editor({
