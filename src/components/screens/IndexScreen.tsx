@@ -33,7 +33,7 @@ export default function IndexScreen() {
 				setValue={setValue}
 				value={value}
 			/>
-			<Controls />
+			<Controls value={value} />
 		</Flex>
 	);
 }

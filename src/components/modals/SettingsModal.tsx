@@ -33,7 +33,7 @@ export const SettingsModal = ({
 			<ModalOverlay backdropFilter="blur(4px);" />
 
 			<ModalContent bg="controls">
-				<ModalHeader> Settings </ModalHeader>
+				<ModalHeader>Settings</ModalHeader>
 				<ModalCloseButton />
 
 				<ModalBody>

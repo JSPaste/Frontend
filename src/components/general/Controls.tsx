@@ -8,18 +8,21 @@ import {
 	useDisclosure,
 } from '@chakra-ui/react';
 import { SettingsModal } from '../modals/SettingsModal';
-import { memo } from 'react';
+import { memo, useState } from 'react';
+import { JSP } from 'jspaste';
 
 function ActionButton({
 	icon,
 	label,
 	onClick,
 	isDisabled,
+	isLoading,
 }: Readonly<{
 	icon: React.ReactElement;
 	label: string;
 	onClick: () => void;
 	isDisabled?: boolean;
+	isLoading?: boolean;
 }>) {
 	return (
 		<Tooltip
@@ -38,6 +41,7 @@ function ActionButton({
 				icon={icon}
 				onClick={onClick}
 				isDisabled={isDisabled}
+				isLoading={isLoading}
 			/>
 		</Tooltip>
 	);
@@ -45,8 +49,21 @@ function ActionButton({
 
 export default memo(function Controls({
 	documentId,
-}: Readonly<{ documentId?: string }>) {
+	value,
+}: Readonly<{ documentId?: string; value: string }>) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const [isSaveLoading, setIsSaveLoading] = useState(false);
+
+	const jsp = new JSP();
+
+	async function handleSave() {
+		setIsSaveLoading(true);
+		const result = await jsp.publish(value).catch(() => null);
+		setIsSaveLoading(false);
+
+		console.log(result);
+	}
 
 	return (
 		<>
@@ -71,7 +88,8 @@ export default memo(function Controls({
 				<ActionButton
 					icon={<MdSave fontSize="20px" />}
 					label="Save"
-					onClick={() => null}
+					onClick={handleSave}
+					isLoading={isSaveLoading}
 				/>
 				<ActionButton
 					icon={<MdEdit fontSize="20px" />}
