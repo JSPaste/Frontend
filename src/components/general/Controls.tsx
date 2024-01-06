@@ -6,10 +6,16 @@ function ActionButton({
 	icon,
 	label,
 	onClick,
-}: Readonly<{ icon: React.ReactElement; label: string; onClick: () => void }>) {
+	isDisabled,
+}: Readonly<{
+	icon: React.ReactElement;
+	label: string;
+	onClick: () => void;
+	isDisabled?: boolean;
+}>) {
 	return (
 		<Tooltip
-			label={label}
+			label={!isDisabled ? label : `${label} (Disabled)`}
 			bg="tooltip"
 			color="text"
 			placement="top"
@@ -23,12 +29,13 @@ function ActionButton({
 				color="primary"
 				icon={icon}
 				onClick={onClick}
+				isDisabled={isDisabled}
 			/>
 		</Tooltip>
 	);
 }
 
-export default function Controls() {
+export default function Controls({ documentId }: Readonly<{ documentId?: string }>) {
 	return (
 		<Flex
 			w="100%"
@@ -56,11 +63,13 @@ export default function Controls() {
 				icon={<MdEdit fontSize="20px" />}
 				label="Edit"
 				onClick={() => null}
+				isDisabled={!documentId}
 			/>
 			<ActionButton
 				icon={<MdSubject fontSize="20px" />}
 				label="View Raw"
 				onClick={() => null}
+				isDisabled={!documentId}
 			/>
 			<ActionButton
 				icon={<MdSettings fontSize="20px" />}
