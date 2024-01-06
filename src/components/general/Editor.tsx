@@ -3,7 +3,12 @@ import MonacoEditor from '@monaco-editor/react';
 import jspasteTheme from '../../themes/jspasteTheme.json';
 
 export default function Editor() {
-	return (
+	const defaultCode = `
+// Start writing code here!
+
+`
+
+	return(
 		<Box h="100%" w="100%" bg="editor">
 			<MonacoEditor
 				theme="vs-dark"
@@ -18,10 +23,7 @@ export default function Editor() {
 
 					editor.focus();
 				}}
-				defaultValue={`
-// Start writing code here!
-
-`}
+				defaultValue={defaultCode}
 			/>
 		</Box>
 	);
