@@ -11,14 +11,12 @@ const Controls = dynamic(() => import('@/components/general/Controls'));
 export interface EditorInformation {
 	lineNumber: number;
 	columnNumber: number;
-	languageString: string;
 }
 
 export default function IndexScreen() {
 	const [information, setInformation] = useState<EditorInformation>({
 		lineNumber: 0,
 		columnNumber: 0,
-		languageString: 'Typescript',
 	});
 
 	const [value, setValue] = useState<string>('');
@@ -28,7 +26,6 @@ export default function IndexScreen() {
 			<Information
 				lineNumber={information.lineNumber}
 				columnNumber={information.columnNumber}
-				languageString={information.languageString}
 			/>
 			<Editor
 				setInformation={setInformation}

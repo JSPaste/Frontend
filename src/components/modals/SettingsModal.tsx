@@ -24,10 +24,10 @@ import {
 	Spacer,
 	Button,
 } from '@chakra-ui/react';
-import { MdCheckCircle, MdFlag, MdKeyboardArrowDown } from 'react-icons/md';
 import SelectModal from './SelectModal';
-import useThemeValues from '@/hooks/useThemeValues';
 import useLanguage from '@/hooks/useLanguage';
+import useThemeValues from '@/hooks/useThemeValues';
+import { MdCheckCircle, MdFlag, MdKeyboardArrowDown } from 'react-icons/md';
 
 export default function SettingModal({
 	isOpen,
@@ -36,7 +36,6 @@ export default function SettingModal({
 	const { getThemeValue } = useThemeValues();
 	const [languageId, setLanguageId, languages] = useLanguage();
 	const [themeId, setThemeId, themes] = useTheme();
-
 	const {
 		isOpen: isLangOpen,
 		onClose: onLangClose,
@@ -90,7 +89,7 @@ export default function SettingModal({
 											icon: <MdFlag />,
 										}),
 									)}
-									initialSelectedId={themeId}
+									initialSelectedId={languageId}
 									onPreview={setLanguageId}
 									onSelect={setLanguageId}
 								/>
@@ -101,7 +100,7 @@ export default function SettingModal({
 							Theme selector
 						</Heading>
 						<Grid gap="10px" templateColumns="repeat(4, 1fr)">
-							{themes.map((theme) => (
+							{themes.map((theme, i) => (
 								<GridItem
 									key={theme.id}
 									w="90px"
@@ -156,9 +155,14 @@ export default function SettingModal({
 												</Text>
 												<Spacer />
 												<SlideFade
-													in={theme.id === themeId}
+													in={
+														theme.id === themeId ||
+														(!themeId && i === 0)
+													}
 												>
-													{theme.id === themeId && (
+													{(theme.id === themeId ||
+														(!themeId &&
+															i === 0)) && (
 														<Icon
 															as={MdCheckCircle}
 															zIndex={40}
