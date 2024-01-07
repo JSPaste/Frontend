@@ -32,7 +32,7 @@ function ActionButton({
 	return (
 		<Tooltip
 			label={!isDisabled ? label : `${label} (Disabled)`}
-			bg="tooltip"
+			bg={getThemeValue('tooltip')}
 			color={getThemeValue('text')}
 			placement="top"
 			m="5px"
