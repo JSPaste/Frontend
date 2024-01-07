@@ -37,7 +37,8 @@ function InformationLabel({
 
 	return (
 		<Box
-			p="2px"
+			py="2px"
+			px="5px"
 			_hover={
 				isSelectable
 					? {
@@ -83,7 +84,7 @@ export default function Information({
 				px="12px"
 				direction="row"
 				alignItems="center"
-				gap={['10px', '15px']}
+				gap={['5px', '10px']}
 				bg={getThemeValue('information')}
 			>
 				<InformationLabel

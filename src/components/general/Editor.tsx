@@ -1,6 +1,6 @@
 import useTheme from '@/hooks/useTheme';
 import useLanguage from '@/hooks/useLanguage';
-import { Box, Spinner } from '@chakra-ui/react';
+import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
 import { EditorInformation } from './Information';
 import useThemeValues from '@/hooks/useThemeValues';
 import { useCallback, useEffect, useRef } from 'react';
@@ -26,6 +26,12 @@ export default function Editor({
 	const editorRef = useRef<any>(null);
 
 	const isFirstEditRef = useRef<boolean>(true);
+
+	const { minimap } = useBreakpointValue({
+		base: { minimap: false },
+		sm: { minimap: false },
+		md: { minimap: true },
+	}) ?? { minimap: true };
 
 	const defaultCode = `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.`;
 
@@ -101,6 +107,9 @@ export default function Editor({
 					codeLens: true,
 					colorDecorators: true,
 					contextmenu: true,
+					minimap: {
+						enabled: minimap,
+					},
 				}}
 				onChange={(value, ce) => {
 					if (isFirstEditRef.current) {

@@ -51,7 +51,7 @@ export default function SettingModal({
 			returnFocusOnClose={false}
 		>
 			<ModalOverlay />
-			<ModalContent bg={getThemeValue('popup')}>
+			<ModalContent bg={getThemeValue('popup')} margin="5px">
 				<ModalHeader>Settings</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody>
