@@ -76,15 +76,17 @@ export default function SettingModal({
 							<SelectModal
 								isOpen={isLangOpen}
 								onClose={onLangClose}
-								listItems={languages.map(({ id, name }) => ({
-									id,
-									name,
-									details:
-										languageId === id
-											? 'Recently used'
-											: 'Set language',
-									icon: <MdFlag />,
-								}))}
+								listItems={languages.map(
+									({ id, name, icon }) => ({
+										id,
+										name,
+										details:
+											languageId === id
+												? 'Recently used'
+												: 'Set language',
+										icon,
+									}),
+								)}
 								initialSelectedId={languageId}
 								onPreview={setLanguageId}
 								onSelect={setLanguageId}

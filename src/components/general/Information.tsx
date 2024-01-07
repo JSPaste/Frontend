@@ -72,8 +72,8 @@ export default function Information({
 		onOpen: onLangOpen,
 	} = useDisclosure();
 
-	const languageString =
-		languages.find((l) => l.id === languageId)?.name ?? languages[0].name;
+	const { name: languageName, icon: languageIcon } =
+		languages.find((l) => l.id === languageId) ?? languages[0];
 
 	return (
 		<>
@@ -98,7 +98,8 @@ export default function Information({
 						.padStart(2, '0')}`}
 				/>
 				<InformationLabel
-					label={`Language: ${languageString}`}
+					label={`Language: ${languageName}`}
+					icon={languageIcon}
 					isSelectable
 					onClick={onLangOpen}
 				/>
