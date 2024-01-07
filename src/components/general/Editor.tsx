@@ -110,6 +110,7 @@ export default function Editor({
 					minimap: {
 						enabled: minimap,
 					},
+					cursorBlinking: 'smooth',
 				}}
 				onChange={(value, ce) => {
 					if (isFirstEditRef.current) {
