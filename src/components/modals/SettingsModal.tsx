@@ -50,6 +50,7 @@ export default function SettingModal({
 			onClose={onClose}
 			scrollBehavior="inside"
 			returnFocusOnClose={false}
+			closeOnOverlayClick={false}
 		>
 			<ModalOverlay />
 			<ModalContent bg={getThemeValue('popup')}>
