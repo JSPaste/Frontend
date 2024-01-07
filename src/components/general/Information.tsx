@@ -2,13 +2,21 @@ import LogoIcon from '@/icons/LogoIcon';
 import { Flex, Text } from '@chakra-ui/react';
 import { EditorInformation } from '@/components/screens/IndexScreen';
 import React from 'react';
+import useThemeValues from '@/hooks/useThemeValues';
 
 function InformationLabel({
 	label,
 	icon,
 }: Readonly<{ label: string; icon?: React.ReactElement }>) {
+	const { getThemeValue } = useThemeValues();
+
 	const textElement = (
-		<Text size="xs" fontSize="12px" color="textMuted" noOfLines={1}>
+		<Text
+			size="xs"
+			fontSize="12px"
+			color={getThemeValue('textMuted')}
+			noOfLines={1}
+		>
 			{label}
 		</Text>
 	);
@@ -28,11 +36,13 @@ export default function Information({
 	columnNumber,
 	languageString,
 }: Readonly<EditorInformation>) {
+	const { getThemeValue } = useThemeValues();
+
 	return (
 		<Flex
 			w="100%"
 			gap={['10px', '15px']}
-			bg="information"
+			bg={getThemeValue('information')}
 			py="2px"
 			px="12px"
 			direction="row"
