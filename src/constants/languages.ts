@@ -15,4 +15,12 @@ export const languages = [
 		id: 'html',
 		name: 'HTML',
 	},
+	{
+		id: 'css',
+		name: 'CSS',
+	},
+	{
+		id: 'c',
+		name: 'C',
+	},
 ];
