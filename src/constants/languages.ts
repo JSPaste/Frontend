@@ -7,4 +7,12 @@ export const languages = [
 		id: 'javascript',
 		name: 'JavaScript',
 	},
+		{
+		id: 'rust',
+		name: 'Rust',
+	},
+	{
+		id: 'html',
+		name: 'HTML',
+	},
 ];
