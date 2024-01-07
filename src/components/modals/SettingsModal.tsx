@@ -100,7 +100,7 @@ export default function SettingModal({
 								<Heading size="sm">Theme selector</Heading>
 							</FormLabel>
 							<Grid
-								gap="10px"
+								gap="20px"
 								id="theme"
 								templateColumns={[
 									'repeat(2, 1fr)',
@@ -110,8 +110,8 @@ export default function SettingModal({
 								{themes.map((theme, i) => (
 									<GridItem
 										key={theme.id}
-										w={['100px', '90px']}
-										h={['100px', '90px']}
+										w={['100px', '85px']}
+										h={['70px', '70px']}
 										bg={theme.values.primaryDisplay}
 										borderRadius="10px"
 										style={
@@ -157,7 +157,8 @@ export default function SettingModal({
 													alignItems="center"
 												>
 													<Text
-														fontSize="15px"
+														paddingX="5px"
+														fontSize="12px"
 														color={
 															theme.values.text
 														}
@@ -184,8 +185,8 @@ export default function SettingModal({
 																}
 																zIndex={40}
 																fontSize={[
-																	'20px',
-																	'22px',
+																	'15px',
+																	'15px',
 																]}
 															/>
 														)}
