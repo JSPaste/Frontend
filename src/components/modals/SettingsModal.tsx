@@ -211,8 +211,8 @@ export default function SettingModal({
     					<AlertIcon />
     					Changes reverted.
  					 </Alert> 
-				setLanguageId(TypeScript);
-				setThemeId(JSPaste);
+				setLanguageId("TypeScript");
+				setThemeId("JSPaste");
 				</Button>				
 				</ModalFooter>
 			</ModalContent>
