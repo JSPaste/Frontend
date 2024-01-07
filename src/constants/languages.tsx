@@ -1,4 +1,43 @@
-import { SiTypescript, SiJavascript, SiJson } from 'react-icons/si';
+import {
+	SiTypescript,
+	SiJavascript,
+	SiJson,
+	SiHtml5,
+	SiCss3,
+	SiC,
+	SiCoffeescript,
+	SiCplusplus,
+	SiCsharp,
+	SiDocker,
+	SiFsharp,
+	SiGo,
+	SiGraphql,
+	SiHandlebarsdotjs,
+	SiKotlin,
+	SiLess,
+	SiLua,
+	SiMarkdown,
+	SiMysql,
+	SiPerl,
+	SiPhp,
+	SiPowershell,
+	SiPug,
+	SiPython,
+	SiR,
+	SiRedis,
+	SiRuby,
+	SiSass,
+	SiSqlite,
+	SiSwift,
+	SiXaml,
+	SiYaml,
+	SiGnubash,
+	SiVisualbasic,
+	SiRust,
+	SiDotnet,
+	SiPostgresql,
+	SiMicrosoftazure,
+} from 'react-icons/si';
 
 export const languages = [
 	{
@@ -17,20 +56,33 @@ export const languages = [
 		icon: <SiJson size="12px" />,
 	},
 	{
+		id: 'html',
+		name: 'HTML',
+		icon: <SiHtml5 size="12px" />,
+	},
+	{
+		id: 'css',
+		name: 'CSS',
+		icon: <SiCss3 size="12px" />,
+	},
+	{
 		id: 'apex',
 		name: 'Apex',
 	},
 	{
 		id: 'azcli',
-		name: 'Azcli',
+		name: 'Azure CLI',
+		icon: <SiMicrosoftazure size="12px" />,
 	},
 	{
 		id: 'bat',
 		name: 'Bat',
+		icon: <SiGnubash size="12px" />,
 	},
 	{
 		id: 'c',
 		name: 'C',
+		icon: <SiC size="12px" />,
 	},
 	{
 		id: 'clojure',
@@ -38,51 +90,51 @@ export const languages = [
 	},
 	{
 		id: 'coffeescript',
-		name: 'Coffeescript',
+		name: 'CoffeeScript',
+		icon: <SiCoffeescript size="12px" />,
 	},
 	{
 		id: 'cpp',
-		name: 'Cpp',
+		name: 'C++',
+		icon: <SiCplusplus size="12px" />,
 	},
 	{
 		id: 'csharp',
-		name: 'Csharp',
+		name: 'C#',
+		icon: <SiCsharp size="12px" />,
 	},
 	{
 		id: 'csp',
-		name: 'Csp',
-	},
-	{
-		id: 'css',
-		name: 'Css',
+		name: 'CSP',
 	},
 	{
 		id: 'dockerfile',
 		name: 'Dockerfile',
+		icon: <SiDocker size="12px" />,
 	},
 	{
 		id: 'fsharp',
-		name: 'Fsharp',
+		name: 'F#',
+		icon: <SiFsharp size="12px" />,
 	},
 	{
 		id: 'go',
 		name: 'Go',
+		icon: <SiGo size="12px" />,
 	},
 	{
 		id: 'graphql',
-		name: 'Graphql',
+		name: 'GraphQL',
+		icon: <SiGraphql size="12px" />,
 	},
 	{
 		id: 'handlebars',
 		name: 'Handlebars',
-	},
-	{
-		id: 'html',
-		name: 'Html',
+		icon: <SiHandlebarsdotjs size="12px" />,
 	},
 	{
 		id: 'ini',
-		name: 'Ini',
+		name: 'INI',
 	},
 	{
 		id: 'java',
@@ -91,18 +143,22 @@ export const languages = [
 	{
 		id: 'kotlin',
 		name: 'Kotlin',
+		icon: <SiKotlin size="12px" />,
 	},
 	{
 		id: 'less',
 		name: 'Less',
+		icon: <SiLess size="12px" />,
 	},
 	{
 		id: 'lua',
 		name: 'Lua',
+		icon: <SiLua size="12px" />,
 	},
 	{
 		id: 'markdown',
 		name: 'Markdown',
+		icon: <SiMarkdown size="12px" />,
 	},
 	{
 		id: 'msdax',
@@ -110,11 +166,12 @@ export const languages = [
 	},
 	{
 		id: 'mysql',
-		name: 'Mysql',
+		name: 'MySQL',
+		icon: <SiMysql size="12px" />,
 	},
 	{
 		id: 'objective-c',
-		name: 'Objective-c',
+		name: 'Objective-C',
 	},
 	{
 		id: 'pascal',
@@ -123,14 +180,17 @@ export const languages = [
 	{
 		id: 'perl',
 		name: 'Perl',
+		icon: <SiPerl size="12px" />,
 	},
 	{
 		id: 'pgsql',
-		name: 'Pgsql',
+		name: 'PostgreSQL',
+		icon: <SiPostgresql size="12px" />,
 	},
 	{
 		id: 'php',
-		name: 'Php',
+		name: 'PHP',
+		icon: <SiPhp size="12px" />,
 	},
 	{
 		id: 'plaintext',
@@ -142,31 +202,37 @@ export const languages = [
 	},
 	{
 		id: 'powerquery',
-		name: 'Powerquery',
+		name: 'Power Query',
 	},
 	{
 		id: 'powershell',
-		name: 'Powershell',
+		name: 'PowerShell',
+		icon: <SiPowershell size="12px" />,
 	},
 	{
 		id: 'pug',
 		name: 'Pug',
+		icon: <SiPug size="12px" />,
 	},
 	{
 		id: 'python',
 		name: 'Python',
+		icon: <SiPython size="12px" />,
 	},
 	{
 		id: 'r',
 		name: 'R',
+		icon: <SiR size="12px" />,
 	},
 	{
 		id: 'razor',
 		name: 'Razor',
+		icon: <SiDotnet size="12px" />,
 	},
 	{
 		id: 'redis',
 		name: 'Redis',
+		icon: <SiRedis size="12px" />,
 	},
 	{
 		id: 'redshift',
@@ -175,14 +241,16 @@ export const languages = [
 	{
 		id: 'ruby',
 		name: 'Ruby',
+		icon: <SiRuby size="12px" />,
 	},
 	{
 		id: 'rust',
 		name: 'Rust',
+		icon: <SiRust size="12px" />,
 	},
 	{
 		id: 'sb',
-		name: 'Sb',
+		name: 'SB',
 	},
 	{
 		id: 'scheme',
@@ -190,27 +258,31 @@ export const languages = [
 	},
 	{
 		id: 'scss',
-		name: 'Scss',
+		name: 'SCSS',
+		icon: <SiSass size="12px" />,
 	},
 	{
 		id: 'shell',
 		name: 'Shell',
+		icon: <SiGnubash size="12px" />,
 	},
 	{
 		id: 'sol',
-		name: 'Sol',
+		name: 'SOL',
 	},
 	{
 		id: 'sql',
-		name: 'Sql',
+		name: 'SQL',
+		icon: <SiSqlite size="12px" />,
 	},
 	{
 		id: 'st',
-		name: 'St',
+		name: 'ST',
 	},
 	{
 		id: 'swift',
 		name: 'Swift',
+		icon: <SiSwift size="12px" />,
 	},
 	{
 		id: 'tcl',
@@ -218,14 +290,17 @@ export const languages = [
 	},
 	{
 		id: 'vb',
-		name: 'Vb',
+		name: 'Visual Basic',
+		icon: <SiVisualbasic size="12px" />,
 	},
 	{
 		id: 'xml',
-		name: 'Xml',
+		name: 'XML',
+		icon: <SiXaml size="12px" />,
 	},
 	{
 		id: 'yaml',
-		name: 'Yaml',
+		name: 'YAML',
+		icon: <SiYaml size="12px" />,
 	},
 ];
