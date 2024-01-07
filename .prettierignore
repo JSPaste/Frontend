@@ -1,3 +1,4 @@
 node_modules/
 build/
 *.svg
+pnpm-lock.yaml
