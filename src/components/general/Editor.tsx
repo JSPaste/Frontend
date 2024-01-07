@@ -120,9 +120,11 @@ export default function Editor({
 
 						editorRef.current?.setValue(changes);
 
+						const changesSlice = changes.split('\n');
+
 						editorRef.current?.setPosition({
-							lineNumber: changes.split('\n').length,
-							column: 2,
+							lineNumber: changesSlice.length,
+							column: (changesSlice.at(-1)?.length ?? 1) + 1,
 						});
 					}
 
