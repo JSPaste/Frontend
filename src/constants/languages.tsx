@@ -1,14 +1,19 @@
-import { BiLogoTypescript, BiLogoJavascript } from 'react-icons/bi';
+import { SiTypescript, SiJavascript, SiJson } from 'react-icons/si';
 
 export const languages = [
 	{
 		id: 'typescript',
 		name: 'TypeScript',
-		icon: <BiLogoTypescript color="#2f74c0" />,
+		icon: <SiTypescript />,
 	},
 	{
 		id: 'javascript',
 		name: 'JavaScript',
-		icon: <BiLogoJavascript color="#efd81d" />,
+		icon: <SiJavascript />,
+	},
+	{
+		id: 'json',
+		name: 'JSON',
+		icon: <SiJson />,
 	},
 ];
