@@ -211,8 +211,7 @@ export default function SettingModal({
     					<AlertIcon />
     					Changes discarded.
  					 </Alert> 
-					</Button>
-				</Button> 
+				</Button>				
 				</ModalFooter>
 			</ModalContent>
 		</Modal>
