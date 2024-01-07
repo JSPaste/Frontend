@@ -98,6 +98,9 @@ export default function Editor({
 				defaultValue={defaultCode}
 				options={{
 					padding: { top: 15, bottom: 15 },
+					codeLens: true,
+					colorDecorators: true,
+					contextmenu: true,
 				}}
 				onChange={(value, ce) => {
 					if (isFirstEditRef.current) {
