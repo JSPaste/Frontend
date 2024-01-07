@@ -20,6 +20,8 @@ export interface Theme {
 	id: string;
 	name: string;
 	baseTheme: 'dark' | 'light';
+	monacoTheme: string;
+	isCustomMonacoTheme: boolean;
 	values: ThemeValues;
 }
 
@@ -28,6 +30,8 @@ export const themes: Theme[] = [
 		id: 'jspaste',
 		name: 'JSPaste',
 		baseTheme: 'dark',
+		monacoTheme: 'jspaste',
+		isCustomMonacoTheme: true,
 		values: {
 			primary: '#FFE184',
 			primaryDisplay: '#FFE184',
@@ -50,10 +54,12 @@ export const themes: Theme[] = [
 		id: 'dark',
 		name: 'Dark',
 		baseTheme: 'dark',
+		monacoTheme: 'vs-dark',
+		isCustomMonacoTheme: false,
 		values: {
 			primary: '#D3D3D3',
-			primaryDisplay: '#272727',
-			information: '#272727',
+			primaryDisplay: '#2E2E2E',
+			information: '#2E2E2E',
 			controls: '#222222',
 			editor: '#2E2E2E',
 			tooltip: '#464646',
@@ -72,6 +78,8 @@ export const themes: Theme[] = [
 		id: 'light',
 		name: 'Light',
 		baseTheme: 'light',
+		monacoTheme: 'light',
+		isCustomMonacoTheme: false,
 		values: {
 			primary: '#3F3F3F',
 			primaryDisplay: '#D3D3D3',
@@ -94,14 +102,16 @@ export const themes: Theme[] = [
 		id: 'midnight',
 		name: 'Midnight',
 		baseTheme: 'dark',
+		monacoTheme: 'midnight',
+		isCustomMonacoTheme: true,
 		values: {
-			primary: '#5C51F7',
+			primary: '#7D76DD',
 			primaryDisplay: '#5C51F7',
-			information: '#272727',
-			controls: '#222222',
-			editor: '#2E2E2E',
-			tooltip: '#464646',
-			popup: '#222222',
+			information: '#180827',
+			controls: '#180827',
+			editor: '#0D031D',
+			tooltip: '#18082C',
+			popup: '#18082C',
 			text: '#EBEBEB',
 			textMuted: '#949494',
 			highTransparency: '#ffffff20',
