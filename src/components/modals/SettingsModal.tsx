@@ -182,7 +182,10 @@ export default function SettingModal({
 						</Grid>
 					</Stack>
 				</ModalBody>
-				<ModalFooter />
+				<ModalFooter>
+				<Button colorScheme='#5256F2' mr={3}> Save changes </Button>
+				<Button colorScheme='red' onClick={onClose}>Discard changes</Button> 
+				</ModalFooter>
 			</ModalContent>
 		</Modal>
 	);
