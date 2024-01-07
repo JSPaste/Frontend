@@ -36,6 +36,9 @@ export default function SettingModal({
 	const { getThemeValue } = useThemeValues();
 	const [languageId, setLanguageId, languages] = useLanguage();
 	const [themeId, setThemeId, themes] = useTheme();
+	const defaultTheme = 'jspaste';
+	const defaultLanguage ='typescript';
+	
 	const {
 		isOpen: isLangOpen,
 		onClose: onLangClose,
@@ -211,8 +214,8 @@ export default function SettingModal({
     					<AlertIcon />
     					Changes reverted.
  					 </Alert> 
-				setLanguageId("TypeScript");
-				setThemeId("JSPaste");
+				setLanguageId(defaultLanguage);
+				setThemeId(defaultTheme);
 				</Button>				
 				</ModalFooter>
 			</ModalContent>
