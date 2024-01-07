@@ -199,7 +199,21 @@ export default function SettingModal({
 						</FormControl>
 					</Stack>
 				</ModalBody>
-				<ModalFooter />
+				<ModalFooter>
+				<Button onClick={onClose} colorScheme='#5256F2' mr={3}> Save changes
+					<Alert status='success'>
+    					<AlertIcon />
+    					Changes saved.
+ 					 </Alert> 
+					</Button>
+				<Button colorScheme='red' onClick={onClose}>Discard changes
+					<Alert status='success'>
+    					<AlertIcon />
+    					Changes discarded.
+ 					 </Alert> 
+					</Button>
+				</Button> 
+				</ModalFooter>
 			</ModalContent>
 		</Modal>
 	);
