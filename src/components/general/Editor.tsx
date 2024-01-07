@@ -45,7 +45,7 @@ export default function Editor({
 		async (customMonaco?: any) => {
 			const editorMonaco = customMonaco ?? monaco;
 
-			const { monacoTheme, isCustomMonacoTheme, id } =
+			const { monacoTheme, isCustomMonacoTheme } =
 				themes.find((t) => t.id == themeId) ?? themes[0];
 
 			if (isCustomMonacoTheme) {
@@ -77,7 +77,7 @@ export default function Editor({
 	return (
 		<Box h="100%" w="100%" bg="editor">
 			<MonacoEditor
-				theme="vs-dark"
+				theme="jspaste"
 				language={languageId ?? 'typescript'}
 				defaultLanguage={languageId ?? 'typescript'}
 				loading={<Spinner size="xl" color={getThemeValue('primary')} />}
@@ -98,6 +98,9 @@ export default function Editor({
 				defaultValue={defaultCode}
 				options={{
 					padding: { top: 15, bottom: 15 },
+					codeLens: true,
+					colorDecorators: true,
+					contextmenu: true,
 				}}
 				onChange={(value, ce) => {
 					if (isFirstEditRef.current) {
