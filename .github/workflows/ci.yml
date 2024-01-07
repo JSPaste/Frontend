@@ -14,17 +14,17 @@ jobs:
               uses: styfle/cancel-workflow-action@0.11.0
               with:
                   access_token: ${{ github.token }}
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
                   ref: ${{ github.event.pull_request.head.ref }}
             - uses: pnpm/action-setup@v2
               with:
                   version: 8
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v4
               with:
                   cache: 'pnpm'
-                  node-version: 18
+                  node-version: 20
             - name: Install dependencies
               run: pnpm install
             - name: Lint
@@ -32,23 +32,23 @@ jobs:
             - name: Prettify code
               uses: creyD/prettier_action@v4.3
               with:
-                  github_token: ${{ github.token }}
+                  same_commit: true
                   prettier_options: --write .
 
     build:
         needs: [avoid_redundancy_lint_pretty_and_cache_deps]
         runs-on: ubuntu-22.04
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
               with:
                   ref: ${{ github.event.pull_request.head.ref }}
             - uses: pnpm/action-setup@v2
               with:
                   version: 8
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v4
               with:
                   cache: 'pnpm'
-                  node-version: 18
+                  node-version: 20
             - name: Install dependencies
               run: pnpm install
             - name: Build
