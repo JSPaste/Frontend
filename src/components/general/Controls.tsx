@@ -1,11 +1,11 @@
 import {
 	Box,
 	Flex,
+	IconButton,
 	Spacer,
 	Tooltip,
-	useToast,
-	IconButton,
 	useDisclosure,
+	useToast,
 } from '@chakra-ui/react';
 import { JSP } from 'jspaste';
 import LogoIcon from '@/icons/LogoIcon';
