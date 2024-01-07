@@ -4,14 +4,10 @@
 	"type": "module",
 	"scripts": {
 		"dev": "pnpm exec next dev",
-		"lint": "pnpm exec next lint",
+		"lint": "pnpm exec next lint && pnpm exec prettier --write .",
 		"build": "pnpm exec next build",
 		"start": "pnpm exec next start",
-		"prod": "pnpm run build && pnpm run start",
-		"telemetry": "pnpm exec next telemetry status",
-		"telemetry:enable": "pnpm exec next telemetry enable",
-		"telemetry:disable": "pnpm exec next telemetry disable",
-		"pretty": "pnpm exec prettier --write ."
+		"prod": "pnpm build && pnpm start"
 	},
 	"dependencies": {
 		"@chakra-ui/icons": "^2.1.1",
@@ -21,9 +17,9 @@
 		"@monaco-editor/react": "^4.6.0",
 		"jspaste": "^10.1.1",
 		"million": "^2.6.4",
-		"next": "~14.0.0",
-		"react": "~18.2.0",
-		"react-dom": "~18.2.0",
+		"next": "^14.0.4",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
 		"react-icons": "^4.12.0",
 		"sass": "^1.69.7",
 		"sharp": "^0.33.1",
@@ -33,9 +29,9 @@
 		"typescript": "~5.3.0"
 	},
 	"devDependencies": {
-		"@types/node": "20.10.6",
-		"@types/react": "18.2.47",
-		"@types/react-dom": "18.2.18",
+		"@types/node": "^20.10.6",
+		"@types/react": "^18.2.47",
+		"@types/react-dom": "^18.2.18",
 		"eslint": "^8.56.0",
 		"eslint-config-next": "^14.0.4",
 		"eslint-config-prettier": "^9.1.0",
