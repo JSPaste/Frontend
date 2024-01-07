@@ -1,3 +1,12 @@
+export interface Theme {
+	id: string;
+	name: string;
+	baseTheme: 'dark' | 'light';
+	monacoTheme: string;
+	isCustomMonacoTheme: boolean;
+	values: ThemeValues;
+}
+
 export interface ThemeValues {
 	primary: string;
 	primaryDisplay: string;
@@ -14,15 +23,6 @@ export interface ThemeValues {
 	highAltTransparency: string;
 	midAltTransparency: string;
 	lowAltTransparency: string;
-}
-
-export interface Theme {
-	id: string;
-	name: string;
-	baseTheme: 'dark' | 'light';
-	monacoTheme: string;
-	isCustomMonacoTheme: boolean;
-	values: ThemeValues;
 }
 
 export const themes: Theme[] = [

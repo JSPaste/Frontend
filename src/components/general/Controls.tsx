@@ -1,4 +1,3 @@
-import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 import {
 	Box,
 	Flex,
@@ -10,9 +9,10 @@ import {
 } from '@chakra-ui/react';
 import { JSP } from 'jspaste';
 import LogoIcon from '@/icons/LogoIcon';
-import React, { memo, useState } from 'react';
+import React, { useState } from 'react';
 import SettingsModal from '../modals/SettingsModal';
 import useThemeValues from '@/hooks/useThemeValues';
+import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 
 function ActionButton({
 	icon,
@@ -52,7 +52,7 @@ function ActionButton({
 	);
 }
 
-export default memo(function Controls({
+export default function Controls({
 	documentId,
 	value,
 }: Readonly<{ documentId?: string; value: string }>) {
@@ -143,4 +143,4 @@ export default memo(function Controls({
 			</Flex>
 		</>
 	);
-});
+}

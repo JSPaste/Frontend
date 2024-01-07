@@ -1,12 +1,12 @@
-import { Box, Spinner } from '@chakra-ui/react';
-import MonacoEditor, { useMonaco } from '@monaco-editor/react';
-import { memo, useCallback, useEffect, useRef } from 'react';
-import { EditorInformation } from '@/components/screens/IndexScreen';
-import useThemeValues from '@/hooks/useThemeValues';
 import useTheme from '@/hooks/useTheme';
 import useLanguage from '@/hooks/useLanguage';
+import { Box, Spinner } from '@chakra-ui/react';
+import { EditorInformation } from './Information';
+import useThemeValues from '@/hooks/useThemeValues';
+import { useCallback, useEffect, useRef } from 'react';
+import MonacoEditor, { useMonaco } from '@monaco-editor/react';
 
-export default memo(function Editor({
+export default function Editor({
 	setInformation,
 	setValue,
 	value,
@@ -45,7 +45,7 @@ export default memo(function Editor({
 		async (customMonaco?: any) => {
 			const editorMonaco = customMonaco ?? monaco;
 
-			const { monacoTheme, isCustomMonacoTheme } =
+			const { monacoTheme, isCustomMonacoTheme, id } =
 				themes.find((t) => t.id == themeId) ?? themes[0];
 
 			if (isCustomMonacoTheme) {
@@ -118,4 +118,4 @@ export default memo(function Editor({
 			/>
 		</Box>
 	);
-});
+}

@@ -1,15 +1,14 @@
 'use client';
 
-import useThemeValues from '@/hooks/useThemeValues';
-import '@/styles/global.scss';
+import React from 'react';
 import { CacheProvider } from '@chakra-ui/next-js';
+import useThemeValues from '@/hooks/useThemeValues';
 import {
 	Box,
 	ChakraProvider,
 	ColorModeScript,
 	extendTheme,
 } from '@chakra-ui/react';
-import React from 'react';
 
 const theme = extendTheme({
 	config: {
@@ -26,7 +25,16 @@ export default function RootLayout({
 	const { getThemeValue } = useThemeValues();
 
 	return (
-		<html lang="en">
+		<html
+			lang="en"
+			style={{
+				width: '100%',
+				height: '100%',
+				overflow: 'hidden',
+				scrollBehavior: 'smooth',
+				userSelect: 'none',
+			}}
+		>
 			<head>
 				<title>
 					JSPaste - The developer website for easy code sharing.
@@ -76,7 +84,12 @@ export default function RootLayout({
 
 				<link rel="icon" type="image/x-icon" href="./favicon.ico" />
 			</head>
-			<body>
+			<body
+				style={{
+					width: '100%',
+					height: '100%',
+				}}
+			>
 				<ColorModeScript
 					initialColorMode={theme.config.initialColorMode}
 				/>
