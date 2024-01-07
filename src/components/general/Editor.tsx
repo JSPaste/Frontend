@@ -72,7 +72,7 @@ export default memo(function Editor({
 
 	useEffect(() => {
 		setEditorTheme();
-	}, [monaco, setEditorTheme, themeId, themes,]);
+	}, [monaco, setEditorTheme, themeId, themes]);
 
 	return (
 		<Box h="100%" w="100%" bg="editor">
