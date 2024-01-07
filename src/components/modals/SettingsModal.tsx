@@ -206,11 +206,13 @@ export default function SettingModal({
     					Changes saved.
  					 </Alert> 
 					</Button>
-				<Button colorScheme='red' onClick={onClose}>Discard changes
+				<Button colorScheme='red' onClick={onClose}>Revert changes
 					<Alert status='success'>
     					<AlertIcon />
-    					Changes discarded.
+    					Changes reverted.
  					 </Alert> 
+				setLanguageId(TypeScript);
+				setThemeId(JSPaste);
 				</Button>				
 				</ModalFooter>
 			</ModalContent>
