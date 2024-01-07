@@ -136,7 +136,7 @@ export default function SelectModal({
 			<ModalOverlay />
 			<ModalContent
 				margin="10px 5px"
-				color="text"
+				color={getThemeValue('text')}
 				bg={getThemeValue('popup')}
 			>
 				<ModalHeader px={['15px', '24px']}>
