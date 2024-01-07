@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { MdAdd, MdSearch } from 'react-icons/md';
 import { useEffect, useState } from 'react';
+import useThemeValues from '@/hooks/useThemeValues';
 
 export default function SelectModal({
 	isOpen,
@@ -36,6 +37,7 @@ export default function SelectModal({
 	onPreview?: any;
 	showIcons?: boolean;
 }>) {
+	const { getThemeValue } = useThemeValues();
 	const [searchInput, setSearchInput] = useState('');
 	const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -132,13 +134,24 @@ export default function SelectModal({
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} size="lg" autoFocus={false}>
 			<ModalOverlay />
-			<ModalContent margin="10px 5px" color="text" bg="popup">
+			<ModalContent
+				margin="10px 5px"
+				color="text"
+				bg={getThemeValue('popup')}
+			>
 				<ModalHeader px={['15px', '24px']}>
 					<InputGroup>
 						<InputLeftElement pointerEvents="none">
-							<MdSearch fontSize="20px" color="textMuted" />
+							<MdSearch
+								fontSize="20px"
+								color={getThemeValue('textMuted')}
+							/>
 						</InputLeftElement>
 						<Input
+							color={getThemeValue('textMuted')}
+							_placeholder={{
+								color: getThemeValue('textMuted'),
+							}}
 							pr="25px"
 							variant="filled"
 							bg="transparent"
@@ -178,7 +191,9 @@ export default function SelectModal({
 										key={item.id}
 										bg={
 											isActive
-												? 'lowTransparency'
+												? getThemeValue(
+														'lowTransparency',
+													)
 												: 'transparent'
 										}
 										gap={['3px', '8px']}
@@ -193,7 +208,9 @@ export default function SelectModal({
 											'row',
 										]}
 										_hover={{
-											bg: 'midTransparency',
+											bg: getThemeValue(
+												'midTransparency',
+											),
 										}}
 										onClick={() => {
 											onClose();
@@ -206,7 +223,11 @@ export default function SelectModal({
 
 										<Flex gap="8px" alignItems="center">
 											{isActive && item.details && (
-												<Text color="textMuted">
+												<Text
+													color={getThemeValue(
+														'textMuted',
+													)}
+												>
 													{item.details}
 												</Text>
 											)}

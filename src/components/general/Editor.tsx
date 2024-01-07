@@ -3,6 +3,7 @@ import MonacoEditor from '@monaco-editor/react';
 import jspasteTheme from '@/themes/monaco/jspaste.json';
 import { memo, useCallback, useEffect, useRef } from 'react';
 import { EditorInformation } from '@/components/screens/IndexScreen';
+import useThemeValues from '@/hooks/useThemeValues';
 
 export default memo(function Editor({
 	setInformation,
@@ -13,6 +14,8 @@ export default memo(function Editor({
 	setValue: (value: string) => void;
 	value: string;
 }>) {
+	const { getThemeValue } = useThemeValues();
+	
 	const editorRef = useRef<any>(null);
 
 	const isFirstEditRef = useRef<boolean>(true);
@@ -45,7 +48,7 @@ export default memo(function Editor({
 			<MonacoEditor
 				theme="vs-dark"
 				defaultLanguage="typescript"
-				loading={<Spinner size="xl" color="primary" />}
+				loading={<Spinner size="xl" color={getThemeValue('primary')} />}
 				onMount={(editor, monaco) => {
 					monaco.editor.defineTheme('jspaste', jspasteTheme as any);
 

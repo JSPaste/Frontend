@@ -12,6 +12,7 @@ import { JSP } from 'jspaste';
 import LogoIcon from '@/icons/LogoIcon';
 import React, { memo, useState } from 'react';
 import SettingsModal from '../modals/SettingsModal';
+import useThemeValues from '@/hooks/useThemeValues';
 
 function ActionButton({
 	icon,
@@ -26,6 +27,8 @@ function ActionButton({
 	isDisabled?: boolean;
 	isLoading?: boolean;
 }>) {
+	const { getThemeValue } = useThemeValues();
+
 	return (
 		<Tooltip
 			label={!isDisabled ? label : `${label} (Disabled)`}
@@ -39,7 +42,7 @@ function ActionButton({
 			<IconButton
 				size="sm"
 				aria-label={label}
-				color="primary"
+				color={getThemeValue('primary')}
 				icon={icon}
 				onClick={onClick}
 				isDisabled={isDisabled}
@@ -53,6 +56,8 @@ export default memo(function Controls({
 	documentId,
 	value,
 }: Readonly<{ documentId?: string; value: string }>) {
+	const { getThemeValue } = useThemeValues();
+
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const [isSaveLoading, setIsSaveLoading] = useState(false);
@@ -92,7 +97,7 @@ export default memo(function Controls({
 					position="fixed"
 					w="100%"
 					gap="10px"
-					bg="controls"
+					bg={getThemeValue('controls')}
 					py="8px"
 					px="12px"
 					direction="row"
@@ -101,7 +106,7 @@ export default memo(function Controls({
 					<IconButton
 						size="sm"
 						aria-label="Home"
-						color="primary"
+						color={getThemeValue('primary')}
 						icon={<LogoIcon fontSize="30px" />}
 						onClick={() => (location.href = '/')}
 					/>
