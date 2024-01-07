@@ -62,7 +62,7 @@ export default function SelectModal({
 
 		if (initialSelectedIndex !== -1 && !searchInput.trim())
 			setSelectedIndex(initialSelectedIndex);
-	}, [initialSelectedId, isOpen]);
+	}, [initialSelectedId, isOpen, results, searchInput]);
 
 	useEventListener('keydown', (e) => {
 		if (isOpen && results.length) {
