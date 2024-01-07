@@ -4,6 +4,7 @@ import { memo, useCallback, useEffect, useRef } from 'react';
 import { EditorInformation } from '@/components/screens/IndexScreen';
 import useThemeValues from '@/hooks/useThemeValues';
 import useTheme from '@/hooks/useTheme';
+import useLanguage from '@/hooks/useLanguage';
 
 export default memo(function Editor({
 	setInformation,
@@ -20,6 +21,8 @@ export default memo(function Editor({
 
 	const [themeId, _setTheme, themes] = useTheme();
 
+	const [languageId] = useLanguage();
+
 	const editorRef = useRef<any>(null);
 
 	const isFirstEditRef = useRef<boolean>(true);
@@ -33,7 +36,6 @@ export default memo(function Editor({
 			setInformation({
 				lineNumber: pos.lineNumber,
 				columnNumber: pos.column,
-				languageString: 'Typescript',
 			});
 		},
 		[setInformation],
@@ -65,20 +67,19 @@ export default memo(function Editor({
 	useEffect(() => {
 		const editor = editorRef.current;
 
-		if (editor) {
-			updateInformation(editor);
-		}
+		if (editor) updateInformation(editor);
 	}, [editorRef, value, updateInformation]);
 
 	useEffect(() => {
 		setEditorTheme();
-	}, [monaco, setEditorTheme, themeId, themes,]);
+	}, [monaco, setEditorTheme, themeId, themes]);
 
 	return (
 		<Box h="100%" w="100%" bg="editor">
 			<MonacoEditor
 				theme="vs-dark"
-				defaultLanguage="typescript"
+				language={languageId ?? 'typescript'}
+				defaultLanguage={languageId ?? 'typescript'}
 				loading={<Spinner size="xl" color={getThemeValue('primary')} />}
 				onMount={async (editor, monaco) => {
 					await setEditorTheme(monaco);

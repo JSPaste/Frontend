@@ -3,7 +3,6 @@
 import useTheme from '@/hooks/useTheme';
 import {
 	Text,
-	Center,
 	Flex,
 	FormControl,
 	FormLabel,
@@ -23,21 +22,24 @@ import {
 	useDisclosure,
 	Box,
 	Spacer,
+	Button,
 } from '@chakra-ui/react';
-import { MdCheckCircle } from 'react-icons/md';
 import SelectModal from './SelectModal';
+import useLanguage from '@/hooks/useLanguage';
 import useThemeValues from '@/hooks/useThemeValues';
+import { MdCheckCircle, MdFlag, MdKeyboardArrowDown } from 'react-icons/md';
 
 export default function SettingModal({
 	isOpen,
 	onClose,
 }: Readonly<{ isOpen: boolean; onClose: any }>) {
 	const { getThemeValue } = useThemeValues();
+	const [languageId, setLanguageId, languages] = useLanguage();
 	const [themeId, setThemeId, themes] = useTheme();
 	const {
-		isOpen: isThemeOpen,
-		onClose: onThemeClose,
-		onOpen: onThemeOpen,
+		isOpen: isLangOpen,
+		onClose: onLangClose,
+		onOpen: onLangOpen,
 	} = useDisclosure();
 
 	return (
@@ -64,41 +66,41 @@ export default function SettingModal({
 								<Heading size="sm" mb="10px">
 									Language
 								</Heading>
-
-								{/*<Button
-									id="theme"
+								<Button
+									id="language"
 									rightIcon={<MdKeyboardArrowDown />}
-									onClick={onThemeOpen}
+									onClick={onLangOpen}
 								>
-									{themes.find(
-										(theme) => theme.id === themeId,
-									)?.name ?? themes[0].name}
+									{languages.find(
+										(lang) => lang.id === languageId,
+									)?.name ?? languages[0].name}
 								</Button>
 								<SelectModal
-									isOpen={isThemeOpen}
-									onClose={onThemeClose}
-									listItems={themes.map(({ id, name }) => ({
-										id,
-										name,
-										details:
-											themeId === id
-												? 'Recently used'
-												: 'Set theme',
-										icon: <MdAutoAwesome />,
-									}))}
-									initialSelectedId={themeId}
-									onPreview={setThemeId}
-									onSelect={setThemeId}
-								/>*/}
+									isOpen={isLangOpen}
+									onClose={onLangClose}
+									listItems={languages.map(
+										({ id, name }) => ({
+											id,
+											name,
+											details:
+												languageId === id
+													? 'Recently used'
+													: 'Set language',
+											icon: <MdFlag />,
+										}),
+									)}
+									initialSelectedId={languageId}
+									onPreview={setLanguageId}
+									onSelect={setLanguageId}
+								/>
 							</FormLabel>
 						</FormControl>
 
 						<Heading size="sm" mb="10px">
 							Theme selector
 						</Heading>
-
 						<Grid gap="10px" templateColumns="repeat(4, 1fr)">
-							{themes.map((theme) => (
+							{themes.map((theme, i) => (
 								<GridItem
 									key={theme.id}
 									w="90px"
@@ -153,9 +155,14 @@ export default function SettingModal({
 												</Text>
 												<Spacer />
 												<SlideFade
-													in={theme.id === themeId}
+													in={
+														theme.id === themeId ||
+														(!themeId && i === 0)
+													}
 												>
-													{theme.id === themeId && (
+													{(theme.id === themeId ||
+														(!themeId &&
+															i === 0)) && (
 														<Icon
 															as={MdCheckCircle}
 															zIndex={40}

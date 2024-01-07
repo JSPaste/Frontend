@@ -1,59 +1,114 @@
-import LogoIcon from '@/icons/LogoIcon';
-import { Flex, Text } from '@chakra-ui/react';
-import { EditorInformation } from '@/components/screens/IndexScreen';
 import React from 'react';
+import LogoIcon from '@/icons/LogoIcon';
+import useLanguage from '@/hooks/useLanguage';
+import SelectModal from '../modals/SelectModal';
+import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
 import useThemeValues from '@/hooks/useThemeValues';
+import { EditorInformation } from '@/components/screens/IndexScreen';
+import { MdFlag } from 'react-icons/md';
 
 function InformationLabel({
 	label,
 	icon,
-}: Readonly<{ label: string; icon?: React.ReactElement }>) {
+	isSelectable,
+	onClick,
+}: Readonly<{
+	label: string;
+	icon?: React.ReactElement;
+	isSelectable?: boolean;
+	onClick?: () => void;
+}>) {
 	const { getThemeValue } = useThemeValues();
 
 	const textElement = (
 		<Text
 			size="xs"
+			noOfLines={1}
 			fontSize="12px"
 			color={getThemeValue('textMuted')}
-			noOfLines={1}
 		>
 			{label}
 		</Text>
 	);
 
-	return icon ? (
-		<Flex direction="row" alignItems="center" gap="5px">
-			{icon}
-			{textElement}
-		</Flex>
-	) : (
-		textElement
+	return (
+		<Box
+			p="2px"
+			_hover={
+				isSelectable
+					? {
+							background: getThemeValue('highTransparency'),
+							cursor: 'pointer',
+						}
+					: undefined
+			}
+			onClick={onClick}
+		>
+			{icon ? (
+				<Flex direction="row" alignItems="center" gap="5px">
+					{icon}
+					{textElement}
+				</Flex>
+			) : (
+				textElement
+			)}
+		</Box>
 	);
 }
 
 export default function Information({
 	lineNumber,
 	columnNumber,
-	languageString,
 }: Readonly<EditorInformation>) {
 	const { getThemeValue } = useThemeValues();
+	const [languageId, setLanguageId, languages] = useLanguage();
+	const {
+		isOpen: isLangOpen,
+		onClose: onLangClose,
+		onOpen: onLangOpen,
+	} = useDisclosure();
+
+	const languageString =
+		languages.find((l) => l.id === languageId)?.name ?? languages[0].name;
 
 	return (
-		<Flex
-			w="100%"
-			gap={['10px', '15px']}
-			bg={getThemeValue('information')}
-			py="2px"
-			px="12px"
-			direction="row"
-			alignItems="center"
-		>
-			<InformationLabel
-				label="JSPaste v10.1.1"
-				icon={<LogoIcon fontSize="15px" />}
+		<>
+			<Flex
+				w="100%"
+				py="0px"
+				px="12px"
+				direction="row"
+				alignItems="center"
+				gap={['10px', '15px']}
+				bg={getThemeValue('information')}
+			>
+				<InformationLabel
+					label="JSPaste v10.1.1"
+					icon={<LogoIcon fontSize="15px" />}
+				/>
+				<InformationLabel
+					label={`Ln ${lineNumber} Col ${columnNumber}`}
+				/>
+				<InformationLabel
+					label={`Language: ${languageString}`}
+					isSelectable
+					onClick={onLangOpen}
+				/>
+			</Flex>
+			<SelectModal
+				isOpen={isLangOpen}
+				onClose={onLangClose}
+				listItems={languages.map(({ id, name }) => ({
+					id,
+					name,
+					details:
+						languageId === id ? 'Recently used' : 'Set language',
+					icon: <MdFlag />,
+				}))}
+				initialSelectedId={languageId}
+				onPreview={setLanguageId}
+				onSelect={setLanguageId}
 			/>
-			<InformationLabel label={`Ln ${lineNumber} Col ${columnNumber}`} />
-			<InformationLabel label={`Language: ${languageString}`} />
-		</Flex>
+		</>
 	);
 }
