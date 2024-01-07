@@ -5,9 +5,9 @@ import { CacheProvider } from '@chakra-ui/next-js';
 import useThemeValues from '@/hooks/useThemeValues';
 import {
 	Box,
-	extendTheme,
 	ChakraProvider,
 	ColorModeScript,
+	extendTheme,
 } from '@chakra-ui/react';
 
 const theme = extendTheme({

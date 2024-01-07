@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
 import { Flex } from '@chakra-ui/react';
-import { EditorInformation } from '@/components/general/Information';
-
-const Information = dynamic(() => import('@/components/general/Information'));
-const Editor = dynamic(() => import('@/components/general/Editor'));
-const Controls = dynamic(() => import('@/components/general/Controls'));
+import Information, {
+	EditorInformation,
+} from '@/components/general/Information';
+import Editor from '@/components/general/Editor';
+import Controls from '@/components/general/Controls';
 
 export default function IndexScreen() {
 	const [information, setInformation] = useState<EditorInformation>({

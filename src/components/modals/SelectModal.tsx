@@ -2,18 +2,18 @@
 
 import {
 	Flex,
-	Text,
-	Stack,
 	Input,
-	Modal,
-	Spacer,
-	ModalBody,
 	InputGroup,
-	ModalHeader,
-	ModalContent,
-	ModalOverlay,
-	ModalCloseButton,
 	InputLeftElement,
+	Modal,
+	ModalBody,
+	ModalCloseButton,
+	ModalContent,
+	ModalHeader,
+	ModalOverlay,
+	Spacer,
+	Stack,
+	Text,
 	useEventListener,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
