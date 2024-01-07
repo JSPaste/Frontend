@@ -7,8 +7,7 @@ import {
 	Flex,
 	FormControl,
 	FormLabel,
-	Grid,
-	GridItem,
+	SimpleGrid,
 	Heading,
 	Icon,
 	Modal,
@@ -99,18 +98,15 @@ export default function SettingModal({
 							<FormLabel htmlFor="theme">
 								<Heading size="sm">Theme selector</Heading>
 							</FormLabel>
-							<Grid
+							<SimpleGrid
 								gap="20px"
 								id="theme"
-								templateColumns={[
-									'repeat(2, 1fr)',
-									'repeat(4, 1fr)',
-								]}
+								minChildWidth={['100px', '85px']}
 							>
 								{themes.map((theme, i) => (
-									<GridItem
+									<Box
 										key={theme.id}
-										w={['100px', '85px']}
+										w="100%"
 										h={['70px', '70px']}
 										bg={theme.values.primaryDisplay}
 										borderRadius="10px"
@@ -194,9 +190,9 @@ export default function SettingModal({
 												</Flex>
 											</Box>
 										</Flex>
-									</GridItem>
+									</Box>
 								))}
-							</Grid>
+							</SimpleGrid>
 						</FormControl>
 					</Stack>
 				</ModalBody>
