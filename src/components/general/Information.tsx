@@ -1,11 +1,15 @@
 import React from 'react';
+import { MdFlag } from 'react-icons/md';
 import LogoIcon from '@/icons/LogoIcon';
 import useLanguage from '@/hooks/useLanguage';
 import SelectModal from '../modals/SelectModal';
-import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
 import useThemeValues from '@/hooks/useThemeValues';
-import { EditorInformation } from '@/components/screens/IndexScreen';
-import { MdFlag } from 'react-icons/md';
+import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
+
+export interface EditorInformation {
+	lineNumber: number;
+	columnNumber: number;
+}
 
 function InformationLabel({
 	label,
@@ -87,7 +91,11 @@ export default function Information({
 					icon={<LogoIcon fontSize="15px" />}
 				/>
 				<InformationLabel
-					label={`Ln ${lineNumber} Col ${columnNumber}`}
+					label={`Ln ${lineNumber
+						.toString()
+						.padStart(2, '0')} Col ${columnNumber
+						.toString()
+						.padStart(2, '0')}`}
 				/>
 				<InformationLabel
 					label={`Language: ${languageString}`}

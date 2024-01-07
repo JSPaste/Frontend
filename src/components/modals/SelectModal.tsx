@@ -1,23 +1,23 @@
 'use client';
 
 import {
-	Modal,
-	ModalOverlay,
-	ModalContent,
-	ModalHeader,
-	ModalCloseButton,
-	ModalBody,
 	Flex,
-	Stack,
 	Text,
-	Spacer,
-	useEventListener,
+	Stack,
 	Input,
+	Modal,
+	Spacer,
+	ModalBody,
 	InputGroup,
+	ModalHeader,
+	ModalContent,
+	ModalOverlay,
+	ModalCloseButton,
 	InputLeftElement,
+	useEventListener,
 } from '@chakra-ui/react';
-import { MdAdd, MdSearch } from 'react-icons/md';
 import { useEffect, useState } from 'react';
+import { MdAdd, MdSearch } from 'react-icons/md';
 import useThemeValues from '@/hooks/useThemeValues';
 
 export default function SelectModal({
@@ -54,11 +54,7 @@ export default function SelectModal({
 	);
 
 	useEffect(() => {
-		if (!isOpen) {
-			// TODO: Revert previews
-			//	onSelect(initialSelectedId);
-			setSearchInput('');
-		}
+		if (!isOpen) setSearchInput('');
 
 		const initialSelectedIndex = results.findIndex(
 			(i) => i.id === initialSelectedId,
@@ -68,7 +64,6 @@ export default function SelectModal({
 			setSelectedIndex(initialSelectedIndex);
 	}, [initialSelectedId, isOpen]);
 
-	// FIXME: Firing after component unmount
 	useEventListener('keydown', (e) => {
 		if (isOpen && results.length) {
 			switch (e.key) {

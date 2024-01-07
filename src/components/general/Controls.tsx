@@ -1,18 +1,18 @@
-import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 import {
 	Box,
 	Flex,
-	IconButton,
 	Spacer,
 	Tooltip,
-	useDisclosure,
 	useToast,
+	IconButton,
+	useDisclosure,
 } from '@chakra-ui/react';
 import { JSP } from 'jspaste';
 import LogoIcon from '@/icons/LogoIcon';
 import React, { memo, useState } from 'react';
 import SettingsModal from '../modals/SettingsModal';
 import useThemeValues from '@/hooks/useThemeValues';
+import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 
 function ActionButton({
 	icon,

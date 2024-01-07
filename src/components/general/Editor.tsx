@@ -1,10 +1,10 @@
-import { Box, Spinner } from '@chakra-ui/react';
-import MonacoEditor, { useMonaco } from '@monaco-editor/react';
-import { memo, useCallback, useEffect, useRef } from 'react';
-import { EditorInformation } from '@/components/screens/IndexScreen';
-import useThemeValues from '@/hooks/useThemeValues';
 import useTheme from '@/hooks/useTheme';
 import useLanguage from '@/hooks/useLanguage';
+import { Box, Spinner } from '@chakra-ui/react';
+import { EditorInformation } from './Information';
+import useThemeValues from '@/hooks/useThemeValues';
+import { memo, useCallback, useEffect, useRef } from 'react';
+import MonacoEditor, { useMonaco } from '@monaco-editor/react';
 
 export default memo(function Editor({
 	setInformation,

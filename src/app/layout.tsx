@@ -1,15 +1,15 @@
 'use client';
 
-import useThemeValues from '@/hooks/useThemeValues';
+import React from 'react';
 import '@/styles/global.scss';
+import useThemeValues from '@/hooks/useThemeValues';
 import { CacheProvider } from '@chakra-ui/next-js';
 import {
 	Box,
+	extendTheme,
 	ChakraProvider,
 	ColorModeScript,
-	extendTheme,
 } from '@chakra-ui/react';
-import React from 'react';
 
 const theme = extendTheme({
 	config: {
