@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"license": "MIT"
+	"license": "MIT",
 	"name": "jspaste-frontend",
 	"type": "module",
 	"scripts": {
