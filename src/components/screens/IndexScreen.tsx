@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Flex } from '@chakra-ui/react';
 import Information, {
-	EditorInformation,
+	type EditorInformation,
 } from '@/components/general/Information';
 import Editor from '@/components/general/Editor';
 import Controls from '@/components/general/Controls';
