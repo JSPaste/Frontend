@@ -35,8 +35,8 @@ export const themes: Theme[] = [
 		values: {
 			primary: '#FFE184',
 			primaryDisplay: '#FFE184',
-			information: '#202020',
-			controls: '#292929',
+			information: '#232323',
+			controls: '#282828',
 			editor: '#2E2E2E',
 			tooltip: '#202020',
 			popup: '#292929',

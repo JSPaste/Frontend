@@ -1,7 +1,7 @@
 import useTheme from '@/hooks/useTheme';
 import useLanguage from '@/hooks/useLanguage';
 import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
-import { EditorInformation } from './Information';
+import { type EditorInformation } from './Information';
 import useThemeValues from '@/hooks/useThemeValues';
 import { useCallback, useEffect, useRef } from 'react';
 import MonacoEditor, { useMonaco } from '@monaco-editor/react';
