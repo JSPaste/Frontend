@@ -16,6 +16,20 @@ const nextConfig = {
 	env: {
 		API_URL: process.env.API_URL,
 	},
+	async redirects() {
+		return [
+			{
+				source: '/docs',
+				destination: 'https://docs.jspaste.eu/',
+				permanent: true,
+			},
+			{
+				source: '/github',
+				destination: 'https://github.com/JSPaste/',
+				permanent: true,
+			},
+		];
+	},
 };
 
 let configExport = nextConfig;

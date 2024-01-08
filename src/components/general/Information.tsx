@@ -1,10 +1,11 @@
 import React from 'react';
-import { MdFlag } from 'react-icons/md';
 import LogoIcon from '@/icons/LogoIcon';
+import { SiGitbook, SiGithub } from 'react-icons/si';
 import useLanguage from '@/hooks/useLanguage';
+import { MdFlag } from 'react-icons/md';
 import SelectModal from '../modals/SelectModal';
 import useThemeValues from '@/hooks/useThemeValues';
-import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
 
 export interface EditorInformation {
 	lineNumber: number;
@@ -16,20 +17,22 @@ function InformationLabel({
 	icon,
 	isSelectable,
 	onClick,
+	...props
 }: Readonly<{
-	label: string;
+	label: React.ReactElement | string;
 	icon?: React.ReactElement;
 	isSelectable?: boolean;
 	onClick?: () => void;
+	[props: string]: any;
 }>) {
 	const { getThemeValue } = useThemeValues();
 
 	const textElement = (
 		<Text
 			size="xs"
-			noOfLines={1}
 			fontSize="12px"
 			color={getThemeValue('textMuted')}
+			{...props}
 		>
 			{label}
 		</Text>
@@ -82,6 +85,7 @@ export default function Information({
 				w="100%"
 				py="0px"
 				px="12px"
+				maxH="22px"
 				direction="row"
 				alignItems="center"
 				gap={['5px', '10px']}
@@ -99,11 +103,27 @@ export default function Information({
 						.padStart(2, '0')}`}
 				/>
 				<InformationLabel
-					label={`Language: ${languageName}`}
+					label={<Show above="sm">Language: {languageName}</Show>}
 					icon={languageIcon}
 					isSelectable
 					onClick={onLangOpen}
+					noOfLines={1}
 				/>
+				<Spacer />
+				<Show above="md">
+					<InformationLabel
+						label="Docs"
+						isSelectable
+						icon={<SiGitbook size="12px" />}
+						onClick={() => window.open('/docs')}
+					/>
+					<InformationLabel
+						label="Github"
+						isSelectable
+						icon={<SiGithub size="12px" />}
+						onClick={() => window.open('/github')}
+					/>
+				</Show>
 			</Flex>
 			<SelectModal
 				isOpen={isLangOpen}
