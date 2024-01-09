@@ -9,10 +9,16 @@ import {
 } from '@chakra-ui/react';
 import { JSP } from 'jspaste';
 import LogoIcon from '@/icons/LogoIcon';
-import React, { useState } from 'react';
+import React, { useState, type Dispatch, type SetStateAction } from 'react';
 import SettingsModal from '../modals/SettingsModal';
 import useThemeValues from '@/hooks/useThemeValues';
-import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
+import {
+	MdEdit,
+	MdSave,
+	MdSettings,
+	MdSubject,
+	MdVisibility,
+} from 'react-icons/md';
 
 function ActionButton({
 	icon,
@@ -55,7 +61,16 @@ function ActionButton({
 export default function Controls({
 	documentId,
 	value,
-}: Readonly<{ documentId?: string; value: string }>) {
+	isEditing,
+	setIsEditing,
+	enableEdit,
+}: Readonly<{
+	documentId?: string;
+	value: string;
+	isEditing: boolean;
+	setIsEditing: any;
+	enableEdit: boolean;
+}>) {
 	const { getThemeValue } = useThemeValues();
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -81,6 +96,8 @@ export default function Controls({
 				isClosable: true,
 				duration: 10000,
 			});
+
+		location.href = '/abc123';
 
 		console.log(result);
 	}
@@ -122,17 +139,19 @@ export default function Controls({
 						isLoading={isSaveLoading}
 						isDisabled={!value}
 					/>
-					<ActionButton
-						icon={<MdEdit fontSize="20px" />}
-						label="Edit"
-						onClick={() => null}
-						isDisabled={!documentId}
-					/>
+					{!isEditing && (
+						<ActionButton
+							icon={<MdEdit fontSize="20px" />}
+							label="Edit"
+							onClick={() => setIsEditing(true)}
+							isDisabled={!enableEdit}
+						/>
+					)}
 					<ActionButton
 						icon={<MdSubject fontSize="20px" />}
 						label="View Raw"
 						onClick={() => null}
-						isDisabled={!documentId}
+						isDisabled={!documentId || isEditing}
 					/>
 					<ActionButton
 						icon={<MdSettings fontSize="20px" />}

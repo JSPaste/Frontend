@@ -10,10 +10,16 @@ export default function Editor({
 	setInformation,
 	setValue,
 	value,
+	documentId,
+	isEditing,
+	enableEdit,
 }: Readonly<{
 	setInformation: (info: EditorInformation) => void;
 	setValue: (value: string) => void;
 	value: string;
+	documentId?: string;
+	isEditing: boolean;
+	enableEdit: boolean;
 }>) {
 	const monaco = useMonaco();
 
@@ -33,7 +39,9 @@ export default function Editor({
 		md: { minimap: true },
 	}) ?? { minimap: true };
 
-	const defaultCode = `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.`;
+	const defaultCode = documentId
+		? 'blablabla'
+		: `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.`;
 
 	const updateInformation = useCallback(
 		(editor: any) => {
@@ -110,10 +118,11 @@ export default function Editor({
 					minimap: {
 						enabled: minimap,
 					},
+					readOnly: enableEdit && !isEditing,
 					cursorBlinking: 'smooth',
 				}}
 				onChange={(value, ce) => {
-					if (isFirstEditRef.current) {
+					if (isFirstEditRef.current && !enableEdit) {
 						isFirstEditRef.current = false;
 
 						const changes = ce.changes.map((c) => c.text).join('');

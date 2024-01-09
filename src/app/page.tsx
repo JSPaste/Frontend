@@ -1,7 +1,7 @@
 'use client';
 
-import IndexScreen from '@/components/screens/IndexScreen';
+import DocumentScreen from '@/components/screens/DocumentScreen';
 
-export default function IndexPage() {
-	return <IndexScreen />;
+export default function DocumentPage() {
+	return <DocumentScreen enableEdit={false} />;
 }
