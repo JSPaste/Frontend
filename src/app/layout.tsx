@@ -84,7 +84,7 @@ export default function RootLayout({
 					height: '100%'
 				}}
 			>
-				<ColorModeScript initialColorMode={theme.config.initialColorMode} />
+				<ColorModeScript initialColorMode={theme['config'].initialColorMode} />
 				<ChakraProvider theme={theme}>
 					<CacheProvider>
 						<Box h='100%' w='100%' bg={getThemeValue('editor')}>
