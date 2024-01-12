@@ -10,7 +10,7 @@ const themeStore = create<{
 	setThemeId: (themeId: string) => void;
 }>((set) => ({
 	themeId: undefined,
-	setThemeId: (themeId) => set({ themeId }),
+	setThemeId: (themeId) => set({ themeId })
 }));
 
 export default themeStore;

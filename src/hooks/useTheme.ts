@@ -16,6 +16,6 @@ export default function useTheme() {
 
 			setThemeId(selectedTheme.id);
 		},
-		themes,
+		themes
 	] as const;
 }

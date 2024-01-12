@@ -13,6 +13,6 @@ export default function useLanguage() {
 
 			setLanguageId(selectedLanguage.id);
 		},
-		languages,
+		languages
 	] as const;
 }

@@ -12,7 +12,7 @@ export default function Editor({
 	value,
 	documentId,
 	isEditing,
-	enableEdit,
+	enableEdit
 }: Readonly<{
 	setInformation: (info: EditorInformation) => void;
 	setValue: (value: string) => void;
@@ -36,7 +36,7 @@ export default function Editor({
 	const { minimap } = useBreakpointValue({
 		base: { minimap: false },
 		sm: { minimap: false },
-		md: { minimap: true },
+		md: { minimap: true }
 	}) ?? { minimap: true };
 
 	const defaultCode = documentId
@@ -49,10 +49,10 @@ export default function Editor({
 
 			setInformation({
 				lineNumber: pos.lineNumber,
-				columnNumber: pos.column,
+				columnNumber: pos.column
 			});
 		},
-		[setInformation],
+		[setInformation]
 	);
 
 	const setEditorTheme = useCallback(
@@ -63,19 +63,14 @@ export default function Editor({
 				themes.find((t) => t.id == themeId) ?? themes[0];
 
 			if (isCustomMonacoTheme) {
-				const themeData = await import(
-					`@/themes/monaco/${monacoTheme}.json`
-				);
+				const themeData = await import(`@/themes/monaco/${monacoTheme}.json`);
 
-				editorMonaco?.editor.defineTheme(
-					monacoTheme,
-					themeData.default,
-				);
+				editorMonaco?.editor.defineTheme(monacoTheme, themeData.default);
 			}
 
 			editorMonaco?.editor.setTheme(monacoTheme);
 		},
-		[monaco, themeId, themes],
+		[monaco, themeId, themes]
 	);
 
 	useEffect(() => {
@@ -89,18 +84,18 @@ export default function Editor({
 	}, [monaco, setEditorTheme, themeId, themes]);
 
 	return (
-		<Box h="100%" w="100%" bg="editor">
+		<Box h='100%' w='100%' bg='editor'>
 			<MonacoEditor
-				theme="jspaste"
+				theme='jspaste'
 				language={languageId ?? 'typescript'}
 				defaultLanguage={languageId ?? 'typescript'}
-				loading={<Spinner size="xl" color={getThemeValue('primary')} />}
+				loading={<Spinner size='xl' color={getThemeValue('primary')} />}
 				onMount={async (editor, monaco) => {
 					await setEditorTheme(monaco);
 
 					editor.setPosition({
 						lineNumber: 1,
-						column: defaultCode.length + 1,
+						column: defaultCode.length + 1
 					});
 
 					editor.focus();
@@ -116,10 +111,10 @@ export default function Editor({
 					colorDecorators: true,
 					contextmenu: true,
 					minimap: {
-						enabled: minimap,
+						enabled: minimap
 					},
 					readOnly: enableEdit && !isEditing,
-					cursorBlinking: 'smooth',
+					cursorBlinking: 'smooth'
 				}}
 				onChange={(value, ce) => {
 					if (isFirstEditRef.current && !enableEdit) {
@@ -133,7 +128,7 @@ export default function Editor({
 
 						editorRef.current?.setPosition({
 							lineNumber: changesSlice.length,
-							column: (changesSlice.at(-1)?.length ?? 1) + 1,
+							column: (changesSlice.at(-1)?.length ?? 1) + 1
 						});
 					}
 

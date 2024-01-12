@@ -28,32 +28,27 @@ function InformationLabel({
 	const { getThemeValue } = useThemeValues();
 
 	const textElement = (
-		<Text
-			size="xs"
-			fontSize="12px"
-			color={getThemeValue('textMuted')}
-			{...props}
-		>
+		<Text size='xs' fontSize='12px' color={getThemeValue('textMuted')} {...props}>
 			{label}
 		</Text>
 	);
 
 	return (
 		<Box
-			py="2px"
-			px="5px"
+			py='2px'
+			px='5px'
 			_hover={
 				isSelectable
 					? {
 							background: getThemeValue('highTransparency'),
-							cursor: 'pointer',
+							cursor: 'pointer'
 						}
 					: undefined
 			}
 			onClick={onClick}
 		>
 			{icon ? (
-				<Flex direction="row" alignItems="center" gap="5px">
+				<Flex direction='row' alignItems='center' gap='5px'>
 					{icon}
 					{textElement}
 				</Flex>
@@ -64,17 +59,10 @@ function InformationLabel({
 	);
 }
 
-export default function Information({
-	lineNumber,
-	columnNumber,
-}: Readonly<EditorInformation>) {
+export default function Information({ lineNumber, columnNumber }: Readonly<EditorInformation>) {
 	const { getThemeValue } = useThemeValues();
 	const [languageId, setLanguageId, languages] = useLanguage();
-	const {
-		isOpen: isLangOpen,
-		onClose: onLangClose,
-		onOpen: onLangOpen,
-	} = useDisclosure();
+	const { isOpen: isLangOpen, onClose: onLangClose, onOpen: onLangOpen } = useDisclosure();
 
 	const { name: languageName, icon: languageIcon } =
 		languages.find((l) => l.id === languageId) ?? languages[0];
@@ -82,45 +70,40 @@ export default function Information({
 	return (
 		<>
 			<Flex
-				w="100%"
-				py="0px"
-				px="12px"
-				maxH="22px"
-				direction="row"
-				alignItems="center"
+				w='100%'
+				py='0px'
+				px='12px'
+				maxH='22px'
+				direction='row'
+				alignItems='center'
 				gap={['5px', '10px']}
 				bg={getThemeValue('information')}
 			>
+				<InformationLabel label='JSPaste v10.1.1' icon={<LogoIcon fontSize='15px' />} />
 				<InformationLabel
-					label="JSPaste v10.1.1"
-					icon={<LogoIcon fontSize="15px" />}
-				/>
-				<InformationLabel
-					label={`Ln ${lineNumber
-						.toString()
-						.padStart(2, '0')} Col ${columnNumber
+					label={`Ln ${lineNumber.toString().padStart(2, '0')} Col ${columnNumber
 						.toString()
 						.padStart(2, '0')}`}
 				/>
 				<InformationLabel
-					label={<Show above="sm">Language: {languageName}</Show>}
+					label={<Show above='sm'>Language: {languageName}</Show>}
 					icon={languageIcon}
 					isSelectable
 					onClick={onLangOpen}
 					noOfLines={1}
 				/>
 				<Spacer />
-				<Show above="md">
+				<Show above='md'>
 					<InformationLabel
-						label="Docs"
+						label='Docs'
 						isSelectable
-						icon={<SiGitbook size="12px" />}
+						icon={<SiGitbook size='12px' />}
 						onClick={() => window.open('/docs')}
 					/>
 					<InformationLabel
-						label="Github"
+						label='Github'
 						isSelectable
-						icon={<SiGithub size="12px" />}
+						icon={<SiGithub size='12px' />}
 						onClick={() => window.open('/github')}
 					/>
 				</Show>
@@ -131,9 +114,8 @@ export default function Information({
 				listItems={languages.map(({ id, name }) => ({
 					id,
 					name,
-					details:
-						languageId === id ? 'Recently used' : 'Set language',
-					icon: <MdFlag />,
+					details: languageId === id ? 'Recently used' : 'Set language',
+					icon: <MdFlag />
 				}))}
 				initialSelectedId={languageId}
 				onPreview={setLanguageId}

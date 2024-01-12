@@ -9,6 +9,6 @@ export default function useThemeValues() {
 	return {
 		getThemeValue: (value: keyof ThemeValues) => {
 			return theme.values[value];
-		},
+		}
 	} as const;
 }

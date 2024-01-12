@@ -1,20 +1,20 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
-	"private": true,
 	"name": "jspaste-frontend",
+	"private": true,
 	"license": "EUPL-1.2-or-later",
 	"type": "module",
 	"scripts": {
+		"build": "pnpm exec next build",
 		"dev": "pnpm exec next dev",
 		"fix": "pnpm run prettier && pnpm run lint",
-		"prettier": "pnpm exec prettier . --write",
 		"lint": "pnpm run lint:eslint && pnpm run lint:next && pnpm run lint:tsc",
 		"lint:eslint": "pnpm exec eslint . --ext .ts,.tsx",
-		"lint:tsc": "pnpm exec tsc --noEmit",
 		"lint:next": "pnpm exec next lint",
-		"build": "pnpm exec next build",
-		"start": "pnpm exec next start",
-		"prod": "pnpm run build && pnpm run start"
+		"lint:tsc": "pnpm exec tsc --noEmit",
+		"prettier": "pnpm exec prettier . --write",
+		"prod": "pnpm run build && pnpm run start",
+		"start": "pnpm exec next start"
 	},
 	"dependencies": {
 		"@chakra-ui/icons": "^2.1.1",
