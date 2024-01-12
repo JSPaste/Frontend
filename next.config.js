@@ -9,27 +9,27 @@ const nextConfig = {
 			{
 				protocol: 'https',
 				hostname: '*',
-				port: '',
-			},
-		],
+				port: ''
+			}
+		]
 	},
 	env: {
-		API_URL: process.env.API_URL,
+		API_URL: process.env.API_URL
 	},
 	async redirects() {
 		return [
 			{
 				source: '/docs',
 				destination: 'https://docs.jspaste.eu/',
-				permanent: true,
+				permanent: true
 			},
 			{
 				source: '/github',
 				destination: 'https://github.com/JSPaste/',
-				permanent: true,
-			},
+				permanent: true
+			}
 		];
-	},
+	}
 };
 
 let configExport = nextConfig;

@@ -47,8 +47,8 @@ export const themes: Theme[] = [
 			lowTransparency: '#FFFFFF40',
 			highAltTransparency: '#00000020',
 			midAltTransparency: '#00000030',
-			lowAltTransparency: '#00000040',
-		},
+			lowAltTransparency: '#00000040'
+		}
 	},
 	{
 		id: 'dark',
@@ -71,8 +71,8 @@ export const themes: Theme[] = [
 			lowTransparency: '#ffffff40',
 			highAltTransparency: '#00000020',
 			midAltTransparency: '#00000030',
-			lowAltTransparency: '#00000040',
-		},
+			lowAltTransparency: '#00000040'
+		}
 	},
 	{
 		id: 'light',
@@ -95,8 +95,8 @@ export const themes: Theme[] = [
 			lowTransparency: '#00000040',
 			highAltTransparency: '#ffffff20',
 			midAltTransparency: '#ffffff30',
-			lowAltTransparency: '#ffffff40',
-		},
+			lowAltTransparency: '#ffffff40'
+		}
 	},
 	{
 		id: 'midnight',
@@ -119,7 +119,7 @@ export const themes: Theme[] = [
 			lowTransparency: '#ffffff40',
 			highAltTransparency: '#00000020',
 			midAltTransparency: '#00000030',
-			lowAltTransparency: '#00000040',
-		},
-	},
+			lowAltTransparency: '#00000040'
+		}
+	}
 ];

@@ -1,12 +1,4 @@
-import {
-	Box,
-	Flex,
-	IconButton,
-	Spacer,
-	Tooltip,
-	useDisclosure,
-	useToast,
-} from '@chakra-ui/react';
+import { Box, Flex, IconButton, Spacer, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
 import { JSP } from 'jspaste';
 import LogoIcon from '@/icons/LogoIcon';
 import React, { useState } from 'react';
@@ -19,7 +11,7 @@ function ActionButton({
 	label,
 	onClick,
 	isDisabled,
-	isLoading,
+	isLoading
 }: Readonly<{
 	icon: React.ReactElement;
 	label: string;
@@ -34,19 +26,19 @@ function ActionButton({
 			label={!isDisabled ? label : `${label} (Disabled)`}
 			bg={getThemeValue('tooltip')}
 			color={getThemeValue('text')}
-			placement="top"
-			m="5px"
+			placement='top'
+			m='5px'
 			gutter={5}
 			hasArrow
 		>
 			<IconButton
-				size="sm"
+				size='sm'
 				aria-label={label}
 				color={getThemeValue('primary')}
 				icon={icon}
 				onClick={onClick}
-				isDisabled={isDisabled}
-				isLoading={isLoading}
+				isDisabled={isDisabled ?? false}
+				isLoading={isLoading ?? false}
 			/>
 		</Tooltip>
 	);
@@ -55,7 +47,16 @@ function ActionButton({
 export default function Controls({
 	documentId,
 	value,
-}: Readonly<{ documentId?: string; value: string }>) {
+	isEditing,
+	setIsEditing,
+	enableEdit
+}: Readonly<{
+	documentId?: string;
+	value: string;
+	isEditing: boolean;
+	setIsEditing: any;
+	enableEdit: boolean;
+}>) {
 	const { getThemeValue } = useThemeValues();
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -79,8 +80,10 @@ export default function Controls({
 				status: 'error',
 				variant: 'subtle',
 				isClosable: true,
-				duration: 10000,
+				duration: 10000
 			});
+
+		location.href = '/abc123';
 
 		console.log(result);
 	}
@@ -88,55 +91,53 @@ export default function Controls({
 	return (
 		<>
 			<SettingsModal isOpen={isOpen} onClose={onClose} />
-			<Flex direction="column" w="100%">
-				<Box w="100%" h="48px" zIndex={100} />
+			<Flex direction='column' w='100%'>
+				<Box w='100%' h='48px' zIndex={100} />
 				<Flex
-					bottom="0"
-					left="0"
+					bottom='0'
+					left='0'
 					zIndex={200}
-					position="fixed"
-					w="100%"
-					gap="10px"
+					position='fixed'
+					w='100%'
+					gap='10px'
 					bg={getThemeValue('controls')}
-					py="8px"
-					px="12px"
-					direction="row"
-					alignItems="center"
+					py='8px'
+					px='12px'
+					direction='row'
+					alignItems='center'
 				>
 					<IconButton
-						size="sm"
-						aria-label="Home"
+						size='sm'
+						aria-label='Home'
 						color={getThemeValue('primary')}
-						icon={<LogoIcon fontSize="30px" />}
+						icon={<LogoIcon fontSize='30px' />}
 						onClick={() => (location.href = '/')}
 					/>
 					<Spacer />
 					<ActionButton
-						icon={<MdSave fontSize="20px" />}
-						label={
-							!value
-								? 'You need to write something to save!'
-								: 'Save'
-						}
+						icon={<MdSave fontSize='20px' />}
+						label={!value ? 'You need to write something to save!' : 'Save'}
 						onClick={handleSave}
 						isLoading={isSaveLoading}
 						isDisabled={!value}
 					/>
+					{!isEditing && (
+						<ActionButton
+							icon={<MdEdit fontSize='20px' />}
+							label='Edit'
+							onClick={() => setIsEditing(true)}
+							isDisabled={!enableEdit}
+						/>
+					)}
 					<ActionButton
-						icon={<MdEdit fontSize="20px" />}
-						label="Edit"
+						icon={<MdSubject fontSize='20px' />}
+						label='View Raw'
 						onClick={() => null}
-						isDisabled={!documentId}
+						isDisabled={!documentId || isEditing}
 					/>
 					<ActionButton
-						icon={<MdSubject fontSize="20px" />}
-						label="View Raw"
-						onClick={() => null}
-						isDisabled={!documentId}
-					/>
-					<ActionButton
-						icon={<MdSettings fontSize="20px" />}
-						label="Settings"
+						icon={<MdSettings fontSize='20px' />}
+						label='Settings'
 						onClick={() => onOpen()}
 					/>
 				</Flex>

@@ -5,7 +5,7 @@ const languageStore = create<{
 	setLanguageId: (languageId: string) => void;
 }>((set) => ({
 	languageId: undefined,
-	setLanguageId: (languageId) => set({ languageId }),
+	setLanguageId: (languageId) => set({ languageId })
 }));
 
 export default languageStore;

@@ -5,15 +5,22 @@ import { type EditorInformation } from './Information';
 import useThemeValues from '@/hooks/useThemeValues';
 import { useCallback, useEffect, useRef } from 'react';
 import MonacoEditor, { useMonaco } from '@monaco-editor/react';
+import type { Theme } from '@/themes/ui/themes';
 
 export default function Editor({
 	setInformation,
 	setValue,
 	value,
+	documentId,
+	isEditing,
+	enableEdit
 }: Readonly<{
 	setInformation: (info: EditorInformation) => void;
 	setValue: (value: string) => void;
 	value: string;
+	documentId?: string;
+	isEditing: boolean;
+	enableEdit: boolean;
 }>) {
 	const monaco = useMonaco();
 
@@ -30,10 +37,12 @@ export default function Editor({
 	const { minimap } = useBreakpointValue({
 		base: { minimap: false },
 		sm: { minimap: false },
-		md: { minimap: true },
+		md: { minimap: true }
 	}) ?? { minimap: true };
 
-	const defaultCode = `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.`;
+	const defaultCode = documentId
+		? 'blablabla'
+		: `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.`;
 
 	const updateInformation = useCallback(
 		(editor: any) => {
@@ -41,10 +50,10 @@ export default function Editor({
 
 			setInformation({
 				lineNumber: pos.lineNumber,
-				columnNumber: pos.column,
+				columnNumber: pos.column
 			});
 		},
-		[setInformation],
+		[setInformation]
 	);
 
 	const setEditorTheme = useCallback(
@@ -52,22 +61,17 @@ export default function Editor({
 			const editorMonaco = customMonaco ?? monaco;
 
 			const { monacoTheme, isCustomMonacoTheme } =
-				themes.find((t) => t.id == themeId) ?? themes[0];
+				themes.find((t) => t.id == themeId) ?? (themes[0] as Theme);
 
 			if (isCustomMonacoTheme) {
-				const themeData = await import(
-					`@/themes/monaco/${monacoTheme}.json`
-				);
+				const themeData = await import(`@/themes/monaco/${monacoTheme}.json`);
 
-				editorMonaco?.editor.defineTheme(
-					monacoTheme,
-					themeData.default,
-				);
+				editorMonaco?.editor.defineTheme(monacoTheme, themeData.default);
 			}
 
 			editorMonaco?.editor.setTheme(monacoTheme);
 		},
-		[monaco, themeId, themes],
+		[monaco, themeId, themes]
 	);
 
 	useEffect(() => {
@@ -81,18 +85,18 @@ export default function Editor({
 	}, [monaco, setEditorTheme, themeId, themes]);
 
 	return (
-		<Box h="100%" w="100%" bg="editor">
+		<Box h='100%' w='100%' bg='editor'>
 			<MonacoEditor
-				theme="jspaste"
+				theme='jspaste'
 				language={languageId ?? 'typescript'}
 				defaultLanguage={languageId ?? 'typescript'}
-				loading={<Spinner size="xl" color={getThemeValue('primary')} />}
+				loading={<Spinner size='xl' color={getThemeValue('primary')} />}
 				onMount={async (editor, monaco) => {
 					await setEditorTheme(monaco);
 
 					editor.setPosition({
 						lineNumber: 1,
-						column: defaultCode.length + 1,
+						column: defaultCode.length + 1
 					});
 
 					editor.focus();
@@ -108,12 +112,13 @@ export default function Editor({
 					colorDecorators: true,
 					contextmenu: true,
 					minimap: {
-						enabled: minimap,
+						enabled: minimap
 					},
-					cursorBlinking: 'smooth',
+					readOnly: enableEdit && !isEditing,
+					cursorBlinking: 'smooth'
 				}}
 				onChange={(value, ce) => {
-					if (isFirstEditRef.current) {
+					if (isFirstEditRef.current && !enableEdit) {
 						isFirstEditRef.current = false;
 
 						const changes = ce.changes.map((c) => c.text).join('');
@@ -124,7 +129,7 @@ export default function Editor({
 
 						editorRef.current?.setPosition({
 							lineNumber: changesSlice.length,
-							column: (changesSlice.at(-1)?.length ?? 1) + 1,
+							column: (changesSlice.at(-1)?.length ?? 1) + 1
 						});
 					}
 
