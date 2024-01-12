@@ -39,7 +39,13 @@ import {
 	SiYaml
 } from 'react-icons/si';
 
-export const languages = [
+export interface Language {
+	id: string;
+	name: string;
+	icon?: JSX.Element;
+}
+
+export const languages: Language[] = [
 	{
 		id: 'typescript',
 		name: 'TypeScript',

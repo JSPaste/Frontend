@@ -62,7 +62,7 @@ export default function SettingModal({
 								onClick={onLangOpen}
 							>
 								{languages.find((lang) => lang.id === languageId)?.name ??
-									languages[0].name}
+									languages[0]?.name}
 							</Button>
 							<SelectModal
 								isOpen={isLangOpen}
@@ -93,10 +93,10 @@ export default function SettingModal({
 										style={
 											theme.id === themeId
 												? {
-														outline: '3px solid',
-														outlineOffset: '-3px',
-														outlineColor: theme.values.midTransparency
-													}
+													outline: '3px solid',
+													outlineOffset: '-3px',
+													outlineColor: theme.values.midTransparency
+												}
 												: undefined
 										}
 										_hover={{
@@ -143,12 +143,12 @@ export default function SettingModal({
 													>
 														{(theme.id === themeId ||
 															(!themeId && i === 0)) && (
-															<Icon
-																as={MdCheckCircle}
-																zIndex={40}
-																fontSize={['15px', '15px']}
-															/>
-														)}
+																<Icon
+																	as={MdCheckCircle}
+																	zIndex={40}
+																	fontSize={['15px', '15px']}
+																/>
+															)}
 													</SlideFade>
 												</Flex>
 											</Box>
