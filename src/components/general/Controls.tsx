@@ -37,8 +37,8 @@ function ActionButton({
 				color={getThemeValue('primary')}
 				icon={icon}
 				onClick={onClick}
-				isDisabled={isDisabled}
-				isLoading={isLoading}
+				isDisabled={isDisabled ?? false}
+				isLoading={isLoading ?? false}
 			/>
 		</Tooltip>
 	);

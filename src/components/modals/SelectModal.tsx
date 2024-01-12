@@ -66,9 +66,11 @@ export default function SelectModal({
 
 					const finalIndex = res < 0 ? results.length - 1 : res;
 
+					const result = results[finalIndex]?.id;
+
 					setSelectedIndex(finalIndex);
 
-					onPreview?.(results[finalIndex].id);
+					onPreview?.(result);
 
 					setTimeout(() => {
 						document.getElementById('select-active')?.scrollIntoView({
@@ -89,7 +91,9 @@ export default function SelectModal({
 
 					setSelectedIndex(finalIndex);
 
-					onPreview?.(results[finalIndex].id);
+					const result = results[finalIndex]?.id;
+
+					onPreview?.(result);
 
 					setTimeout(() => {
 						document.getElementById('select-active')?.scrollIntoView({
@@ -106,7 +110,7 @@ export default function SelectModal({
 
 					onClose();
 
-					onSelect(item.id);
+					if (item) onSelect(item?.id);
 
 					break;
 				}

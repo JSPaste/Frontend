@@ -5,6 +5,7 @@ import { type EditorInformation } from './Information';
 import useThemeValues from '@/hooks/useThemeValues';
 import { useCallback, useEffect, useRef } from 'react';
 import MonacoEditor, { useMonaco } from '@monaco-editor/react';
+import type { Theme } from '@/themes/ui/themes';
 
 export default function Editor({
 	setInformation,
@@ -60,7 +61,7 @@ export default function Editor({
 			const editorMonaco = customMonaco ?? monaco;
 
 			const { monacoTheme, isCustomMonacoTheme } =
-				themes.find((t) => t.id == themeId) ?? themes[0];
+				themes.find((t) => t.id == themeId) ?? (themes[0] as Theme);
 
 			if (isCustomMonacoTheme) {
 				const themeData = await import(`@/themes/monaco/${monacoTheme}.json`);

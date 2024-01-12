@@ -1,10 +1,11 @@
 import React from 'react';
 import LogoIcon from '@/icons/LogoIcon';
-import { SiGitbook, SiGithub } from 'react-icons/si';
-import useLanguage from '@/hooks/useLanguage';
 import { MdFlag } from 'react-icons/md';
+import useLanguage from '@/hooks/useLanguage';
 import SelectModal from '../modals/SelectModal';
 import useThemeValues from '@/hooks/useThemeValues';
+import { SiGitbook, SiGithub } from 'react-icons/si';
+import type { Language } from '@/constants/languages';
 import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
 
 export interface EditorInformation {
@@ -43,7 +44,7 @@ function InformationLabel({
 							background: getThemeValue('highTransparency'),
 							cursor: 'pointer'
 						}
-					: undefined
+					: {}
 			}
 			onClick={onClick}
 		>
@@ -65,7 +66,7 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 	const { isOpen: isLangOpen, onClose: onLangClose, onOpen: onLangOpen } = useDisclosure();
 
 	const { name: languageName, icon: languageIcon } =
-		languages.find((l) => l.id === languageId) ?? languages[0];
+		languages.find((l) => l.id === languageId) ?? (languages[0] as Language);
 
 	return (
 		<>

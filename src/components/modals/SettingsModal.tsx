@@ -62,7 +62,7 @@ export default function SettingModal({
 								onClick={onLangOpen}
 							>
 								{languages.find((lang) => lang.id === languageId)?.name ??
-									languages[0].name}
+									languages[0]?.name}
 							</Button>
 							<SelectModal
 								isOpen={isLangOpen}
