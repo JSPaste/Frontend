@@ -41,9 +41,9 @@ function InformationLabel({
 			_hover={
 				isSelectable
 					? {
-							background: getThemeValue('highTransparency'),
-							cursor: 'pointer'
-						}
+						background: getThemeValue('highTransparency'),
+						cursor: 'pointer'
+					}
 					: undefined
 			}
 			onClick={onClick}
@@ -65,8 +65,11 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 	const [languageId, setLanguageId, languages] = useLanguage();
 	const { isOpen: isLangOpen, onClose: onLangClose, onOpen: onLangOpen } = useDisclosure();
 
-	const { name: languageName, icon: languageIcon } =
-		languages.find((l) => l.id === languageId) ?? (languages[0] as Language);
+	const {
+		name: languageName,
+		icon: languageIcon,
+		extension: languageExtension
+	} = languages.find((l) => l.id === languageId) ?? (languages[0] as Language);
 
 	return (
 		<>
@@ -87,8 +90,19 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 						.padStart(2, '0')}`}
 				/>
 				<InformationLabel
-					label={<Show above='sm'>Language: {languageName}</Show>}
-					icon={languageIcon}
+					label={
+						<>
+							<Show above='sm'>Language: </Show>
+							{languageName}
+						</>
+					}
+					icon={
+						languageIcon ?? (
+							<Text size='xs' fontSize='10px' color={getThemeValue('textMuted')} bg={getThemeValue('midTransparency')} px="2px" borderRadius="2px">
+								{languageExtension}
+							</Text>
+						)
+					}
 					isSelectable
 					onClick={onLangOpen}
 					noOfLines={1}
