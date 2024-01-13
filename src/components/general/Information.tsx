@@ -41,10 +41,10 @@ function InformationLabel({
 			_hover={
 				isSelectable
 					? {
-						background: getThemeValue('highTransparency'),
-						cursor: 'pointer'
-					}
-					: {}
+							background: getThemeValue('highTransparency'),
+							cursor: 'pointer'
+						}
+					: undefined
 			}
 			onClick={onClick}
 		>
@@ -66,7 +66,7 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 	const { isOpen: isLangOpen, onClose: onLangClose, onOpen: onLangOpen } = useDisclosure();
 
 	const { name: languageName, icon: languageIcon } =
-		languages.find((l) => l.id === languageId) ?? languages[0] as Language;
+		languages.find((l) => l.id === languageId) ?? (languages[0] as Language);
 
 	return (
 		<>

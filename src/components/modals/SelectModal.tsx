@@ -66,7 +66,7 @@ export default function SelectModal({
 
 					const finalIndex = res < 0 ? results.length - 1 : res;
 
-					const result = results[finalIndex]?.id
+					const result = results[finalIndex]?.id;
 
 					setSelectedIndex(finalIndex);
 
@@ -91,7 +91,7 @@ export default function SelectModal({
 
 					setSelectedIndex(finalIndex);
 
-					const result = results[finalIndex]?.id
+					const result = results[finalIndex]?.id;
 
 					onPreview?.(result);
 
