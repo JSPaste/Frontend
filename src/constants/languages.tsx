@@ -1,5 +1,7 @@
+import { MdAutoAwesome } from 'react-icons/md';
 import {
 	SiC,
+	SiClojure,
 	SiCoffeescript,
 	SiCplusplus,
 	SiCsharp,
@@ -40,40 +42,52 @@ import {
 } from 'react-icons/si';
 
 export interface Language {
-	id: string;
+	id: string | undefined;
 	name: string;
 	icon?: JSX.Element;
+	extension?: string;
 }
 
 export const languages: Language[] = [
 	{
+		id: undefined,
+		name: 'Auto-detect',
+		icon: <MdAutoAwesome size='12px' />
+	},
+	{
 		id: 'typescript',
 		name: 'TypeScript',
-		icon: <SiTypescript size='12px' />
+		icon: <SiTypescript size='12px' />,
+		extension: 'ts'
 	},
 	{
 		id: 'javascript',
 		name: 'JavaScript',
-		icon: <SiJavascript size='12px' />
+		icon: <SiJavascript size='12px' />,
+		extension: 'js'
 	},
 	{
 		id: 'json',
 		name: 'JSON',
-		icon: <SiJson size='12px' />
+		icon: <SiJson size='12px' />,
+		extension: 'json'
 	},
 	{
 		id: 'html',
 		name: 'HTML',
-		icon: <SiHtml5 size='12px' />
+		icon: <SiHtml5 size='12px' />,
+		extension: 'html'
 	},
 	{
 		id: 'css',
 		name: 'CSS',
-		icon: <SiCss3 size='12px' />
+		icon: <SiCss3 size='12px' />,
+		extension: 'css'
 	},
 	{
 		id: 'apex',
-		name: 'Apex'
+		name: 'Apex',
+		extension: 'page'
 	},
 	{
 		id: 'azcli',
@@ -82,51 +96,62 @@ export const languages: Language[] = [
 	},
 	{
 		id: 'bat',
-		name: 'Bat',
-		icon: <SiGnubash size='12px' />
+		name: 'Batch',
+		icon: <SiGnubash size='12px' />,
+		extension: 'bat'
 	},
 	{
 		id: 'c',
 		name: 'C',
-		icon: <SiC size='12px' />
+		icon: <SiC size='12px' />,
+		extension: 'c'
 	},
 	{
 		id: 'clojure',
-		name: 'Clojure'
+		name: 'Clojure',
+		icon: <SiClojure size='12px' />,
+		extension: 'clj'
 	},
 	{
 		id: 'coffeescript',
 		name: 'CoffeeScript',
-		icon: <SiCoffeescript size='12px' />
+		icon: <SiCoffeescript size='12px' />,
+		extension: 'coffee'
 	},
 	{
 		id: 'cpp',
 		name: 'C++',
-		icon: <SiCplusplus size='12px' />
+		icon: <SiCplusplus size='12px' />,
+		extension: 'cpp'
 	},
 	{
 		id: 'csharp',
 		name: 'C#',
-		icon: <SiCsharp size='12px' />
+		icon: <SiCsharp size='12px' />,
+		extension: 'cs'
 	},
 	{
 		id: 'csp',
-		name: 'CSP'
+		name: 'CSP',
+		extension: 'csp'
 	},
 	{
 		id: 'dockerfile',
 		name: 'Dockerfile',
-		icon: <SiDocker size='12px' />
+		icon: <SiDocker size='12px' />,
+		extension: 'Dockerfile'
 	},
 	{
 		id: 'fsharp',
 		name: 'F#',
-		icon: <SiFsharp size='12px' />
+		icon: <SiFsharp size='12px' />,
+		extension: 'fsx'
 	},
 	{
 		id: 'go',
 		name: 'Go',
-		icon: <SiGo size='12px' />
+		icon: <SiGo size='12px' />,
+		extension: 'go'
 	},
 	{
 		id: 'graphql',
@@ -140,16 +165,19 @@ export const languages: Language[] = [
 	},
 	{
 		id: 'ini',
-		name: 'INI'
+		name: 'INI',
+		extension: 'ini'
 	},
 	{
 		id: 'java',
-		name: 'Java'
+		name: 'Java',
+		extension: 'java'
 	},
 	{
 		id: 'kotlin',
 		name: 'Kotlin',
-		icon: <SiKotlin size='12px' />
+		icon: <SiKotlin size='12px' />,
+		extension: 'kt'
 	},
 	{
 		id: 'less',
@@ -159,34 +187,41 @@ export const languages: Language[] = [
 	{
 		id: 'lua',
 		name: 'Lua',
-		icon: <SiLua size='12px' />
+		icon: <SiLua size='12px' />,
+		extension: 'lua'
 	},
 	{
 		id: 'markdown',
 		name: 'Markdown',
-		icon: <SiMarkdown size='12px' />
+		icon: <SiMarkdown size='12px' />,
+		extension: 'md'
 	},
 	{
 		id: 'msdax',
-		name: 'Msdax'
+		name: 'Msdax',
+		extension: 'msdax'
 	},
 	{
 		id: 'mysql',
 		name: 'MySQL',
-		icon: <SiMysql size='12px' />
+		icon: <SiMysql size='12px' />,
+		extension: 'mysql'
 	},
 	{
 		id: 'objective-c',
-		name: 'Objective-C'
+		name: 'Objective-C',
+		extension: 'm'
 	},
 	{
 		id: 'pascal',
-		name: 'Pascal'
+		name: 'Pascal',
+		extension: 'pas'
 	},
 	{
 		id: 'perl',
 		name: 'Perl',
-		icon: <SiPerl size='12px' />
+		icon: <SiPerl size='12px' />,
+		extension: 'perl'
 	},
 	{
 		id: 'pgsql',
@@ -196,49 +231,59 @@ export const languages: Language[] = [
 	{
 		id: 'php',
 		name: 'PHP',
-		icon: <SiPhp size='12px' />
+		icon: <SiPhp size='12px' />,
+		extension: 'php'
 	},
 	{
 		id: 'plaintext',
-		name: 'Plaintext'
+		name: 'Plaintext',
+		extension: 'txt'
 	},
 	{
 		id: 'postiats',
-		name: 'Postiats'
+		name: 'Postiats',
+		extension: 'ats'
 	},
 	{
 		id: 'powerquery',
-		name: 'Power Query'
+		name: 'Power Query',
+		extension: 'pq'
 	},
 	{
 		id: 'powershell',
 		name: 'PowerShell',
-		icon: <SiPowershell size='12px' />
+		icon: <SiPowershell size='12px' />,
+		extension: 'ps1'
 	},
 	{
 		id: 'pug',
 		name: 'Pug',
-		icon: <SiPug size='12px' />
+		icon: <SiPug size='12px' />,
+		extension: 'pug'
 	},
 	{
 		id: 'python',
 		name: 'Python',
-		icon: <SiPython size='12px' />
+		icon: <SiPython size='12px' />,
+		extension: 'py'
 	},
 	{
 		id: 'r',
 		name: 'R',
-		icon: <SiR size='12px' />
+		icon: <SiR size='12px' />,
+		extension: 'r'
 	},
 	{
 		id: 'razor',
 		name: 'Razor',
-		icon: <SiDotnet size='12px' />
+		icon: <SiDotnet size='12px' />,
+		extension: 'cshtml'
 	},
 	{
 		id: 'redis',
 		name: 'Redis',
-		icon: <SiRedis size='12px' />
+		icon: <SiRedis size='12px' />,
+		extension: 'rdb'
 	},
 	{
 		id: 'redshift',
@@ -247,34 +292,41 @@ export const languages: Language[] = [
 	{
 		id: 'ruby',
 		name: 'Ruby',
-		icon: <SiRuby size='12px' />
+		icon: <SiRuby size='12px' />,
+		extension: 'rb'
 	},
 	{
 		id: 'rust',
 		name: 'Rust',
-		icon: <SiRust size='12px' />
+		icon: <SiRust size='12px' />,
+		extension: 'rs'
 	},
 	{
 		id: 'sb',
-		name: 'SB'
+		name: 'SB',
+		extension: 'sb'
 	},
 	{
 		id: 'scheme',
-		name: 'Scheme'
+		name: 'Scheme',
+		extension: 'scm'
 	},
 	{
 		id: 'scss',
 		name: 'SCSS',
-		icon: <SiSass size='12px' />
+		icon: <SiSass size='12px' />,
+		extension: 'scss'
 	},
 	{
 		id: 'shell',
 		name: 'Shell',
-		icon: <SiGnubash size='12px' />
+		icon: <SiGnubash size='12px' />,
+		extension: 'sh'
 	},
 	{
 		id: 'sol',
-		name: 'SOL'
+		name: 'SOL',
+		extension: 'sol'
 	},
 	{
 		id: 'sql',
@@ -283,30 +335,36 @@ export const languages: Language[] = [
 	},
 	{
 		id: 'st',
-		name: 'ST'
+		name: 'ST',
+		extension: 'st'
 	},
 	{
 		id: 'swift',
 		name: 'Swift',
-		icon: <SiSwift size='12px' />
+		icon: <SiSwift size='12px' />,
+		extension: 'swift'
 	},
 	{
 		id: 'tcl',
-		name: 'Tcl'
+		name: 'Tcl',
+		extension: 'tcl'
 	},
 	{
 		id: 'vb',
 		name: 'Visual Basic',
-		icon: <SiVisualbasic size='12px' />
+		icon: <SiVisualbasic size='12px' />,
+		extension: 'vb'
 	},
 	{
 		id: 'xml',
 		name: 'XML',
-		icon: <SiXaml size='12px' />
+		icon: <SiXaml size='12px' />,
+		extension: 'xml'
 	},
 	{
 		id: 'yaml',
 		name: 'YAML',
-		icon: <SiYaml size='12px' />
+		icon: <SiYaml size='12px' />,
+		extension: 'yaml'
 	}
 ];
