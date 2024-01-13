@@ -287,7 +287,8 @@ export const languages: Language[] = [
 	},
 	{
 		id: 'redshift',
-		name: 'Redshift'
+		name: 'Redshift',
+		extension: 'redshift'
 	},
 	{
 		id: 'ruby',

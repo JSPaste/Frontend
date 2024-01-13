@@ -67,11 +67,12 @@ export default function SettingModal({
 							<SelectModal
 								isOpen={isLangOpen}
 								onClose={onLangClose}
-								listItems={languages.map(({ id, name }) => ({
+								listItems={languages.map(({ id, name, extension }) => ({
 									id,
 									name,
 									details: languageId === id ? 'Recently used' : 'Set language',
-									icon: <MdFlag />
+									icon: <MdFlag />,
+									alias: extension ? [extension] : undefined
 								}))}
 								initialSelectedId={languageId}
 								onPreview={setLanguageId}
