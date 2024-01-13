@@ -1,11 +1,13 @@
 import useTheme from '@/hooks/useTheme';
 import useLanguage from '@/hooks/useLanguage';
-import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
-import { type EditorInformation } from './Information';
+import type { Theme } from '@/themes/ui/themes';
 import useThemeValues from '@/hooks/useThemeValues';
 import { useCallback, useEffect, useRef } from 'react';
+import { type EditorInformation } from './Information';
 import MonacoEditor, { useMonaco } from '@monaco-editor/react';
-import type { Theme } from '@/themes/ui/themes';
+import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
+import hljs from 'highlight.js/lib/common';
+import { welcomeCode } from '@/constants/config';
 
 export default function Editor({
 	setInformation,
@@ -40,9 +42,7 @@ export default function Editor({
 		md: { minimap: true }
 	}) ?? { minimap: true };
 
-	const defaultCode = documentId
-		? 'blablabla'
-		: `// Start writing here! When you're done, hit the save button to generate a unique URL with your content.`;
+	const defaultCode = documentId ? 'blablabla' : welcomeCode;
 
 	const updateInformation = useCallback(
 		(editor: any) => {
@@ -52,8 +52,15 @@ export default function Editor({
 				lineNumber: pos.lineNumber,
 				columnNumber: pos.column
 			});
+
+			if (value.length > 20) {
+				console.log('h', value);
+				const { language: identifiedLanguage } = hljs.highlightAuto(value);
+
+				console.log(identifiedLanguage, value.length);
+			}
 		},
-		[setInformation]
+		[setInformation, value]
 	);
 
 	const setEditorTheme = useCallback(

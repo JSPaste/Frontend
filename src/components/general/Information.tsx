@@ -7,6 +7,7 @@ import useThemeValues from '@/hooks/useThemeValues';
 import { SiGitbook, SiGithub } from 'react-icons/si';
 import type { Language } from '@/constants/languages';
 import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
+import { welcomeCode } from '@/constants/config';
 
 export interface EditorInformation {
 	lineNumber: number;
@@ -41,9 +42,9 @@ function InformationLabel({
 			_hover={
 				isSelectable
 					? {
-						background: getThemeValue('highTransparency'),
-						cursor: 'pointer'
-					}
+							background: getThemeValue('highTransparency'),
+							cursor: 'pointer'
+						}
 					: undefined
 			}
 			onClick={onClick}
@@ -85,7 +86,10 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 			>
 				<InformationLabel label='JSPaste v10.1.1' icon={<LogoIcon fontSize='15px' />} />
 				<InformationLabel
-					label={`Ln ${lineNumber.toString().padStart(2, '0')} Col ${columnNumber
+					label={`Ln ${(lineNumber || 1).toString().padStart(2, '0')} Col ${(lineNumber
+						? columnNumber
+						: welcomeCode.length + 1
+					)
 						.toString()
 						.padStart(2, '0')}`}
 				/>
@@ -98,7 +102,14 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 					}
 					icon={
 						languageIcon ?? (
-							<Text size='xs' fontSize='10px' color={getThemeValue('textMuted')} bg={getThemeValue('midTransparency')} px="2px" borderRadius="2px">
+							<Text
+								size='xs'
+								fontSize='10px'
+								color={getThemeValue('textMuted')}
+								bg={getThemeValue('midTransparency')}
+								px='3px'
+								borderRadius='2px'
+							>
 								{languageExtension}
 							</Text>
 						)
@@ -126,11 +137,12 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 			<SelectModal
 				isOpen={isLangOpen}
 				onClose={onLangClose}
-				listItems={languages.map(({ id, name }) => ({
+				listItems={languages.map(({ id, name, extension }) => ({
 					id,
 					name,
 					details: languageId === id ? 'Recently used' : 'Set language',
-					icon: <MdFlag />
+					icon: <MdFlag />,
+					alias: extension ? [extension] : undefined
 				}))}
 				initialSelectedId={languageId}
 				onPreview={setLanguageId}
