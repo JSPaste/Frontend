@@ -6,8 +6,9 @@ import { useCallback, useEffect, useRef } from 'react';
 import { type EditorInformation } from './Information';
 import MonacoEditor, { useMonaco } from '@monaco-editor/react';
 import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
-import hljs from 'highlight.js/lib/common';
 import { welcomeCode } from '@/constants/config';
+import hljs from 'highlight.js/lib/common';
+import useLanguageStore from '@/store/language';
 
 export default function Editor({
 	setInformation,
@@ -29,12 +30,14 @@ export default function Editor({
 	const { getThemeValue } = useThemeValues();
 
 	const [themeId, _setTheme, themes] = useTheme();
-
-	const [languageId] = useLanguage();
+	const { setAutoLanguageId } = useLanguageStore();
+	const [languageId, languages, autoLanguageId] = useLanguage();
 
 	const editorRef = useRef<any>(null);
 
 	const isFirstEditRef = useRef<boolean>(true);
+
+	const lastLangTimestampRef = useRef<number>(0);
 
 	const { minimap } = useBreakpointValue({
 		base: { minimap: false },
@@ -52,15 +55,8 @@ export default function Editor({
 				lineNumber: pos.lineNumber,
 				columnNumber: pos.column
 			});
-
-			if (value.length > 20) {
-				console.log('h', value);
-				const { language: identifiedLanguage } = hljs.highlightAuto(value);
-
-				console.log(identifiedLanguage, value.length);
-			}
 		},
-		[setInformation, value]
+		[setInformation]
 	);
 
 	const setEditorTheme = useCallback(
@@ -94,8 +90,8 @@ export default function Editor({
 	return (
 		<Box h='100%' w='100%' bg='editor'>
 			<MonacoEditor
-				theme='jspaste'
-				language={languageId ?? 'typescript'}
+				theme='default'
+				language={languageId ?? autoLanguageId ?? 'typescript'}
 				defaultLanguage={languageId ?? 'typescript'}
 				loading={<Spinner size='xl' color={getThemeValue('primary')} />}
 				onMount={async (editor, monaco) => {
@@ -125,19 +121,40 @@ export default function Editor({
 					cursorBlinking: 'smooth'
 				}}
 				onChange={(value, ce) => {
-					if (isFirstEditRef.current && !enableEdit) {
-						isFirstEditRef.current = false;
+					if (isFirstEditRef.current) {
+						if (!enableEdit) {
+							isFirstEditRef.current = false;
+							const changes = ce.changes.map((c) => c.text).join('');
 
-						const changes = ce.changes.map((c) => c.text).join('');
+							editorRef.current?.setValue(changes);
 
-						editorRef.current?.setValue(changes);
+							const changesSlice = changes.split('\n');
 
-						const changesSlice = changes.split('\n');
+							editorRef.current?.setPosition({
+								lineNumber: changesSlice.length,
+								column: (changesSlice.at(-1)?.length ?? 1) + 1
+							});
+						}
+					} else if (value?.length ?? 0 > 15) {
+						if (
+							!lastLangTimestampRef?.current ||
+							lastLangTimestampRef.current + 2_000 < Date.now()
+						) {
+							lastLangTimestampRef.current = Date.now();
 
-						editorRef.current?.setPosition({
-							lineNumber: changesSlice.length,
-							column: (changesSlice.at(-1)?.length ?? 1) + 1
-						});
+							const { language: identifiedLanguage } = hljs.highlightAuto(
+								value ?? ''
+							);
+
+							const lang = languages.find(
+								(l) =>
+									l.id === identifiedLanguage ||
+									l.name.toLowerCase() === identifiedLanguage ||
+									l.extension === identifiedLanguage
+							);
+
+							if (lang) setAutoLanguageId(lang.id);
+						}
 					}
 
 					setValue(value ?? '');

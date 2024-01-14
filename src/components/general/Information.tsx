@@ -3,11 +3,12 @@ import LogoIcon from '@/icons/LogoIcon';
 import { MdFlag } from 'react-icons/md';
 import useLanguage from '@/hooks/useLanguage';
 import SelectModal from '../modals/SelectModal';
+import { welcomeCode } from '@/constants/config';
 import useThemeValues from '@/hooks/useThemeValues';
 import { SiGitbook, SiGithub } from 'react-icons/si';
 import type { Language } from '@/constants/languages';
+import useLanguageStore from '@/store/language';
 import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
-import { welcomeCode } from '@/constants/config';
 
 export interface EditorInformation {
 	lineNumber: number;
@@ -63,7 +64,8 @@ function InformationLabel({
 
 export default function Information({ lineNumber, columnNumber }: Readonly<EditorInformation>) {
 	const { getThemeValue } = useThemeValues();
-	const [languageId, setLanguageId, languages] = useLanguage();
+	const [languageId, languages, autoLanguageId] = useLanguage();
+	const { setLanguageId } = useLanguageStore();
 	const { isOpen: isLangOpen, onClose: onLangClose, onOpen: onLangOpen } = useDisclosure();
 
 	const {
@@ -71,6 +73,9 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 		icon: languageIcon,
 		extension: languageExtension
 	} = languages.find((l) => l.id === languageId) ?? (languages[0] as Language);
+
+	const { name: autoLanguageName } =
+		languages.find((l) => l.id === autoLanguageId) ?? (languages[0] as Language);
 
 	return (
 		<>
@@ -97,7 +102,7 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 					label={
 						<>
 							<Show above='sm'>Language: </Show>
-							{languageName}
+							{languageId ? languageName : autoLanguageName}
 						</>
 					}
 					icon={

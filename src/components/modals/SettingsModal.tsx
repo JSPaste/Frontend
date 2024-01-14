@@ -26,6 +26,7 @@ import {
 import SelectModal from './SelectModal';
 import useLanguage from '@/hooks/useLanguage';
 import useThemeValues from '@/hooks/useThemeValues';
+import useLanguageStore from '@/store/language';
 import { MdCheckCircle, MdFlag, MdKeyboardArrowDown } from 'react-icons/md';
 
 export default function SettingModal({
@@ -33,7 +34,8 @@ export default function SettingModal({
 	onClose
 }: Readonly<{ isOpen: boolean; onClose: any }>) {
 	const { getThemeValue } = useThemeValues();
-	const [languageId, setLanguageId, languages] = useLanguage();
+	const [languageId, languages] = useLanguage();
+	const { setLanguageId } = useLanguageStore();
 	const [themeId, setThemeId, themes] = useTheme();
 	const { isOpen: isLangOpen, onClose: onLangClose, onOpen: onLangOpen } = useDisclosure();
 
@@ -94,10 +96,10 @@ export default function SettingModal({
 										style={
 											theme.id === themeId
 												? {
-													outline: '3px solid',
-													outlineOffset: '-3px',
-													outlineColor: theme.values.midTransparency
-												}
+														outline: '3px solid',
+														outlineOffset: '-3px',
+														outlineColor: theme.values.midTransparency
+													}
 												: undefined
 										}
 										_hover={{
@@ -144,12 +146,12 @@ export default function SettingModal({
 													>
 														{(theme.id === themeId ||
 															(!themeId && i === 0)) && (
-																<Icon
-																	as={MdCheckCircle}
-																	zIndex={40}
-																	fontSize={['15px', '15px']}
-																/>
-															)}
+															<Icon
+																as={MdCheckCircle}
+																zIndex={40}
+																fontSize={['15px', '15px']}
+															/>
+														)}
 													</SlideFade>
 												</Flex>
 											</Box>
