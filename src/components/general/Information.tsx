@@ -3,9 +3,11 @@ import LogoIcon from '@/icons/LogoIcon';
 import { MdFlag } from 'react-icons/md';
 import useLanguage from '@/hooks/useLanguage';
 import SelectModal from '../modals/SelectModal';
+import { welcomeCode } from '@/constants/config';
 import useThemeValues from '@/hooks/useThemeValues';
 import { SiGitbook, SiGithub } from 'react-icons/si';
 import type { Language } from '@/constants/languages';
+import useLanguageStore from '@/store/language';
 import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
 
 export interface EditorInformation {
@@ -41,10 +43,10 @@ function InformationLabel({
 			_hover={
 				isSelectable
 					? {
-						background: getThemeValue('highTransparency'),
-						cursor: 'pointer'
-					}
-					: {}
+							background: getThemeValue('highTransparency'),
+							cursor: 'pointer'
+						}
+					: undefined
 			}
 			onClick={onClick}
 		>
@@ -62,11 +64,18 @@ function InformationLabel({
 
 export default function Information({ lineNumber, columnNumber }: Readonly<EditorInformation>) {
 	const { getThemeValue } = useThemeValues();
-	const [languageId, setLanguageId, languages] = useLanguage();
+	const [languageId, languages, autoLanguageId] = useLanguage();
+	const { setLanguageId } = useLanguageStore();
 	const { isOpen: isLangOpen, onClose: onLangClose, onOpen: onLangOpen } = useDisclosure();
 
-	const { name: languageName, icon: languageIcon } =
-		languages.find((l) => l.id === languageId) ?? languages[0] as Language;
+	const {
+		name: languageName,
+		icon: languageIcon,
+		extension: languageExtension
+	} = languages.find((l) => l.id === languageId) ?? (languages[0] as Language);
+
+	const { name: autoLanguageName } =
+		languages.find((l) => l.id === autoLanguageId) ?? (languages[0] as Language);
 
 	return (
 		<>
@@ -82,13 +91,34 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 			>
 				<InformationLabel label='JSPaste v10.1.1' icon={<LogoIcon fontSize='15px' />} />
 				<InformationLabel
-					label={`Ln ${lineNumber.toString().padStart(2, '0')} Col ${columnNumber
+					label={`Ln ${(lineNumber || 1).toString().padStart(2, '0')} Col ${(lineNumber
+						? columnNumber
+						: welcomeCode.length + 1
+					)
 						.toString()
 						.padStart(2, '0')}`}
 				/>
 				<InformationLabel
-					label={<Show above='sm'>Language: {languageName}</Show>}
-					icon={languageIcon}
+					label={
+						<>
+							<Show above='sm'>Language: </Show>
+							{languageId ? languageName : autoLanguageName}
+						</>
+					}
+					icon={
+						languageIcon ?? (
+							<Text
+								size='xs'
+								fontSize='10px'
+								color={getThemeValue('textMuted')}
+								bg={getThemeValue('midTransparency')}
+								px='3px'
+								borderRadius='2px'
+							>
+								{languageExtension}
+							</Text>
+						)
+					}
 					isSelectable
 					onClick={onLangOpen}
 					noOfLines={1}
@@ -112,11 +142,12 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 			<SelectModal
 				isOpen={isLangOpen}
 				onClose={onLangClose}
-				listItems={languages.map(({ id, name }) => ({
+				listItems={languages.map(({ id, name, extension }) => ({
 					id,
 					name,
 					details: languageId === id ? 'Recently used' : 'Set language',
-					icon: <MdFlag />
+					icon: <MdFlag />,
+					alias: extension ? [extension] : undefined
 				}))}
 				initialSelectedId={languageId}
 				onPreview={setLanguageId}

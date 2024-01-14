@@ -31,7 +31,13 @@ export default function SelectModal({
 }: Readonly<{
 	isOpen: boolean;
 	onClose: any;
-	listItems: { id: string; name: string; details?: string; icon?: any }[];
+	listItems: {
+		id: string | undefined;
+		name: string;
+		details?: string;
+		icon?: any;
+		alias?: string[];
+	}[];
 	initialSelectedId?: string;
 	onSelect: any;
 	onPreview?: any;
@@ -44,7 +50,8 @@ export default function SelectModal({
 	const results = listItems.filter(
 		(e) =>
 			e.name.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
-			e.id.toLowerCase().trim().includes(searchInput.toLowerCase().trim())
+			e.id?.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
+			e.alias?.some((a) => a.toLowerCase().trim().includes(searchInput.toLowerCase().trim()))
 	);
 
 	useEffect(() => {
@@ -66,7 +73,7 @@ export default function SelectModal({
 
 					const finalIndex = res < 0 ? results.length - 1 : res;
 
-					const result = results[finalIndex]?.id
+					const result = results[finalIndex]?.id;
 
 					setSelectedIndex(finalIndex);
 
@@ -91,7 +98,7 @@ export default function SelectModal({
 
 					setSelectedIndex(finalIndex);
 
-					const result = results[finalIndex]?.id
+					const result = results[finalIndex]?.id;
 
 					onPreview?.(result);
 
@@ -168,7 +175,7 @@ export default function SelectModal({
 								return (
 									<Flex
 										id={isActive ? 'select-active' : undefined}
-										key={item.id}
+										key={item.id ?? item.name}
 										bg={
 											isActive
 												? getThemeValue('lowTransparency')

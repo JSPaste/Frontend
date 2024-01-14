@@ -19,11 +19,6 @@ const nextConfig = {
 	async redirects() {
 		return [
 			{
-				source: '/docs',
-				destination: 'https://docs.jspaste.eu/',
-				permanent: true
-			},
-			{
 				source: '/github',
 				destination: 'https://github.com/JSPaste/',
 				permanent: true
