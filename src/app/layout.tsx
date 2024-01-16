@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import type { ReactNode } from 'react';
 import { CacheProvider } from '@chakra-ui/next-js';
 import useThemeValues from '@/hooks/useThemeValues';
 import { Box, ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
@@ -15,7 +15,7 @@ const theme = extendTheme({
 export default function RootLayout({
 	children
 }: Readonly<{
-	children: React.ReactNode;
+	children: ReactNode;
 }>) {
 	const { getThemeValue } = useThemeValues();
 

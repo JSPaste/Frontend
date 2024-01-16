@@ -49,8 +49,8 @@ export default function SelectModal({
 
 	const results = listItems.filter(
 		(e) =>
-			e.name.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
-			e.id?.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
+			(e.name.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
+				e.id?.toLowerCase().trim().includes(searchInput.toLowerCase().trim())) ??
 			e.alias?.some((a) => a.toLowerCase().trim().includes(searchInput.toLowerCase().trim()))
 	);
 

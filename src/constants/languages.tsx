@@ -40,11 +40,12 @@ import {
 	SiXaml,
 	SiYaml
 } from 'react-icons/si';
+import type { ReactElement } from 'react';
 
 export interface Language {
 	id: string | undefined;
 	name: string;
-	icon?: JSX.Element;
+	icon?: ReactElement;
 	extension?: string;
 }
 
