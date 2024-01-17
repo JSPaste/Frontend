@@ -1,4 +1,4 @@
-import type { FC, ReactElement } from 'react';
+import type { ReactElement } from 'react';
 import LogoIcon from '@/components/LogoIcon.tsx';
 import { MdFlag } from 'react-icons/md';
 import useLanguage from '@/hooks/useLanguage';
@@ -9,11 +9,9 @@ import { SiGitbook, SiGithub } from 'react-icons/si';
 import type { Language } from '@/components/Languages.tsx';
 import useLanguageStore from '@/store/language';
 import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
+import dynamic from 'next/dynamic';
 
-export interface EditorInformation {
-	lineNumber: number;
-	columnNumber: number;
-}
+dynamic(() => import('@/components/LogoIcon.tsx'), { ssr: false });
 
 interface InformationLabelProps {
 	label: ReactElement | string;
@@ -24,13 +22,13 @@ interface InformationLabelProps {
 	[props: string]: any;
 }
 
-const InformationLabel: FC<Readonly<InformationLabelProps>> = ({
+const InformationLabel = ({
 	label,
 	icon,
 	isSelectable,
 	onClick,
 	...props
-}) => {
+}: InformationLabelProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 
 	const textElement = (
@@ -65,7 +63,12 @@ const InformationLabel: FC<Readonly<InformationLabelProps>> = ({
 	);
 };
 
-const Information: FC<Readonly<EditorInformation>> = ({ lineNumber, columnNumber }) => {
+export interface InformationProps {
+	lineNumber: number;
+	columnNumber: number;
+}
+
+const Information = ({ lineNumber, columnNumber }: InformationProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 	const [languageId, languages, autoLanguageId] = useLanguage();
 	const { setLanguageId } = useLanguageStore();

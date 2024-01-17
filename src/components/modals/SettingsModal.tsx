@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { ReactElement } from 'react';
 import useTheme from '@/hooks/useTheme';
 import {
 	Box,
@@ -33,7 +33,7 @@ interface SettingModalProps {
 	onClose: () => void;
 }
 
-const SettingModal: FC<Readonly<SettingModalProps>> = ({ isOpen, onClose }) => {
+const SettingModal = ({ isOpen, onClose }: SettingModalProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 	const [languageId, languages] = useLanguage();
 	const { setLanguageId } = useLanguageStore();

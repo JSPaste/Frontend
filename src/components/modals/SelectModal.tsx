@@ -1,4 +1,4 @@
-import { type FC, type ReactNode, useEffect, useRef, useState } from 'react';
+import { type ReactElement, type ReactNode, useEffect, useRef, useState } from 'react';
 import {
 	Flex,
 	Input,
@@ -18,7 +18,7 @@ import {
 import { MdAdd, MdSearch } from 'react-icons/md';
 import useThemeValues from '@/hooks/useThemeValues';
 
-interface ListItem {
+interface SMItems {
 	id: string | undefined;
 	name: string;
 	details?: string;
@@ -29,14 +29,14 @@ interface ListItem {
 interface SelectModalProps {
 	isOpen: boolean;
 	onClose: () => void;
-	listItems: ListItem[];
+	listItems: SMItems[];
 	initialSelectedId?: string;
 	onSelect: (id: string | undefined) => void;
 	onPreview?: (id: string | undefined) => void;
 	showIcons?: boolean;
 }
 
-const SelectModal: FC<Readonly<SelectModalProps>> = ({
+const SelectModal = ({
 	isOpen,
 	onClose,
 	listItems,
@@ -44,7 +44,7 @@ const SelectModal: FC<Readonly<SelectModalProps>> = ({
 	onSelect,
 	onPreview,
 	showIcons
-}) => {
+}: SelectModalProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 	const [searchInput, setSearchInput] = useState('');
 	const [selectedIndex, setSelectedIndex] = useState(0);

@@ -1,4 +1,4 @@
-import { type FC, useCallback, useEffect, useRef } from 'react';
+import { type ReactElement, useCallback, useEffect, useRef } from 'react';
 import MonacoEditor, { useMonaco } from '@monaco-editor/react';
 import hljs from 'highlight.js/lib/common';
 import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
@@ -8,10 +8,10 @@ import useLanguage from '@/hooks/useLanguage';
 import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
 import type { Theme } from '@/themes/ui/themes';
-import type { EditorInformation } from './Information';
+import type { InformationProps } from './Information';
 
 interface EditorProps {
-	setInformation: (info: EditorInformation) => void;
+	setInformation: (info: InformationProps) => void;
 	setValue: (value: string) => void;
 	value: string;
 	documentId?: string;
@@ -19,14 +19,14 @@ interface EditorProps {
 	enableEdit: boolean;
 }
 
-const Editor: FC<Readonly<EditorProps>> = ({
+const Editor = ({
 	setInformation,
 	setValue,
 	value,
 	documentId,
 	isEditing,
 	enableEdit
-}) => {
+}: EditorProps): ReactElement => {
 	const monaco = useMonaco();
 
 	const { getThemeValue } = useThemeValues();

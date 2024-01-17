@@ -1,4 +1,4 @@
-import { type Dispatch, type FC, type ReactElement, type SetStateAction, useState } from 'react';
+import { type Dispatch, type ReactElement, type SetStateAction, useState } from 'react';
 import { Box, Flex, IconButton, Spacer, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
 import { JSP } from 'jspaste';
 import LogoIcon from '@/components/LogoIcon';
@@ -14,13 +14,13 @@ interface ActionButtonProps {
 	isLoading?: boolean;
 }
 
-const ActionButton: FC<Readonly<ActionButtonProps>> = ({
+const ActionButton = ({
 	icon,
 	label,
 	onClick,
 	isDisabled,
 	isLoading
-}) => {
+}: ActionButtonProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 
 	return (
@@ -54,13 +54,13 @@ interface ControlsProps {
 	enableEdit: boolean;
 }
 
-const Controls: FC<Readonly<ControlsProps>> = ({
+const Controls = ({
 	documentId,
 	value,
 	isEditing,
 	setIsEditing,
 	enableEdit
-}) => {
+}: ControlsProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
