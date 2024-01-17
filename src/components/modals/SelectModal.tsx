@@ -1,5 +1,4 @@
-'use client';
-
+import { type FC, type ReactNode, useEffect, useRef, useState } from 'react';
 import {
 	Flex,
 	Input,
@@ -16,11 +15,28 @@ import {
 	Text,
 	useEventListener
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 import { MdAdd, MdSearch } from 'react-icons/md';
 import useThemeValues from '@/hooks/useThemeValues';
 
-export default function SelectModal({
+interface ListItem {
+	id: string | undefined;
+	name: string;
+	details?: string;
+	icon?: ReactNode;
+	alias?: string[];
+}
+
+interface SelectModalProps {
+	isOpen: boolean;
+	onClose: () => void;
+	listItems: ListItem[];
+	initialSelectedId?: string;
+	onSelect: (id: string | undefined) => void;
+	onPreview?: (id: string | undefined) => void;
+	showIcons?: boolean;
+}
+
+const SelectModal: FC<Readonly<SelectModalProps>> = ({
 	isOpen,
 	onClose,
 	listItems,
@@ -28,30 +44,16 @@ export default function SelectModal({
 	onSelect,
 	onPreview,
 	showIcons
-}: Readonly<{
-	isOpen: boolean;
-	onClose: any;
-	listItems: {
-		id: string | undefined;
-		name: string;
-		details?: string;
-		icon?: any;
-		alias?: string[];
-	}[];
-	initialSelectedId?: string;
-	onSelect: any;
-	onPreview?: any;
-	showIcons?: boolean;
-}>) {
+}) => {
 	const { getThemeValue } = useThemeValues();
 	const [searchInput, setSearchInput] = useState('');
 	const [selectedIndex, setSelectedIndex] = useState(0);
-
+	const scrollIntoView = useRef<HTMLDivElement | null>(null);
 	const results = listItems.filter(
 		(e) =>
-			(e.name.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
-				e.id?.toLowerCase().trim().includes(searchInput.toLowerCase().trim())) ??
-			e.alias?.some((a) => a.toLowerCase().trim().includes(searchInput.toLowerCase().trim()))
+			(e.name.toLowerCase().includes(searchInput.toLowerCase().trim()) ||
+				e.id?.toLowerCase().includes(searchInput.toLowerCase().trim())) ??
+			e.alias?.some((a) => a.toLowerCase().includes(searchInput.toLowerCase().trim()))
 	);
 
 	useEffect(() => {
@@ -68,24 +70,18 @@ export default function SelectModal({
 			switch (e.key) {
 				case 'ArrowUp': {
 					e.preventDefault();
-
 					const res = selectedIndex - 1;
-
 					const finalIndex = res < 0 ? results.length - 1 : res;
-
 					const result = results[finalIndex]?.id;
 
 					setSelectedIndex(finalIndex);
-
 					onPreview?.(result);
-
 					setTimeout(() => {
-						document.getElementById('select-active')?.scrollIntoView({
+						scrollIntoView.current?.scrollIntoView({
 							block: 'center',
 							behavior: 'smooth'
 						});
 					}, 10);
-
 					break;
 				}
 
@@ -93,7 +89,6 @@ export default function SelectModal({
 					e.preventDefault();
 
 					const res = selectedIndex + 1;
-
 					const finalIndex = res >= results.length ? 0 : res;
 
 					setSelectedIndex(finalIndex);
@@ -103,7 +98,7 @@ export default function SelectModal({
 					onPreview?.(result);
 
 					setTimeout(() => {
-						document.getElementById('select-active')?.scrollIntoView({
+						scrollIntoView.current?.scrollIntoView({
 							block: 'center',
 							behavior: 'smooth'
 						});
@@ -174,7 +169,6 @@ export default function SelectModal({
 
 								return (
 									<Flex
-										id={isActive ? 'select-active' : undefined}
 										key={item.id ?? item.name}
 										bg={
 											isActive
@@ -195,13 +189,12 @@ export default function SelectModal({
 										}}
 										onClick={() => {
 											onClose();
-
 											onSelect(item.id);
 										}}
+										ref={isActive ? scrollIntoView : null}
 									>
 										<Text>{item.name}</Text>
 										<Spacer />
-
 										<Flex gap='8px' alignItems='center'>
 											{isActive && item.details && (
 												<Text color={getThemeValue('textMuted')}>
@@ -222,4 +215,6 @@ export default function SelectModal({
 			</ModalContent>
 		</Modal>
 	);
-}
+};
+
+export default SelectModal;

@@ -1,7 +1,8 @@
-import useThemeValues from '@/hooks/useThemeValues';
+import type { FC } from 'react';
 import { Icon, type IconProps } from '@chakra-ui/react';
+import useThemeValues from '@/hooks/useThemeValues.ts';
 
-export default function LogoIcon(props: Readonly<IconProps>) {
+const LogoIcon: FC<Readonly<IconProps>> = (props) => {
 	const { getThemeValue } = useThemeValues();
 
 	return (
@@ -12,4 +13,6 @@ export default function LogoIcon(props: Readonly<IconProps>) {
 			/>
 		</Icon>
 	);
-}
+};
+
+export default LogoIcon;

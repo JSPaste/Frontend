@@ -1,24 +1,26 @@
+import { type Dispatch, type FC, type ReactElement, type SetStateAction, useState } from 'react';
 import { Box, Flex, IconButton, Spacer, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
 import { JSP } from 'jspaste';
-import LogoIcon from '@/icons/LogoIcon';
-import React, { useState } from 'react';
+import LogoIcon from '@/components/LogoIcon';
 import SettingsModal from '../modals/SettingsModal';
 import useThemeValues from '@/hooks/useThemeValues';
 import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 
-function ActionButton({
+interface ActionButtonProps {
+	icon: ReactElement;
+	label: string;
+	onClick: () => void;
+	isDisabled?: boolean;
+	isLoading?: boolean;
+}
+
+const ActionButton: FC<Readonly<ActionButtonProps>> = ({
 	icon,
 	label,
 	onClick,
 	isDisabled,
 	isLoading
-}: Readonly<{
-	icon: React.ReactElement;
-	label: string;
-	onClick: () => void;
-	isDisabled?: boolean;
-	isLoading?: boolean;
-}>) {
+}) => {
 	const { getThemeValue } = useThemeValues();
 
 	return (
@@ -42,21 +44,23 @@ function ActionButton({
 			/>
 		</Tooltip>
 	);
+};
+
+interface ControlsProps {
+	documentId?: string;
+	value: string;
+	isEditing: boolean;
+	setIsEditing: Dispatch<SetStateAction<boolean>>;
+	enableEdit: boolean;
 }
 
-export default function Controls({
+const Controls: FC<Readonly<ControlsProps>> = ({
 	documentId,
 	value,
 	isEditing,
 	setIsEditing,
 	enableEdit
-}: Readonly<{
-	documentId?: string;
-	value: string;
-	isEditing: boolean;
-	setIsEditing: any;
-	enableEdit: boolean;
-}>) {
+}) => {
 	const { getThemeValue } = useThemeValues();
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -144,4 +148,6 @@ export default function Controls({
 			</Flex>
 		</>
 	);
-}
+};
+
+export default Controls;
