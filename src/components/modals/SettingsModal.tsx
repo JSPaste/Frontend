@@ -1,5 +1,4 @@
-'use client';
-
+import type { ReactElement } from 'react';
 import useTheme from '@/hooks/useTheme';
 import {
 	Box,
@@ -29,10 +28,12 @@ import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
 import { MdCheckCircle, MdFlag, MdKeyboardArrowDown } from 'react-icons/md';
 
-export default function SettingModal({
-	isOpen,
-	onClose
-}: Readonly<{ isOpen: boolean; onClose: any }>) {
+interface SettingModalProps {
+	isOpen: boolean;
+	onClose: () => void;
+}
+
+const SettingModal = ({ isOpen, onClose }: SettingModalProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 	const [languageId, languages] = useLanguage();
 	const { setLanguageId } = useLanguageStore();
@@ -166,4 +167,6 @@ export default function SettingModal({
 			</ModalContent>
 		</Modal>
 	);
-}
+};
+
+export default SettingModal;

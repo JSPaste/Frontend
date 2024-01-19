@@ -1,30 +1,27 @@
-import { useState } from 'react';
+import { type ReactElement, useState } from 'react';
 import { Flex } from '@chakra-ui/react';
-import Information, { type EditorInformation } from '@/components/general/Information';
+import Information, { type InformationProps } from '@/components/general/Information';
 import Editor from '@/components/general/Editor';
 import Controls from '@/components/general/Controls';
 
-export default function DocumentScreen({
-	documentId,
-	enableEdit
-}: Readonly<{
+interface DocumentScreenProps {
 	documentId?: string;
 	enableEdit: boolean;
-}>) {
-	const [information, setInformation] = useState<EditorInformation>({
+}
+
+const DocumentScreen = ({ documentId, enableEdit }: DocumentScreenProps): ReactElement => {
+	const [information, setInformation] = useState<InformationProps>({
 		lineNumber: 0,
 		columnNumber: 0
 	});
 
 	const [value, setValue] = useState<string>('');
+
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 
 	return (
 		<Flex w='100%' h='100%' gap='0px' direction='column'>
-			<Information
-				lineNumber={information.lineNumber}
-				columnNumber={information.columnNumber}
-			/>
+			<Information {...information} />
 			<Editor
 				setInformation={setInformation}
 				setValue={setValue}
@@ -42,4 +39,6 @@ export default function DocumentScreen({
 			/>
 		</Flex>
 	);
-}
+};
+
+export default DocumentScreen;

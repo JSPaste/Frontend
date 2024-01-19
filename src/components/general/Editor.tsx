@@ -1,42 +1,42 @@
+import { type ReactElement, useCallback, useEffect, useRef } from 'react';
+import MonacoEditor, { useMonaco } from '@monaco-editor/react';
+import hljs from 'highlight.js/lib/common';
+import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
+import { welcomeCode } from '@/utils/constants';
 import useTheme from '@/hooks/useTheme';
 import useLanguage from '@/hooks/useLanguage';
-import type { Theme } from '@/themes/ui/themes';
 import useThemeValues from '@/hooks/useThemeValues';
-import { useCallback, useEffect, useRef } from 'react';
-import { type EditorInformation } from './Information';
-import MonacoEditor, { useMonaco } from '@monaco-editor/react';
-import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
-import { welcomeCode } from '@/constants/config';
-import hljs from 'highlight.js/lib/common';
 import useLanguageStore from '@/store/language';
+import type { Theme } from '@/themes/ui/themes';
+import type { InformationProps } from './Information';
 
-export default function Editor({
+interface EditorProps {
+	setInformation: (info: InformationProps) => void;
+	setValue: (value: string) => void;
+	value: string;
+	documentId?: string;
+	isEditing: boolean;
+	enableEdit: boolean;
+}
+
+const Editor = ({
 	setInformation,
 	setValue,
 	value,
 	documentId,
 	isEditing,
 	enableEdit
-}: Readonly<{
-	setInformation: (info: EditorInformation) => void;
-	setValue: (value: string) => void;
-	value: string;
-	documentId?: string;
-	isEditing: boolean;
-	enableEdit: boolean;
-}>) {
+}: EditorProps): ReactElement => {
 	const monaco = useMonaco();
 
 	const { getThemeValue } = useThemeValues();
-
 	const [themeId, _setTheme, themes] = useTheme();
+
 	const { setAutoLanguageId } = useLanguageStore();
 	const [languageId, languages, autoLanguageId] = useLanguage();
 
 	const editorRef = useRef<any>(null);
-
 	const isFirstEditRef = useRef<boolean>(true);
-
 	const lastLangTimestampRef = useRef<number>(0);
 
 	const { minimap } = useBreakpointValue({
@@ -64,7 +64,7 @@ export default function Editor({
 			const editorMonaco = customMonaco ?? monaco;
 
 			const { monacoTheme, isCustomMonacoTheme } =
-				themes.find((t) => t.id == themeId) ?? (themes[0] as Theme);
+				themes.find((t) => t.id === themeId) ?? (themes[0] as Theme);
 
 			if (isCustomMonacoTheme) {
 				const themeData = await import(`@/themes/monaco/${monacoTheme}.json`);
@@ -162,4 +162,6 @@ export default function Editor({
 			/>
 		</Box>
 	);
-}
+};
+
+export default Editor;

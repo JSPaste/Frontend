@@ -1,33 +1,34 @@
-import React from 'react';
-import LogoIcon from '@/icons/LogoIcon';
+import type { ReactElement } from 'react';
+import LogoIcon from '@/components/LogoIcon.tsx';
 import { MdFlag } from 'react-icons/md';
 import useLanguage from '@/hooks/useLanguage';
 import SelectModal from '../modals/SelectModal';
-import { welcomeCode } from '@/constants/config';
+import { welcomeCode } from '@/utils/constants';
 import useThemeValues from '@/hooks/useThemeValues';
 import { SiGitbook, SiGithub } from 'react-icons/si';
-import type { Language } from '@/constants/languages';
+import type { Language } from '@/components/Languages.tsx';
 import useLanguageStore from '@/store/language';
 import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
+import dynamic from 'next/dynamic';
 
-export interface EditorInformation {
-	lineNumber: number;
-	columnNumber: number;
+dynamic(() => import('@/components/LogoIcon.tsx'), { ssr: false });
+
+interface InformationLabelProps {
+	label: ReactElement | string;
+	icon?: ReactElement;
+	isSelectable?: boolean;
+	onClick?: () => void;
+
+	[props: string]: any;
 }
 
-function InformationLabel({
+const InformationLabel = ({
 	label,
 	icon,
 	isSelectable,
 	onClick,
 	...props
-}: Readonly<{
-	label: React.ReactElement | string;
-	icon?: React.ReactElement;
-	isSelectable?: boolean;
-	onClick?: () => void;
-	[props: string]: any;
-}>) {
+}: InformationLabelProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 
 	const textElement = (
@@ -60,9 +61,14 @@ function InformationLabel({
 			)}
 		</Box>
 	);
+};
+
+export interface InformationProps {
+	lineNumber: number;
+	columnNumber: number;
 }
 
-export default function Information({ lineNumber, columnNumber }: Readonly<EditorInformation>) {
+const Information = ({ lineNumber, columnNumber }: InformationProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 	const [languageId, languages, autoLanguageId] = useLanguage();
 	const { setLanguageId } = useLanguageStore();
@@ -155,4 +161,6 @@ export default function Information({ lineNumber, columnNumber }: Readonly<Edito
 			/>
 		</>
 	);
-}
+};
+
+export default Information;

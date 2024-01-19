@@ -1,3 +1,3 @@
 # JSP Frontend
 
-The frontend for <https://jspaste.eu/>, built with [Next.js](https://nextjs.org/) and [TypeScript](https://typescriptlang.org/)
+The frontend for [JSPaste](https://jspaste.eu), built with [Bun](https://typescriptlang.org/) and [Next.js](https://nextjs.org/)
