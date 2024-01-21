@@ -20,19 +20,14 @@ jobs:
                   fetch-depth: 0
                   ref: ${{ github.event.pull_request.head.ref }}
 
-            - uses: pnpm/action-setup@v2
-
-            - uses: actions/setup-node@v4
-              with:
-                  cache: 'pnpm'
-                  node-version: 20
+            - uses: oven-sh/setup-bun@v1
 
             - name: Install dependencies
-              run: pnpm install
+              run: bun install
 
             - name: Lint
               continue-on-error: true
-              run: pnpm run lint
+              run: bun run lint
 
             - name: Prettify code
               uses: creyD/prettier_action@v4.3
@@ -48,15 +43,10 @@ jobs:
               with:
                   ref: ${{ github.event.pull_request.head.ref }}
 
-            - uses: pnpm/action-setup@v2
-
-            - uses: actions/setup-node@v4
-              with:
-                  cache: 'pnpm'
-                  node-version: 20
+            - uses: oven-sh/setup-bun@v1
 
             - name: Install dependencies
-              run: pnpm install
+              run: bun install
 
             - name: Build
-              run: pnpm run build
+              run: bun run build
