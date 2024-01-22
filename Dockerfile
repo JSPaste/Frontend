@@ -9,12 +9,11 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 RUN NEXT_OUTPUT=standalone pnpm run build
 
 # Runner
-FROM gcr.io/distroless/nodejs20-debian12:latest AS runner
-WORKDIR /app/
+FROM gcr.io/distroless/nodejs20-debian12:nonroot AS runner
 
 COPY ./public ./public
 COPY --from=builder /build/.next/standalone ./
 COPY --from=builder /build/.next/static ./.next/static
 
-EXPOSE 3000
+EXPOSE 3000/tcp
 CMD ["server.js"]
