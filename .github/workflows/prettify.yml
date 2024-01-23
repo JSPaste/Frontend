@@ -1,0 +1,29 @@
+name: 'Prettify'
+
+on:
+    workflow_dispatch:
+    pull_request:
+        branches: [stable]
+        types: [opened, synchronize]
+
+concurrency:
+    group: '${{ github.workflow }}-${{ github.ref }}'
+    cancel-in-progress: true
+
+jobs:
+    prettify:
+        runs-on: ubuntu-22.04
+        permissions:
+            contents: write
+
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  ref: ${{ github.event.pull_request.head.ref }}
+
+            - name: 'Prettier'
+              uses: creyD/prettier_action@v4
+              with:
+                  prettier_options: . --write
+                  same_commit: true
