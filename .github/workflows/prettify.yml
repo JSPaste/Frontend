@@ -1,10 +1,9 @@
-name: 'Prettify'
-
+name: 'CI/Prettify'
 on:
     workflow_dispatch:
     pull_request:
-        branches: [stable]
-        types: [opened, synchronize]
+        branches: ['stable']
+        types: ['opened', 'synchronize']
 
 concurrency:
     group: '${{ github.workflow }}-${{ github.ref }}'
@@ -12,25 +11,27 @@ concurrency:
 
 jobs:
     prettify:
-        runs-on: ubuntu-22.04
+        name: 'Prettify code'
+        runs-on: ubuntu-latest
         permissions:
             contents: write
 
         steps:
-            - uses: actions/checkout@v4
+            - name: 'Checkout'
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 0
                   ref: ${{ github.event.pull_request.head.ref }}
 
-            - uses: pnpm/action-setup@v2
+            - name: 'Setup package manager'
+              uses: pnpm/action-setup@v2
               with:
-                  version: 8
-                  run_install: false
+                  standalone: true
 
-            - name: 'Install dependencies'
-              run: pnpm install -D
+            - name: 'Setup dependencies'
+              run: pnpm install -D --frozen-lockfile --ignore-scripts
 
-            - name: 'Prettier'
+            - name: 'Run Prettier'
               uses: creyD/prettier_action@v4.3
               with:
                   prettier_options: . --write

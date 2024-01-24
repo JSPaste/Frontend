@@ -1,14 +1,18 @@
-# TODO: Experimental feature, not ready for production
-name: 'Container'
-
+# TODO: Experimental feature
+name: 'CD/Container'
 on:
     workflow_dispatch:
     push:
-        branches: [stable]
+        branches: ['stable']
+
+concurrency:
+    group: '${{ github.workflow }}-${{ github.ref }}'
+    cancel-in-progress: true
 
 jobs:
     build:
-        runs-on: ubuntu-22.04
+        name: 'Build container image'
+        runs-on: ubuntu-latest
         permissions:
             contents: read
             packages: write
@@ -19,7 +23,8 @@ jobs:
             IMAGE_TAG: 'experimental ${{ github.sha }}'
 
         steps:
-            - uses: actions/checkout@v4
+            - name: 'Checkout'
+              uses: actions/checkout@v4
 
             - name: 'Build image'
               id: build_image
@@ -41,6 +46,7 @@ jobs:
               env:
                   REGISTRY_USER: ${{ github.actor }}
                   REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
               with:
                   image: ${{ steps.build_image.outputs.image }}
                   tags: ${{ steps.build_image.outputs.tags }}
