@@ -1,5 +1,5 @@
 # TODO: Experimental feature
-name: 'CD/Container'
+name: 'CD -> Container'
 on:
     workflow_dispatch:
     push:
@@ -14,16 +14,15 @@ permissions:
 
 jobs:
     build:
+        if: ${{ github.repository_owner == 'jspaste' }}
         name: 'Build container image'
         runs-on: ubuntu-latest
         permissions:
-            contents: read
             packages: write
 
         env:
-            IMAGE_REGISTRY: 'ghcr.io/${{ github.repository_owner }}'
-            IMAGE_NAME: 'frontend'
-            IMAGE_TAG: 'experimental ${{ github.sha }}'
+            REGISTRY: 'ghcr.io/${{ github.repository_owner }}'
+            IMAGE_NAME: '${{ github.repository }}'
 
         steps:
             - name: 'Harden Runner'
@@ -34,20 +33,34 @@ jobs:
             - name: 'Checkout'
               uses: actions/checkout@v4
 
+            - name: 'Setup tags'
+              id: setup_tags
+              run: |
+                  TIMESTAMP="$(date +%Y%m%d%s)"
+                  SHA_SHORT="${GITHUB_SHA::7}"
+
+                  TAGS=()
+                  TAGS+=("latest")
+                  TAGS+=("${SHA_SHORT}")
+                  TAGS+=("${TIMESTAMP}-${SHA_SHORT}")
+
+                  echo "build_tags=${TAGS[*]}" >> $GITHUB_OUTPUT
+
             - name: 'Build image'
               id: build_image
               uses: redhat-actions/buildah-build@v2
               with:
                   containerfiles: ./Containerfile
                   image: ${{ env.IMAGE_NAME }}
-                  tags: ${{ env.IMAGE_TAG }}
+                  platforms: linux/amd64, linux/arm64
+                  tags: ${{ steps.setup_tags.outputs.build_tags }}
                   oci: false
 
             - name: 'Lowercase registry'
               id: registry_case
-              uses: ASzc/change-string-case-action@v6
+              uses: step-security/change-string-case-action@v1.0.0
               with:
-                  string: ${{ env.IMAGE_REGISTRY }}
+                  string: ${{ env.REGISTRY }}
 
             - name: 'Push to GHCR'
               uses: redhat-actions/push-to-registry@v2

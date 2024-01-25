@@ -1,4 +1,4 @@
-name: 'CI/Security'
+name: 'CI -> Security'
 on:
     schedule:
         - cron: '33 3 * * 1'
