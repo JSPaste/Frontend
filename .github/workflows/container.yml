@@ -33,6 +33,10 @@ jobs:
             - name: 'Checkout'
               uses: actions/checkout@v4
 
+            - name: 'Setup QEMU'
+              run: |
+                  sudo apt-get update && sudo apt-get install -y qemu-user-static
+
             - name: 'Setup tags'
               id: setup_tags
               run: |
