@@ -9,6 +9,9 @@ concurrency:
     group: '${{ github.workflow }}-${{ github.ref }}'
     cancel-in-progress: true
 
+permissions:
+    contents: read
+
 jobs:
     build:
         name: 'Build container image'
@@ -23,6 +26,11 @@ jobs:
             IMAGE_TAG: 'experimental ${{ github.sha }}'
 
         steps:
+            - name: 'Harden Runner'
+              uses: step-security/harden-runner@v2
+              with:
+                  egress-policy: audit
+
             - name: 'Checkout'
               uses: actions/checkout@v4
 

@@ -10,14 +10,19 @@ concurrency:
     group: '${{ github.workflow }}-${{ github.ref }}'
     cancel-in-progress: true
 
+permissions:
+    contents: read
+
 jobs:
     test:
-        name: "Test suite"
+        name: 'Test suite'
         runs-on: ubuntu-latest
-        permissions:
-            contents: read
-
         steps:
+            - name: 'Harden Runner'
+              uses: step-security/harden-runner@v2
+              with:
+                  egress-policy: audit
+
             - name: 'Checkout'
               uses: actions/checkout@v4
               with:
