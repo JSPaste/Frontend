@@ -10,7 +10,7 @@ concurrency:
     cancel-in-progress: true
 
 permissions:
-  contents: read
+    contents: read
 
 jobs:
     build:
@@ -26,10 +26,10 @@ jobs:
             IMAGE_TAG: 'experimental ${{ github.sha }}'
 
         steps:
-            - name: Harden Runner
+            - name: 'Harden Runner'
               uses: step-security/harden-runner@v2
               with:
-                egress-policy: audit
+                  egress-policy: audit
 
             - name: 'Checkout'
               uses: actions/checkout@v4
