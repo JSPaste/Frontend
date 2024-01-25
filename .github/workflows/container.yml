@@ -72,5 +72,3 @@ jobs:
                   registry: ${{ env.REGISTRY }}
                   username: ${{ env.REGISTRY_USER }}
                   password: ${{ env.REGISTRY_PASSWORD }}
-                  extra-args: |
-                      --disable-content-trust
