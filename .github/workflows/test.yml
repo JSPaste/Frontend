@@ -15,32 +15,32 @@ permissions:
 
 jobs:
     test:
-        name: 'Test suite'
+        name: 'Test code'
         runs-on: ubuntu-latest
         steps:
             - name: 'Harden Runner'
-              uses: step-security/harden-runner@v2
+              uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
               with:
                   egress-policy: audit
 
             - name: 'Checkout'
-              uses: actions/checkout@v4
+              uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
               with:
                   persist-credentials: false
 
             - name: 'Setup Node.js'
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4.0.1
               with:
                   node-version: 20
 
             - name: 'Setup package manager'
-              uses: pnpm/action-setup@v2
+              uses: pnpm/action-setup@d882d12c64e032187b2edb46d3a0d003b7a43598 # v2.4.0
 
             - name: 'Get pnpm store directory'
               run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
             - name: 'Setup cache'
-              uses: actions/cache@v4
+              uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
               with:
                   path: ${{ env.STORE_PATH }}
                   key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
