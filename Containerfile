@@ -15,13 +15,13 @@ COPY --from=builder /build/public ./public
 COPY --from=builder /build/.next/standalone ./
 COPY --from=builder /build/.next/static ./.next/static
 
-LABEL org.opencontainers.image.url="https://jspaste.eu"
-LABEL org.opencontainers.image.source="https://github.com/jspaste/jsp-frontend"
-LABEL org.opencontainers.image.title="JSP-Frontend"
 LABEL org.opencontainers.image.version="experimental"
-LABEL org.opencontainers.image.description="The frontend for JSPaste, built with Node.js and Next.js"
+LABEL org.opencontainers.image.title="JSP-Frontend"
+LABEL org.opencontainers.image.description="undefined"
+LABEL org.opencontainers.image.url="https://jspaste.eu"
 LABEL org.opencontainers.image.documentation="https://docs.jspaste.eu"
 LABEL org.opencontainers.image.licenses="EUPL-1.2"
+LABEL org.opencontainers.image.source="https://github.com/jspaste/jsp-frontend"
 
 EXPOSE 3000/tcp
 
