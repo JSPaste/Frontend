@@ -10,7 +10,7 @@
 		"fix": "pnpm run prettier && pnpm run lint",
 		"lint": "pnpm run lint:tsc",
 		"lint:tsc": "pnpm exec tsc --noEmit",
-		"prepare": "husky",
+		"prepare": "is-ci || husky",
 		"prettier": "pnpm exec prettier . --write",
 		"prod": "pnpm run build && pnpm run start",
 		"start": "pnpm exec next start"
@@ -36,7 +36,9 @@
 		"zustand": "^4.5.0"
 	},
 	"devDependencies": {
-		"husky": "^9.0.2",
+		"husky": "^9.0.6",
+		"is-ci": "^3.0.1",
+		"lint-staged": "^15.2.0",
 		"prettier": "^3.2.4",
 		"prettier-plugin-jsdoc": "^1.3.0",
 		"prettier-plugin-packagejson": "^2.4.9"
