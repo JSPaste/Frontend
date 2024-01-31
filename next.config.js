@@ -23,6 +23,11 @@ const nextConfig = {
 				source: '/github',
 				destination: 'https://github.com/JSPaste/',
 				permanent: true
+			},
+			{
+				source: '/:key/raw',
+				destination: '/documents/:key/raw',
+				permanent: true
 			}
 		];
 	}
