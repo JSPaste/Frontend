@@ -1,6 +1,5 @@
 import { type Dispatch, type ReactElement, type SetStateAction, useState } from 'react';
 import { Box, Flex, IconButton, Spacer, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
-import { JSP } from 'jspaste';
 import LogoIcon from '@/components/LogoIcon';
 import SettingsModal from '../modals/SettingsModal';
 import useThemeValues from '@/hooks/useThemeValues';
@@ -69,11 +68,9 @@ const Controls = ({
 
 	const toast = useToast();
 
-	const jsp = new JSP();
-
 	async function handleSave() {
 		setIsSaveLoading(true);
-		const result = await jsp.publish(value).catch(() => null);
+		const result = null;
 		setIsSaveLoading(false);
 
 		if (!result)
@@ -136,7 +133,7 @@ const Controls = ({
 					<ActionButton
 						icon={<MdSubject fontSize='20px' />}
 						label='View Raw'
-						onClick={() => null}
+						onClick={() => (location.href = `/documents/${documentId}/raw`)}
 						isDisabled={!documentId || isEditing}
 					/>
 					<ActionButton
