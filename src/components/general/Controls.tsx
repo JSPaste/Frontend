@@ -133,7 +133,7 @@ const Controls = ({
 					<ActionButton
 						icon={<MdSubject fontSize='20px' />}
 						label='View Raw'
-						onClick={() => null}
+						onClick={() => (location.href = `/documents/${documentId}/raw`)}
 						isDisabled={!documentId || isEditing}
 					/>
 					<ActionButton

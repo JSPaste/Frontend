@@ -60,7 +60,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>): Rea
 				<meta property='twitter:title' content='JSPaste' />
 				<meta
 					property='twitter:description'
-					content='JSPaste for real-time data on system performance and status.'
+					content='Create and share code with JSPaste! The developer website for easy code sharing.'
 				/>
 				<meta property='twitter:image' content='/logo.webp' />
 				<meta property='twitter:site' content='@tnfAngel' />
