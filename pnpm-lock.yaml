@@ -32,9 +32,6 @@ dependencies:
   highlight.js:
     specifier: ^11.9.0
     version: 11.9.0
-  jspaste:
-    specifier: ~10.1.1
-    version: 10.1.1
   million:
     specifier: ^2.6.4
     version: 2.6.4
@@ -2622,12 +2619,6 @@ packages:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
-    dev: false
-
-  /jspaste@10.1.1:
-    resolution: {integrity: sha512-ZVsx4eEzyMGnYORz9SD8ca5qjJjCHX5Dp2PI5CufIk/Drr5m80JUyg01O8Z9Q1U3MmF8YOJlkbSHG1lwSzsopQ==}
-    engines: {node: '>=18.0.0'}
-    deprecated: 'This package is deprecated, read more here: https://github.com/jspaste/jspaste#this-package-is-deprecated'
     dev: false
 
   /kleur@4.1.5:
