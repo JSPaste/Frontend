@@ -19,14 +19,7 @@ interface EditorProps {
 	enableEdit: boolean;
 }
 
-const Editor = ({
-	setInformation,
-	setValue,
-	value,
-	documentId,
-	isEditing,
-	enableEdit
-}: EditorProps): ReactElement => {
+const Editor = ({ setInformation, setValue, value, documentId, isEditing, enableEdit }: EditorProps): ReactElement => {
 	const monaco = useMonaco();
 
 	const { getThemeValue } = useThemeValues();
@@ -63,8 +56,7 @@ const Editor = ({
 		async (customMonaco?: any) => {
 			const editorMonaco = customMonaco ?? monaco;
 
-			const { monacoTheme, isCustomMonacoTheme } =
-				themes.find((t) => t.id === themeId) ?? (themes[0] as Theme);
+			const { monacoTheme, isCustomMonacoTheme } = themes.find((t) => t.id === themeId) ?? (themes[0] as Theme);
 
 			if (isCustomMonacoTheme) {
 				const themeData = await import(`@/themes/monaco/${monacoTheme}.json`);
@@ -136,15 +128,10 @@ const Editor = ({
 							});
 						}
 					} else if (value?.length ?? 0 > 15) {
-						if (
-							!lastLangTimestampRef?.current ||
-							lastLangTimestampRef.current + 2_000 < Date.now()
-						) {
+						if (!lastLangTimestampRef?.current || lastLangTimestampRef.current + 2_000 < Date.now()) {
 							lastLangTimestampRef.current = Date.now();
 
-							const { language: identifiedLanguage } = hljs.highlightAuto(
-								value ?? ''
-							);
+							const { language: identifiedLanguage } = hljs.highlightAuto(value ?? '');
 
 							const lang = languages.find(
 								(l) =>

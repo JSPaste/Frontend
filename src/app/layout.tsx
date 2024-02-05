@@ -35,10 +35,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>): Rea
 					name='description'
 					content='Create and share code with JSPaste! The developer website for easy code sharing.'
 				/>
-				<meta
-					name='keywords'
-					content='JSPaste,developer,javascript,hastebin,TSPaste,pastebin,tnfAngel'
-				/>
+				<meta name='keywords' content='JSPaste,developer,javascript,hastebin,TSPaste,pastebin,tnfAngel' />
 				<meta name='theme-color' content='#FFE184' />
 				<meta name='author' content='JSPaste' />
 				<meta property='og:type' content='website' />

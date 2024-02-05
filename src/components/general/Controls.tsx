@@ -1,11 +1,4 @@
-import {
-	type Dispatch,
-	type ForwardedRef,
-	forwardRef,
-	type ReactElement,
-	type SetStateAction,
-	useState
-} from 'react';
+import { type Dispatch, type ForwardedRef, forwardRef, type ReactElement, type SetStateAction, useState } from 'react';
 import { Box, Flex, IconButton, Spacer, Tooltip, useToast } from '@chakra-ui/react';
 import LogoIcon from '@/components/LogoIcon';
 import SettingsPopover from '../modals/SettingsPopover';
@@ -21,10 +14,7 @@ interface ActionButtonProps {
 }
 
 const ActionButton = forwardRef(
-	(
-		{ icon, label, onClick, isDisabled, isLoading }: ActionButtonProps,
-		ref: ForwardedRef<any>
-	): ReactElement => {
+	({ icon, label, onClick, isDisabled, isLoading }: ActionButtonProps, ref: ForwardedRef<any>): ReactElement => {
 		const { getThemeValue } = useThemeValues();
 
 		return (
@@ -60,13 +50,7 @@ interface ControlsProps {
 	enableEdit: boolean;
 }
 
-const Controls = ({
-	documentId,
-	value,
-	isEditing,
-	setIsEditing,
-	enableEdit
-}: ControlsProps): ReactElement => {
+const Controls = ({ documentId, value, isEditing, setIsEditing, enableEdit }: ControlsProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 
 	const [isSaveLoading, setIsSaveLoading] = useState(false);
@@ -139,11 +123,7 @@ const Controls = ({
 					onClick={() => (location.href = `/documents/${documentId}/raw`)}
 					isDisabled={!documentId || isEditing}
 				/>
-				<SettingsPopover
-					trigger={
-						<ActionButton icon={<MdSettings fontSize='20px' />} label='Settings' />
-					}
-				/>
+				<SettingsPopover trigger={<ActionButton icon={<MdSettings fontSize='20px' />} label='Settings' />} />
 			</Flex>
 		</Flex>
 	);
