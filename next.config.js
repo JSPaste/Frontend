@@ -28,6 +28,11 @@ const nextConfig = {
 				source: '/:key/raw',
 				destination: '/documents/:key/raw',
 				permanent: true
+			},
+			{
+				source: '/:key/r',
+				destination: '/documents/:key/raw',
+				permanent: true
 			}
 		];
 	}
