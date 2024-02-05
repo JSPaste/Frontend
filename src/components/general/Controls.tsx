@@ -1,5 +1,12 @@
-import { type Dispatch, type ReactElement, type SetStateAction, useState, forwardRef } from 'react';
-import { Box, Button, Flex, IconButton, Spacer, Tooltip, useToast } from '@chakra-ui/react';
+import {
+	type Dispatch,
+	type ReactElement,
+	type SetStateAction,
+	useState,
+	forwardRef,
+	type ForwardedRef
+} from 'react';
+import { Box, Flex, IconButton, Spacer, Tooltip, useToast } from '@chakra-ui/react';
 import LogoIcon from '@/components/LogoIcon';
 import SettingsPopover from '../modals/SettingsPopover';
 import useThemeValues from '@/hooks/useThemeValues';
@@ -14,7 +21,10 @@ interface ActionButtonProps {
 }
 
 const ActionButton = forwardRef(
-	({ icon, label, onClick, isDisabled, isLoading }: ActionButtonProps, ref): ReactElement => {
+	(
+		{ icon, label, onClick, isDisabled, isLoading }: ActionButtonProps,
+		ref: ForwardedRef<any>
+	): ReactElement => {
 		const { getThemeValue } = useThemeValues();
 
 		return (
@@ -28,7 +38,6 @@ const ActionButton = forwardRef(
 				hasArrow
 			>
 				<IconButton
-					as={Button}
 					ref={ref}
 					size='sm'
 					aria-label={label}
