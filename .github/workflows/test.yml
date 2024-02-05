@@ -2,9 +2,7 @@ name: 'CI -> Test'
 on:
     push:
         branches: ['dev']
-        paths-ignore:
-            - '*.md'
-            - '.*ignore'
+        paths-ignore: ['*.md', '.*ignore']
 
 concurrency:
     group: '${{ github.workflow }}-${{ github.ref }}'
