@@ -22,13 +22,7 @@ interface InformationLabelProps {
 	[props: string]: any;
 }
 
-const InformationLabel = ({
-	label,
-	icon,
-	isSelectable,
-	onClick,
-	...props
-}: InformationLabelProps): ReactElement => {
+const InformationLabel = ({ label, icon, isSelectable, onClick, ...props }: InformationLabelProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 
 	const textElement = (
@@ -80,8 +74,7 @@ const Information = ({ lineNumber, columnNumber }: InformationProps): ReactEleme
 		extension: languageExtension
 	} = languages.find((l) => l.id === languageId) ?? (languages[0] as Language);
 
-	const { name: autoLanguageName } =
-		languages.find((l) => l.id === autoLanguageId) ?? (languages[0] as Language);
+	const { name: autoLanguageName } = languages.find((l) => l.id === autoLanguageId) ?? (languages[0] as Language);
 
 	return (
 		<>

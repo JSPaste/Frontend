@@ -9,8 +9,6 @@ interface DocumentViewPageProps {
 	};
 }
 
-export default function DocumentViewPage({
-	params: { documentId }
-}: Readonly<DocumentViewPageProps>): ReactElement {
+export default function DocumentViewPage({ params: { documentId } }: Readonly<DocumentViewPageProps>): ReactElement {
 	return <DocumentScreen documentId={documentId} enableEdit={true} />;
 }

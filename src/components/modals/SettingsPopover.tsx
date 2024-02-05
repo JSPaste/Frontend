@@ -58,12 +58,7 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 			<Popover isLazy>
 				<PopoverTrigger>{trigger}</PopoverTrigger>
 				<Portal>
-					<PopoverContent
-						width={['90vw', '430px']}
-						bg={getThemeValue('popup')}
-						margin='5px'
-						mr='20px'
-					>
+					<PopoverContent width={['90vw', '430px']} bg={getThemeValue('popup')} margin='5px' mr='20px'>
 						<PopoverHeader>Settings</PopoverHeader>
 						<PopoverCloseButton />
 						<PopoverBody>
@@ -72,24 +67,15 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 									<FormLabel htmlFor='language'>
 										<Heading size='sm'>Language</Heading>
 									</FormLabel>
-									<Button
-										id='language'
-										rightIcon={<MdKeyboardArrowDown />}
-										onClick={onLangOpen}
-									>
-										{languages.find((lang) => lang.id === languageId)?.name ??
-											languages[0]?.name}
+									<Button id='language' rightIcon={<MdKeyboardArrowDown />} onClick={onLangOpen}>
+										{languages.find((lang) => lang.id === languageId)?.name ?? languages[0]?.name}
 									</Button>
 								</FormControl>
 								<FormControl gap='5px' display='flex' flexDirection='column'>
 									<FormLabel htmlFor='theme'>
 										<Heading size='sm'>Theme selector</Heading>
 									</FormLabel>
-									<SimpleGrid
-										gap='20px'
-										id='theme'
-										minChildWidth={['100px', '85px']}
-									>
+									<SimpleGrid gap='20px' id='theme' minChildWidth={['100px', '85px']}>
 										{themes.map((theme, i) => (
 											<Box
 												key={theme.id}
@@ -102,8 +88,7 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 														? {
 																outline: '3px solid',
 																outlineOffset: '-3px',
-																outlineColor:
-																	theme.values.midTransparency
+																outlineColor: theme.values.midTransparency
 															}
 														: undefined
 												}
@@ -144,13 +129,9 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 															</Text>
 															<Spacer />
 															<SlideFade
-																in={
-																	theme.id === themeId ||
-																	(!themeId && i === 0)
-																}
+																in={theme.id === themeId || (!themeId && i === 0)}
 															>
-																{(theme.id === themeId ||
-																	(!themeId && i === 0)) && (
+																{(theme.id === themeId || (!themeId && i === 0)) && (
 																	<Icon
 																		as={MdCheckCircle}
 																		zIndex={40}
