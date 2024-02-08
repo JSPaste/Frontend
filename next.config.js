@@ -21,7 +21,7 @@ const nextConfig = {
 		return [
 			{
 				source: '/github',
-				destination: 'https://github.com/JSPaste/',
+				destination: 'https://github.com/jspaste',
 				permanent: true
 			},
 			{

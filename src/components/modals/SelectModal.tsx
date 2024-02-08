@@ -61,8 +61,7 @@ const SelectModal = ({
 
 		const initialSelectedIndex = results.findIndex((i) => i.id === initialSelectedId);
 
-		if (initialSelectedIndex !== -1 && !searchInput.trim())
-			setSelectedIndex(initialSelectedIndex);
+		if (initialSelectedIndex !== -1 && !searchInput.trim()) setSelectedIndex(initialSelectedIndex);
 	}, [initialSelectedId, isOpen, results, searchInput]);
 
 	useEventListener('keydown', (e) => {
@@ -123,11 +122,7 @@ const SelectModal = ({
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} size='lg' autoFocus={true}>
 			<ModalOverlay />
-			<ModalContent
-				margin='10px 5px'
-				color={getThemeValue('text')}
-				bg={getThemeValue('popup')}
-			>
+			<ModalContent margin='10px 5px' color={getThemeValue('text')} bg={getThemeValue('popup')}>
 				<ModalHeader px={['15px', '24px']}>
 					<InputGroup>
 						<InputLeftElement pointerEvents='none'>
@@ -170,20 +165,13 @@ const SelectModal = ({
 								return (
 									<Flex
 										key={item.id ?? item.name}
-										bg={
-											isActive
-												? getThemeValue('lowTransparency')
-												: 'transparent'
-										}
+										bg={isActive ? getThemeValue('lowTransparency') : 'transparent'}
 										gap={['3px', '8px']}
 										py='5px'
 										px='10px'
 										alignItems={['left', 'center']}
 										borderRadius='5px'
-										direction={[
-											item.details && isActive ? 'column' : 'row',
-											'row'
-										]}
+										direction={[item.details && isActive ? 'column' : 'row', 'row']}
 										_hover={{
 											bg: getThemeValue('midTransparency')
 										}}
@@ -197,12 +185,9 @@ const SelectModal = ({
 										<Spacer />
 										<Flex gap='8px' alignItems='center'>
 											{isActive && item.details && (
-												<Text color={getThemeValue('textMuted')}>
-													{item.details}
-												</Text>
+												<Text color={getThemeValue('textMuted')}>{item.details}</Text>
 											)}
-											{(isActive || showIcons) &&
-												(item.icon ?? <MdAdd fontSize='20px' />)}
+											{(isActive || showIcons) && (item.icon ?? <MdAdd fontSize='20px' />)}
 										</Flex>
 									</Flex>
 								);
