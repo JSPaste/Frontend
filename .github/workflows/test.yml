@@ -1,55 +1,45 @@
 name: 'CI -> Test'
 on:
-    push:
-        branches: ['dev']
-        paths-ignore: ['*.md', '.*ignore']
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+    paths-ignore:
+      - '*.md'
+      - '.*ignore'
+
+  pull_request:
+    branches:
+      - dev
+    paths-ignore:
+      - '*.md'
+      - '.*ignore'
 
 concurrency:
-    group: '${{ github.workflow }}-${{ github.ref }}'
-    cancel-in-progress: true
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: true
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
-    test:
-        name: 'Test code'
-        runs-on: ubuntu-latest
-        steps:
-            - name: 'Harden Runner'
-              uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
-              with:
-                  egress-policy: audit
+  lint:
+    name: 'Lint'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Harden Runner'
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
 
-            - name: 'Checkout'
-              uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-              with:
-                  persist-credentials: false
+      - name: 'Checkout'
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
 
-            - name: 'Setup Node.js'
-              uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4.0.1
-              with:
-                  node-version: 20
+      - name: 'Setup Bun'
+        uses: oven-sh/setup-bun@d3603274aca5625baad52ec06108517a089cdd00 # v1.2.0
 
-            - name: 'Setup package manager'
-              uses: pnpm/action-setup@d882d12c64e032187b2edb46d3a0d003b7a43598 # v2.4.0
+      - name: 'Setup dependencies'
+        run: bun install --production --frozen-lockfile
 
-            - name: 'Get pnpm store directory'
-              run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-            - name: 'Setup cache'
-              uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
-              with:
-                  path: ${{ env.STORE_PATH }}
-                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-                  restore-keys: |
-                      ${{ runner.os }}-pnpm-store-
-
-            - name: 'Setup dependencies'
-              run: pnpm install --frozen-lockfile
-
-            - name: 'Run lint'
-              run: pnpm run lint
-
-            - name: 'Run build'
-              run: pnpm run build
+      - name: 'Run lint'
+        run: bun run lint

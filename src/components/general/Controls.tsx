@@ -1,9 +1,9 @@
-import { type Dispatch, type ForwardedRef, forwardRef, type ReactElement, type SetStateAction, useState } from 'react';
-import { Box, Flex, IconButton, Spacer, Tooltip, useToast } from '@chakra-ui/react';
 import LogoIcon from '@/components/LogoIcon';
-import SettingsPopover from '../modals/SettingsPopover';
 import useThemeValues from '@/hooks/useThemeValues';
+import { Box, Flex, IconButton, Spacer, Tooltip, useToast } from '@chakra-ui/react';
+import { type Dispatch, type ForwardedRef, type ReactElement, type SetStateAction, forwardRef, useState } from 'react';
 import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
+import SettingsPopover from '../modals/SettingsPopover';
 
 interface ActionButtonProps {
 	icon: ReactElement;

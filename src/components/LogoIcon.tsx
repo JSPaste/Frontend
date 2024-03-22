@@ -1,6 +1,6 @@
-import type { ReactElement } from 'react';
-import { Icon, type IconProps } from '@chakra-ui/react';
 import useThemeValues from '@/hooks/useThemeValues.ts';
+import { Icon, type IconProps } from '@chakra-ui/react';
+import type { ReactElement } from 'react';
 
 const LogoIcon = (props: IconProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();

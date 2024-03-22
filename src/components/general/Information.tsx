@@ -1,15 +1,15 @@
-import type { ReactElement } from 'react';
-import LogoIcon from '@/components/LogoIcon.tsx';
-import { MdFlag } from 'react-icons/md';
-import useLanguage from '@/hooks/useLanguage';
-import SelectModal from '../modals/SelectModal';
-import { welcomeCode } from '@/utils/constants';
-import useThemeValues from '@/hooks/useThemeValues';
-import { SiGitbook, SiGithub } from 'react-icons/si';
 import type { Language } from '@/components/Languages.tsx';
+import LogoIcon from '@/components/LogoIcon.tsx';
+import useLanguage from '@/hooks/useLanguage';
+import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
+import { welcomeCode } from '@/utils/constants';
 import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
+import type { ReactElement } from 'react';
+import { MdFlag } from 'react-icons/md';
+import { SiGitbook, SiGithub } from 'react-icons/si';
+import SelectModal from '../modals/SelectModal';
 
 dynamic(() => import('@/components/LogoIcon.tsx'), { ssr: false });
 

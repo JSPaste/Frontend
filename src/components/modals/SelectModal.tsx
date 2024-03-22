@@ -1,4 +1,4 @@
-import { type ReactElement, type ReactNode, useEffect, useRef, useState } from 'react';
+import useThemeValues from '@/hooks/useThemeValues';
 import {
 	Flex,
 	Input,
@@ -15,8 +15,8 @@ import {
 	Text,
 	useEventListener
 } from '@chakra-ui/react';
+import { type ReactElement, type ReactNode, useEffect, useRef, useState } from 'react';
 import { MdAdd, MdSearch } from 'react-icons/md';
-import useThemeValues from '@/hooks/useThemeValues';
 
 interface SMItems {
 	id: string | undefined;
