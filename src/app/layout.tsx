@@ -1,10 +1,10 @@
 'use client';
 
-import type { ReactElement, ReactNode } from 'react';
-import { CacheProvider } from '@chakra-ui/next-js';
 import useThemeValues from '@/hooks/useThemeValues';
-import { Box, ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
 import { chakraTheme } from '@/utils/constants.ts';
+import { CacheProvider } from '@chakra-ui/next-js';
+import { Box, ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
+import type { ReactElement, ReactNode } from 'react';
 
 const theme = extendTheme(chakraTheme);
 
@@ -68,7 +68,9 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>): Rea
 				<link rel='icon' type='image/x-icon' href='./favicon.ico' />
 
 				<style>
-					{`::-webkit-scrollbar{width:6px;z-index:100000}::-webkit-scrollbar-track{border-radius:10px}::-webkit-scrollbar-track:hover{background-color:#00000020}::-webkit-scrollbar-thumb{border-radius:10px;background-color:#00000050}::-webkit-scrollbar-thumb:hover{background-color:#00000060}`}
+					{
+						'::-webkit-scrollbar{width:6px;z-index:100000}::-webkit-scrollbar-track{border-radius:10px}::-webkit-scrollbar-track:hover{background-color:#00000020}::-webkit-scrollbar-thumb{border-radius:10px;background-color:#00000050}::-webkit-scrollbar-thumb:hover{background-color:#00000060}'
+					}
 				</style>
 			</head>
 			<body

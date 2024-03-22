@@ -1,13 +1,13 @@
-import { type ReactElement, useCallback, useEffect, useRef } from 'react';
-import MonacoEditor, { useMonaco } from '@monaco-editor/react';
-import hljs from 'highlight.js/lib/common';
-import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
-import { welcomeCode } from '@/utils/constants';
-import useTheme from '@/hooks/useTheme';
 import useLanguage from '@/hooks/useLanguage';
+import useTheme from '@/hooks/useTheme';
 import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
 import type { Theme } from '@/themes/ui/themes';
+import { welcomeCode } from '@/utils/constants';
+import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
+import MonacoEditor, { useMonaco } from '@monaco-editor/react';
+import hljs from 'highlight.js/lib/common';
+import { type ReactElement, useCallback, useEffect, useRef } from 'react';
 import type { InformationProps } from './Information';
 
 interface EditorProps {

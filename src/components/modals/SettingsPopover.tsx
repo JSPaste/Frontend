@@ -1,5 +1,7 @@
-import type { ReactElement } from 'react';
+import useLanguage from '@/hooks/useLanguage';
 import useTheme from '@/hooks/useTheme';
+import useThemeValues from '@/hooks/useThemeValues';
+import useLanguageStore from '@/store/language';
 import {
 	Box,
 	Button,
@@ -22,11 +24,9 @@ import {
 	Text,
 	useDisclosure
 } from '@chakra-ui/react';
-import SelectModal from './SelectModal';
-import useLanguage from '@/hooks/useLanguage';
-import useThemeValues from '@/hooks/useThemeValues';
-import useLanguageStore from '@/store/language';
+import type { ReactElement } from 'react';
 import { MdCheckCircle, MdFlag, MdKeyboardArrowDown } from 'react-icons/md';
+import SelectModal from './SelectModal';
 
 interface SettingPopoverProps {
 	trigger: ReactElement;
