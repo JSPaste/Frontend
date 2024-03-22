@@ -41,7 +41,7 @@ const nextConfig = {
 let configExport = nextConfig;
 
 if (process.env.NODE_ENV === 'production') {
-	console.log('Loaded production config');
+	console.info('Loaded production config');
 	configExport = million.next(nextConfig);
 }
 

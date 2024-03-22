@@ -1,5 +1,5 @@
 # Builder
-FROM cgr.dev/chainguard/bun:latest-dev AS builder
+FROM docker.io/imbios/bun-node:1.0-21-alpine AS builder
 
 COPY . ./
 
@@ -7,7 +7,7 @@ RUN bun install --production --frozen-lockfile && \
     NEXT_OUTPUT=standalone bun run build
 
 # Runner
-FROM cgr.dev/chainguard/bun:latest
+FROM docker.io/imbios/bun-node:1.0-21-alpine
 
 COPY --chown=nonroot --from=builder /src/public ./public
 COPY --chown=nonroot --from=builder /src/.next/standalone ./

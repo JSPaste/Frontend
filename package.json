@@ -5,15 +5,15 @@
 	"license": "EUPL-1.2",
 	"type": "module",
 	"scripts": {
-		"build": "bunx --bun next build",
+		"build": "bunx next build",
 		"fix": "bun run fix:biome && bun run fix:package",
 		"fix:biome": "bunx --bun @biomejs/biome check --apply .",
 		"fix:package": "bunx --bun sort-package-json --quiet",
 		"lint": "bun run lint:biome && bun run lint:tsc",
 		"lint:biome": "bunx --bun @biomejs/biome lint .",
 		"lint:tsc": "bunx --bun tsc --noEmit",
-		"start": "bun run build && bunx --bun next start",
-		"start:dev": "bunx --bun next dev"
+		"start": "bun run build && bunx next start",
+		"start:dev": "bunx next dev"
 	},
 	"dependencies": {
 		"@chakra-ui/icons": "~2.1.1",
@@ -22,7 +22,7 @@
 		"@chakra-ui/system": "~2.6.2",
 		"@monaco-editor/react": "~4.6.0",
 		"@types/bun": "~1.0.10",
-		"@types/react": "~18.2.67",
+		"@types/react": "~18.2.69",
 		"@types/react-dom": "~18.2.22",
 		"env-var": "~7.4.1",
 		"highlight.js": "~11.9.0",

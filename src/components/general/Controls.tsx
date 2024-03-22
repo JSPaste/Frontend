@@ -75,7 +75,7 @@ const Controls = ({ documentId, value, isEditing, setIsEditing, enableEdit }: Co
 
 		location.href = '/abc123';
 
-		console.log(result);
+		console.info(result);
 	}
 
 	return (

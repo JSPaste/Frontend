@@ -10,6 +10,8 @@
 
 		"allowJs": true,
 		"allowImportingTsExtensions": true,
+		"esModuleInterop": true,
+		"incremental": true,
 		"noEmit": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
