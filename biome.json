@@ -1,12 +1,12 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.6.2/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.6.3/schema.json",
 	"files": {
 		"ignoreUnknown": true
 	},
 	"formatter": {
 		"enabled": true,
 		"formatWithErrors": false,
-		"ignore": ["**/node_modules/", "documents/", "src/structures/", "dist/"],
+		"ignore": [".next/", "**/node_modules/"],
 		"indentStyle": "tab",
 		"indentWidth": 4,
 		"lineEnding": "lf",
@@ -32,7 +32,7 @@
 	},
 	"linter": {
 		"enabled": false,
-		"ignore": ["**/node_modules/", "documents/", "src/structures/", "dist/"],
+		"ignore": [".next/", "**/node_modules/"],
 		"rules": {
 			"recommended": true,
 			"style": {

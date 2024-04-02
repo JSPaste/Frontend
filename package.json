@@ -10,7 +10,7 @@
 		"fix:biome": "bunx --bun @biomejs/biome check --apply .",
 		"fix:package": "bunx --bun sort-package-json --quiet",
 		"lint": "bun run lint:biome && bun run lint:tsc",
-		"lint:biome": "bunx --bun @biomejs/biome lint .",
+		"lint:biome": "bunx @biomejs/biome lint .",
 		"lint:tsc": "bunx --bun tsc --noEmit",
 		"start": "bun run build && bunx next start",
 		"start:dev": "bunx next dev"
@@ -21,9 +21,9 @@
 		"@chakra-ui/react": "~2.8.2",
 		"@chakra-ui/system": "~2.6.2",
 		"@monaco-editor/react": "~4.6.0",
-		"@types/bun": "~1.0.10",
-		"@types/react": "~18.2.69",
-		"@types/react-dom": "~18.2.22",
+		"@types/bun": "~1.0.12",
+		"@types/react": "~18.2.74",
+		"@types/react-dom": "~18.2.23",
 		"env-var": "~7.4.1",
 		"highlight.js": "~11.9.0",
 		"million": "~3.0.6",
@@ -31,16 +31,17 @@
 		"react": "~18.2.0",
 		"react-dom": "~18.2.0",
 		"react-icons": "~5.0.1",
-		"sharp": "~0.33.2",
+		"sharp": "~0.33.3",
 		"typescript": "~5.4.3",
 		"zustand": "~4.5.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "~1.6.2",
-		"lefthook": "~1.6.7",
-		"sort-package-json": "~2.8.0"
+		"@biomejs/biome": "~1.6.3",
+		"lefthook": "~1.6.8",
+		"sort-package-json": "~2.10.0"
 	},
 	"trustedDependencies": [
-		"@biomejs/biome"
+		"@biomejs/biome",
+		"lefthook"
 	]
 }
