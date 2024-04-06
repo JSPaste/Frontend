@@ -2,24 +2,15 @@ import useLanguage from '@/hooks/useLanguage';
 import useTheme from '@/hooks/useTheme';
 import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
-import type { Theme } from '@/themes/ui/themes';
+import type { EditorProps } from '@/types/Components.ts';
+import type { Theme } from '@/types/Theme.ts';
 import { welcomeCode } from '@/utils/constants';
 import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
 import MonacoEditor, { useMonaco } from '@monaco-editor/react';
 import hljs from 'highlight.js/lib/common';
 import { type ReactElement, useCallback, useEffect, useRef } from 'react';
-import type { InformationProps } from './Information';
 
-interface EditorProps {
-	setInformation: (info: InformationProps) => void;
-	setValue: (value: string) => void;
-	value: string;
-	documentId?: string;
-	isEditing: boolean;
-	enableEdit: boolean;
-}
-
-const Editor = ({ setInformation, setValue, value, documentId, isEditing, enableEdit }: EditorProps): ReactElement => {
+const Editor = ({ setInformation, setValue, documentId, isEditing, enableEdit }: EditorProps): ReactElement => {
 	const monaco = useMonaco();
 
 	const { getThemeValue } = useThemeValues();
@@ -73,11 +64,11 @@ const Editor = ({ setInformation, setValue, value, documentId, isEditing, enable
 		const editor = editorRef.current;
 
 		if (editor) updateInformation(editor);
-	}, [editorRef, value, updateInformation]);
+	}, [updateInformation]);
 
 	useEffect(() => {
 		setEditorTheme();
-	}, [monaco, setEditorTheme, themeId, themes]);
+	}, [setEditorTheme]);
 
 	return (
 		<Box h='100%' w='100%' bg='editor'>

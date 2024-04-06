@@ -1,26 +1,14 @@
-import type { Language } from '@/components/Languages.tsx';
 import LogoIcon from '@/components/LogoIcon.tsx';
 import useLanguage from '@/hooks/useLanguage';
 import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
+import type { InformationLabelProps, InformationProps, Language } from '@/types/Components.ts';
 import { welcomeCode } from '@/utils/constants';
 import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
-import dynamic from 'next/dynamic';
 import type { ReactElement } from 'react';
 import { MdFlag } from 'react-icons/md';
 import { SiGitbook, SiGithub } from 'react-icons/si';
 import SelectModal from '../modals/SelectModal';
-
-dynamic(() => import('@/components/LogoIcon.tsx'), { ssr: false });
-
-interface InformationLabelProps {
-	label: ReactElement | string;
-	icon?: ReactElement;
-	isSelectable?: boolean;
-	onClick?: () => void;
-
-	[props: string]: any;
-}
 
 const InformationLabel = ({ label, icon, isSelectable, onClick, ...props }: InformationLabelProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
@@ -56,11 +44,6 @@ const InformationLabel = ({ label, icon, isSelectable, onClick, ...props }: Info
 		</Box>
 	);
 };
-
-export interface InformationProps {
-	lineNumber: number;
-	columnNumber: number;
-}
 
 const Information = ({ lineNumber, columnNumber }: InformationProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();

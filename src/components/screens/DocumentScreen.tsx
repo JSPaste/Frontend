@@ -1,13 +1,9 @@
 import Controls from '@/components/general/Controls';
 import Editor from '@/components/general/Editor';
-import Information, { type InformationProps } from '@/components/general/Information';
+import Information from '@/components/general/Information';
+import type { DocumentScreenProps, InformationProps } from '@/types/Components.ts';
 import { Flex } from '@chakra-ui/react';
 import { type ReactElement, useState } from 'react';
-
-interface DocumentScreenProps {
-	documentId?: string;
-	enableEdit: boolean;
-}
 
 const DocumentScreen = ({ documentId, enableEdit }: DocumentScreenProps): ReactElement => {
 	const [information, setInformation] = useState<InformationProps>({

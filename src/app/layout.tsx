@@ -8,9 +8,9 @@ import type { ReactElement, ReactNode } from 'react';
 
 const theme = extendTheme(chakraTheme);
 
-interface RootLayoutProps {
+type RootLayoutProps = {
 	children: ReactNode;
-}
+};
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>): ReactElement {
 	const { getThemeValue } = useThemeValues();

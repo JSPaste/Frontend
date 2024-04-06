@@ -1,5 +1,6 @@
 import useThemeStore from '@/store/theme';
-import { type ThemeValues, themes } from '@/themes/ui/themes';
+import { themes } from '@/themes/ui/themes';
+import type { ThemeValues } from '@/types/Theme.ts';
 
 export default function useThemeValues() {
 	const { themeId } = useThemeStore();

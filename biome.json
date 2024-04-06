@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.6.3/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.6.4/schema.json",
 	"files": {
 		"ignoreUnknown": true
 	},
@@ -31,7 +31,7 @@
 		}
 	},
 	"linter": {
-		"enabled": false,
+		"enabled": true,
 		"ignore": [".next/", "**/node_modules/"],
 		"rules": {
 			"recommended": true,
@@ -39,9 +39,11 @@
 				"noParameterAssign": "off"
 			},
 			"complexity": {
+				"useLiteralKeys": "off",
 				"noStaticOnlyClass": "off"
 			},
 			"suspicious": {
+				"noAssignInExpressions": "off",
 				"noExplicitAny": "off",
 				"noConsoleLog": "warn"
 			}

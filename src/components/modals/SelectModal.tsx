@@ -1,4 +1,5 @@
 import useThemeValues from '@/hooks/useThemeValues';
+import type { SelectModalProps } from '@/types/Components.ts';
 import {
 	Flex,
 	Input,
@@ -15,26 +16,8 @@ import {
 	Text,
 	useEventListener
 } from '@chakra-ui/react';
-import { type ReactElement, type ReactNode, useEffect, useRef, useState } from 'react';
+import { type ReactElement, useEffect, useRef, useState } from 'react';
 import { MdAdd, MdSearch } from 'react-icons/md';
-
-interface SMItems {
-	id: string | undefined;
-	name: string;
-	details?: string;
-	icon?: ReactNode;
-	alias?: string[];
-}
-
-interface SelectModalProps {
-	isOpen: boolean;
-	onClose: () => void;
-	listItems: SMItems[];
-	initialSelectedId?: string;
-	onSelect: (id: string | undefined) => void;
-	onPreview?: (id: string | undefined) => void;
-	showIcons?: boolean;
-}
 
 const SelectModal = ({
 	isOpen,
