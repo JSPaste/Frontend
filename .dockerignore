@@ -1,7 +1,8 @@
 *
 !public/
 !src/
+!bun.lockb
+!bunfig.toml
 !next.config.js
 !package.json
-!pnpm-lock.yaml
 !tsconfig.json

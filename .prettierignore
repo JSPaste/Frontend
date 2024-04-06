@@ -1,7 +1,0 @@
-**/node_modules/
-**/build/
-*.svg
-.prettierrc.json
-LICENSE
-pnpm-lock.yaml
-tsconfig.json

@@ -1,4 +1,5 @@
-import type { ReactElement } from 'react';
+import type { Language } from '@/types/Components.ts';
+import { MdAutoAwesome } from 'react-icons/md';
 import {
 	SiC,
 	SiClojure,
@@ -40,14 +41,6 @@ import {
 	SiXaml,
 	SiYaml
 } from 'react-icons/si';
-import { MdAutoAwesome } from 'react-icons/md';
-
-export interface Language {
-	id: string | undefined;
-	name: string;
-	icon?: ReactElement;
-	extension?: string;
-}
 
 export const languages: Language[] = [
 	{

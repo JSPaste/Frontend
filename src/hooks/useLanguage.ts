@@ -1,5 +1,5 @@
-import useLanguageStore from '@/store/language';
 import { languages } from '@/components/Languages';
+import useLanguageStore from '@/store/language';
 
 export default function useLanguage() {
 	const { languageId, autoLanguageId } = useLanguageStore();
