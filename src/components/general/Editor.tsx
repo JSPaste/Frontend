@@ -9,7 +9,7 @@ import MonacoEditor, { useMonaco } from '@monaco-editor/react';
 import hljs from 'highlight.js/lib/common';
 import { type ReactElement, useCallback, useEffect, useRef } from 'react';
 
-const welcomeCode =
+export const welcomeCode =
 	"// Start writing here! When you're done, hit the save button to generate a unique URL with your content.";
 
 const Editor = ({ setInformation, setValue, documentId, isEditing, enableEdit }: EditorProps): ReactElement => {

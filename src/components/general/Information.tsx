@@ -1,14 +1,18 @@
 import LogoIcon from '@/components/LogoIcon.tsx';
+import { welcomeCode } from '@/components/general/Editor.tsx';
 import useLanguage from '@/hooks/useLanguage';
 import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
 import type { InformationLabelProps, InformationProps, Language } from '@/types/Components.ts';
-import { welcomeCode } from '@/utils/constants';
 import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
 import type { ReactElement } from 'react';
 import { MdFlag } from 'react-icons/md';
 import { SiGitbook, SiGithub } from 'react-icons/si';
+import pkg from '../../../package.json';
 import SelectModal from '../modals/SelectModal';
+
+// Change me from "next" to "@jspaste/library" when package is done
+const libraryVersion = 'Library '.concat(pkg.dependencies['next'].replace(/[^0-9.]/g, ''));
 
 const InformationLabel = ({ label, icon, isSelectable, onClick, ...props }: InformationLabelProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
@@ -71,7 +75,7 @@ const Information = ({ lineNumber, columnNumber }: InformationProps): ReactEleme
 				gap={['5px', '10px']}
 				bg={getThemeValue('information')}
 			>
-				<InformationLabel label='JSPaste v10.1.1' icon={<LogoIcon fontSize='15px' />} />
+				<InformationLabel label={libraryVersion} icon={<LogoIcon fontSize='15px' />} />
 				<InformationLabel
 					label={`Ln ${(lineNumber || 1).toString().padStart(2, '0')} Col ${(lineNumber
 						? columnNumber
