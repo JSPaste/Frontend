@@ -46,7 +46,7 @@ jobs:
         uses: oven-sh/setup-bun@d3603274aca5625baad52ec06108517a089cdd00 # v1.2.0
 
       - name: 'Setup dependencies'
-        run: bun install --production --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: 'Run lint'
         run: bun run lint
