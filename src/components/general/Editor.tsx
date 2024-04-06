@@ -4,11 +4,13 @@ import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
 import type { EditorProps } from '@/types/Components.ts';
 import type { Theme } from '@/types/Theme.ts';
-import { welcomeCode } from '@/utils/constants';
 import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
 import MonacoEditor, { useMonaco } from '@monaco-editor/react';
 import hljs from 'highlight.js/lib/common';
 import { type ReactElement, useCallback, useEffect, useRef } from 'react';
+
+const welcomeCode =
+	"// Start writing here! When you're done, hit the save button to generate a unique URL with your content.";
 
 const Editor = ({ setInformation, setValue, documentId, isEditing, enableEdit }: EditorProps): ReactElement => {
 	const monaco = useMonaco();
