@@ -1,29 +1,4 @@
-export interface Theme {
-	id: string;
-	name: string;
-	baseTheme: 'dark' | 'light';
-	monacoTheme: string;
-	isCustomMonacoTheme: boolean;
-	values: ThemeValues;
-}
-
-export interface ThemeValues {
-	primary: string;
-	primaryDisplay: string;
-	information: string;
-	controls: string;
-	editor: string;
-	tooltip: string;
-	popup: string;
-	text: string;
-	textMuted: string;
-	highTransparency: string;
-	midTransparency: string;
-	lowTransparency: string;
-	highAltTransparency: string;
-	midAltTransparency: string;
-	lowAltTransparency: string;
-}
+import type { Theme } from '@/types/Theme.ts';
 
 export const themes: Theme[] = [
 	{

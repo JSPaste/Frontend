@@ -1,26 +1,18 @@
-import type { ReactElement } from 'react';
 import LogoIcon from '@/components/LogoIcon.tsx';
-import { MdFlag } from 'react-icons/md';
+import { welcomeCode } from '@/components/general/Editor.tsx';
 import useLanguage from '@/hooks/useLanguage';
-import SelectModal from '../modals/SelectModal';
-import { welcomeCode } from '@/utils/constants';
 import useThemeValues from '@/hooks/useThemeValues';
-import { SiGitbook, SiGithub } from 'react-icons/si';
-import type { Language } from '@/components/Languages.tsx';
 import useLanguageStore from '@/store/language';
+import type { InformationLabelProps, InformationProps, Language } from '@/types/Components.ts';
 import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
-import dynamic from 'next/dynamic';
+import type { ReactElement } from 'react';
+import { MdFlag } from 'react-icons/md';
+import { SiGitbook, SiGithub } from 'react-icons/si';
+import pkg from '../../../package.json';
+import SelectModal from '../modals/SelectModal';
 
-dynamic(() => import('@/components/LogoIcon.tsx'), { ssr: false });
-
-interface InformationLabelProps {
-	label: ReactElement | string;
-	icon?: ReactElement;
-	isSelectable?: boolean;
-	onClick?: () => void;
-
-	[props: string]: any;
-}
+// Change me from "next" to "@jspaste/library" when package is done
+const libraryVersion = 'Library '.concat(pkg.dependencies['next'].replace(/[^0-9.]/g, ''));
 
 const InformationLabel = ({ label, icon, isSelectable, onClick, ...props }: InformationLabelProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
@@ -57,11 +49,6 @@ const InformationLabel = ({ label, icon, isSelectable, onClick, ...props }: Info
 	);
 };
 
-export interface InformationProps {
-	lineNumber: number;
-	columnNumber: number;
-}
-
 const Information = ({ lineNumber, columnNumber }: InformationProps): ReactElement => {
 	const { getThemeValue } = useThemeValues();
 	const [languageId, languages, autoLanguageId] = useLanguage();
@@ -88,7 +75,7 @@ const Information = ({ lineNumber, columnNumber }: InformationProps): ReactEleme
 				gap={['5px', '10px']}
 				bg={getThemeValue('information')}
 			>
-				<InformationLabel label='JSPaste v10.1.1' icon={<LogoIcon fontSize='15px' />} />
+				<InformationLabel label={libraryVersion} icon={<LogoIcon fontSize='15px' />} />
 				<InformationLabel
 					label={`Ln ${(lineNumber || 1).toString().padStart(2, '0')} Col ${(lineNumber
 						? columnNumber

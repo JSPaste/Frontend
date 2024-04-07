@@ -1,25 +1,18 @@
-import { type ReactElement, useCallback, useEffect, useRef } from 'react';
-import MonacoEditor, { useMonaco } from '@monaco-editor/react';
-import hljs from 'highlight.js/lib/common';
-import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
-import { welcomeCode } from '@/utils/constants';
-import useTheme from '@/hooks/useTheme';
 import useLanguage from '@/hooks/useLanguage';
+import useTheme from '@/hooks/useTheme';
 import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
-import type { Theme } from '@/themes/ui/themes';
-import type { InformationProps } from './Information';
+import type { EditorProps } from '@/types/Components.ts';
+import type { Theme } from '@/types/Theme.ts';
+import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
+import MonacoEditor, { useMonaco } from '@monaco-editor/react';
+import hljs from 'highlight.js/lib/common';
+import { type ReactElement, useCallback, useEffect, useRef } from 'react';
 
-interface EditorProps {
-	setInformation: (info: InformationProps) => void;
-	setValue: (value: string) => void;
-	value: string;
-	documentId?: string;
-	isEditing: boolean;
-	enableEdit: boolean;
-}
+export const welcomeCode =
+	"// Start writing here! When you're done, hit the save button to generate a unique URL with your content.";
 
-const Editor = ({ setInformation, setValue, value, documentId, isEditing, enableEdit }: EditorProps): ReactElement => {
+const Editor = ({ setInformation, setValue, documentId, isEditing, enableEdit }: EditorProps): ReactElement => {
 	const monaco = useMonaco();
 
 	const { getThemeValue } = useThemeValues();
@@ -73,11 +66,11 @@ const Editor = ({ setInformation, setValue, value, documentId, isEditing, enable
 		const editor = editorRef.current;
 
 		if (editor) updateInformation(editor);
-	}, [editorRef, value, updateInformation]);
+	}, [updateInformation]);
 
 	useEffect(() => {
 		setEditorTheme();
-	}, [monaco, setEditorTheme, themeId, themes]);
+	}, [setEditorTheme]);
 
 	return (
 		<Box h='100%' w='100%' bg='editor'>
