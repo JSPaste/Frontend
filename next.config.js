@@ -25,6 +25,11 @@ const nextConfig = {
 				permanent: true
 			},
 			{
+				source: '/favicon.ico',
+				destination: '/image/favicon.svg',
+				permanent: true
+			},
+			{
 				source: '/:key/raw',
 				destination: '/documents/:key/raw',
 				permanent: true
