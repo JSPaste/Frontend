@@ -1,7 +1,8 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.6.4/schema.json",
 	"files": {
-		"ignoreUnknown": true
+		"ignoreUnknown": true,
+		"ignore": [".next/", "**/node_modules/"]
 	},
 	"formatter": {
 		"enabled": true,

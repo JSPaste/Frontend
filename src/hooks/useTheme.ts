@@ -8,7 +8,7 @@ export default function useTheme() {
 
 	return [
 		themeId,
-		(themeId: string) => {
+		(themeId?: string) => {
 			const selectedTheme = themes.find((theme) => theme.id === themeId);
 
 			if (!selectedTheme) return;
