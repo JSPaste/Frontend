@@ -1,4 +1,5 @@
 import useLanguage from '@/hooks/useLanguage';
+import useServerURL from '@/hooks/useServerURL';
 import useTheme from '@/hooks/useTheme';
 import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
@@ -6,11 +7,16 @@ import type { SettingPopoverProps } from '@/types/Components.ts';
 import {
 	Box,
 	Button,
+	Center,
+	CloseButton,
 	Flex,
 	FormControl,
 	FormLabel,
 	Heading,
 	Icon,
+	Input,
+	InputGroup,
+	InputRightElement,
 	Popover,
 	PopoverBody,
 	PopoverCloseButton,
@@ -23,10 +29,11 @@ import {
 	Spacer,
 	Stack,
 	Text,
+	useBreakpointValue,
 	useDisclosure
 } from '@chakra-ui/react';
-import type { ReactElement } from 'react';
-import { MdCheckCircle, MdFlag, MdKeyboardArrowDown } from 'react-icons/md';
+import { type ReactElement, useState } from 'react';
+import { MdAdd, MdCheckCircle, MdFlag, MdKeyboardArrowDown, MdPalette } from 'react-icons/md';
 import SelectModal from './SelectModal';
 
 const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
@@ -34,7 +41,28 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 	const [languageId, languages] = useLanguage();
 	const { setLanguageId } = useLanguageStore();
 	const [themeId, setThemeId, themes] = useTheme();
+	const [serverURL, setServerURL] = useServerURL();
+
 	const { isOpen: isLangOpen, onClose: onLangClose, onOpen: onLangOpen } = useDisclosure();
+
+	const { isOpen: isThemeOpen, onClose: onThemeClose, onOpen: onThemeOpen } = useDisclosure();
+
+	const [serverURLInput, setServerURLInput] = useState(serverURL ?? '');
+	const [isServerURLInputFocused, setIsServerURLInputFocused] = useState(false);
+
+	let serverInputError: string | null = null;
+
+	if (serverURLInput) {
+		try {
+			const u = new URL(serverURLInput);
+
+			if (u.protocol !== 'http:' && u.protocol !== 'https:') {
+				serverInputError = 'Please provide a valid server URL';
+			}
+		} catch {}
+	}
+
+	const quickThemeLimit = useBreakpointValue([3, 4]) ?? 4;
 
 	return (
 		<>
@@ -52,6 +80,19 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 				onPreview={setLanguageId}
 				onSelect={setLanguageId}
 			/>
+			<SelectModal
+				isOpen={isThemeOpen}
+				onClose={onThemeClose}
+				listItems={themes.map(({ id, name }) => ({
+					id,
+					name,
+					details: themeId === id ? 'Recently used' : 'Set theme',
+					icon: <MdPalette />
+				}))}
+				initialSelectedId={themeId}
+				onPreview={setThemeId}
+				onSelect={setThemeId}
+			/>
 			<Popover isLazy>
 				<PopoverTrigger>{trigger}</PopoverTrigger>
 				<Portal>
@@ -64,7 +105,12 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 									<FormLabel htmlFor='language'>
 										<Heading size='sm'>Language</Heading>
 									</FormLabel>
-									<Button id='language' rightIcon={<MdKeyboardArrowDown />} onClick={onLangOpen}>
+									<Button
+										size='sm'
+										id='language'
+										rightIcon={<MdKeyboardArrowDown />}
+										onClick={onLangOpen}
+									>
 										{languages.find((lang) => lang.id === languageId)?.name ?? languages[0]?.name}
 									</Button>
 								</FormControl>
@@ -72,16 +118,20 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 									<FormLabel htmlFor='theme'>
 										<Heading size='sm'>Theme selector</Heading>
 									</FormLabel>
-									<SimpleGrid gap='20px' id='theme' minChildWidth={['100px', '85px']}>
-										{themes.map((theme, i) => (
-											<Box
-												key={theme.id}
+									<SimpleGrid gap='10px' id='theme' minChildWidth={['100px', '70px']}>
+										{themes.slice(0, quickThemeLimit + 1).map((theme, i) => (
+											<Center
+												key={i === quickThemeLimit ? 'more-themes' : theme.id}
 												w='100%'
 												h={['70px', '70px']}
-												bg={theme.values.primaryDisplay}
+												bg={
+													i === quickThemeLimit
+														? getThemeValue('midTransparency')
+														: theme.values.primaryDisplay
+												}
 												borderRadius='10px'
 												style={
-													theme.id === themeId
+													theme.id === themeId && i !== quickThemeLimit
 														? {
 																outline: '3px solid',
 																outlineOffset: '-3px',
@@ -92,9 +142,14 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 												_hover={{
 													outline: '3px solid',
 													outlineOffset: '-3px',
-													outlineColor: theme.values.lowTransparency
+													outlineColor:
+														i === quickThemeLimit
+															? getThemeValue('lowTransparency')
+															: theme.values.lowTransparency
 												}}
-												onClick={() => setThemeId(theme.id)}
+												onClick={() =>
+													i === quickThemeLimit ? onThemeOpen() : setThemeId(theme.id)
+												}
 											>
 												<Flex
 													h='100%'
@@ -107,7 +162,11 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 													<Box
 														w='100%'
 														borderBottomRadius='10px'
-														bg={theme.values.lowAltTransparency}
+														bg={
+															i === quickThemeLimit
+																? getThemeValue('lowAltTransparency')
+																: theme.values.lowAltTransparency
+														}
 													>
 														<Flex
 															w='100%'
@@ -119,16 +178,31 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 															<Text
 																paddingX='5px'
 																fontSize='12px'
-																color={theme.values.text}
+																color={
+																	i === quickThemeLimit
+																		? getThemeValue('text')
+																		: theme.values.text
+																}
 																noOfLines={1}
 															>
-																{theme.name}
+																{i === quickThemeLimit ? (
+																	<Flex gap='5px'>
+																		More
+																		<MdAdd fontSize='20px' />
+																	</Flex>
+																) : (
+																	theme.name
+																)}
 															</Text>
 															<Spacer />
 															<SlideFade
-																in={theme.id === themeId || (!themeId && i === 0)}
+																in={
+																	(theme.id === themeId && i !== quickThemeLimit) ||
+																	(!themeId && i === 0)
+																}
 															>
-																{(theme.id === themeId || (!themeId && i === 0)) && (
+																{((theme.id === themeId && i !== quickThemeLimit) ||
+																	(!themeId && i === 0)) && (
 																	<Icon
 																		as={MdCheckCircle}
 																		zIndex={40}
@@ -139,9 +213,53 @@ const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
 														</Flex>
 													</Box>
 												</Flex>
-											</Box>
+											</Center>
 										))}
 									</SimpleGrid>
+								</FormControl>
+								<FormControl gap='5px' display='flex' flexDirection='column'>
+									<FormLabel htmlFor='serverURL'>
+										<Flex gap='10px' alignItems='center'>
+											<Heading size='sm'>Server URL</Heading>
+											{!serverInputError && isServerURLInputFocused && (
+												<SlideFade in={true} offsetY={-8} unmountOnExit>
+													<Text fontSize='xs'>
+														Make sure you trust the server you are adding.
+													</Text>
+												</SlideFade>
+											)}
+											{serverInputError && (
+												<SlideFade in={true} offsetY={-8} delay={0.1} unmountOnExit>
+													<Text fontSize='xs' color='red.300'>
+														{serverInputError}
+													</Text>
+												</SlideFade>
+											)}
+										</Flex>
+									</FormLabel>
+									<InputGroup>
+										<Input
+											id='serverURL'
+											isInvalid={!!serverInputError}
+											value={serverURLInput}
+											onChange={(e) => {
+												setServerURLInput(e.target.value);
+											}}
+											focusBorderColor={getThemeValue('primary')}
+											placeholder='https://jspaste.eu/api/v2/documents'
+											onBlur={() => {
+												setIsServerURLInputFocused(false);
+
+												if (!serverInputError) setServerURL(serverURLInput);
+											}}
+											onFocus={() => setIsServerURLInputFocused(true)}
+										/>
+										<SlideFade in={!!serverURLInput} offsetX={8} offsetY={0} unmountOnExit>
+											<InputRightElement>
+												<CloseButton size='md' onClick={() => setServerURLInput('')} />
+											</InputRightElement>
+										</SlideFade>
+									</InputGroup>
 								</FormControl>
 							</Stack>
 						</PopoverBody>
