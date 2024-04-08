@@ -3,6 +3,6 @@
 	"inherit": true,
 	"rules": [],
 	"colors": {
-		"editor.background": "#04010700"
+		"editor.background": "#000000"
 	}
 }
