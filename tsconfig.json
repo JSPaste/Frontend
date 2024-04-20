@@ -2,7 +2,7 @@
 	"$schema": "https://json.schemastore.org/tsconfig.json",
 	"compilerOptions": {
 		"jsx": "preserve",
-		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"jsxImportSource": "solid-js",
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleDetection": "force",
@@ -10,8 +10,6 @@
 
 		"allowJs": true,
 		"allowImportingTsExtensions": true,
-		"esModuleInterop": true,
-		"incremental": true,
 		"noEmit": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
@@ -31,16 +29,17 @@
 		"noUnusedParameters": true,
 		"verbatimModuleSyntax": true,
 
-		"plugins": [
-			{
-				"name": "next"
-			}
-		],
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["src/*"]
-		}
+			"@components/*": ["src/components/*"],
+			"@layouts/*": ["src/layouts/*"]
+		},
+		"plugins": [
+			{
+				"name": "@astrojs/ts-plugin"
+			}
+		]
 	},
-	"include": [".next/types/**/*.ts", "src/**/*", "next-env.d.ts"],
+	"include": ["src/**/*"],
 	"exclude": ["**/node_modules/"]
 }

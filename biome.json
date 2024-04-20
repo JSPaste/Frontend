@@ -1,13 +1,12 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.6.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.7.0/schema.json",
 	"files": {
-		"ignoreUnknown": true,
-		"ignore": [".next/", "**/node_modules/"]
+		"ignore": ["**/node_modules/", "dist/"],
+		"ignoreUnknown": true
 	},
 	"formatter": {
 		"enabled": true,
 		"formatWithErrors": false,
-		"ignore": [".next/", "**/node_modules/"],
 		"indentStyle": "tab",
 		"indentWidth": 4,
 		"lineEnding": "lf",
@@ -33,18 +32,15 @@
 	},
 	"linter": {
 		"enabled": true,
-		"ignore": [".next/", "**/node_modules/"],
 		"rules": {
 			"recommended": true,
 			"style": {
 				"noParameterAssign": "off"
 			},
 			"complexity": {
-				"useLiteralKeys": "off",
 				"noStaticOnlyClass": "off"
 			},
 			"suspicious": {
-				"noAssignInExpressions": "off",
 				"noExplicitAny": "off",
 				"noConsoleLog": "warn"
 			}
