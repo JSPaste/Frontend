@@ -4,24 +4,6 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	redirects: {
-		'/favicon.ico': {
-			status: 308,
-			destination: '/image/favicon.svg'
-		},
-		'/[...name]/raw': {
-			status: 302,
-			destination: '/documents/[...name]/raw'
-		},
-		'/[...name]/r': {
-			status: 302,
-			destination: '/documents/[...name]/raw'
-		},
-		'/github': {
-			status: 308,
-			destination: 'https://github.com/jspaste'
-		}
-	},
 	output: 'server',
 	adapter: node({
 		mode: 'standalone'
