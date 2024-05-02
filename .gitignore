@@ -13,6 +13,9 @@ lerna-debug.log*
 # Jetbrains IDEs
 .idea/
 
+# Astro
+.astro/
+
 # Finder (MacOS) folder config
 .DS_Store/
 

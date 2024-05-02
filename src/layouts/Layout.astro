@@ -1,0 +1,82 @@
+---
+import { manifest } from '@utils/manifest';
+import { seo } from '@utils/seo';
+import { SEO } from 'astro-seo';
+
+export interface Props {
+	/** Page title */
+	title?: string;
+
+	/** Description of the page */
+	description?: string;
+
+	/** OG page title */
+	ogTitle?: string;
+
+	/** OG page image */
+	image?: {
+		url: string;
+		width: number;
+		height: number;
+		alt: string;
+	};
+
+	disableIndexing?: boolean;
+}
+
+const { title, description, ogTitle, image, disableIndexing = false } = Astro.props as Props;
+---
+
+<html lang="en">
+
+<head>
+    <!-- SEO -->
+    <SEO
+            title={title || seo.siteName}
+            description={description || seo.description}
+            noindex={disableIndexing}
+            nofollow={disableIndexing}
+            openGraph={{
+                basic: {
+                    type: "website",
+                    title: ogTitle || title || seo.siteName,
+                    image: image?.url || seo.image.url
+                },
+                image: {
+                    width: image?.width || seo.image.width,
+                    height: image?.height || seo.image.height,
+                    alt: image?.alt || seo.image.alt
+                },
+                optional: {
+                    siteName: seo.siteName,
+                    description: description || seo.description
+                }
+            }}
+            twitter={{
+                card: seo.twitter.card
+            }}
+    />
+
+    <!-- Meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content={manifest.theme_color}/>
+
+    <!-- Favicon -->
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg'/>
+    <link rel='icon' type='image/png' href='/favicon.png'/>
+
+    <!-- Service worker -->
+    <script defer is:inline src="/registerSW.js"></script>
+    <link rel="manifest" href="/manifest.webmanifest"/>
+</head>
+
+<body>
+
+<main>
+    <slot/>
+</main>
+
+</body>
+
+</html>

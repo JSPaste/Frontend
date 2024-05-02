@@ -1,6 +1,8 @@
 import node from '@astrojs/node';
-import solidJs from '@astrojs/solid-js';
+import react from '@astrojs/react';
 import { defineConfig } from 'astro/config';
+import { VitePWA } from 'vite-plugin-pwa';
+import { manifest } from './src/utils/manifest';
 
 // https://astro.build/config
 export default defineConfig({
@@ -8,12 +10,26 @@ export default defineConfig({
 	adapter: node({
 		mode: 'standalone'
 	}),
-	integrations: [solidJs()],
+	integrations: [react()],
 	build: {
 		server: 'dist/astro/server',
 		client: 'dist/astro/client'
 	},
 	server: {
-		port: 4000
+		port: 3000
+	},
+	vite: {
+		plugins: [
+			VitePWA({
+				registerType: 'autoUpdate',
+				injectRegister: 'script-defer',
+				manifest,
+				workbox: {
+					globDirectory: 'dist/astro/client/',
+					globPatterns: ['**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
+					navigateFallback: null
+				}
+			})
+		]
 	}
 });
