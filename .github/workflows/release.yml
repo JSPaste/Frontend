@@ -2,15 +2,6 @@ name: "CD -> Release"
 on:
   workflow_dispatch:
     inputs:
-      artifact-action:
-        description: "Artifact action"
-        type: choice
-        required: true
-        default: "none"
-        options:
-          - "none"
-          - "build"
-          - "build-release"
       image-action:
         description: "Container image action"
         type: choice
@@ -29,84 +20,6 @@ permissions:
   contents: read
 
 jobs:
-  artifact:
-    if: ${{ github.repository_owner == 'jspaste' && inputs.artifact-action != 'none' }}
-    name: "Build artifact"
-    runs-on: ubuntu-latest
-    permissions:
-      attestations: write
-      contents: write
-      id-token: write
-
-    steps:
-      - name: "Harden Runner"
-        uses: step-security/harden-runner@a4aa98b93cab29d9b1101a6143fb8bce00e2eac4 # v2.7.1
-        with:
-          egress-policy: audit
-
-      - name: "Setup Bun"
-        uses: oven-sh/setup-bun@8f24390df009a496891208e5e36b8a1de1f45135 # v1.2.1
-
-      - name: "Setup tags"
-        id: tags-artifact
-        run: |
-          TIMESTAMP="$(date +%Y.%m.%d)"
-          GITHUB_SHA_SHORT="${GITHUB_SHA::7}"
-
-          if [[ "${GITHUB_REF}" == "refs/heads/stable" ]]; then
-            TAG="latest"
-          else
-            TAG="snapshot"
-          fi
-
-          echo "tag=${TAG}" >>"$GITHUB_OUTPUT"
-          echo "extended=${TIMESTAMP}-${GITHUB_SHA_SHORT}" >>"$GITHUB_OUTPUT"
-
-      - name: "Checkout"
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
-        with:
-          persist-credentials: false
-
-      - name: "Setup dependencies"
-        run: bun install --production --frozen-lockfile
-
-      - name: "Build artifact"
-        run: |
-          bun run build:standalone:darwin-arm64
-          tar -czf ./dist/backend_${{ steps.tags-artifact.outputs.tag }}_darwin-arm64.tar.gz .env.example LICENSE README.md -C ./dist/ backend
-
-          bun run build:standalone:linux-amd64
-          tar -czf ./dist/backend_${{ steps.tags-artifact.outputs.tag }}_linux-amd64.tar.gz .env.example LICENSE README.md -C ./dist/ backend
-
-          bun run build:standalone:linux-arm64
-          tar -czf ./dist/backend_${{ steps.tags-artifact.outputs.tag }}_linux-arm64.tar.gz .env.example LICENSE README.md -C ./dist/ backend
-
-          bun run build:standalone:windows-amd64
-          zip -j -X ./dist/backend_${{ steps.tags-artifact.outputs.tag }}_windows-amd64.zip .env.example LICENSE README.md ./dist/backend.exe
-
-      - if: ${{ inputs.artifact-action == 'build-release' }}
-        name: "Release artifact"
-        uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5 # v1.14.0
-        with:
-          name: ${{ steps.tags-artifact.outputs.extended }}
-          tag: ${{ steps.tags-artifact.outputs.tag }}
-          artifacts: "dist/*.tar.gz,dist/*.zip"
-          makeLatest: true
-          prerelease: ${{ github.ref != 'refs/heads/stable' }}
-          generateReleaseNotes: true
-
-      - if: ${{ inputs.artifact-action == 'build-release' }}
-        name: "Attest artifact (.tar.gz)"
-        uses: actions/attest-build-provenance@897ed5eab6ed058a474202017ada7f40bfa52940 # v1.0.0
-        with:
-          subject-path: 'dist/*.tar.gz'
-
-      - if: ${{ inputs.artifact-action == 'build-release' }}
-        name: "Attest artifact (.zip)"
-        uses: actions/attest-build-provenance@897ed5eab6ed058a474202017ada7f40bfa52940 # v1.0.0
-        with:
-          subject-path: 'dist/*.zip'
-
   container:
     if: ${{ github.repository_owner == 'jspaste' && inputs.image-action != 'none' }}
     name: "Build container image"

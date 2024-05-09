@@ -6,7 +6,7 @@ COPY . ./
 RUN bun install --production --frozen-lockfile && \
     bun run build:astro
 
-FROM cgr.dev/chainguard/bun:latest
+FROM docker.io/oven/bun:1-distroless
 WORKDIR /frontend/
 
 COPY --chown=nonroot --from=builder /build/dist/astro/ ./

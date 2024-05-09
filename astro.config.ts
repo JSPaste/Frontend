@@ -1,5 +1,6 @@
 import node from '@astrojs/node';
 import react from '@astrojs/react';
+import astroCompress from '@playform/compress';
 import { defineConfig } from 'astro/config';
 import { VitePWA } from 'vite-plugin-pwa';
 import { manifest } from './src/utils/manifest';
@@ -10,7 +11,12 @@ export default defineConfig({
 	adapter: node({
 		mode: 'standalone'
 	}),
-	integrations: [react()],
+	integrations: [
+		react(),
+		astroCompress({
+			Path: ['./dist/astro/']
+		})
+	],
 	build: {
 		server: 'dist/astro/server',
 		client: 'dist/astro/client'
