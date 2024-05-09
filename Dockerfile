@@ -1,26 +1,24 @@
-# Builder
-FROM docker.io/imbios/bun-node:1.1-21-alpine AS builder
+FROM docker.io/oven/bun:1-alpine AS builder
+WORKDIR /build/
 
 COPY . ./
 
 RUN bun install --production --frozen-lockfile && \
-    NEXT_OUTPUT=standalone bun run build
+    bun run build:astro
 
-# Runner
 FROM cgr.dev/chainguard/bun:latest
-WORKDIR /home/nonroot
+WORKDIR /frontend/
 
-COPY --chown=nonroot --from=builder /home/bun/app/.next/standalone ./
-COPY --chown=nonroot --from=builder /home/bun/app/.next/static ./.next/static
-COPY --chown=nonroot --from=builder /home/bun/app/public ./public
+COPY --chown=nonroot --from=builder /build/dist/astro/ ./
+COPY --chown=nonroot --from=builder /build/LICENSE ./
 
 LABEL org.opencontainers.image.url="https://jspaste.eu" \
       org.opencontainers.image.source="https://github.com/jspaste/frontend" \
-      org.opencontainers.image.title="jspaste-frontend" \
-      org.opencontainers.image.description="The frontend for JSPaste, built with Bun and Next.js" \
+      org.opencontainers.image.title="@jspaste/frontend" \
+      org.opencontainers.image.description="The frontend for JSPaste" \
       org.opencontainers.image.documentation="https://docs.jspaste.eu" \
       org.opencontainers.image.licenses="EUPL-1.2"
 
-EXPOSE 3000/tcp
+EXPOSE 3000
 
-CMD ["server.js"]
+CMD ["./server/entry.mjs"]

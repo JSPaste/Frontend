@@ -1,8 +1,9 @@
 *
 !public/
 !src/
+!astro.config.ts
 !bun.lockb
 !bunfig.toml
-!next.config.js
+!LICENSE
 !package.json
 !tsconfig.json
