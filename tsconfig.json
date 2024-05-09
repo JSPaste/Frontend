@@ -31,11 +31,11 @@
 
 		"baseUrl": ".",
 		"paths": {
-			"@components/*": ["src/components/*"],
-			"@layouts/*": ["src/layouts/*"],
-			"@pages/*": ["src/pages/*"],
-			"@styles/*": ["src/styles/*"],
-			"@utils/*": ["src/utils/*"]
+			"@components/*": ["./src/components/*"],
+			"@layouts/*": ["./src/layouts/*"],
+			"@pages/*": ["./src/pages/*"],
+			"@styles/*": ["./src/styles/*"],
+			"@utils/*": ["./src/utils/*"]
 		},
 		"plugins": [
 			{
@@ -43,6 +43,6 @@
 			}
 		]
 	},
-	"include": ["src/**/*"],
+	"include": ["./src/**/*"],
 	"exclude": ["**/node_modules/"]
 }

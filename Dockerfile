@@ -4,12 +4,12 @@ WORKDIR /build/
 COPY . ./
 
 RUN bun install --production --frozen-lockfile && \
-    bun run build:astro
+    bun run build:bundle
 
 FROM docker.io/oven/bun:1-distroless
 WORKDIR /frontend/
 
-COPY --chown=nonroot --from=builder /build/dist/astro/ ./
+COPY --chown=nonroot --from=builder /build/dist/prod/ ./
 COPY --chown=nonroot --from=builder /build/LICENSE ./
 
 LABEL org.opencontainers.image.url="https://jspaste.eu" \
@@ -21,4 +21,4 @@ LABEL org.opencontainers.image.url="https://jspaste.eu" \
 
 EXPOSE 3000
 
-CMD ["./server/entry.mjs"]
+CMD ["entry.js"]
