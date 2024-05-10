@@ -7,7 +7,7 @@
 	"scripts": {
 		"build": "bun run build:astro",
 		"build:astro": "bun astro build",
-		"build:bundle": "bun run build:astro && bun build --target=bun --splitting --minify-whitespace --minify-syntax --outdir ./dist/prod/ ./dist/astro/server/entry.mjs",
+		"build:bundle": "bun run build:astro && bun build --target=bun --splitting --minify-whitespace --minify-syntax --entry-naming \"index.[ext]\" --chunk-naming \"chunks/[hash].[ext]\" --asset-naming \"chunks/[name].[ext]\" --outdir ./dist/prod/ ./dist/astro/entry.mjs && bun run shell:build:postbundle",
 		"fix": "bun run fix:biome && bun run fix:package",
 		"fix:biome": "bun biome check --apply .",
 		"fix:package": "bun sort-package-json --quiet",
@@ -15,6 +15,7 @@
 		"lint": "bun run lint:biome && bun run lint:tsc",
 		"lint:biome": "bun biome lint .",
 		"lint:tsc": "bun tsc --noEmit",
+		"shell:build:postbundle": "cp -a ./dist/astro/public/ ./dist/prod/",
 		"start": "bun run build:astro && bun astro preview",
 		"start:dev": "bun astro dev"
 	},

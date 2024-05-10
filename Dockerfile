@@ -21,4 +21,4 @@ LABEL org.opencontainers.image.url="https://jspaste.eu" \
 
 EXPOSE 3000
 
-CMD ["entry.js"]
+CMD ["index.js"]

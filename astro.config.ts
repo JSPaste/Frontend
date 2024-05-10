@@ -14,12 +14,12 @@ export default defineConfig({
 	integrations: [
 		react(),
 		astroCompress({
-			Path: ['dist/astro/']
+			Path: ['./dist/astro/']
 		})
 	],
 	build: {
-		server: 'dist/astro/server/',
-		client: 'dist/astro/client/'
+		server: './dist/astro/',
+		client: './dist/astro/public/'
 	},
 	server: {
 		port: 3000
@@ -31,12 +31,17 @@ export default defineConfig({
 				injectRegister: 'script-defer',
 				manifest,
 				workbox: {
-					globDirectory: 'dist/astro/client/',
+					globDirectory: './dist/astro/public/',
 					globPatterns: ['**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
 					navigateFallback: null
 				}
 			}),
-			million.vite({ mode: 'react', telemetry: false, server: true, auto: true })
+			million.vite({
+				mode: 'react',
+				telemetry: false,
+				server: true,
+				auto: true
+			})
 		]
 	}
 });
