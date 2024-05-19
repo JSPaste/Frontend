@@ -1,8 +1,7 @@
 ---
+import { Main } from '@/components/general/Main';
 import { manifest } from '@/utils/manifest';
 import { seo } from '@/utils/seo';
-import useThemeValues from '@/utils/useThemeValues';
-import { Box, ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
 import { SEO } from 'astro-seo';
 
 export interface Props {
@@ -27,16 +26,8 @@ export interface Props {
 }
 
 const { title, description, ogTitle, image, disableIndexing = false } = Astro.props as Props;
-
-const theme = extendTheme({
-	config: {
-		initialColorMode: 'dark',
-		useSystemColorMode: false
-	}
-});
-
-const { getThemeValue } = useThemeValues();
 ---
+
 
 <html lang="en">
 
@@ -85,12 +76,7 @@ const { getThemeValue } = useThemeValues();
 <body>
 
 <main>
-    <ColorModeScript initialColorMode={theme['config'].initialColorMode}/>
-    <ChakraProvider theme={theme}>
-        <Box h='100%' w='100%' bg={getThemeValue('editor')}>
-            <slot/>
-        </Box>
-    </ChakraProvider>
+    <Main client:only="react"/>
 </main>
 
 </body>
