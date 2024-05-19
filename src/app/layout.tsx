@@ -3,7 +3,7 @@
 import useThemeValues from '@/hooks/useThemeValues';
 import { CacheProvider } from '@chakra-ui/next-js';
 import { Box, ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 const theme = extendTheme({
 	config: {
@@ -16,7 +16,7 @@ type RootLayoutProps = {
 	children: ReactNode;
 };
 
-export default function RootLayout({ children }: Readonly<RootLayoutProps>): ReactElement {
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
 	const { getThemeValue } = useThemeValues();
 
 	return (
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>): Rea
 			}}
 		>
 			<head>
-				<title>JSPaste - The developer website for easy code sharing.</title>
+				<title>JSPaste - The developer website for easy code sharing</title>
 				<meta name='viewport' content='initial-scale=1, width=device-width' />
 
 				<meta name='title' content='JSPaste' />
@@ -50,7 +50,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>): Rea
 					property='og:description'
 					content='Create and share code with JSPaste! The developer website for easy code sharing.'
 				/>
-				<meta property='og:image' content='/logo_bg.webp' />
+				<meta property='og:image' content='/media/jspaste.bg.rounded.svg' />
 				<meta
 					property='og:keywords'
 					content='JSPaste,developer,javascript,hastebin,TSPaste,pastebin,tnfAngel'
@@ -63,14 +63,14 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>): Rea
 					property='twitter:description'
 					content='Create and share code with JSPaste! The developer website for easy code sharing.'
 				/>
-				<meta property='twitter:image' content='/logo_bg.webp' />
+				<meta property='twitter:image' content='/media/jspaste.bg.rounded.svg' />
 				<meta property='twitter:site' content='@tnfAngel' />
 				<meta property='twitter:site:id' content='@tnfAngel' />
 				<meta property='twitter:creator' content='@tnfAngel' />
 				<meta property='twitter:creator:id' content='@tnfAngel' />
 
-				<link rel='icon' type='image/svg+xml' href='/image/favicon.svg' />
-				<link rel='icon' type='image/png' href='/image/favicon.png' />
+				<link rel='icon' type='image/svg+xml' href='/media/jspaste.bg.rounded.svg' />
+				<link rel='icon' type='image/png' href='/media/jspaste.png' />
 
 				<style>
 					{

@@ -32,11 +32,11 @@ import {
 	useBreakpointValue,
 	useDisclosure
 } from '@chakra-ui/react';
-import { type ReactElement, useState } from 'react';
+import { useState } from 'react';
 import { MdAdd, MdCheckCircle, MdFlag, MdKeyboardArrowDown, MdPalette } from 'react-icons/md';
 import SelectModal from './SelectModal';
 
-const SettingsPopover = ({ trigger }: SettingPopoverProps): ReactElement => {
+const SettingsPopover = ({ trigger }: SettingPopoverProps) => {
 	const { getThemeValue } = useThemeValues();
 	const [languageId, languages] = useLanguage();
 	const { setLanguageId } = useLanguageStore();

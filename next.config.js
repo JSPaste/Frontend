@@ -23,8 +23,8 @@ const nextConfig = {
 			},
 			{
 				source: '/favicon.ico',
-				destination: '/image/favicon.svg',
-				permanent: true
+				destination: '/media/jspaste.bg.rounded.svg',
+				permanent: false
 			},
 			{
 				source: '/:key/raw',

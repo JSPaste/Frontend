@@ -16,7 +16,7 @@ import {
 	Text,
 	useEventListener
 } from '@chakra-ui/react';
-import { type ReactElement, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MdAdd, MdSearch } from 'react-icons/md';
 
 const SelectModal = ({
@@ -27,7 +27,7 @@ const SelectModal = ({
 	onSelect,
 	onPreview,
 	showIcons
-}: SelectModalProps): ReactElement => {
+}: SelectModalProps) => {
 	const { getThemeValue } = useThemeValues();
 	const [searchInput, setSearchInput] = useState('');
 	const [selectedIndex, setSelectedIndex] = useState(0);
