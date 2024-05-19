@@ -13,9 +13,6 @@ lerna-debug.log*
 # Jetbrains IDEs
 .idea/
 
-# Astro
-.astro/
-
 # Finder (MacOS) folder config
 .DS_Store/
 
@@ -96,6 +93,7 @@ web_modules/
 # Next.js build output
 .next
 out
+next-env.d.ts
 
 # Nuxt.js build / generate output
 .nuxt

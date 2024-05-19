@@ -1,4 +1,4 @@
-FROM docker.io/imbios/bun-node:1-22-alpine AS builder
+FROM docker.io/oven/bun:1-alpine AS builder
 WORKDIR /build/
 
 COPY . ./

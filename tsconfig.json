@@ -1,8 +1,8 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig.json",
 	"compilerOptions": {
-		"jsx": "react-jsx",
-		"jsxImportSource": "react",
+		"jsx": "preserve",
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleDetection": "force",
@@ -33,7 +33,7 @@
 
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["src/*"]
+			"@/*": ["./src/*"]
 		},
 		"plugins": [
 			{
@@ -41,6 +41,6 @@
 			}
 		]
 	},
-	"include": ["./.next/types/**/*.ts", "./src/**/*", "next-env.d.ts"],
+	"include": [".next/types/**/*.ts", "./src/**/*", "next-env.d.ts"],
 	"exclude": ["**/node_modules/"]
 }
