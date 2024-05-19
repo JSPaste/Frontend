@@ -1,5 +1,5 @@
 import Controls from '@/components/general/Controls';
-import { Editor } from '@/components/general/Editor';
+import Editor from '@/components/general/Editor';
 import Information from '@/components/general/Information';
 import type { DocumentScreenProps, InformationProps } from '@/types/Components.ts';
 import { Flex } from '@chakra-ui/react';

@@ -1,8 +1,8 @@
 ---
-import { Main } from '@/components/general/Main';
 import { manifest } from '@/utils/manifest';
 import { seo } from '@/utils/seo';
 import { SEO } from 'astro-seo';
+import { Screen } from '../components/general/Screen';
 
 export interface Props {
 	/** Page title */
@@ -76,7 +76,7 @@ const { title, description, ogTitle, image, disableIndexing = false } = Astro.pr
 <body>
 
 <main>
-    <Main client:only="react"/>
+    <Screen client:load/>
 </main>
 
 </body>

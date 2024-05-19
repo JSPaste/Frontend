@@ -1,7 +1,7 @@
 import useThemeValues from '@/utils/useThemeValues';
 import { Box, ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
 
-export function Main() {
+export function Screen() {
 	const theme = extendTheme({
 		config: {
 			initialColorMode: 'dark',

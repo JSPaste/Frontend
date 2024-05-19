@@ -1,7 +1,4 @@
 import useLanguageStore from '@/store/language';
-import amoledTheme from '@/themes/monaco/amoled.json';
-import defaultTheme from '@/themes/monaco/default.json';
-import midnightTheme from '@/themes/monaco/midnight.json';
 import type { EditorProps } from '@/types/Components.ts';
 import type { Theme } from '@/types/Theme.ts';
 import useLanguage from '@/utils/useLanguage';
@@ -15,7 +12,7 @@ import { type ReactElement, useCallback, useEffect, useRef } from 'react';
 export const welcomeCode =
 	"// Start writing here! When you're done, hit the save button to generate a unique URL with your content.";
 
-export const Editor = ({ setInformation, setValue, documentId, isEditing, enableEdit }: EditorProps): ReactElement => {
+const Editor = ({ setInformation, setValue, documentId, isEditing, enableEdit }: EditorProps): ReactElement => {
 	const monaco = useMonaco();
 
 	const { getThemeValue } = useThemeValues();
@@ -55,12 +52,12 @@ export const Editor = ({ setInformation, setValue, documentId, isEditing, enable
 			const { monacoTheme, isCustomMonacoTheme } = themes.find((t) => t.id === themeId) ?? (themes[0] as Theme);
 
 			if (isCustomMonacoTheme) {
-				if (monacoTheme === 'default') editorMonaco.editor.defineTheme(monacoTheme, defaultTheme);
-				if (monacoTheme === 'amoled') editorMonaco.editor.defineTheme(monacoTheme, amoledTheme);
-				if (monacoTheme === 'midnight') editorMonaco.editor.defineTheme(monacoTheme, midnightTheme);
+				const themeData = await import(`@/themes/monaco/${monacoTheme}.json`);
+
+				editorMonaco?.editor.defineTheme(monacoTheme, themeData.default);
 			}
 
-			editorMonaco.editor.setTheme(monacoTheme);
+			editorMonaco?.editor.setTheme(monacoTheme);
 		},
 		[monaco, themeId, themes]
 	);
@@ -114,17 +111,17 @@ export const Editor = ({ setInformation, setValue, documentId, isEditing, enable
 							isFirstEditRef.current = false;
 							const changes = ce.changes.map((c) => c.text).join('');
 
-							editorRef.current.setValue(changes);
+							editorRef.current?.setValue(changes);
 
 							const changesSlice = changes.split('\n');
 
-							editorRef.current.setPosition({
+							editorRef.current?.setPosition({
 								lineNumber: changesSlice.length,
 								column: (changesSlice.at(-1)?.length ?? 1) + 1
 							});
 						}
 					} else if (value?.length ?? 0 > 15) {
-						if (lastLangTimestampRef.current || lastLangTimestampRef.current + 2_000 < Date.now()) {
+						if (!lastLangTimestampRef?.current || lastLangTimestampRef.current + 2_000 < Date.now()) {
 							lastLangTimestampRef.current = Date.now();
 
 							const { language: identifiedLanguage } = hljs.highlightAuto(value ?? '');
@@ -146,3 +143,5 @@ export const Editor = ({ setInformation, setValue, documentId, isEditing, enable
 		</Box>
 	);
 };
+
+export default Editor;
