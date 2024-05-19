@@ -1,7 +1,6 @@
 'use client';
 
 import DocumentScreen from '@/components/screens/DocumentScreen';
-import type { ReactElement } from 'react';
 
 type DocumentViewPageProps = {
 	params: {
@@ -9,6 +8,6 @@ type DocumentViewPageProps = {
 	};
 };
 
-export default function DocumentViewPage({ params: { documentId } }: Readonly<DocumentViewPageProps>): ReactElement {
+export default function DocumentViewPage({ params: { documentId } }: Readonly<DocumentViewPageProps>) {
 	return <DocumentScreen documentId={documentId} enableEdit={true} />;
 }

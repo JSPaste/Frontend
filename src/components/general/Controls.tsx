@@ -2,12 +2,12 @@ import LogoIcon from '@/components/LogoIcon';
 import useThemeValues from '@/hooks/useThemeValues';
 import type { ActionButtonProps, ControlsProps } from '@/types/Components.ts';
 import { Box, Flex, IconButton, Spacer, Tooltip, useToast } from '@chakra-ui/react';
-import { type ForwardedRef, type ReactElement, forwardRef, useState } from 'react';
+import { type ForwardedRef, forwardRef, useState } from 'react';
 import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 import SettingsPopover from '../modals/SettingsPopover';
 
 const ActionButton = forwardRef(
-	({ icon, label, onClick, isDisabled, isLoading }: ActionButtonProps, ref: ForwardedRef<any>): ReactElement => {
+	({ icon, label, onClick, isDisabled, isLoading }: ActionButtonProps, ref: ForwardedRef<any>) => {
 		const { getThemeValue } = useThemeValues();
 
 		return (
@@ -35,7 +35,7 @@ const ActionButton = forwardRef(
 	}
 );
 
-const Controls = ({ documentId, value, isEditing, setIsEditing, enableEdit }: ControlsProps): ReactElement => {
+const Controls = ({ documentId, value, isEditing, setIsEditing, enableEdit }: ControlsProps) => {
 	const { getThemeValue } = useThemeValues();
 
 	const [isSaveLoading, setIsSaveLoading] = useState(false);

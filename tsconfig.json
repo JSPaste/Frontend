@@ -31,16 +31,16 @@
 		"noUnusedParameters": true,
 		"verbatimModuleSyntax": true,
 
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"]
+		},
 		"plugins": [
 			{
 				"name": "next"
 			}
-		],
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["src/*"]
-		}
+		]
 	},
-	"include": [".next/types/**/*.ts", "src/**/*", "next-env.d.ts"],
+	"include": [".next/types/**/*.ts", "./src/**/*", "next-env.d.ts"],
 	"exclude": ["**/node_modules/"]
 }

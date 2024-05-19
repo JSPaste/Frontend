@@ -14,9 +14,6 @@ const nextConfig = {
 			}
 		]
 	},
-	env: {
-		API_URL: process.env.API_URL
-	},
 	async redirects() {
 		return [
 			{
@@ -26,8 +23,8 @@ const nextConfig = {
 			},
 			{
 				source: '/favicon.ico',
-				destination: '/image/favicon.svg',
-				permanent: true
+				destination: '/media/jspaste.bg.rounded.svg',
+				permanent: false
 			},
 			{
 				source: '/:key/raw',

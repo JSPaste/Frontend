@@ -5,7 +5,6 @@ import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
 import type { InformationLabelProps, InformationProps, Language } from '@/types/Components.ts';
 import { Box, Flex, Show, Spacer, Text, useDisclosure } from '@chakra-ui/react';
-import type { ReactElement } from 'react';
 import { MdFlag } from 'react-icons/md';
 import { SiGitbook, SiGithub } from 'react-icons/si';
 import pkg from '../../../package.json';
@@ -14,7 +13,7 @@ import SelectModal from '../modals/SelectModal';
 // Change me from "next" to "@jspaste/library" when package is done
 const libraryVersion = 'Library '.concat(pkg.dependencies['next'].replace(/[^0-9.]/g, ''));
 
-const InformationLabel = ({ label, icon, isSelectable, onClick, ...props }: InformationLabelProps): ReactElement => {
+const InformationLabel = ({ label, icon, isSelectable, onClick, ...props }: InformationLabelProps) => {
 	const { getThemeValue } = useThemeValues();
 
 	const textElement = (
@@ -49,7 +48,7 @@ const InformationLabel = ({ label, icon, isSelectable, onClick, ...props }: Info
 	);
 };
 
-const Information = ({ lineNumber, columnNumber }: InformationProps): ReactElement => {
+const Information = ({ lineNumber, columnNumber }: InformationProps) => {
 	const { getThemeValue } = useThemeValues();
 	const [languageId, languages, autoLanguageId] = useLanguage();
 	const { setLanguageId } = useLanguageStore();
