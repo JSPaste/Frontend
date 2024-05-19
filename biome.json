@@ -38,9 +38,11 @@
 				"noParameterAssign": "off"
 			},
 			"complexity": {
+				"useLiteralKeys": "off",
 				"noStaticOnlyClass": "off"
 			},
 			"suspicious": {
+				"noAssignInExpressions": "off",
 				"noExplicitAny": "off",
 				"noConsoleLog": "warn"
 			}

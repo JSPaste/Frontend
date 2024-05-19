@@ -1,7 +1,7 @@
 import node from '@astrojs/node';
 import react from '@astrojs/react';
-import astroCompress from '@playform/compress';
-import astroInline from '@playform/inline';
+import compress from '@playform/compress';
+import inline from '@playform/inline';
 import { defineConfig } from 'astro/config';
 import million from 'million/compiler';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -14,7 +14,7 @@ export default defineConfig({
 	}),
 	integrations: [
 		react(),
-		astroCompress({
+		compress({
 			HTML: {
 				'html-minifier-terser': {
 					removeComments: true,
@@ -34,7 +34,7 @@ export default defineConfig({
 			},
 			Path: ['./dist/astro/']
 		}),
-		astroInline({
+		inline({
 			Path: ['./dist/astro/']
 		})
 	],

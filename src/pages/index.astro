@@ -1,9 +1,10 @@
 ---
-export const prerender = true;
+import DocumentScreen from '@/components/screens/DocumentScreen';
+import Editor from '@/layouts/Editor.astro';
 
-import Editor from '@layouts/Editor.astro';
+export const prerender = false;
 ---
 
 <Editor>
-    <h1>EDITOR</h1>
+    <DocumentScreen client:only="react" enableEdit={false}/>
 </Editor>

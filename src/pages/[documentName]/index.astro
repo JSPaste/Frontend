@@ -1,5 +1,7 @@
 ---
+import DocumentScreen from '@/components/screens/DocumentScreen';
+
 const { documentName } = Astro.params;
 ---
 
-<h1>{documentName}</h1>
+<DocumentScreen client:only="react" documentId={documentName} enableEdit={true}/>;
