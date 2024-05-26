@@ -3,6 +3,7 @@
 !src/
 !bun.lockb
 !bunfig.toml
+!LICENSE
 !next.config.js
 !package.json
 !tsconfig.json

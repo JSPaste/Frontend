@@ -1,8 +1,7 @@
 'use client';
 
 import DocumentScreen from '@/components/screens/DocumentScreen';
-import type { ReactElement } from 'react';
 
-export default function DocumentPage(): ReactElement {
+export default function DocumentPage() {
 	return <DocumentScreen enableEdit={false} />;
 }
