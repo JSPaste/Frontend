@@ -16,7 +16,7 @@
 		"lint:biome": "bun biome lint .",
 		"lint:tsc": "bun tsc --noEmit",
 		"start": "bun run build && bun next start",
-		"start:dev": "bun next dev"
+		"start:dev": "bun next dev --turbo"
 	},
 	"dependencies": {
 		"@chakra-ui/icons": "~2.1.1",
