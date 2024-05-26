@@ -62,7 +62,6 @@ type SettingPopoverProps = {
 };
 
 type DocumentScreenProps = {
-	documentId?: string;
 	enableEdit: boolean;
 };
 

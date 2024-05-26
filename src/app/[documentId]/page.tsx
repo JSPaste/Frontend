@@ -1,13 +1,7 @@
-'use client';
-
 import DocumentScreen from '@/components/screens/DocumentScreen';
 
-type DocumentViewPageProps = {
-	params: {
-		documentId: string;
-	};
-};
+export const dynamic = 'force-static';
 
-export default function DocumentViewPage({ params: { documentId } }: Readonly<DocumentViewPageProps>) {
-	return <DocumentScreen documentId={documentId} enableEdit={true} />;
+export default function DocumentViewPage() {
+	return <DocumentScreen enableEdit={true} />;
 }

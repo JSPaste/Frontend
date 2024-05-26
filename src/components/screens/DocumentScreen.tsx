@@ -1,11 +1,16 @@
+'use client';
+
 import Controls from '@/components/general/Controls';
 import Editor from '@/components/general/Editor';
 import Information from '@/components/general/Information';
 import type { DocumentScreenProps, InformationProps } from '@/types/Components.ts';
 import { Flex } from '@chakra-ui/react';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
-const DocumentScreen = ({ documentId, enableEdit }: DocumentScreenProps) => {
+const DocumentScreen = ({ enableEdit }: DocumentScreenProps) => {
+	const { documentId } = useParams<{ documentId?: string }>();
+
 	const [information, setInformation] = useState<InformationProps>({
 		lineNumber: 0,
 		columnNumber: 0
