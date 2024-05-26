@@ -20,6 +20,9 @@ LABEL org.opencontainers.image.url="https://jspaste.eu" \
       org.opencontainers.image.documentation="https://docs.jspaste.eu" \
       org.opencontainers.image.licenses="EUPL-1.2"
 
+ENV HOSTNAME=127.0.0.1
+ENV PORT=3000
+
 EXPOSE 3000
 
 CMD ["server.js"]
