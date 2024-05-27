@@ -7,7 +7,7 @@
 	"scripts": {
 		"build": "bun run build:next",
 		"build:next": "bun next build",
-		"build:static": "NEXT_OUTPUT=static bun run build:next",
+		"build:static": "NEXT_OUTPUT=export bun run build:next",
 		"build:standalone": "NEXT_OUTPUT=standalone bun run build:next",
 		"fix": "bun run fix:biome && bun run fix:package",
 		"fix:biome": "bun biome check --apply .",
