@@ -31,7 +31,7 @@ const Editor = ({ setInformation, setValue, documentId, isEditing, enableEdit }:
 		md: { minimap: true }
 	}) ?? { minimap: true };
 
-	const defaultCode = documentId ? 'blablabla' : welcomeCode;
+	const defaultCode = documentId ? `hi from ${documentId}` : welcomeCode;
 
 	const updateInformation = useCallback(
 		(editor: any) => {

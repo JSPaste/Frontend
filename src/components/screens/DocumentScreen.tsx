@@ -5,11 +5,10 @@ import Editor from '@/components/general/Editor';
 import Information from '@/components/general/Information';
 import type { DocumentScreenProps, InformationProps } from '@/types/Components.ts';
 import { Flex } from '@chakra-ui/react';
-import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 const DocumentScreen = ({ enableEdit }: DocumentScreenProps) => {
-	const { documentId } = useParams<{ documentId?: string }>();
+	const documentId = typeof window !== 'undefined' ? location.pathname.split('/')[1] : undefined;
 
 	const [information, setInformation] = useState<InformationProps>({
 		lineNumber: 0,

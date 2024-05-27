@@ -1,48 +1,48 @@
 {
-	"$schema": "https://json.schemastore.org/package.json",
-	"name": "@jspaste/frontend",
-	"private": true,
-	"license": "EUPL-1.2",
-	"type": "module",
-	"scripts": {
-		"build": "bun run build:next",
-		"build:next": "bun next build",
-		"build:standalone": "NEXT_OUTPUT=standalone bun run build:next",
-		"fix": "bun run fix:biome && bun run fix:package",
-		"fix:biome": "bun biome check --apply .",
-		"fix:package": "bun sort-package-json --quiet",
-		"postinstall": "bun next telemetry disable",
-		"lint": "bun run lint:biome && bun run lint:tsc",
-		"lint:biome": "bun biome lint .",
-		"lint:tsc": "bun tsc --noEmit",
-		"start": "bun run build && bun next start",
-		"start:dev": "bun next dev"
-	},
-	"dependencies": {
-		"@chakra-ui/icons": "~2.1.1",
-		"@chakra-ui/next-js": "~2.2.0",
-		"@chakra-ui/react": "~2.8.2",
-		"@chakra-ui/system": "~2.6.2",
-		"@monaco-editor/react": "~4.6.0",
-		"@types/bun": "~1.1.3",
-		"@types/react": "~18.3.3",
-		"@types/react-dom": "~18.3.0",
-		"highlight.js": "~11.9.0",
-		"million": "~3.1.6",
-		"next": "~14.2.3",
-		"react": "~18.3.1",
-		"react-dom": "~18.3.1",
-		"react-icons": "~5.2.1",
-		"typescript": "~5.4.5",
-		"zustand": "~4.5.2"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "~1.7.3",
-		"lefthook": "~1.6.12",
-		"sort-package-json": "~2.10.0"
-	},
-	"trustedDependencies": [
-		"@biomejs/biome",
-		"lefthook"
-	]
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@jspaste/frontend",
+  "private": true,
+  "license": "EUPL-1.2",
+  "type": "module",
+  "scripts": {
+    "build": "bun run build:next",
+    "build:next": "bun next build",
+    "build:static": "NEXT_OUTPUT=standalone bun run build:next",
+    "build:standalone": "NEXT_OUTPUT=static bun run build:next",
+    "fix": "bun run fix:biome && bun run fix:package",
+    "fix:biome": "bun biome check --apply .",
+    "fix:package": "bun sort-package-json --quiet",
+    "postinstall": "bun next telemetry disable",
+    "lint": "bun run lint:biome && bun run lint:tsc",
+    "lint:biome": "bun biome lint .",
+    "lint:tsc": "bun tsc --noEmit",
+    "start": "bun run build && bun next start",
+    "start:static": "bun run build:static && bunx serve@latest out",
+    "start:dev": "bun next dev"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "~2.1.1",
+    "@chakra-ui/next-js": "~2.2.0",
+    "@chakra-ui/react": "~2.8.2",
+    "@chakra-ui/system": "~2.6.2",
+    "@monaco-editor/react": "~4.6.0",
+    "@types/bun": "~1.1.3",
+    "@types/react": "~18.3.3",
+    "@types/react-dom": "~18.3.0",
+    "highlight.js": "~11.9.0",
+    "million": "~3.1.6",
+    "next": "~14.2.3",
+    "react": "~18.3.1",
+    "react-dom": "~18.3.1",
+    "react-icons": "~5.2.1",
+    "serve": "^14.2.3",
+    "typescript": "~5.4.5",
+    "zustand": "~4.5.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "~1.7.3",
+    "lefthook": "~1.6.12",
+    "sort-package-json": "~2.10.0"
+  },
+  "trustedDependencies": ["@biomejs/biome", "lefthook"]
 }
