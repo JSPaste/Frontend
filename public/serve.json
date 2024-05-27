@@ -1,5 +1,5 @@
 {
-	"rewrites": [{ "source": "/**", "destination": "/document.html" }],
+	"rewrites": [{ "source": "/*", "destination": "/document.html" }],
 	"redirects": [
 		{
 			"source": "/github",
