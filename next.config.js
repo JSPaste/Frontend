@@ -1,5 +1,3 @@
-import million from 'million/compiler';
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	output: process.env.NEXT_OUTPUT,
@@ -13,6 +11,11 @@ const nextConfig = {
 				port: ''
 			}
 		]
+	},
+	bundlePagesRouterDependencies: true,
+	experimental: {
+		reactCompiler: true,
+		ppr: true
 	},
 	async redirects() {
 		return [
@@ -40,11 +43,4 @@ const nextConfig = {
 	}
 };
 
-let configExport = nextConfig;
-
-if (process.env.NODE_ENV === 'production') {
-	console.info('Loaded production config');
-	configExport = million.next(nextConfig);
-}
-
-export default configExport;
+export default nextConfig;
