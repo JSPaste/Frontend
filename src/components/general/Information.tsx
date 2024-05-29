@@ -1,5 +1,4 @@
 import LogoIcon from '@/components/LogoIcon.tsx';
-import { welcomeCode } from '@/components/general/Editor.tsx';
 import useLanguage from '@/hooks/useLanguage';
 import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
@@ -76,10 +75,7 @@ const Information = ({ lineNumber, columnNumber }: InformationProps) => {
 			>
 				<InformationLabel label={libraryVersion} icon={<LogoIcon fontSize='15px' />} />
 				<InformationLabel
-					label={`Ln ${(lineNumber || 1).toString().padStart(2, '0')} Col ${(lineNumber
-						? columnNumber
-						: welcomeCode.length + 1
-					)
+					label={`Ln ${(lineNumber || 1).toString().padStart(2, '0')} Col ${(lineNumber ? columnNumber : 0)
 						.toString()
 						.padStart(2, '0')}`}
 				/>

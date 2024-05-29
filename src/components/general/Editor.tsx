@@ -4,9 +4,6 @@ import CodeMirror from '@uiw/react-codemirror';
 import { useCallback, useEffect, useRef } from 'react';
 import './Editor.css';
 
-export const welcomeCode =
-	"// Start writing here! When you're done, hit the save button to generate a unique URL with your content.";
-
 const Editor = ({ setInformation, value, setValue, documentId, isEditing, enableEdit }: EditorProps) => {
 	const editorRef = useRef<any>(null);
 
@@ -31,6 +28,7 @@ const Editor = ({ setInformation, value, setValue, documentId, isEditing, enable
 	return (
 		<Box h='100%' w='100%' bg='editor'>
 			<CodeMirror
+				placeholder="// Start writing here! When you're done, hit the save button to generate a unique URL with your content."
 				value={value}
 				height='100%'
 				maxWidth='100%'
@@ -47,8 +45,7 @@ const Editor = ({ setInformation, value, setValue, documentId, isEditing, enable
 				}}
 				theme='dark'
 				style={{
-					height: '100%',
-					overflow: 'auto'
+					height: '100%'
 				}}
 			/>
 		</Box>
