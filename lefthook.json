@@ -6,7 +6,7 @@
 				"env": {
 					"PATH": "$PATH:$HOME/.bun/bin"
 				},
-				"run": "git update-index --again"
+				"run": "bun run fix && git update-index --again"
 			}
 		}
 	}
