@@ -4,7 +4,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { useCallback, useEffect, useRef } from 'react';
 import './Editor.css';
 
-const Editor = ({ setInformation, value, setValue, documentId, isEditing, enableEdit }: EditorProps) => {
+const Editor = ({ setInformation, value, setValue, isEditing, enableEdit }: EditorProps) => {
 	const editorRef = useRef<any>(null);
 
 	const updateInformation = useCallback(

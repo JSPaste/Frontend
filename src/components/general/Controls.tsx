@@ -1,7 +1,7 @@
 import LogoIcon from '@/components/LogoIcon';
 import useThemeValues from '@/hooks/useThemeValues';
 import type { ActionButtonProps, ControlsProps } from '@/types/Components.ts';
-import { Box, Flex, IconButton, Spacer, Tooltip, useToast } from '@chakra-ui/react';
+import { Flex, IconButton, Spacer, Tooltip, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 import SettingsPopover from '../modals/SettingsPopover';
