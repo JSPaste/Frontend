@@ -21,7 +21,7 @@ const DocumentScreen = ({ enableEdit }: DocumentScreenProps) => {
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 
 	return (
-		<Flex w='100%' h='100%' gap='0px' direction='column'>
+		<Flex w='100%' h='100%' maxH='100vh' gap='0px' direction='column'>
 			<Information {...information} />
 			<Editor
 				setInformation={setInformation}

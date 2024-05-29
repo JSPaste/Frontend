@@ -1,0 +1,16 @@
+.cm-scroller {
+	overflow: none !important;
+}
+
+.cm-editor {
+	padding: 10px 0px 10px 0px;
+	box-sizing: border-box;
+}
+
+.cm-lineNumbers > .cm-gutterElement {
+	padding-left: 20px !important;
+}
+
+.cm-line {
+	text-wrap: wrap;
+}

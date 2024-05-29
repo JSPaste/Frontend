@@ -64,52 +64,46 @@ const Controls = ({ documentId, value, isEditing, setIsEditing, enableEdit }: Co
 	}
 
 	return (
-		<Flex direction='column' w='100%'>
-			<Box w='100%' h='48px' zIndex={100} />
-			<Flex
-				bottom='0'
-				left='0'
-				zIndex={200}
-				position='fixed'
-				w='100%'
-				gap='10px'
-				bg={getThemeValue('controls')}
-				py='8px'
-				px='12px'
-				direction='row'
-				alignItems='center'
-			>
-				<IconButton
-					size='sm'
-					aria-label='Home'
-					color={getThemeValue('primary')}
-					icon={<LogoIcon fontSize='30px' />}
-					onClick={() => (location.href = '/')}
-				/>
-				<Spacer />
+		<Flex
+			zIndex={200}
+			w='100%'
+			gap='10px'
+			bg={getThemeValue('controls')}
+			py='8px'
+			px='12px'
+			direction='row'
+			alignItems='center'
+		>
+			<IconButton
+				size='sm'
+				aria-label='Home'
+				color={getThemeValue('primary')}
+				icon={<LogoIcon fontSize='30px' />}
+				onClick={() => (location.href = '/')}
+			/>
+			<Spacer />
+			<ActionButton
+				icon={<MdSave fontSize='20px' />}
+				label={!value ? 'You need to write something to save!' : 'Save'}
+				onClick={handleSave}
+				isLoading={isSaveLoading}
+				isDisabled={!value}
+			/>
+			{!isEditing && (
 				<ActionButton
-					icon={<MdSave fontSize='20px' />}
-					label={!value ? 'You need to write something to save!' : 'Save'}
-					onClick={handleSave}
-					isLoading={isSaveLoading}
-					isDisabled={!value}
+					icon={<MdEdit fontSize='20px' />}
+					label='Edit'
+					onClick={() => setIsEditing(true)}
+					isDisabled={!enableEdit}
 				/>
-				{!isEditing && (
-					<ActionButton
-						icon={<MdEdit fontSize='20px' />}
-						label='Edit'
-						onClick={() => setIsEditing(true)}
-						isDisabled={!enableEdit}
-					/>
-				)}
-				<ActionButton
-					icon={<MdSubject fontSize='20px' />}
-					label='View Raw'
-					onClick={() => (location.href = `/documents/${documentId}/raw`)}
-					isDisabled={!documentId || isEditing}
-				/>
-				<SettingsPopover trigger={<ActionButton icon={<MdSettings fontSize='20px' />} label='Settings' />} />
-			</Flex>
+			)}
+			<ActionButton
+				icon={<MdSubject fontSize='20px' />}
+				label='View Raw'
+				onClick={() => (location.href = `/documents/${documentId}/raw`)}
+				isDisabled={!documentId || isEditing}
+			/>
+			<SettingsPopover trigger={<ActionButton icon={<MdSettings fontSize='20px' />} label='Settings' />} />
 		</Flex>
 	);
 };

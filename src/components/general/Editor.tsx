@@ -2,6 +2,7 @@ import type { EditorProps } from '@/types/Components.ts';
 import { Box } from '@chakra-ui/react';
 import CodeMirror from '@uiw/react-codemirror';
 import { useCallback, useEffect, useRef } from 'react';
+import './Editor.css';
 
 export const welcomeCode =
 	"// Start writing here! When you're done, hit the save button to generate a unique URL with your content.";
@@ -32,12 +33,22 @@ const Editor = ({ setInformation, value, setValue, documentId, isEditing, enable
 			<CodeMirror
 				value={value}
 				height='100%'
+				maxWidth='100%'
+				readOnly={enableEdit && !isEditing}
+				autoFocus
+				basicSetup={{
+					lineNumbers: true,
+					highlightActiveLine: true,
+					autocompletion: true,
+					syntaxHighlighting: true
+				}}
 				onChange={(value) => {
 					setValue(value);
 				}}
 				theme='dark'
 				style={{
-					height: '100%'
+					height: '100%',
+					overflow: 'auto'
 				}}
 			/>
 		</Box>
