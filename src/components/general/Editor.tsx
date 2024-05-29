@@ -56,12 +56,12 @@ const Editor = ({ setInformation, setValue, documentId, isEditing, enableEdit }:
 
 			// FIXME
 			if (isCustomMonacoTheme) {
-				if (monacoTheme === 'default') editorMonaco.editor.defineTheme(monacoTheme, defaultTheme);
-				if (monacoTheme === 'amoled') editorMonaco.editor.defineTheme(monacoTheme, amoledTheme);
-				if (monacoTheme === 'midnight') editorMonaco.editor.defineTheme(monacoTheme, midnightTheme);
+				if (monacoTheme === 'default') editorMonaco?.editor.defineTheme(monacoTheme, defaultTheme);
+				if (monacoTheme === 'amoled') editorMonaco?.editor.defineTheme(monacoTheme, amoledTheme);
+				if (monacoTheme === 'midnight') editorMonaco?.editor.defineTheme(monacoTheme, midnightTheme);
 			}
 
-			editorMonaco.editor.setTheme(monacoTheme);
+			editorMonaco?.editor.setTheme(monacoTheme);
 		},
 		[monaco, themeId, themes]
 	);
