@@ -2,38 +2,35 @@ import LogoIcon from '@/components/LogoIcon';
 import useThemeValues from '@/hooks/useThemeValues';
 import type { ActionButtonProps, ControlsProps } from '@/types/Components.ts';
 import { Box, Flex, IconButton, Spacer, Tooltip, useToast } from '@chakra-ui/react';
-import { type ForwardedRef, forwardRef, useState } from 'react';
+import { useState } from 'react';
 import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 import SettingsPopover from '../modals/SettingsPopover';
 
-const ActionButton = forwardRef(
-	({ icon, label, onClick, isDisabled, isLoading }: ActionButtonProps, ref: ForwardedRef<any>) => {
-		const { getThemeValue } = useThemeValues();
+const ActionButton = ({ icon, label, onClick, isDisabled, isLoading }: ActionButtonProps) => {
+	const { getThemeValue } = useThemeValues();
 
-		return (
-			<Tooltip
-				label={!isDisabled ? label : `${label} (Disabled)`}
-				bg={getThemeValue('tooltip')}
-				color={getThemeValue('text')}
-				placement='top'
-				m='5px'
-				gutter={5}
-				hasArrow
-			>
-				<IconButton
-					ref={ref}
-					size='sm'
-					aria-label={label}
-					color={getThemeValue('primary')}
-					icon={icon}
-					onClick={onClick}
-					isDisabled={isDisabled ?? false}
-					isLoading={isLoading ?? false}
-				/>
-			</Tooltip>
-		);
-	}
-);
+	return (
+		<Tooltip
+			label={!isDisabled ? label : `${label} (Disabled)`}
+			bg={getThemeValue('tooltip')}
+			color={getThemeValue('text')}
+			placement='top'
+			m='5px'
+			gutter={5}
+			hasArrow
+		>
+			<IconButton
+				size='sm'
+				aria-label={label}
+				color={getThemeValue('primary')}
+				icon={icon}
+				onClick={onClick}
+				isDisabled={isDisabled ?? false}
+				isLoading={isLoading ?? false}
+			/>
+		</Tooltip>
+	);
+};
 
 const Controls = ({ documentId, value, isEditing, setIsEditing, enableEdit }: ControlsProps) => {
 	const { getThemeValue } = useThemeValues();
