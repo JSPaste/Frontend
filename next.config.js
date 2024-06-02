@@ -5,6 +5,11 @@ const nextConfig = {
 	output: process.env.NEXT_OUTPUT,
 	reactStrictMode: true,
 	poweredByHeader: false,
+	compiler: {
+		styledComponents: true,
+		removeConsole: true,
+		styledJsx: true
+	},
 	images: {
 		remotePatterns: [
 			{
@@ -15,8 +20,13 @@ const nextConfig = {
 		]
 	},
 	experimental: {
+		ppr: true,
+		optimizeCss: true,
 		reactCompiler: true,
-		ppr: true
+		workerThreads: true,
+		webpackBuildWorker: true,
+		appDocumentPreloading: true,
+		parallelServerCompiles: true
 	},
 	async redirects() {
 		return [
