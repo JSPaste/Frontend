@@ -1,3 +1,5 @@
+import million from 'million/compiler';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	output: process.env.NEXT_OUTPUT,
@@ -12,7 +14,6 @@ const nextConfig = {
 			}
 		]
 	},
-	bundlePagesRouterDependencies: true,
 	experimental: {
 		reactCompiler: true,
 		ppr: true
@@ -43,4 +44,6 @@ const nextConfig = {
 	}
 };
 
-export default nextConfig;
+export default million.next(nextConfig, {
+	rsc: true
+});
