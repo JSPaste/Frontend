@@ -23,7 +23,6 @@ const nextConfig = {
 		ppr: true,
 		optimizeCss: true,
 		reactCompiler: true,
-		workerThreads: true,
 		webpackBuildWorker: true,
 		appDocumentPreloading: true,
 		parallelServerCompiles: true
