@@ -8,6 +8,7 @@
 		"build": "bun run build:next",
 		"build:next": "bun next build",
 		"build:standalone": "NEXT_OUTPUT=standalone bun run build:next",
+		"build:static": "NEXT_OUTPUT=export bun run build:next",
 		"fix": "bun run fix:biome && bun run fix:package",
 		"fix:biome": "bun biome check --apply .",
 		"fix:package": "bun sort-package-json --quiet",
@@ -16,7 +17,8 @@
 		"lint:biome": "bun biome lint .",
 		"lint:tsc": "bun tsc --noEmit",
 		"start": "bun run build && bun next start",
-		"start:dev": "bun next dev --turbo"
+		"start:dev": "bun next dev --turbo",
+		"start:static": "bun run build:static && bunx serve@latest out"
 	},
 	"dependencies": {
 		"@chakra-ui/icons": "~2.1.1",
@@ -33,6 +35,7 @@
 		"react": "rc",
 		"react-dom": "rc",
 		"react-icons": "~5.2.1",
+		"serve": "^14.2.3",
 		"typescript": "~5.4.5",
 		"zustand": "~4.5.2"
 	},
