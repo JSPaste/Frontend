@@ -1,7 +1,7 @@
 import type { Dispatch, ReactElement, ReactNode, SetStateAction } from 'react';
 
 type ActionButtonProps = {
-	icon: ReactElement;
+	icon: ReactElement<any>;
 	label: string;
 	onClick?: () => void;
 	isDisabled?: boolean;
@@ -26,8 +26,8 @@ type EditorProps = {
 };
 
 type InformationLabelProps = {
-	label: ReactElement | string;
-	icon?: ReactElement;
+	label: ReactElement<any> | string;
+	icon?: ReactElement<any>;
 	isSelectable?: boolean;
 	onClick?: () => void;
 
@@ -58,7 +58,7 @@ type SelectModalProps = {
 };
 
 type SettingPopoverProps = {
-	trigger: ReactElement;
+	trigger: ReactElement<any>;
 };
 
 type DocumentScreenProps = {
@@ -68,7 +68,7 @@ type DocumentScreenProps = {
 type Language = {
 	id: string | undefined;
 	name: string;
-	icon?: ReactElement;
+	icon?: ReactElement<any>;
 	extension?: string;
 };
 

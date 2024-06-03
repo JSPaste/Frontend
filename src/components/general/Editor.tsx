@@ -2,6 +2,9 @@ import useLanguage from '@/hooks/useLanguage';
 import useTheme from '@/hooks/useTheme';
 import useThemeValues from '@/hooks/useThemeValues';
 import useLanguageStore from '@/store/language';
+import amoledTheme from '@/themes/monaco/amoled.json';
+import defaultTheme from '@/themes/monaco/default.json';
+import midnightTheme from '@/themes/monaco/midnight.json';
 import type { EditorProps } from '@/types/Components.ts';
 import type { Theme } from '@/types/Theme.ts';
 import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react';
@@ -51,10 +54,11 @@ const Editor = ({ setInformation, setValue, documentId, isEditing, enableEdit }:
 
 			const { monacoTheme, isCustomMonacoTheme } = themes.find((t) => t.id === themeId) ?? (themes[0] as Theme);
 
+			// FIXME
 			if (isCustomMonacoTheme) {
-				const themeData = await import(`@/themes/monaco/${monacoTheme}.json`);
-
-				editorMonaco?.editor.defineTheme(monacoTheme, themeData.default);
+				if (monacoTheme === 'default') editorMonaco?.editor.defineTheme(monacoTheme, defaultTheme);
+				if (monacoTheme === 'amoled') editorMonaco?.editor.defineTheme(monacoTheme, amoledTheme);
+				if (monacoTheme === 'midnight') editorMonaco?.editor.defineTheme(monacoTheme, midnightTheme);
 			}
 
 			editorMonaco?.editor.setTheme(monacoTheme);
