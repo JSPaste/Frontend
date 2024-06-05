@@ -10,15 +10,15 @@
 		"build:standalone": "NEXT_OUTPUT=standalone bun run build:next",
 		"build:static": "NEXT_OUTPUT=export bun run build:next",
 		"fix": "bun run fix:biome && bun run fix:package",
-		"fix:biome": "bun biome check --write",
+		"fix:biome": "bun biome check --apply .",
 		"fix:package": "bun sort-package-json --quiet",
 		"postinstall": "bun next telemetry disable",
 		"lint": "bun run lint:biome && bun run lint:tsc",
-		"lint:biome": "bun biome lint",
+		"lint:biome": "bun biome lint .",
 		"lint:tsc": "bun tsc --noEmit",
 		"start": "bun run build && bun next start",
 		"start:dev": "bun next dev",
-		"start:static": "bun run build:static && bunx serve@latest out"
+		"start:static": "bun run build:static && bun serve out/"
 	},
 	"dependencies": {
 		"@chakra-ui/icons": "~2.1.1",
@@ -37,12 +37,12 @@
 		"react": "rc",
 		"react-dom": "rc",
 		"react-icons": "~5.2.1",
-		"serve": "^14.2.3",
+		"serve": "~14.2.3",
 		"typescript": "~5.4.5",
 		"zustand": "~4.5.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "~1.8.0",
+		"@biomejs/biome": "1.7.3",
 		"lefthook": "~1.6.15",
 		"sort-package-json": "~2.10.0"
 	},

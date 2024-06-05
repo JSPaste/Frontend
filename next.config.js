@@ -20,7 +20,7 @@ const nextConfig = {
 		]
 	},
 	experimental: {
-		ppr: true,
+		ppr: false,
 		optimizeCss: true,
 		reactCompiler: true,
 		webpackBuildWorker: true,
