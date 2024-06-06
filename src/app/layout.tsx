@@ -1,7 +1,6 @@
 'use client';
 
 import useThemeValues from '@/hooks/useThemeValues';
-import { CacheProvider } from '@chakra-ui/next-js';
 import { Box, ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
 
@@ -86,11 +85,9 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
 			>
 				<ColorModeScript initialColorMode={theme['config'].initialColorMode} />
 				<ChakraProvider theme={theme}>
-					<CacheProvider>
-						<Box h='100%' w='100%' bg={getThemeValue('editor')}>
-							{children}
-						</Box>
-					</CacheProvider>
+					<Box h='100%' w='100%' bg={getThemeValue('editor')}>
+						{children}
+					</Box>
 				</ChakraProvider>
 			</body>
 		</html>

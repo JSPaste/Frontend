@@ -38,5 +38,5 @@ const nextConfig = Object.seal({
 nextConfig.output = process.env.NEXT_STATIC ? 'export' : undefined;
 
 export default million.next(nextConfig, {
-	rsc: true
+	rsc: false
 });
