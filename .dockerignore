@@ -6,4 +6,5 @@
 !LICENSE
 !next.config.js
 !package.json
+!serve.json
 !tsconfig.json

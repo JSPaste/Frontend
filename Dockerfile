@@ -4,14 +4,16 @@ WORKDIR /build/
 COPY . ./
 
 RUN bun install --production --frozen-lockfile && \
-    bun run build:standalone
+    bun install --global serve@14 && \
+    bun run build:static
 
 FROM docker.io/oven/bun:1-distroless
 WORKDIR /frontend/
 
-COPY --chown=nonroot --from=builder /build/.next/standalone ./
-COPY --chown=nonroot --from=builder /build/.next/static ./.next/static
-COPY --chown=nonroot --from=builder /build/public ./public
+COPY --chown=nonroot --from=builder /root/.bun/install/global/node_modules/ ./node_modules/
+COPY --chown=nonroot --from=builder /build/out/ ./out/
+COPY --chown=nonroot --from=builder /build/LICENSE ./
+COPY --chown=nonroot --from=builder /build/serve.json ./
 
 LABEL org.opencontainers.image.url="https://jspaste.eu" \
       org.opencontainers.image.source="https://github.com/jspaste/frontend" \
@@ -20,9 +22,6 @@ LABEL org.opencontainers.image.url="https://jspaste.eu" \
       org.opencontainers.image.documentation="https://docs.jspaste.eu" \
       org.opencontainers.image.licenses="EUPL-1.2"
 
-ENV HOSTNAME=0.0.0.0
-ENV PORT=3000
-
 EXPOSE 3000
 
-CMD ["server.js"]
+CMD ["node_modules/serve/build/main.js", "-L", "-u", "-n", "-l", "tcp://0.0.0.0:3000"]

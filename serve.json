@@ -1,5 +1,11 @@
 {
-	"rewrites": [{ "source": "/:documentId", "destination": "/document.html" }],
+	"public": "out/",
+	"rewrites": [
+		{
+			"source": "/:documentId",
+			"destination": "/document.html"
+		}
+	],
 	"redirects": [
 		{
 			"source": "/github",
@@ -21,5 +27,6 @@
 			"destination": "/documents/:key/raw",
 			"permanent": true
 		}
-	]
+	],
+	"trailingSlash": false
 }

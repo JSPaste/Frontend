@@ -31,7 +31,7 @@
 		"noUnusedParameters": true,
 		"verbatimModuleSyntax": true,
 
-		"baseUrl": ".",
+		"baseUrl": "./",
 		"paths": {
 			"@/*": ["./src/*"]
 		},

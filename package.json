@@ -7,8 +7,7 @@
 	"scripts": {
 		"build": "bun run build:next",
 		"build:next": "bun next build",
-		"build:standalone": "NEXT_OUTPUT=standalone bun run build:next",
-		"build:static": "NEXT_OUTPUT=export bun run build:next",
+		"build:static": "NEXT_STATIC=true bun next build",
 		"fix": "bun run fix:biome && bun run fix:package",
 		"fix:biome": "bun biome check --apply .",
 		"fix:package": "bun sort-package-json --quiet",
@@ -16,10 +15,16 @@
 		"lint": "bun run lint:biome && bun run lint:tsc",
 		"lint:biome": "bun biome lint .",
 		"lint:tsc": "bun tsc --noEmit",
-		"start": "bun run build && bun next start",
+		"start": "bun run start:next",
 		"start:dev": "bun next dev",
-		"start:static": "bun run build:static && bun serve out/"
+		"start:next": "bun run build:next && bun next start",
+		"start:static": "bun run build:static && bun serve"
 	},
+	"browserslist": [
+		"last 3 version",
+		"> 1%",
+		"not dead"
+	],
 	"dependencies": {
 		"@chakra-ui/icons": "~2.1.1",
 		"@chakra-ui/next-js": "~2.2.0",
