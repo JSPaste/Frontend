@@ -3,6 +3,7 @@
 import useThemeValues from '@/hooks/useThemeValues';
 import { Box, ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
+import './layout.css';
 
 const theme = extendTheme({
 	config: {
@@ -19,16 +20,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
 	const { getThemeValue } = useThemeValues();
 
 	return (
-		<html
-			lang='en'
-			style={{
-				width: '100%',
-				height: '100%',
-				overflow: 'hidden',
-				scrollBehavior: 'smooth',
-				userSelect: 'none'
-			}}
-		>
+		<html lang='en'>
 			<head>
 				<title>JSPaste - The developer website for easy code sharing</title>
 				<meta name='viewport' content='initial-scale=1, width=device-width' />
@@ -70,19 +62,8 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
 
 				<link rel='icon' type='image/svg+xml' href='/media/jspaste.bg.rounded.svg' />
 				<link rel='icon' type='image/png' href='/media/jspaste.png' />
-
-				<style>
-					{
-						'::-webkit-scrollbar{width:6px;z-index:100000}::-webkit-scrollbar-track{border-radius:10px}::-webkit-scrollbar-track:hover{background-color:#00000020}::-webkit-scrollbar-thumb{border-radius:10px;background-color:#00000050}::-webkit-scrollbar-thumb:hover{background-color:#00000060}'
-					}
-				</style>
 			</head>
-			<body
-				style={{
-					width: '100%',
-					height: '100%'
-				}}
-			>
+			<body>
 				<ColorModeScript initialColorMode={theme['config'].initialColorMode} />
 				<ChakraProvider theme={theme}>
 					<Box h='100%' w='100%' bg={getThemeValue('editor')}>

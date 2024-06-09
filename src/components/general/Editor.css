@@ -14,3 +14,8 @@
 .cm-line {
     text-wrap: wrap;
 }
+
+#editor {
+    height: 100%;
+    position: relative;
+}

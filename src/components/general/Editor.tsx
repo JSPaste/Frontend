@@ -28,12 +28,13 @@ const Editor = ({ setInformation, value, setValue, isEditing, enableEdit }: Edit
 	return (
 		<Box h='100%' w='100%' bg='editor'>
 			<CodeMirror
-				placeholder="// Start writing here! When you're done, hit the save button to generate a unique URL with your content."
+				id='editor'
+				placeholder="Start writing here! When you're done, hit the save button to generate a unique URL with your content."
 				value={value}
 				height='100%'
 				maxWidth='100%'
 				readOnly={enableEdit && !isEditing}
-				autoFocus
+				autoFocus={true}
 				basicSetup={{
 					lineNumbers: true,
 					highlightActiveLine: true,
@@ -44,9 +45,6 @@ const Editor = ({ setInformation, value, setValue, isEditing, enableEdit }: Edit
 					setValue(value);
 				}}
 				theme='dark'
-				style={{
-					height: '100%'
-				}}
 			/>
 		</Box>
 	);
