@@ -1,76 +1,40 @@
-'use client';
-
-import useThemeValues from '@/hooks/useThemeValues';
-import { Box, ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
 import './layout.css';
-
-const theme = extendTheme({
-	config: {
-		initialColorMode: 'dark',
-		useSystemColorMode: false
-	}
-});
+import { seo } from '@/seo.ts';
 
 type RootLayoutProps = {
 	children: ReactNode;
 };
 
-export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
-	const { getThemeValue } = useThemeValues();
-
+export default function RootLayout({ children }: RootLayoutProps) {
 	return (
 		<html lang='en'>
 			<head>
-				<title>JSPaste - The developer website for easy code sharing</title>
+				<title>{seo.siteTitle}</title>
+				<meta name='title' content={seo.siteShortTitle} />
+				<meta name='description' content={seo.description} />
+
+				<meta property='og:type' content={seo.type} />
+				<meta property='og:url' content={seo.baseURL} />
+				<meta property='og:site_name' content={seo.siteShortTitle} />
+				<meta property='og:title' content={seo.siteShortTitle} />
+				<meta property='og:description' content={seo.description} />
+				<meta property='og:image' content={seo.image.url} />
+
+				<meta property='twitter:card' content={seo.twitter.card} />
+				<meta property='twitter:url' content={seo.baseURL} />
+				<meta property='twitter:title' content={seo.siteShortTitle} />
+				<meta property='twitter:description' content={seo.description} />
+				<meta property='twitter:image' content={seo.image.url} />
+
+				<meta charSet='utf-8' />
 				<meta name='viewport' content='initial-scale=1, width=device-width' />
-
-				<meta name='title' content='JSPaste' />
-				<meta
-					name='description'
-					content='Create and share code with JSPaste! The developer website for easy code sharing.'
-				/>
-				<meta name='keywords' content='JSPaste,developer,javascript,hastebin,TSPaste,pastebin,tnfAngel' />
 				<meta name='theme-color' content='#FFE285' />
-				<meta name='author' content='JSPaste' />
-				<meta property='og:type' content='website' />
-				<meta property='og:url' content='https://jspaste.eu' />
-				<meta property='og:site_name' content='JSPaste' />
-				<meta property='og:title' content='JSPaste' />
-				<meta
-					property='og:description'
-					content='Create and share code with JSPaste! The developer website for easy code sharing.'
-				/>
-				<meta property='og:image' content='/media/jspaste.bg.rounded.svg' />
-				<meta
-					property='og:keywords'
-					content='JSPaste,developer,javascript,hastebin,TSPaste,pastebin,tnfAngel'
-				/>
 
-				<meta property='twitter:card' content='summary_large_image' />
-				<meta property='twitter:url' content='https://jspaste.eu' />
-				<meta property='twitter:title' content='JSPaste' />
-				<meta
-					property='twitter:description'
-					content='Create and share code with JSPaste! The developer website for easy code sharing.'
-				/>
-				<meta property='twitter:image' content='/media/jspaste.bg.rounded.svg' />
-				<meta property='twitter:site' content='@tnfAngel' />
-				<meta property='twitter:site:id' content='@tnfAngel' />
-				<meta property='twitter:creator' content='@tnfAngel' />
-				<meta property='twitter:creator:id' content='@tnfAngel' />
-
-				<link rel='icon' type='image/svg+xml' href='/media/jspaste.bg.rounded.svg' />
-				<link rel='icon' type='image/png' href='/media/jspaste.png' />
+				<link rel='icon' type='image/svg+xml' href={seo.image.localURL} />
+				<link rel='icon' type='image/x-icon' href='/favicon.ico' />
 			</head>
-			<body>
-				<ColorModeScript initialColorMode={theme['config'].initialColorMode} />
-				<ChakraProvider theme={theme}>
-					<Box h='100%' w='100%' bg={getThemeValue('editor')}>
-						{children}
-					</Box>
-				</ChakraProvider>
-			</body>
+			<body>{children}</body>
 		</html>
 	);
 }
