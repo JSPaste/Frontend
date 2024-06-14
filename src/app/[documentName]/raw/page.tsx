@@ -7,6 +7,6 @@ type RedirProps = {
 };
 
 export default function redirRaw(props: RedirProps) {
-	// TODO: Add .env variable for the API endpoint
-	redirect(`/api/document/${props.params.documentName}/raw`);
+	// TODO: Expose Backend API route location
+	return redirect(`/api/document/${props.params.documentName}/raw`);
 }

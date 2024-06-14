@@ -1,0 +1,26 @@
+#information {
+    background: var(--informationBackground);
+    display: flex;
+    height: 22px;
+    padding: 0 8px
+}
+
+.information-label, .information-label_static {
+    align-items: center;
+    color: white;
+    display: flex;
+    font-size: 12px;
+    gap: 5px;
+    margin: 0 5px;
+    padding: 0 5px
+}
+
+.information-label:hover {
+    background: var(--highTransparency);
+    cursor: pointer
+}
+
+.information-label-text {
+    color: var(--text);
+    margin: 0
+}

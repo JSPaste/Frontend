@@ -1,0 +1,23 @@
+:root {
+    --primary: #FFE285;
+    --background: #252422;
+    --_background: #4FFF00;
+    --informationBackground: #232323;
+    --controlsBackground: #282828;
+    --editorBackground: #2E2E2E;
+    --tooltipBackground: #202020;
+    --popupBackground: #292929;
+    --text: #D6D6D6;
+    --textMuted: #BBBBBB;
+    --highTransparency: #FFFFFF20;
+    --midTransparency: #FFFFFF30;
+    --lowTransparency: #FFFFFF40;
+    --highAltTransparency: #00000020;
+    --midAltTransparency: #00000030;
+    --lowAltTransparency: #00000040
+}
+
+body {
+    /* TODO: Remove "_" */
+    background-color: var(--_background)
+}

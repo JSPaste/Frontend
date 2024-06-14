@@ -30,12 +30,20 @@
 			"enabled": true
 		}
 	},
+	"css": {
+		"formatter": {
+			"enabled": true
+		}
+	},
 	"linter": {
 		"enabled": true,
 		"rules": {
 			"recommended": true,
 			"style": {
 				"noParameterAssign": "off"
+			},
+			"a11y": {
+				"useKeyWithClickEvents": "off"
 			},
 			"complexity": {
 				"useLiteralKeys": "off",
