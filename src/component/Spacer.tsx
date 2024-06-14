@@ -1,4 +1,4 @@
-import './components.css';
+import './globalComponents.css';
 
 const Spacer = () => <div className='spacer' />;
 

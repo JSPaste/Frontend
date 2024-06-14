@@ -8,9 +8,7 @@ type EditorProps = {
 export default function Editor({ enableEdit = false }: EditorProps) {
 	return (
 		<>
-			<header>
-				<Header />
-			</header>
+			<Header />
 			<h1>Hi, I'm {enableEdit ? 'hot' : 'not hot'}</h1>
 		</>
 	);

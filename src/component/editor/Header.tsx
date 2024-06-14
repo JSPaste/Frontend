@@ -1,22 +1,22 @@
 'use client';
 
-import './editor.css';
-import Spacer from '@/component/spacer.tsx';
+import './editorComponents.css';
+import Spacer from '@/component/Spacer.tsx';
 import { Show } from '@chakra-ui/media-query';
 import type { ReactElement } from 'react';
 import { SiGitbook, SiGithub } from 'react-icons/si';
 
-type InformationLabelProps = {
-	label: ReactElement<any> | string;
-	icon?: ReactElement<any>;
+type HeaderLabelProps = {
+	label: string;
+	icon?: ReactElement;
 	isSelectable?: boolean;
 	onClick?: () => void;
 };
 
-const InformationLabel = ({ label, icon, isSelectable, onClick }: InformationLabelProps) => (
-	<div className={isSelectable ? 'header-label' : 'header-label_static'} onClick={onClick}>
-		{icon}
-		<p className='header-label-text'>{label}</p>
+const HeaderLabel = (props: HeaderLabelProps) => (
+	<div className={props.isSelectable ? 'header-label' : 'header-label_static'} onClick={props.onClick}>
+		{props.icon}
+		<p className='header-label-text'>{props.label}</p>
 	</div>
 );
 
@@ -25,30 +25,35 @@ type InformationProps = {
 	columnNumber?: number;
 };
 
-const Header = (props: InformationProps) => (
-	<div className='header'>
-		<InformationLabel
-			label={`Ln ${(props.lineNumber ?? '1').toString().padStart(2, '0')} Col ${(props.columnNumber ?? '1')
-				.toString()
-				.padStart(2, '0')}`}
-		/>
-		<InformationLabel label='Lang (TODO)' />
-		<Spacer />
-		<Show breakpoint='(min-width: 500px)'>
-			<InformationLabel
-				label='Docs'
-				isSelectable
-				icon={<SiGitbook size='12px' />}
-				onClick={() => window.open('/docs')}
+const Header = (props: InformationProps) => {
+	!props.lineNumber && (props.lineNumber = 1);
+	!props.columnNumber && (props.columnNumber = 1);
+
+	return (
+		<header className='header'>
+			<HeaderLabel
+				label={`Ln ${props.lineNumber.toString().padStart(2, '0')} Col ${props.columnNumber
+					.toString()
+					.padStart(2, '0')}`}
 			/>
-			<InformationLabel
-				label='Github'
-				isSelectable
-				icon={<SiGithub size='12px' />}
-				onClick={() => window.open('/github')}
-			/>
-		</Show>
-	</div>
-);
+			<HeaderLabel label='Lang (TODO)' />
+			<Spacer />
+			<Show breakpoint='(min-width: 500px)'>
+				<HeaderLabel
+					label='Docs'
+					isSelectable
+					icon={<SiGitbook size='12px' />}
+					onClick={() => window.open('/docs')}
+				/>
+				<HeaderLabel
+					label='Github'
+					isSelectable
+					icon={<SiGithub size='12px' />}
+					onClick={() => window.open('/github')}
+				/>
+			</Show>
+		</header>
+	);
+};
 
 export default Header;
