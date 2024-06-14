@@ -1,7 +1,8 @@
 'use client';
 
-import { Show, Spacer } from '@chakra-ui/react';
-import './information.css';
+import './editor.css';
+import Spacer from '@/component/spacer.tsx';
+import { Show } from '@chakra-ui/media-query';
 import type { ReactElement } from 'react';
 import { SiGitbook, SiGithub } from 'react-icons/si';
 
@@ -13,9 +14,9 @@ type InformationLabelProps = {
 };
 
 const InformationLabel = ({ label, icon, isSelectable, onClick }: InformationLabelProps) => (
-	<div className={isSelectable ? 'information-label' : 'information-label_static'} onClick={onClick}>
+	<div className={isSelectable ? 'header-label' : 'header-label_static'} onClick={onClick}>
 		{icon}
-		<p className='information-label-text'>{label}</p>
+		<p className='header-label-text'>{label}</p>
 	</div>
 );
 
@@ -24,8 +25,8 @@ type InformationProps = {
 	columnNumber?: number;
 };
 
-const Information = (props: InformationProps) => (
-	<div id='information'>
+const Header = (props: InformationProps) => (
+	<div className='header'>
 		<InformationLabel
 			label={`Ln ${(props.lineNumber ?? '1').toString().padStart(2, '0')} Col ${(props.columnNumber ?? '1')
 				.toString()
@@ -50,4 +51,4 @@ const Information = (props: InformationProps) => (
 	</div>
 );
 
-export default Information;
+export default Header;

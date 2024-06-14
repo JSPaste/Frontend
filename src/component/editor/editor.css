@@ -1,11 +1,11 @@
-#information {
+.header {
     background: var(--informationBackground);
     display: flex;
     height: 22px;
     padding: 0 8px
 }
 
-.information-label, .information-label_static {
+.header-label, .header-label_static {
     align-items: center;
     color: white;
     display: flex;
@@ -15,12 +15,12 @@
     padding: 0 5px
 }
 
-.information-label:hover {
+.header-label:hover {
     background: var(--highTransparency);
     cursor: pointer
 }
 
-.information-label-text {
+.header-label-text {
     color: var(--text);
     margin: 0
 }
