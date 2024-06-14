@@ -1,8 +1,12 @@
-import type { PropsWithChildren } from 'react';
-import './layout.css';
 import { seo } from '@/seo.ts';
+import { defaultTheme } from '@/themes.ts';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import type { PropsWithChildren } from 'react';
+import '@fontsource-variable/red-hat-text';
+import '@fontsource-variable/red-hat-mono';
 
-const RootLayout = ({ children }: PropsWithChildren) => (
+const RootLayout = (props: PropsWithChildren) => (
 	<html lang='en'>
 		<head>
 			<title>{seo.siteTitle}</title>
@@ -29,7 +33,14 @@ const RootLayout = ({ children }: PropsWithChildren) => (
 			<link rel='icon' type='image/svg+xml' href={seo.image.localURL} />
 			<link rel='icon' type='image/x-icon' href='/favicon.ico' />
 		</head>
-		<body>{children}</body>
+		<body>
+			<AppRouterCacheProvider options={{ enableCssLayer: true }}>
+				<ThemeProvider theme={defaultTheme}>
+					<CssBaseline />
+					{props.children}
+				</ThemeProvider>
+			</AppRouterCacheProvider>
+		</body>
 	</html>
 );
 

@@ -1,7 +1,7 @@
+/* TODO: Simplify palette (move to themes.ts) */
 :root {
     --primary: #FFE285;
     --background: #252422;
-    --_background: #4FFF00;
     --informationBackground: #232323;
     --controlsBackground: #282828;
     --editorBackground: #2E2E2E;
@@ -18,6 +18,5 @@
 }
 
 body {
-    /* TODO: Remove "_" */
-    background-color: var(--_background)
+    background-color: var(--editorBackground)
 }

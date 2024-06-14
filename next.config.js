@@ -7,7 +7,7 @@ const config = Object.seal({
 	poweredByHeader: false,
 	experimental: {
 		optimizeCss: true,
-		reactCompiler: false
+		reactCompiler: true
 	}
 });
 

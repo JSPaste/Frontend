@@ -2,7 +2,7 @@
 
 import './editorComponents.css';
 import Spacer from '@/component/Spacer.tsx';
-import { Show } from '@chakra-ui/media-query';
+import { useMediaQuery } from '@mui/material';
 import type { ReactElement } from 'react';
 import { SiGitbook, SiGithub } from 'react-icons/si';
 
@@ -29,6 +29,8 @@ const Header = (props: InformationProps) => {
 	!props.lineNumber && (props.lineNumber = 1);
 	!props.columnNumber && (props.columnNumber = 1);
 
+	const mobile = useMediaQuery('(min-width:600px)');
+
 	return (
 		<header className='header'>
 			<HeaderLabel
@@ -37,21 +39,23 @@ const Header = (props: InformationProps) => {
 					.padStart(2, '0')}`}
 			/>
 			<HeaderLabel label='Lang (TODO)' />
-			<Spacer />
-			<Show breakpoint='(min-width: 500px)'>
-				<HeaderLabel
-					label='Docs'
-					isSelectable
-					icon={<SiGitbook size='12px' />}
-					onClick={() => window.open('/docs')}
-				/>
-				<HeaderLabel
-					label='Github'
-					isSelectable
-					icon={<SiGithub size='12px' />}
-					onClick={() => window.open('/github')}
-				/>
-			</Show>
+			{mobile && (
+				<>
+					<Spacer />
+					<HeaderLabel
+						label='Docs'
+						isSelectable
+						icon={<SiGitbook size='12px' />}
+						onClick={() => window.open('/docs')}
+					/>
+					<HeaderLabel
+						label='Github'
+						isSelectable
+						icon={<SiGithub size='12px' />}
+						onClick={() => window.open('/github')}
+					/>
+				</>
+			)}
 		</header>
 	);
 };

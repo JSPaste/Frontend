@@ -8,8 +8,8 @@ export const seo = {
 		localURL: '/media/jspaste.bg.rounded.svg',
 		url: 'https://jspaste.eu/media/jspaste.bg.rounded.svg',
 		alt: 'JSPaste',
-		width: 512,
-		height: 512
+		width: 1024,
+		height: 1024
 	},
 	twitter: {
 		card: 'summary_large_image'
