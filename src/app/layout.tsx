@@ -3,8 +3,6 @@ import { defaultTheme } from '@/themes.ts';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import type { PropsWithChildren } from 'react';
-import '@fontsource-variable/red-hat-text';
-import '@fontsource-variable/red-hat-mono';
 
 const RootLayout = (props: PropsWithChildren) => (
 	<html lang='en'>
@@ -34,7 +32,7 @@ const RootLayout = (props: PropsWithChildren) => (
 			<link rel='icon' type='image/x-icon' href='/favicon.ico' />
 		</head>
 		<body>
-			<AppRouterCacheProvider options={{ enableCssLayer: true }}>
+			<AppRouterCacheProvider>
 				<ThemeProvider theme={defaultTheme}>
 					<CssBaseline />
 					{props.children}

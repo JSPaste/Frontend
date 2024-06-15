@@ -1,23 +1,39 @@
 'use client';
 
-import './editorComponents.css';
 import Spacer from '@/component/Spacer.tsx';
-import { useMediaQuery } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import type { ReactElement } from 'react';
 import { SiGitbook, SiGithub } from 'react-icons/si';
 
 type HeaderLabelProps = {
 	label: string;
 	icon?: ReactElement;
-	isSelectable?: boolean;
 	onClick?: () => void;
 };
 
 const HeaderLabel = (props: HeaderLabelProps) => (
-	<div className={props.isSelectable ? 'header-label' : 'header-label_static'} onClick={props.onClick}>
-		{props.icon}
-		<p className='header-label-text'>{props.label}</p>
-	</div>
+	<>
+		<Box
+			sx={{
+				alignItems: 'center',
+				display: 'flex',
+				fontSize: '12px',
+				gap: '5px',
+				margin: '0 5px',
+				padding: '0 5px',
+				...(props.onClick && {
+					'&:hover': {
+						bgcolor: 'secondary.light',
+						cursor: 'pointer'
+					}
+				})
+			}}
+			onClick={props.onClick}
+		>
+			{props.icon}
+			{props.label}
+		</Box>
+	</>
 );
 
 type InformationProps = {
@@ -25,38 +41,35 @@ type InformationProps = {
 	columnNumber?: number;
 };
 
-const Header = (props: InformationProps) => {
-	!props.lineNumber && (props.lineNumber = 1);
-	!props.columnNumber && (props.columnNumber = 1);
-
-	const mobile = useMediaQuery('(min-width:600px)');
+const Header = ({ lineNumber = 1, columnNumber = 1 }: InformationProps) => {
+	const desktop = useMediaQuery('(min-width:600px)');
 
 	return (
-		<header className='header'>
-			<HeaderLabel
-				label={`Ln ${props.lineNumber.toString().padStart(2, '0')} Col ${props.columnNumber
-					.toString()
-					.padStart(2, '0')}`}
-			/>
-			<HeaderLabel label='Lang (TODO)' />
-			{mobile && (
-				<>
-					<Spacer />
-					<HeaderLabel
-						label='Docs'
-						isSelectable
-						icon={<SiGitbook size='12px' />}
-						onClick={() => window.open('/docs')}
-					/>
-					<HeaderLabel
-						label='Github'
-						isSelectable
-						icon={<SiGithub size='12px' />}
-						onClick={() => window.open('/github')}
-					/>
-				</>
-			)}
-		</header>
+		<>
+			<Box sx={{ bgcolor: 'grey.900', display: 'flex', height: '22px', padding: '0 8px' }}>
+				<HeaderLabel
+					label={`Ln ${lineNumber.toString().padStart(2, '0')} Col ${columnNumber
+						.toString()
+						.padStart(2, '0')}`}
+				/>
+				<HeaderLabel label='Lang (TODO)' />
+				{desktop && (
+					<>
+						<Spacer />
+						<HeaderLabel
+							label='Docs'
+							icon={<SiGitbook size='12px' />}
+							onClick={() => window.open('/docs')}
+						/>
+						<HeaderLabel
+							label='Github'
+							icon={<SiGithub size='12px' />}
+							onClick={() => window.open('/github')}
+						/>
+					</>
+				)}
+			</Box>
+		</>
 	);
 };
 

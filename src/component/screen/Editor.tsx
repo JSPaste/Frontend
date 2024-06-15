@@ -1,5 +1,4 @@
 import Header from '@/component/editor/Header.tsx';
-import '@/default.theme.css';
 
 type EditorProps = {
 	enableEdit?: boolean;
