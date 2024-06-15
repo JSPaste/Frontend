@@ -1,6 +1,6 @@
 import { seo } from '@/seo.ts';
 import { defaultTheme } from '@/themes.ts';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import type { PropsWithChildren } from 'react';
 
@@ -33,10 +33,10 @@ const RootLayout = (props: PropsWithChildren) => (
 		</head>
 		<body>
 			<AppRouterCacheProvider>
-				<ThemeProvider theme={defaultTheme}>
+				<CssVarsProvider theme={defaultTheme}>
 					<CssBaseline />
 					{props.children}
-				</ThemeProvider>
+				</CssVarsProvider>
 			</AppRouterCacheProvider>
 		</body>
 	</html>
