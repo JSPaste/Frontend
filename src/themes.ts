@@ -24,13 +24,13 @@ export const defaultTheme = createTheme({
 			light: '#FFE8A0',
 			main: '#FFE285',
 			dark: '#BEA861',
-			contrastText: '#000'
+			contrastText: '#282828'
 		},
 		secondary: {
 			light: '#373634',
 			main: '#252422',
 			dark: '#191816',
-			contrastText: '#D6D6D6'
+			contrastText: '#D7D7D7'
 		},
 		background: {
 			default: '#252422',
@@ -45,32 +45,32 @@ export const defaultTheme = createTheme({
 			light: '#FFA0A0',
 			main: '#DD7777',
 			dark: '#BE6161',
-			contrastText: '#000'
+			contrastText: '#282828'
 		},
 		warning: {
 			light: '#E2C58B',
 			main: '#DDBB77',
 			dark: '#D8B163',
-			contrastText: '#000'
+			contrastText: '#282828'
 		},
 		info: {
 			light: '#8BB7E2',
 			main: '#77AADD',
 			dark: '#639DD8',
-			contrastText: '#000'
+			contrastText: '#282828'
 		},
 		success: {
 			light: '#8BE28B',
 			main: '#77DD77',
 			dark: '#63D863',
-			contrastText: '#000'
+			contrastText: '#282828'
 		},
 		grey: {
-			50: '#fafafa',
-			100: '#f5f5f5',
-			200: '#e5e5e5',
-			300: '#d4d4d4',
-			400: '#a3a3a3',
+			50: '#FAFAFA',
+			100: '#F5F5F5',
+			200: '#E5E5E5',
+			300: '#D4D4D4',
+			400: '#A3A3A3',
 			500: '#737373',
 			600: '#525252',
 			700: '#404040',

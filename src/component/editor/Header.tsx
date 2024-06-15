@@ -1,9 +1,9 @@
 'use client';
 
 import Spacer from '@/component/Spacer.tsx';
+import { Class, GitHub } from '@mui/icons-material';
 import { Box, useMediaQuery } from '@mui/material';
 import type { ReactElement } from 'react';
-import { SiGitbook, SiGithub } from 'react-icons/si';
 
 type HeaderLabelProps = {
 	label: string;
@@ -56,15 +56,16 @@ const Header = ({ lineNumber = 1, columnNumber = 1 }: InformationProps) => {
 				{desktop && (
 					<>
 						<Spacer />
+						{/* TODO: Expose Backend API route location */}
 						<HeaderLabel
 							label='Docs'
-							icon={<SiGitbook size='12px' />}
-							onClick={() => window.open('/docs')}
+							icon={<Class fontSize='inherit' />}
+							onClick={() => window.open('/api/docs')}
 						/>
 						<HeaderLabel
 							label='Github'
-							icon={<SiGithub size='12px' />}
-							onClick={() => window.open('/github')}
+							icon={<GitHub fontSize='inherit' />}
+							onClick={() => window.open('https://github.com/jspaste')}
 						/>
 					</>
 				)}

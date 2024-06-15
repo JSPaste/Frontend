@@ -1,9 +1,5 @@
 import Editor from '@/component/screen/Editor.tsx';
 
-const DocumentPage = () => (
-	<header>
-		<Editor />
-	</header>
-);
+const DocumentPage = () => <Editor />;
 
 export default DocumentPage;

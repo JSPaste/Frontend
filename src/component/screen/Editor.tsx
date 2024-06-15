@@ -4,11 +4,13 @@ type EditorProps = {
 	enableEdit?: boolean;
 };
 
-export default function Editor({ enableEdit = false }: EditorProps) {
-	return (
-		<>
+const Editor = ({ enableEdit = false }: EditorProps) => (
+	<>
+		<header>
 			<Header />
-			<h1>Hi, I'm {enableEdit ? 'hot' : 'not hot'}</h1>
-		</>
-	);
-}
+		</header>
+		<h1>Hi, I'm {enableEdit ? 'hot' : 'not hot'}</h1>
+	</>
+);
+
+export default Editor;

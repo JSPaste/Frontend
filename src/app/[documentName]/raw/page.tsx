@@ -6,7 +6,7 @@ type RedirProps = {
 	};
 };
 
-export default function redirRaw(props: RedirProps) {
-	// TODO: Expose Backend API route location
-	return redirect(`/api/document/${props.params.documentName}/raw`);
-}
+// TODO: Expose Backend API route location
+const redirRaw = (props: RedirProps) => redirect(`/api/document/${props.params.documentName}/raw`);
+
+export default redirRaw;

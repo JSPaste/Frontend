@@ -1,5 +1,5 @@
 import Editor from '@/component/screen/Editor.tsx';
 
-export default function DocumentViewPage() {
-	return <Editor enableEdit={true} />;
-}
+const DocumentViewPage = () => <Editor enableEdit={true} />;
+
+export default DocumentViewPage;
