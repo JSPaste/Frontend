@@ -1,9 +1,10 @@
 'use client';
 
 import Spacer from '@/component/Spacer.tsx';
-import { Class, GitHub } from '@mui/icons-material';
 import { Box, useMediaQuery } from '@mui/material';
 import type { ReactElement } from 'react';
+import { MdClass } from 'react-icons/md';
+import { PiGithubLogoFill } from 'react-icons/pi';
 
 type HeaderLabelProps = {
 	label: string;
@@ -36,19 +37,19 @@ const HeaderLabel = (props: HeaderLabelProps) => (
 	</>
 );
 
-type InformationProps = {
-	lineNumber?: number;
-	columnNumber?: number;
+export type HeaderProps = {
+	lineNumber: number;
+	columnNumber: number;
 };
 
-const Header = ({ lineNumber = 1, columnNumber = 1 }: InformationProps) => {
+const Header = (props: HeaderProps) => {
 	const desktop = useMediaQuery('(min-width:600px)');
 
 	return (
 		<>
 			<Box sx={{ bgcolor: 'grey.900', display: 'flex', height: '22px', padding: '0 8px' }}>
 				<HeaderLabel
-					label={`Ln ${lineNumber.toString().padStart(2, '0')} Col ${columnNumber
+					label={`Ln ${props.lineNumber.toString().padStart(2, '0')} Col ${props.columnNumber
 						.toString()
 						.padStart(2, '0')}`}
 				/>
@@ -59,12 +60,12 @@ const Header = ({ lineNumber = 1, columnNumber = 1 }: InformationProps) => {
 						{/* TODO: Expose Backend API route location */}
 						<HeaderLabel
 							label='Docs'
-							icon={<Class fontSize='inherit' />}
+							icon={<MdClass fontSize='inherit' />}
 							onClick={() => window.open('/api/docs')}
 						/>
 						<HeaderLabel
 							label='Github'
-							icon={<GitHub fontSize='inherit' />}
+							icon={<PiGithubLogoFill fontSize='inherit' />}
 							onClick={() => window.open('https://github.com/jspaste')}
 						/>
 					</>
