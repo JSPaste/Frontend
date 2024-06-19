@@ -1,0 +1,5 @@
+---
+const { documentName } = Astro.params;
+
+return Astro.redirect(`/documents/${documentName}/raw`, 302);
+---

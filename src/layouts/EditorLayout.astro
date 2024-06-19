@@ -1,0 +1,18 @@
+---
+import RootLayout from '@/layouts/RootLayout.astro';
+import HeaderComponent from '../components/HeaderComponent.astro';
+
+type Props = {
+	documentName?: string;
+	enableEdit?: boolean;
+};
+
+const { documentName, enableEdit = false } = Astro.props as Props;
+---
+
+<RootLayout class="flex flex-col h-lvh">
+    <header>
+        <HeaderComponent/>
+    </header>
+    <h1 class="text-2xl">Hi, I'm {enableEdit ? 'hot' : 'not hot'}</h1>
+</RootLayout>

@@ -1,0 +1,17 @@
+---
+type Props = {
+	label: string;
+	openWindow?: string;
+};
+
+const { label, openWindow } = Astro.props as Props;
+---
+
+<div
+    class=`items-center flex gap-1 text-white ${openWindow && 'hover:bg-neutral-700 cursor-pointer'}`
+    style="font-size: 12px; margin: 0 5px; padding: 0 5px"
+    onclick={openWindow && `window.open('${openWindow}')`}
+>
+    <slot name="icon"/>
+    {label}
+</div>

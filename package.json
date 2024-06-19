@@ -5,57 +5,44 @@
 	"license": "EUPL-1.2",
 	"type": "module",
 	"scripts": {
-		"build": "bun run build:next",
-		"build:next": "bun next build",
-		"build:static": "NEXT_STATIC=true bun next build",
+		"build": "bun run build:astro",
+		"build:astro": "bun astro build",
 		"fix": "bun run fix:biome && bun run fix:package",
-		"fix:biome": "bun biome check --apply .",
+		"fix:biome": "bun biome check --write",
 		"fix:package": "bun sort-package-json --quiet",
-		"postinstall": "bun next telemetry disable",
+		"postinstall": "bun astro telemetry disable --silent",
 		"lint": "bun run lint:biome && bun run lint:tsc",
-		"lint:biome": "bun biome lint .",
+		"lint:biome": "bun biome lint",
 		"lint:tsc": "bun tsc --noEmit",
-		"start": "bun run start:next",
-		"start:dev": "bun next dev",
-		"start:next": "bun run build:next && bun next start",
-		"start:static": "bun run build:static && bun serve"
+		"start": "bun run build:astro && bun astro preview",
+		"start:dev": "bun astro dev"
 	},
-	"browserslist": [
-		"last 3 version",
-		"> 1%",
-		"not dead"
-	],
 	"dependencies": {
-		"@emotion/react": "~11.11.4",
-		"@emotion/styled": "~11.11.5",
+		"@astrojs/check": "~0.7.0",
+		"@astrojs/node": "~8.3.1",
+		"@astrojs/preact": "~3.5.0",
+		"@astrojs/tailwind": "~5.1.0",
 		"@fontsource-variable/red-hat-mono": "~5.0.19",
 		"@fontsource-variable/red-hat-text": "~5.0.19",
-		"@mui/material": "~5.15.20",
-		"@mui/material-nextjs": "~5.15.11",
+		"@playform/compress": "~0.0.13",
+		"@playform/inline": "~0.0.7",
 		"@types/bun": "~1.1.4",
-		"@types/react": "npm:types-react@rc",
-		"@types/react-dom": "npm:types-react-dom@rc",
 		"@uiw/react-codemirror": "~4.22.2",
-		"babel-plugin-react-compiler": "latest",
-		"critters": "~0.0.22",
-		"highlight.js": "~11.9.0",
-		"million": "~3.1.11",
-		"next": "rc",
-		"react": "rc",
-		"react-dom": "rc",
+		"astro": "~4.10.3",
+		"preact": "~10.22.0",
 		"react-icons": "~5.2.1",
-		"serve": "~14.2.3",
+		"tailwindcss": "~3.4.4",
 		"typescript": "~5.4.5",
-		"zustand": "~4.5.2"
+		"vite-plugin-pwa": "~0.20.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.7.3",
+		"@biomejs/biome": "~1.8.1",
 		"lefthook": "~1.6.16",
 		"sort-package-json": "~2.10.0"
 	},
 	"overrides": {
-		"@types/react": "npm:types-react@rc",
-		"@types/react-dom": "npm:types-react-dom@rc"
+		"react": "npm:@preact/compat@latest",
+		"react-dom": "npm:@preact/compat@latest"
 	},
 	"trustedDependencies": [
 		"@biomejs/biome",
