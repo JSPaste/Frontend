@@ -4,7 +4,7 @@ WORKDIR /build/
 COPY . ./
 
 RUN bun install --production --frozen-lockfile && \
-    bun run build:build
+    bun run build:astro
 
 FROM docker.io/oven/bun:1-distroless
 WORKDIR /frontend/
