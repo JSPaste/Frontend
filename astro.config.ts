@@ -33,6 +33,7 @@ export default defineConfig({
 		client: 'dist/astro/public/'
 	},
 	server: {
+		host: '0.0.0.0',
 		port: 3000
 	},
 	vite: {
@@ -43,7 +44,7 @@ export default defineConfig({
 				manifest: pwaManifest,
 				workbox: {
 					globDirectory: 'dist/astro/public/',
-					globPatterns: ['**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
+					globPatterns: ['**/*.{js,wasm,css,html,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
 					navigateFallback: null
 				}
 			})

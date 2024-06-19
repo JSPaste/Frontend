@@ -2,6 +2,7 @@
 !public/
 !src/
 !astro.config.ts
+!build.standalone.ts
 !bun.lockb
 !bunfig.toml
 !LICENSE
