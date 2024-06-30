@@ -13,8 +13,8 @@ export default defineConfig({
 		mode: 'standalone'
 	}),
 	integrations: [
-		tailwind(),
-		preact({ compat: true }),
+		tailwind({ applyBaseStyles: false }),
+		preact(),
 		inline({
 			Path: ['dist/astro/']
 		}),

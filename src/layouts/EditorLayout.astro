@@ -1,6 +1,6 @@
 ---
+import { EditorScreen } from '@/layouts/EditorScreen';
 import RootLayout from '@/layouts/RootLayout.astro';
-import HeaderComponent from '../components/HeaderComponent.astro';
 
 type Props = {
 	documentName?: string;
@@ -10,9 +10,6 @@ type Props = {
 const { documentName, enableEdit = false } = Astro.props as Props;
 ---
 
-<RootLayout class="flex flex-col h-lvh">
-    <header>
-        <HeaderComponent/>
-    </header>
-    <h1 class="text-2xl">Hi, I'm {enableEdit ? 'hot' : 'not hot'}</h1>
+<RootLayout>
+    <EditorScreen client:only="preact" documentName={documentName} enableEdit={enableEdit}/>
 </RootLayout>
