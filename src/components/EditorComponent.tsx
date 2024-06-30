@@ -1,6 +1,6 @@
 import type { HeaderProps } from '@component/HeaderComponent';
 import ReactCodeMirror, { type ReactCodeMirrorRef } from '@uiw/react-codemirror';
-import { memo, useCallback, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 type EditorProps = {
 	setCursorLocation: (info: HeaderProps) => void;
@@ -11,10 +11,10 @@ type EditorProps = {
 	enableEdit: boolean;
 };
 
-export const EditorComponent = memo((props: EditorProps) => {
+export const EditorComponent = (props: EditorProps) => {
 	const editorRef = useRef<ReactCodeMirrorRef>(null);
 
-	const updateCursorLocation = useCallback(() => {
+	const updateCursorInformation = useCallback(() => {
 		const editor = editorRef.current;
 
 		if (editor?.view) {
@@ -30,17 +30,16 @@ export const EditorComponent = memo((props: EditorProps) => {
 
 	const onChange = useCallback(
 		(value: string) => {
+			updateCursorInformation();
 			props.setValue(value);
 		},
-		[props]
+		[props, updateCursorInformation]
 	);
 
-	// FIXME: "onUpdate" could be heavy on performance
 	return (
 		<ReactCodeMirror
 			ref={editorRef}
 			onChange={onChange}
-			onUpdate={updateCursorLocation}
 			height='100%'
 			className='overflow-auto'
 			style={{ flex: '1 0' }}
@@ -57,4 +56,4 @@ export const EditorComponent = memo((props: EditorProps) => {
 			}}
 		/>
 	);
-});
+};
