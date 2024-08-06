@@ -1,7 +1,5 @@
-'use client';
+import { EditorScreen } from '@/screen/EditorScreen.tsx';
 
-import DocumentScreen from '@/components/screens/DocumentScreen';
+const DocumentPage = () => <EditorScreen enableEdit={false} />;
 
-export default function DocumentPage() {
-	return <DocumentScreen enableEdit={false} />;
-}
+export default DocumentPage;

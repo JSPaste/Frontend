@@ -2,14 +2,15 @@
 	"$schema": "https://json.schemastore.org/tsconfig.json",
 	"compilerOptions": {
 		"jsx": "preserve",
+		"jsxImportSource": "react",
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
-		"target": "ESNext",
 		"module": "ESNext",
-		"moduleDetection": "force",
 		"moduleResolution": "Bundler",
+		"target": "ESNext",
 
-		"allowJs": true,
 		"allowImportingTsExtensions": true,
+		"allowJs": true,
+		"checkJs": true,
 		"esModuleInterop": true,
 		"incremental": true,
 		"noEmit": true,
@@ -31,7 +32,7 @@
 		"noUnusedParameters": true,
 		"verbatimModuleSyntax": true,
 
-		"baseUrl": "./",
+		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"]
 		},
@@ -42,5 +43,5 @@
 		]
 	},
 	"include": [".next/types/**/*.ts", "./src/**/*", "next-env.d.ts"],
-	"exclude": ["**/node_modules/"]
+	"exclude": ["dist/**"]
 }
