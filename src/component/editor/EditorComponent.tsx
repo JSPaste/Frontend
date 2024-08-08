@@ -1,4 +1,4 @@
-import type { HeaderProps } from '@/component/editor/HeaderComponent.tsx';
+import type { HeaderProps } from '@/component/editor/HeaderComponent';
 import ReactCodeMirror, { type ReactCodeMirrorRef } from '@uiw/react-codemirror';
 import { useCallback, useRef } from 'react';
 
@@ -6,7 +6,7 @@ type EditorProps = {
 	setCursorLocation: (info: HeaderProps) => void;
 	setValue: (value: string) => void;
 	value: string;
-	documentId?: string;
+	documentName?: string;
 	isEditing: boolean;
 	enableEdit: boolean;
 };
@@ -41,8 +41,7 @@ export const EditorComponent = (props: EditorProps) => {
 			ref={editorRef}
 			onChange={onChange}
 			height='100%'
-			className='overflow-auto'
-			style={{ flex: '1 0' }}
+			className='flex-grow overflow-auto'
 			theme='dark'
 			placeholder="Start writing here! When you're done, hit the save button to generate a unique URL with your content."
 			value={props.value}

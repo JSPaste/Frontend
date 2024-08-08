@@ -1,15 +1,16 @@
 'use client';
 
-import { EditorComponent } from '@/component/editor/EditorComponent.tsx';
-import { HeaderComponent, type HeaderProps } from '@/component/editor/HeaderComponent.tsx';
+import { EditorComponent } from '@/component/editor/EditorComponent';
+import { FooterComponent } from '@/component/editor/FooterComponent';
+import { HeaderComponent, type HeaderProps } from '@/component/editor/HeaderComponent';
 import { useState } from 'react';
 
 type EditorScreenProps = {
 	documentName?: string;
-	enableEdit: boolean;
+	enableEdit?: boolean;
 };
 
-export const EditorScreen = (props: EditorScreenProps) => {
+export const EditorScreen = ({ documentName, enableEdit = false }: EditorScreenProps) => {
 	const [position, setPosition] = useState<HeaderProps>({
 		lineNumber: 1,
 		columnNumber: 1
@@ -17,7 +18,6 @@ export const EditorScreen = (props: EditorScreenProps) => {
 
 	const [value, setValue] = useState<string>('');
 
-	// @ts-ignore: TODO: remove "this" when adding footer
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 
 	return (
@@ -29,9 +29,16 @@ export const EditorScreen = (props: EditorScreenProps) => {
 				setCursorLocation={setPosition}
 				setValue={setValue}
 				value={value}
-				documentId={props.documentName}
+				documentName={documentName}
 				isEditing={isEditing}
-				enableEdit={props.enableEdit}
+				enableEdit={enableEdit}
+			/>
+			<FooterComponent
+				value={value}
+				documentName={documentName}
+				isEditing={isEditing}
+				setIsEditing={setIsEditing}
+				enableEdit={enableEdit}
 			/>
 		</div>
 	);

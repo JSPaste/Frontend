@@ -19,6 +19,9 @@
 			"a11y": {
 				"useKeyWithClickEvents": "off"
 			},
+			"complexity": {
+				"noStaticOnlyClass": "off"
+			},
 			"suspicious": {
 				"noAssignInExpressions": "off"
 			}

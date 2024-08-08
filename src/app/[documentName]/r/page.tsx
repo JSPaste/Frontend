@@ -1,4 +1,4 @@
-import redirRaw from '@/app/[documentName]/raw/page.tsx';
+import toBackendRaw from '@/app/[documentName]/raw/page';
 
-// Alias of raw
-export default redirRaw;
+// Alias
+export default toBackendRaw;

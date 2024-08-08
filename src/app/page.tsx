@@ -1,5 +1,5 @@
-import { EditorScreen } from '@/screen/EditorScreen.tsx';
+import { EditorScreen } from '@/screen/EditorScreen';
 
-const DocumentPage = () => <EditorScreen enableEdit={false} />;
-
-export default DocumentPage;
+export default function () {
+	return <EditorScreen />;
+}

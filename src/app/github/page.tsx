@@ -1,7 +1,5 @@
 import { redirect } from 'next/navigation';
 
-const redirGitHub = () => {
+export default function () {
 	redirect('https://github.com/jspaste');
-};
-
-export default redirGitHub;
+}

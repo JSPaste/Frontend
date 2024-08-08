@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.cm-lineNumbers {
-	padding: 0 5px 0 20px;
+:root {
+	user-select: none;
 }
