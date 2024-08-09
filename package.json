@@ -7,7 +7,7 @@
 	"scripts": {
 		"build": "bun run build:next",
 		"build:next": "bun next build",
-		"build:standalone": "NEXT_STANDALONE=true bun run build:next",
+		"build:standalone": "NEXT_STANDALONE=true bun next build && bun run build.ts",
 		"fix": "bun run fix:biome && bun run fix:package",
 		"fix:biome": "bun biome check --write",
 		"fix:package": "bun sort-package-json --quiet",
@@ -16,13 +16,14 @@
 		"lint:biome": "bun biome lint",
 		"lint:tsc": "bun tsc --noEmit",
 		"start": "bun run start:next",
-		"start:dev": "bun next dev",
+		"start:dev": "bun next dev --turbo",
 		"start:next": "bun run build:next && bun next start"
 	},
 	"dependencies": {
 		"@chakra-ui/react": "~2.8.2",
 		"@emotion/react": "~11.13.0",
 		"@emotion/styled": "~11.13.0",
+		"@swc/core": "~1.7.5",
 		"@types/bun": "~1.1.6",
 		"@types/react": "npm:types-react@rc",
 		"@types/react-dom": "npm:types-react-dom@rc",

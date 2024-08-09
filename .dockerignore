@@ -1,9 +1,3 @@
 *
-!public/
-!src/
-!bun.lockb
-!bunfig.toml
+!dist/standalone/
 !LICENSE
-!next.config.js
-!package.json
-!tsconfig.json
