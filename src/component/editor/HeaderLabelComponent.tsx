@@ -1,4 +1,4 @@
-import useThemeValues from '@/hook/useThemeValue';
+import { useThemeValues } from '@/hook/useThemeValue';
 import { ThemePalette } from '@/utils/themes';
 import { Flex, Text } from '@chakra-ui/react';
 import type { ReactElement } from 'react';
@@ -9,7 +9,7 @@ type HeaderLabelProps = {
 	onClick?: () => WindowProxy | null;
 };
 
-export const HeaderLabelComponent = (props: HeaderLabelProps) => {
+export default function (props: HeaderLabelProps) {
 	const { getThemeValue } = useThemeValues();
 
 	return (
@@ -28,4 +28,4 @@ export const HeaderLabelComponent = (props: HeaderLabelProps) => {
 			<Text color={getThemeValue(ThemePalette.TextMuted)}>{props.label}</Text>
 		</Flex>
 	);
-};
+}

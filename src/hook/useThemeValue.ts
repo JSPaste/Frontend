@@ -1,7 +1,7 @@
 import { themeStore } from '@/utils/store';
 import { type ThemePaletteKey, themes } from '@/utils/themes';
 
-export default function useThemeValues() {
+export function useThemeValues() {
 	const { themeId } = themeStore();
 
 	const theme = themes.find((theme) => theme.id === themeId) ?? themes[0];

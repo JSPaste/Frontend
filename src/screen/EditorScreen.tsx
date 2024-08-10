@@ -1,16 +1,18 @@
 'use client';
 
-import { EditorComponent } from '@/component/editor/EditorComponent';
-import { FooterComponent } from '@/component/editor/FooterComponent';
-import { HeaderComponent, type HeaderProps } from '@/component/editor/HeaderComponent';
+import FooterComponent from '@/component/editor/FooterComponent';
+import HeaderComponent, { type HeaderProps } from '@/component/editor/HeaderComponent';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
+
+const EditorComponent = dynamic(() => import('@/component/editor/EditorComponent'));
 
 type EditorScreenProps = {
 	documentName?: string;
 	enableEdit?: boolean;
 };
 
-export const EditorScreen = ({ documentName, enableEdit = false }: EditorScreenProps) => {
+export default function ({ documentName, enableEdit = false }: EditorScreenProps) {
 	const [position, setPosition] = useState<HeaderProps>({
 		lineNumber: 1,
 		columnNumber: 1
@@ -40,4 +42,4 @@ export const EditorScreen = ({ documentName, enableEdit = false }: EditorScreenP
 			/>
 		</div>
 	);
-};
+}

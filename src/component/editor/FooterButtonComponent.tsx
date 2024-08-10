@@ -1,4 +1,4 @@
-import useThemeValues from '@/hook/useThemeValue';
+import { useThemeValues } from '@/hook/useThemeValue';
 import { ThemePalette } from '@/utils/themes';
 import { IconButton, Tooltip } from '@chakra-ui/react';
 import type { ReactElement } from 'react';
@@ -12,7 +12,7 @@ type ActionButtonProps = {
 };
 
 // TODO: Dirty port from stable
-export const FooterButtonComponent = (props: ActionButtonProps) => {
+export default function (props: ActionButtonProps) {
 	const { getThemeValue } = useThemeValues();
 
 	return (
@@ -35,4 +35,4 @@ export const FooterButtonComponent = (props: ActionButtonProps) => {
 			/>
 		</Tooltip>
 	);
-};
+}

@@ -1,5 +1,5 @@
-import { HeaderLabelComponent } from '@/component/editor/HeaderLabelComponent';
-import useThemeValues from '@/hook/useThemeValue';
+import HeaderLabelComponent from '@/component/editor/HeaderLabelComponent';
+import { useThemeValues } from '@/hook/useThemeValue';
 import { ThemePalette } from '@/utils/themes';
 import { Flex, Show } from '@chakra-ui/react';
 import { MdClass } from 'react-icons/md';
@@ -10,7 +10,7 @@ export type HeaderProps = {
 	columnNumber: number;
 };
 
-export const HeaderComponent = (props: HeaderProps) => {
+export default function (props: HeaderProps) {
 	const { getThemeValue } = useThemeValues();
 
 	return (
@@ -36,4 +36,4 @@ export const HeaderComponent = (props: HeaderProps) => {
 			</Show>
 		</Flex>
 	);
-};
+}

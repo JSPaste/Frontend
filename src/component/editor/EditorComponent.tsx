@@ -11,7 +11,7 @@ type EditorProps = {
 	enableEdit: boolean;
 };
 
-export const EditorComponent = (props: EditorProps) => {
+export default function (props: EditorProps) {
 	const editorRef = useRef<ReactCodeMirrorRef>(null);
 
 	const updateCursorInformation = useCallback(() => {
@@ -55,4 +55,4 @@ export const EditorComponent = (props: EditorProps) => {
 			}}
 		/>
 	);
-};
+}

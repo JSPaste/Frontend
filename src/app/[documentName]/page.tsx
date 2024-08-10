@@ -1,4 +1,4 @@
-import { EditorScreen } from '@/screen/EditorScreen';
+import EditorScreen from '@/screen/EditorScreen';
 
 type PageProps = {
 	params: {

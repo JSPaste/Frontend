@@ -2,7 +2,7 @@ import { themeStore } from '@/utils/store';
 import { themes } from '@/utils/themes';
 import { useColorMode } from '@chakra-ui/react';
 
-export default function useTheme() {
+export function useTheme() {
 	const { themeId, setThemeId } = themeStore();
 	const { colorMode, toggleColorMode } = useColorMode();
 

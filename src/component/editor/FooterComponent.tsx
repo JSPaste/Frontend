@@ -1,5 +1,5 @@
-import { FooterButtonComponent } from '@/component/editor/FooterButtonComponent';
-import useThemeValues from '@/hook/useThemeValue';
+import FooterButtonComponent from '@/component/editor/FooterButtonComponent';
+import { useThemeValues } from '@/hook/useThemeValue';
 import { ThemePalette } from '@/utils/themes';
 import { Flex, useToast } from '@chakra-ui/react';
 import { type Dispatch, type SetStateAction, useState } from 'react';
@@ -14,7 +14,7 @@ type ControlsProps = {
 };
 
 // TODO: Dirty port from stable
-export const FooterComponent = (props: ControlsProps) => {
+export default function (props: ControlsProps) {
 	const { getThemeValue } = useThemeValues();
 	const [isSaveLoading, setIsSaveLoading] = useState(false);
 	const toast = useToast();
@@ -68,4 +68,4 @@ export const FooterComponent = (props: ControlsProps) => {
 			/>
 		</Flex>
 	);
-};
+}
