@@ -1,9 +1,11 @@
-import FooterButtonComponent from '@/component/editor/FooterButtonComponent';
-import { useThemeValues } from '@/hook/useThemeValue';
-import { ThemePalette } from '@/utils/themes';
+import FooterButtonComponent from '@/component/FooterButtonComponent';
+import { themeStore } from '@/utils/store';
 import { Flex, useToast } from '@chakra-ui/react';
+import dynamic from 'next/dynamic';
 import { type Dispatch, type SetStateAction, useState } from 'react';
-import { MdEdit, MdSave, MdSubject } from 'react-icons/md';
+import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
+
+const SettingsModal = dynamic(() => import('@/component/modal/settings/SettingsModal.tsx'));
 
 type ControlsProps = {
 	documentName?: string;
@@ -15,9 +17,11 @@ type ControlsProps = {
 
 // TODO: Dirty port from stable
 export default function (props: ControlsProps) {
-	const { getThemeValue } = useThemeValues();
 	const [isSaveLoading, setIsSaveLoading] = useState(false);
+	const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 	const toast = useToast();
+
+	const { getThemePalette } = themeStore();
 
 	const handleSave = async () => {
 		setIsSaveLoading(true);
@@ -40,12 +44,8 @@ export default function (props: ControlsProps) {
 		console.info(result);
 	};
 
-	const handleNavigation = (url: string) => {
-		location.href = url;
-	};
-
 	return (
-		<Flex className='gap-3 pt-2 pb-2 pl-2.5 pr-2.5' bg={getThemeValue(ThemePalette.Controls)}>
+		<Flex className='gap-3 pt-2 pb-2 pl-2.5 pr-2.5' bg={getThemePalette().controls}>
 			<div className='flex-auto' />
 			<FooterButtonComponent
 				icon={<MdSave fontSize='20px' />}
@@ -63,9 +63,17 @@ export default function (props: ControlsProps) {
 			<FooterButtonComponent
 				icon={<MdSubject fontSize='20px' />}
 				label='View Raw'
-				onClick={() => handleNavigation(`/documents/${props.documentName}/raw`)}
+				onClick={() => (location.href = `/${props.documentName}/raw`)}
 				isDisabled={!props.documentName || props.isEditing}
 			/>
+			<FooterButtonComponent
+				icon={<MdSettings fontSize='20px' />}
+				label='Settings'
+				onClick={() => setIsSettingsModalOpen(true)}
+			/>
+			{isSettingsModalOpen && (
+				<SettingsModal isOpen={isSettingsModalOpen} onClose={() => setIsSettingsModalOpen(false)} />
+			)}
 		</Flex>
 	);
 }

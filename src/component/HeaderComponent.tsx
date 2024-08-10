@@ -1,6 +1,5 @@
-import HeaderLabelComponent from '@/component/editor/HeaderLabelComponent';
-import { useThemeValues } from '@/hook/useThemeValue';
-import { ThemePalette } from '@/utils/themes';
+import HeaderLabelComponent from '@/component/HeaderLabelComponent';
+import { themeStore } from '@/utils/store';
 import { Flex, Show } from '@chakra-ui/react';
 import { MdClass } from 'react-icons/md';
 import { PiGithubLogoFill } from 'react-icons/pi';
@@ -11,10 +10,10 @@ export type HeaderProps = {
 };
 
 export default function (props: HeaderProps) {
-	const { getThemeValue } = useThemeValues();
+	const { getThemePalette } = themeStore();
 
 	return (
-		<Flex className='gap-2 h-6 pl-2 pr-2' bg={getThemeValue(ThemePalette.Information)}>
+		<Flex className='gap-2 h-6 pl-2 pr-2' bg={getThemePalette().information}>
 			<HeaderLabelComponent
 				label={`Ln ${props.lineNumber.toString().padStart(2, '0')} Col
             ${props.columnNumber.toString().padStart(2, '0')}`}

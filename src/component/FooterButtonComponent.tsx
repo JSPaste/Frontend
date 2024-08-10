@@ -1,5 +1,4 @@
-import { useThemeValues } from '@/hook/useThemeValue';
-import { ThemePalette } from '@/utils/themes';
+import { themeStore } from '@/utils/store';
 import { IconButton, Tooltip } from '@chakra-ui/react';
 import type { ReactElement } from 'react';
 
@@ -13,13 +12,13 @@ type ActionButtonProps = {
 
 // TODO: Dirty port from stable
 export default function (props: ActionButtonProps) {
-	const { getThemeValue } = useThemeValues();
+	const { getThemePalette } = themeStore();
 
 	return (
 		<Tooltip
 			label={!props.isDisabled ? props.label : `${props.label} (Disabled)`}
-			bg={getThemeValue(ThemePalette.Tooltip)}
-			color={getThemeValue(ThemePalette.Text)}
+			bg={getThemePalette().tooltip}
+			color={getThemePalette().text}
 			placement='top'
 			gutter={5}
 			hasArrow
@@ -27,7 +26,7 @@ export default function (props: ActionButtonProps) {
 			<IconButton
 				size='sm'
 				aria-label={props.label}
-				color={getThemeValue(ThemePalette.Primary)}
+				color={getThemePalette().primary}
 				icon={props.icon}
 				onClick={props.onClick}
 				isDisabled={props.isDisabled ?? false}

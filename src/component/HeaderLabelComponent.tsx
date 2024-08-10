@@ -1,5 +1,4 @@
-import { useThemeValues } from '@/hook/useThemeValue';
-import { ThemePalette } from '@/utils/themes';
+import { themeStore } from '@/utils/store';
 import { Flex, Text } from '@chakra-ui/react';
 import type { ReactElement } from 'react';
 
@@ -10,7 +9,7 @@ type HeaderLabelProps = {
 };
 
 export default function (props: HeaderLabelProps) {
-	const { getThemeValue } = useThemeValues();
+	const { getThemePalette } = themeStore();
 
 	return (
 		<Flex
@@ -18,14 +17,14 @@ export default function (props: HeaderLabelProps) {
 			fontSize='12px'
 			_hover={
 				props.onClick && {
-					background: getThemeValue(ThemePalette.HighTransparency),
+					background: getThemePalette().highTransparency,
 					cursor: 'pointer'
 				}
 			}
 			onClick={props.onClick}
 		>
 			{props.icon}
-			<Text color={getThemeValue(ThemePalette.TextMuted)}>{props.label}</Text>
+			<Text color={getThemePalette().textMuted}>{props.label}</Text>
 		</Flex>
 	);
 }

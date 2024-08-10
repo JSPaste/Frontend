@@ -1,11 +1,9 @@
 'use client';
 
-import FooterComponent from '@/component/editor/FooterComponent';
-import HeaderComponent, { type HeaderProps } from '@/component/editor/HeaderComponent';
-import dynamic from 'next/dynamic';
+import EditorComponent from '@/component/EditorComponent';
+import FooterComponent from '@/component/FooterComponent';
+import HeaderComponent, { type HeaderProps } from '@/component/HeaderComponent';
 import { useState } from 'react';
-
-const EditorComponent = dynamic(() => import('@/component/editor/EditorComponent'));
 
 type EditorScreenProps = {
 	documentName?: string;

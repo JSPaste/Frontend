@@ -1,4 +1,4 @@
-import type { HeaderProps } from '@/component/editor/HeaderComponent';
+import type { HeaderProps } from '@/component/HeaderComponent';
 import ReactCodeMirror, { type ReactCodeMirrorRef } from '@uiw/react-codemirror';
 import { useCallback, useRef } from 'react';
 
