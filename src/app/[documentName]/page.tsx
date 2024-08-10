@@ -1,5 +1,11 @@
 import { EditorScreen } from '@/screen/EditorScreen';
 
-export default function () {
-	return <EditorScreen enableEdit />;
+type PageProps = {
+	params: {
+		documentName: string;
+	};
+};
+
+export default function (props: PageProps) {
+	return <EditorScreen documentName={props.params.documentName} enableEdit />;
 }

@@ -22,9 +22,7 @@ export const EditorScreen = ({ documentName, enableEdit = false }: EditorScreenP
 
 	return (
 		<div className='flex flex-col h-lvh'>
-			<header>
-				<HeaderComponent lineNumber={position.lineNumber} columnNumber={position.columnNumber} />
-			</header>
+			<HeaderComponent lineNumber={position.lineNumber} columnNumber={position.columnNumber} />
 			<EditorComponent
 				setCursorLocation={setPosition}
 				setValue={setValue}

@@ -1,12 +1,12 @@
 import { redirect } from 'next/navigation';
 
-type RedirectProps = {
+type PageProps = {
 	params: {
 		documentName: string;
 	};
 };
 
-export default function (props: RedirectProps) {
+export default function (props: PageProps) {
 	// TODO: Expose Backend API route location
 	return redirect(`/api/document/${props.params.documentName}/raw`);
 }

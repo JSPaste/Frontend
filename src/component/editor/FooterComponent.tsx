@@ -64,7 +64,7 @@ export const FooterComponent = (props: ControlsProps) => {
 				icon={<MdSubject fontSize='20px' />}
 				label='View Raw'
 				onClick={() => handleNavigation(`/documents/${props.documentName}/raw`)}
-				isDisabled={Boolean(props.documentName) || props.isEditing}
+				isDisabled={!props.documentName || props.isEditing}
 			/>
 		</Flex>
 	);
