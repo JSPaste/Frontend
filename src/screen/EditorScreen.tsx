@@ -10,9 +10,10 @@ import { useState } from 'react';
 type EditorScreenProps = {
 	documentName?: string;
 	enableEdit?: boolean;
+	overrideDocumentContent?: string;
 };
 
-export default function ({ documentName, enableEdit = false }: EditorScreenProps) {
+export default function ({ documentName, enableEdit = false, overrideDocumentContent }: EditorScreenProps) {
 	const [position, setPosition] = useState<HeaderProps>({
 		lineNumber: 1,
 		columnNumber: 1
@@ -48,7 +49,7 @@ export default function ({ documentName, enableEdit = false }: EditorScreenProps
 			<EditorComponent
 				setCursorLocation={setPosition}
 				setValue={setValue}
-				value={value}
+				value={overrideDocumentContent ? overrideDocumentContent : value}
 				documentName={documentName}
 				isEditing={isEditing}
 				enableEdit={enableEdit}

@@ -13,7 +13,7 @@ export default function (props: HeaderProps) {
 	const { getThemePalette } = themeStore();
 
 	return (
-		<Flex className='gap-2 h-6 pl-2 pr-2' bg={getThemePalette().information}>
+		<Flex className='gap-2 min-h-6 pl-2 pr-2' bg={getThemePalette().information}>
 			<HeaderLabelComponent
 				label={`Ln ${props.lineNumber.toString().padStart(2, '0')} Col
             ${props.columnNumber.toString().padStart(2, '0')}`}
