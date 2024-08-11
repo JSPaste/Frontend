@@ -3,6 +3,8 @@
 import EditorComponent from '@/component/EditorComponent';
 import FooterComponent from '@/component/FooterComponent';
 import HeaderComponent, { type HeaderProps } from '@/component/HeaderComponent';
+import { frontendStore, themeStore } from '@/utils/store.ts';
+import { Heading, Spinner } from '@chakra-ui/react';
 import { useState } from 'react';
 
 type EditorScreenProps = {
@@ -19,6 +21,26 @@ export default function ({ documentName, enableEdit = false }: EditorScreenProps
 	const [value, setValue] = useState<string>('');
 
 	const [isEditing, setIsEditing] = useState<boolean>(false);
+
+	const { storageHydrated } = frontendStore();
+
+	const { getThemePalette } = themeStore();
+
+	if (!storageHydrated) {
+		return (
+			<div
+				className='flex flex-col h-lvh justify-center items-center gap-6'
+				style={{
+					backgroundColor: getThemePalette().editor
+				}}
+			>
+				<Spinner size='xl' color={getThemePalette().primaryDisplay} />
+				<Heading as='h1' size='lg' color={getThemePalette().text}>
+					JSPaste
+				</Heading>
+			</div>
+		);
+	}
 
 	return (
 		<div className='flex flex-col h-lvh'>

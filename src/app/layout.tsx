@@ -1,11 +1,12 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import './root.css';
 import { siteManifest } from '@/manifest';
+import { frontendStore, themeStore } from '@/utils/store.ts';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
-const theme = extendTheme({
+const chakraTheme = extendTheme({
 	config: {
 		initialColorMode: 'dark',
 		useSystemColorMode: false
@@ -13,6 +14,19 @@ const theme = extendTheme({
 });
 
 export default function ({ children }: { children: ReactNode }) {
+	const [initialLoad, setInitialLoad] = useState(true);
+
+	const { storageHydrated } = frontendStore();
+	const { themeId, setTheme } = themeStore();
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: Only invoke on initialLoad
+	useEffect(() => {
+		if (initialLoad && storageHydrated) {
+			setTheme(themeId);
+			setInitialLoad(false);
+		}
+	}, []);
+
 	return (
 		<html lang='en'>
 			<head>
@@ -35,7 +49,9 @@ export default function ({ children }: { children: ReactNode }) {
 				<link rel='icon' type='image/x-icon' href='/favicon.ico' />
 			</head>
 			<body>
-				<ChakraProvider theme={theme}>{children}</ChakraProvider>
+				<ChakraProvider key={`im-${initialLoad ? 'loading' : 'done'}`} theme={chakraTheme}>
+					{children}
+				</ChakraProvider>
 			</body>
 		</html>
 	);

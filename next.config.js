@@ -4,7 +4,6 @@ const nextConfig = Object.seal({
 	reactStrictMode: true,
 	poweredByHeader: false,
 	experimental: {
-		reactCompiler: true,
 		optimizeCss: true
 	}
 });

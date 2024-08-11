@@ -1,3 +1,4 @@
+import { useTheme } from '@/hook/useTheme.ts';
 import { themeStore } from '@/utils/store';
 import { themes } from '@/utils/themes';
 import { Flex, IconButton, Stack, useBreakpointValue } from '@chakra-ui/react';
@@ -5,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { MdArrowBack, MdArrowForward } from 'react-icons/md';
 
 export default function () {
-	const { themeId, setTheme } = themeStore();
+	const { setTheme } = useTheme();
 
 	const maxColumns = useBreakpointValue([2, 3, 4]) ?? 4;
 
@@ -19,6 +20,8 @@ export default function () {
 
 	const nextIndex = () => setCurrentIndex((currentIndex + 1) % themes.length);
 	const previousIndex = () => setCurrentIndex((currentIndex - 1 + themes.length) % themes.length);
+
+	const { themeId } = themeStore();
 
 	return (
 		<Stack spacing='10px'>
