@@ -1,9 +1,17 @@
 # Required to build the standalone locally before building the image container: "bun run build:standalone"
+FROM docker.io/oven/bun:1-alpine AS builder
+WORKDIR /build/
+
+COPY . ./
+
+RUN bun install --production --no-save vike
+
 FROM docker.io/oven/bun:1-distroless
 WORKDIR /frontend/
 
-COPY --chown=nonroot dist/standalone ./
-COPY --chown=nonroot LICENSE ./
+COPY --chown=nonroot --from=builder /build/dist ./
+COPY --chown=nonroot --from=builder /build/node_modules ./node_modules
+COPY --chown=nonroot --from=builder /build/LICENSE ./
 
 LABEL org.opencontainers.image.url="https://jspaste.eu" \
       org.opencontainers.image.source="https://github.com/jspaste/frontend" \
@@ -11,9 +19,6 @@ LABEL org.opencontainers.image.url="https://jspaste.eu" \
       org.opencontainers.image.description="The frontend for JSPaste" \
       org.opencontainers.image.documentation="https://docs.jspaste.eu" \
       org.opencontainers.image.licenses="EUPL-1.2"
-
-ENV HOSTNAME=0.0.0.0
-ENV PORT=3000
 
 EXPOSE 3000
 

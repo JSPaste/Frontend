@@ -1,3 +1,4 @@
 *
-!dist/standalone/
+!dist/
+!bunfig.toml
 !LICENSE

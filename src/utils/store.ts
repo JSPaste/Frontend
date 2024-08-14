@@ -1,13 +1,11 @@
-import type { LangsKey } from '@/utils/langs.ts';
-import { type Theme, ThemeId, type ThemePaletteKey, themes } from '@/utils/themes';
 import type { LanguageSupport, StreamLanguage } from '@codemirror/language';
 import { langs } from '@uiw/codemirror-extensions-langs';
+import type { LangsKey } from '@x-util/langs';
+import { type Theme, ThemeId, themes } from '@x-util/themes';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 type FrontendState = {
-	storageHydrated: boolean;
-	_setStorageHydrated: (state: boolean) => void;
 	apiURL: string;
 	setApiURL: (url: string) => void;
 };
@@ -15,15 +13,12 @@ type FrontendState = {
 export const frontendStore = create(
 	persist<FrontendState>(
 		(set) => ({
-			storageHydrated: false,
 			apiURL: 'https://jspaste.eu/api/v2/documents',
-			_setStorageHydrated: (state) => set({ storageHydrated: state }),
 			setApiURL: (url) => set({ apiURL: url })
 		}),
 		{
 			name: 'x-jspaste-frontend',
-			storage: createJSONStorage(() => localStorage),
-			onRehydrateStorage: (state) => state._setStorageHydrated(true)
+			storage: createJSONStorage(() => localStorage)
 		}
 	)
 );
@@ -32,7 +27,6 @@ type ThemeState = {
 	themeId: ThemeId;
 	setTheme: (id: ThemeId) => void;
 	getTheme: () => Theme;
-	getThemePalette: () => ThemePaletteKey;
 };
 
 export const themeStore = create(
@@ -42,11 +36,6 @@ export const themeStore = create(
 			setTheme: (id) => set({ themeId: id }),
 			getTheme: () => {
 				return themes.find((theme) => theme.id === get().themeId) as Theme;
-			},
-			getThemePalette: () => {
-				const theme = themes.find((theme) => theme.id === get().themeId) as Theme;
-
-				return theme.palette;
 			}
 		}),
 		{
