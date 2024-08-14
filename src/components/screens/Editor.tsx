@@ -1,6 +1,6 @@
 import FooterComponent from '@x-component/Footer';
 import HeaderComponent, { type HeaderProps } from '@x-component/Header';
-import GenericSpinner from '@x-component/screens/GenericSpinner.tsx';
+import GenericFallback from '@x-component/screens/GenericFallback';
 import { useState } from 'react';
 import { clientOnly } from 'vike-react/clientOnly';
 
@@ -23,10 +23,10 @@ export default function ({ documentName, enableEdit = false, overrideDocumentCon
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 
 	return (
-		<div className='flex flex-col h-lvh'>
+		<div className='flex flex-col h-lvh overflow-hidden'>
 			<HeaderComponent lineNumber={position.lineNumber} columnNumber={position.columnNumber} />
 			<EditorComponent
-				fallback={<GenericSpinner />}
+				fallback={<GenericFallback />}
 				setCursorLocation={setPosition}
 				setValue={setValue}
 				value={overrideDocumentContent ? overrideDocumentContent : value}

@@ -1,14 +1,12 @@
-import { IconButton, Stack, useBreakpointValue } from '@chakra-ui/react';
-import { useTheme } from '@x-hook/useTheme';
+import { useBreakpoint } from '@x-hook/useBreakpoint.ts';
 import { themeStore } from '@x-util/store';
 import { themes } from '@x-util/themes';
 import { useEffect, useState } from 'react';
-import { MdArrowBack, MdArrowForward } from 'react-icons/md';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 export default function () {
-	const { setTheme } = useTheme();
-
-	const maxColumns = useBreakpointValue([2, 3, 4]) ?? 4;
+	const breakpoint = useBreakpoint();
+	const maxColumns = breakpoint === 'sm' ? 2 : breakpoint === 'md' ? 3 : 4;
 
 	const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -21,18 +19,21 @@ export default function () {
 	const nextIndex = () => setCurrentIndex((currentIndex + 1) % themes.length);
 	const previousIndex = () => setCurrentIndex((currentIndex - 1 + themes.length) % themes.length);
 
-	const { themeId } = themeStore();
+	const { themeId, setTheme } = themeStore();
 
 	return (
-		<Stack spacing='10px'>
+		<div className='flex flex-col gap-4'>
 			<p>Editor theme:</p>
 			<div className='flex justify-between align-middle items-center'>
-				<IconButton
+				<button
+					type='button'
 					aria-label='Previous'
-					icon={<MdArrowBack />}
+					className='btn btn-sm btn-neutral'
 					onClick={previousIndex}
-					isDisabled={currentIndex === 0}
-				/>
+					disabled={currentIndex === 0}
+				>
+					<IoIosArrowBack />
+				</button>
 				<div
 					className='w-full pl-5 pr-5 grid grid-flow-col gap-4'
 					style={{ gridTemplateColumns: `repeat(${maxColumns}, 1fr)` }}
@@ -80,13 +81,16 @@ export default function () {
 						</div>
 					))}
 				</div>
-				<IconButton
+				<button
+					type='button'
 					aria-label='Next'
-					icon={<MdArrowForward />}
+					className='btn btn-sm btn-neutral'
 					onClick={nextIndex}
-					isDisabled={currentIndex === themes.length - maxColumns}
-				/>
+					disabled={currentIndex === themes.length - maxColumns}
+				>
+					<IoIosArrowForward />
+				</button>
 			</div>
-		</Stack>
+		</div>
 	);
 }

@@ -1,5 +1,5 @@
+import ThemeSection from '@x-component/modals/settings/ThemeSection';
 import { themeStore } from '@x-util/store';
-import ThemeSection from './ThemeSection';
 
 export default function () {
 	const { getTheme } = themeStore();

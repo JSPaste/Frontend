@@ -1,0 +1,71 @@
+diff --git a/dist/middleware/serve-static/index.js b/dist/middleware/serve-static/index.js
+index 2632f1c8e3a7e697218293fa90ae192145fa6ae1..be634ab23cc03d8215a1586921342baa17cda3e5 100644
+--- a/dist/middleware/serve-static/index.js
++++ b/dist/middleware/serve-static/index.js
+@@ -3,6 +3,24 @@ import { getFilePath, getFilePathWithoutDefaultDocument } from "../../utils/file
+ import { getMimeType } from "../../utils/mime.js";
+ var DEFAULT_DOCUMENT = "index.html";
+ var defaultPathResolve = (path) => path;
++var checkPrecompressedFile = async (path, getContent, c) => {
++  const acceptEncoding = c.req.header("Accept-Encoding") || "";
++  const content = [
++    { extension: ".br", encoding: "br" },
++    { extension: ".zst", encoding: "zstd" },
++    { extension: ".gz", encoding: "gzip" }
++  ];
++  for (const { extension, encoding } of content) {
++    if (!acceptEncoding.includes(encoding))
++      return;
++    const precompressedPath = path + extension;
++    const content = await getContent(precompressedPath, c);
++    if (content) {
++      return { content, extension };
++    }
++  }
++  return null;
++};
+ var serveStatic = (options) => {
+   return async (c, next) => {
+     if (c.finalized) {
+@@ -33,6 +51,29 @@ var serveStatic = (options) => {
+     const pathResolve = options.pathResolve ?? defaultPathResolve;
+     path = pathResolve(path);
+     let content = await getContent(path, c);
++    if (options.precompressed) {
++      const precompressed = await checkPrecompressedFile(path, getContent, c);
++      if (precompressed) {
++        content = precompressed.content;
++        switch (precompressed.extension) {
++          case ".gz": {
++            c.header("Content-Encoding", "gzip");
++            break;
++          }
++          case ".br": {
++            c.header("Content-Encoding", "br");
++            break;
++          }
++          case ".zst": {
++            c.header("Content-Encoding", "zstd");
++            break;
++          }
++          default: {
++            break;
++          }
++        }
++      }
++    }
+     if (!content) {
+       let pathWithOutDefaultDocument = getFilePathWithoutDefaultDocument({
+         filename,
+diff --git a/dist/types/middleware/serve-static/index.d.ts b/dist/types/middleware/serve-static/index.d.ts
+index f21caec3268304bffba42fc9325a710244e00d9e..2bf794a1b35aff0a6f6f492ca68e622660995282 100644
+--- a/dist/types/middleware/serve-static/index.d.ts
++++ b/dist/types/middleware/serve-static/index.d.ts
+@@ -7,6 +7,7 @@ import type { Env, MiddlewareHandler } from '../../types';
+ export type ServeStaticOptions<E extends Env = Env> = {
+     root?: string;
+     path?: string;
++    precompressed?: boolean;
+     mimes?: Record<string, string>;
+     rewriteRequestPath?: (path: string) => string;
+     onNotFound?: (path: string, c: Context<E>) => void | Promise<void>;

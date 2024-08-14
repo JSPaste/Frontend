@@ -1,4 +1,3 @@
-import { useToast } from '@chakra-ui/react';
 import FooterButtonComponent from '@x-component/FooterButton';
 import { themeStore } from '@x-util/store';
 import { type Dispatch, type SetStateAction, lazy, useState } from 'react';
@@ -14,11 +13,8 @@ type ControlsProps = {
 	enableEdit: boolean;
 };
 
-// TODO: Dirty port from stable
-export default function (props: ControlsProps) {
+export default function ({ documentName, value, isEditing, setIsEditing, enableEdit }: ControlsProps) {
 	const [isSaveLoading, setIsSaveLoading] = useState(false);
-
-	const toast = useToast();
 
 	const { getTheme } = themeStore();
 
@@ -26,18 +22,6 @@ export default function (props: ControlsProps) {
 		setIsSaveLoading(true);
 		const result = null;
 		setIsSaveLoading(false);
-
-		if (!result) {
-			toast({
-				title: 'An error occurred, please try again.',
-				description: 'Check your Internet connection and try again.',
-				position: 'top-right',
-				status: 'error',
-				variant: 'subtle',
-				isClosable: true,
-				duration: 10000
-			});
-		}
 
 		location.href = '/abc123';
 		console.info(result);
@@ -48,22 +32,22 @@ export default function (props: ControlsProps) {
 			<div className='flex-auto' />
 			<FooterButtonComponent
 				icon={<MdSave fontSize='20px' />}
-				label={!props.value ? 'You need to write something to save!' : 'Save'}
+				label={!value ? 'You need to write something to save!' : 'Save'}
 				onClick={handleSave}
 				isLoading={isSaveLoading}
-				isDisabled={!props.value}
+				isDisabled={!value}
 			/>
 			<FooterButtonComponent
 				icon={<MdEdit fontSize='20px' />}
 				label='Edit'
-				onClick={() => props.setIsEditing(true)}
-				isDisabled={props.isEditing || !props.enableEdit}
+				onClick={() => setIsEditing(true)}
+				isDisabled={isEditing || !enableEdit}
 			/>
 			<FooterButtonComponent
 				icon={<MdSubject fontSize='20px' />}
 				label='View Raw'
-				onClick={() => (location.href = `/${props.documentName}/raw`)}
-				isDisabled={!props.documentName || props.isEditing}
+				onClick={() => (location.href = `/${documentName}/raw`)}
+				isDisabled={!documentName || isEditing}
 			/>
 			<FooterButtonComponent
 				icon={<MdSettings fontSize='20px' />}

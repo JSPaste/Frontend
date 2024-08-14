@@ -8,14 +8,14 @@ export type HeaderProps = {
 	columnNumber: number;
 };
 
-export default function (props: HeaderProps) {
+export default function ({ lineNumber, columnNumber }: HeaderProps) {
 	const { getTheme } = themeStore();
 
 	return (
 		<div className='flex min-h-6 pl-2 pr-2' style={{ backgroundColor: getTheme().palette.information }}>
 			<HeaderLabelComponent
-				label={`Ln ${props.lineNumber.toString().padStart(2, '0')} Col
-            ${props.columnNumber.toString().padStart(2, '0')}`}
+				label={`Ln ${lineNumber.toString().padStart(2, '0')} Col
+            ${columnNumber.toString().padStart(2, '0')}`}
 			/>
 			<HeaderLabelComponent label={'Lang (TODO)'} />
 			<span className='flex-auto' />

@@ -1,11 +1,8 @@
-import { $ } from 'bun';
 import { findFiles } from '../utils.ts';
 
 export default async function () {
-	await $`cp -a src/server.ts dist/`;
-
 	const serverBuildStatus = await Bun.build({
-		entrypoints: ['dist/server.ts'],
+		entrypoints: ['src/server.ts'],
 		outdir: 'dist/',
 		target: 'bun',
 		external: ['vike']
@@ -38,6 +35,4 @@ export default async function () {
 
 		process.exit(1);
 	}
-
-	await $`rm dist/server.ts`;
 }

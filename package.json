@@ -9,7 +9,7 @@
 		"build:standalone": "bun run build:vite && bun run postbuild:3step && bun run postbuild:compress",
 		"build:vite": "bun vite build",
 		"fix": "bun run fix:biome && bun run fix:package",
-		"fix:biome": "bun biome check --write",
+		"fix:biome": "bun biome format --write",
 		"fix:package": "bun sort-package-json --quiet",
 		"lint": "bun run lint:biome && bun run lint:tsc",
 		"lint:biome": "bun biome lint",
@@ -22,7 +22,6 @@
 		"start:server": "bun run build:standalone && bun run --cwd=dist/ server.js"
 	},
 	"dependencies": {
-		"@chakra-ui/react": "~2.8.2",
 		"@swc/core": "~1.7.11",
 		"@types/bun": "~1.1.6",
 		"@types/lodash": "~4.17.7",
@@ -36,16 +35,14 @@
 		"@vitejs/plugin-react": "~4.3.1",
 		"autoprefixer": "~10.4.20",
 		"daisyui": "~4.12.10",
-		"highlight.js": "~11.10.0",
-		"hono": "~4.5.5",
-		"lodash": "~4.17.21",
+		"hono": "4.5.5",
 		"postcss": "~8.4.41",
 		"react": "~18.3.1",
 		"react-dom": "~18.3.1",
 		"react-icons": "~5.3.0",
 		"tailwindcss": "~3.4.10",
 		"typescript": "~5.5.4",
-		"vike": "^0.4.184",
+		"vike": "~0.4.184",
 		"vike-react": "~0.5.2",
 		"vite": "~5.4.0",
 		"zustand": "~4.5.4"
@@ -54,6 +51,9 @@
 		"@biomejs/biome": "~1.8.3",
 		"lefthook": "~1.7.12",
 		"sort-package-json": "~2.10.0"
+	},
+	"patchedDependencies": {
+		"hono@4.5.5": "patches/hono@4.5.5.patch"
 	},
 	"trustedDependencies": [
 		"@biomejs/biome",

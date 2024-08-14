@@ -5,9 +5,6 @@ import vike from 'vike/plugin';
 import type { UserConfig } from 'vite';
 
 export default {
-	optimizeDeps: {
-		include: ['lodash']
-	},
 	resolve: {
 		alias: {
 			'@x-component': resolve('./src/components'),

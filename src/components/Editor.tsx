@@ -1,12 +1,12 @@
+import { tags as t } from '@lezer/highlight';
 import { hyperLink } from '@uiw/codemirror-extensions-hyper-link';
-import { langs } from '@uiw/codemirror-extensions-langs';
-import ReactCodeMirror, { type ReactCodeMirrorRef } from '@uiw/react-codemirror';
+import { vscodeDark, vscodeLight } from '@uiw/codemirror-theme-vscode';
+import createTheme from '@uiw/codemirror-themes';
+import ReactCodeMirror, { type Extension, type ReactCodeMirrorRef } from '@uiw/react-codemirror';
 import type { HeaderProps } from '@x-component/Header';
-import type { LangsKey } from '@x-util/langs';
 import { languageStore, themeStore } from '@x-util/store';
-import hljs from 'highlight.js';
-import { debounce } from 'lodash';
-import { useCallback, useEffect, useRef } from 'react';
+import { ThemeId } from '@x-util/themes.ts';
+import { useCallback, useRef } from 'react';
 
 type EditorProps = {
 	setCursorLocation: (info: HeaderProps) => void;
@@ -17,70 +17,34 @@ type EditorProps = {
 	enableEdit: boolean;
 };
 
-export default function (props: EditorProps) {
+export default function ({ setCursorLocation, setValue, value, isEditing, enableEdit }: EditorProps) {
 	const editorRef = useRef<ReactCodeMirrorRef>(null);
 
-	const updateCursorInformation = useCallback(
-		debounce(
-			() => {
-				const editor = editorRef.current;
+	const updateCursorInformation = useCallback(() => {
+		const editor = editorRef.current;
 
-				if (editor?.view) {
-					const { from } = editor.view.state.selection.main;
-					const cursorPosition = editor.view.state.doc.lineAt(from);
+		if (editor?.view) {
+			const { from } = editor.view.state.selection.main;
+			const cursorPosition = editor.view.state.doc.lineAt(from);
 
-					props.setCursorLocation({
-						lineNumber: cursorPosition.number,
-						columnNumber: from - cursorPosition.from + 1
-					});
-				}
-			},
-			100,
-			{ maxWait: 500 }
-		),
-		[]
-	);
+			setCursorLocation({
+				lineNumber: cursorPosition.number,
+				columnNumber: from - cursorPosition.from + 1
+			});
+		}
+	}, [setCursorLocation]);
 
-	const { getLanguage, setLanguage } = languageStore();
-
-	const autoLanguage = useCallback(
-		debounce(
-			(content: string) => {
-				const result = hljs.highlightAuto(content);
-
-				if (result.language && result.language in langs) {
-					console.debug('[EDITOR - autoLanguage] First detected language:', result.language);
-					return setLanguage(result.language as LangsKey);
-				}
-
-				if (result.secondBest?.language && result.secondBest.language in langs) {
-					console.debug('[EDITOR - autoLanguage] Second detected language:', result.secondBest?.language);
-					return setLanguage(result.secondBest?.language as LangsKey);
-				}
-
-				console.debug('[EDITOR - autoLanguage] Fallback to markdown');
-				return setLanguage('markdown');
-			},
-			1000,
-			{ leading: true }
-		),
-		[]
-	);
+	const { getLanguage } = languageStore();
 
 	const onChange = useCallback(
 		(value: string) => {
 			updateCursorInformation();
-			autoLanguage(value);
-			// props.setValue(value);
+			setValue(value);
 		},
-		[updateCursorInformation, autoLanguage]
+		[updateCursorInformation, setValue]
 	);
 
-	useEffect(() => {
-		autoLanguage(props.value);
-	}, [autoLanguage, props.value]);
-
-	const { getTheme } = themeStore();
+	const { themeId } = themeStore();
 
 	return (
 		<ReactCodeMirror
@@ -89,10 +53,10 @@ export default function (props: EditorProps) {
 			height='100%'
 			className='flex-grow overflow-auto'
 			extensions={[getLanguage(), hyperLink]}
-			theme={getTheme().codemirrorTheme}
+			theme={editorThemes[themeId]}
 			placeholder="Start writing here! When you're done, hit the save button to generate a unique URL with your content."
-			value={props.value}
-			readOnly={props.enableEdit && !props.isEditing}
+			value={value}
+			readOnly={enableEdit && !isEditing}
 			autoFocus={true}
 			basicSetup={{
 				lineNumbers: true,
@@ -105,3 +69,58 @@ export default function (props: EditorProps) {
 		/>
 	);
 }
+
+const editorThemes: Record<ThemeId, 'dark' | 'light' | Extension> = {
+	[ThemeId.Default]: createTheme({
+		settings: {
+			background: '#2E2E2E',
+			foreground: '#FFF',
+			caret: '#FFE184',
+			selection: '#FFE18419',
+			selectionMatch: '#FFE18433',
+			gutterBackground: '#232323',
+			gutterForeground: '#838383',
+			gutterActiveForeground: '#FFF',
+			lineHighlight: '#FFE18407'
+		},
+		styles: [
+			{
+				tag: [t.comment],
+				color: '#c8c5bb'
+			},
+			{
+				tag: [t.operator],
+				color: '#e8b000'
+			},
+			{
+				tag: [t.unit, t.punctuation],
+				color: '#c19200'
+			},
+			{
+				tag: [t.propertyName],
+				color: '#fcbe00'
+			},
+			{
+				tag: [t.bracket, t.variableName, t.emphasis, t.heading, t.tagName, t.className, t.namespace],
+				color: '#dee2e6'
+			},
+			{
+				tag: [t.typeName, t.atom, t.number, t.keyword, t.link, t.attributeName, t.quote],
+				color: '#FFE184'
+			},
+			{
+				tag: [t.number],
+				color: '#84b6ff'
+			},
+			{
+				tag: [t.string, t.url],
+				color: '#84ffb0'
+			}
+		],
+		theme: 'dark'
+	}),
+	[ThemeId.Dark]: vscodeDark,
+	[ThemeId.Light]: vscodeLight,
+	[ThemeId.Midnight]: 'dark',
+	[ThemeId.Amoled]: 'dark'
+};

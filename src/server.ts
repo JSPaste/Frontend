@@ -1,20 +1,23 @@
+// THIS FILE IS PART OF THE STANDALONE, DO NOT RUN IT DIRECTLY
+
 import type { Serve } from 'bun';
 import { type Context, Hono } from 'hono';
 import { env } from 'hono/adapter';
 import { serveStatic } from 'hono/bun';
 import { renderPage } from 'vike/server';
-
-// @ts-ignore
-import './server/entry.mjs';
+import '../dist/server/entry.mjs';
 
 const envs = env<{ NODE_ENV: string; PORT: string }>({ env: {} } as unknown as Context<object>);
 
 const server = new Hono();
 
+// TODO: Add Early Hints
+// FIXME: Add cache policy
 server.use(
 	'/*',
 	serveStatic({
-		root: 'client/'
+		root: 'client/',
+		precompressed: true
 	})
 );
 

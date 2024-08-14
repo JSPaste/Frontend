@@ -1,4 +1,5 @@
 import { siteManifest } from '@x-page/manifest.ts';
+import './root.css';
 
 export default function () {
 	return (

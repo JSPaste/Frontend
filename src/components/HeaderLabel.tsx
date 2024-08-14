@@ -1,4 +1,3 @@
-import { Text } from '@chakra-ui/react';
 import { themeStore } from '@x-util/store';
 import type { ReactElement } from 'react';
 
@@ -8,7 +7,7 @@ type HeaderLabelProps = {
 	onClick?: () => WindowProxy | null;
 };
 
-export default function (props: HeaderLabelProps) {
+export default function ({ label, icon, onClick }: HeaderLabelProps) {
 	const { getTheme } = themeStore();
 
 	return (
@@ -18,21 +17,21 @@ export default function (props: HeaderLabelProps) {
 				fontSize: '12px'
 			}}
 			onMouseEnter={(e) => {
-				if (!props.onClick) return;
+				if (!onClick) return;
 
 				e.currentTarget.style.background = getTheme().palette.highTransparency;
 				e.currentTarget.style.cursor = 'pointer';
 			}}
 			onMouseLeave={(e) => {
-				if (!props.onClick) return;
+				if (!onClick) return;
 
 				e.currentTarget.style.background = '';
 				e.currentTarget.style.cursor = '';
 			}}
-			onClick={props.onClick}
+			onClick={onClick}
 		>
-			{props.icon}
-			<Text color={getTheme().palette.textMuted}>{props.label}</Text>
+			{icon}
+			<p color={getTheme().palette.textMuted}>{label}</p>
 		</div>
 	);
 }
