@@ -1,9 +1,8 @@
 import FooterButtonComponent from '@x-component/FooterButton';
 import { themeStore } from '@x-util/store';
-import { type Dispatch, type SetStateAction, lazy, useState } from 'react';
+import { type Dispatch, type SetStateAction, useState } from 'react';
 import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
-
-const SettingsModal = lazy(() => import('@x-component/modals/settings/Settings'));
+import SettingsModal from '@x-component/modals/settings/Settings';
 
 type ControlsProps = {
 	documentName?: string;

@@ -11,6 +11,7 @@ WORKDIR /frontend/
 
 COPY --chown=nonroot --from=builder /build/dist ./
 COPY --chown=nonroot --from=builder /build/node_modules ./node_modules
+COPY --chown=nonroot --from=builder /build/bunfig.toml ./
 COPY --chown=nonroot --from=builder /build/LICENSE ./
 
 LABEL org.opencontainers.image.url="https://jspaste.eu" \

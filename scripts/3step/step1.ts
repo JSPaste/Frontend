@@ -2,8 +2,9 @@ import { findFiles } from '../utils.ts';
 
 export default async function () {
 	const serverBuildStatus = await Bun.build({
-		entrypoints: ['src/server.ts'],
+		entrypoints: ['src/server/index.ts'],
 		outdir: 'dist/',
+		naming: 'server.js',
 		target: 'bun',
 		external: ['vike']
 	});

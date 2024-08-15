@@ -24,7 +24,6 @@
 	"dependencies": {
 		"@swc/core": "~1.7.11",
 		"@types/bun": "~1.1.6",
-		"@types/lodash": "~4.17.7",
 		"@types/react": "~18.3.3",
 		"@types/react-dom": "~18.3.0",
 		"@uiw/codemirror-extensions-hyper-link": "~4.23.0",
@@ -34,8 +33,10 @@
 		"@uiw/react-codemirror": "~4.23.0",
 		"@vitejs/plugin-react": "~4.3.1",
 		"autoprefixer": "~10.4.20",
+		"chalk": "~5.3.0",
 		"daisyui": "~4.12.10",
-		"hono": "4.5.5",
+		"loglevel": "~1.9.1",
+		"mime": "~4.0.4",
 		"postcss": "~8.4.41",
 		"react": "~18.3.1",
 		"react-dom": "~18.3.1",
@@ -44,16 +45,13 @@
 		"typescript": "~5.5.4",
 		"vike": "~0.4.184",
 		"vike-react": "~0.5.2",
-		"vite": "~5.4.0",
-		"zustand": "~4.5.4"
+		"vite": "~5.4.1",
+		"zustand": "~4.5.5"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "~1.8.3",
 		"lefthook": "~1.7.12",
 		"sort-package-json": "~2.10.0"
-	},
-	"patchedDependencies": {
-		"hono@4.5.5": "patches/hono@4.5.5.patch"
 	},
 	"trustedDependencies": [
 		"@biomejs/biome",
