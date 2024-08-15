@@ -1,8 +1,7 @@
-import { $ } from 'bun';
 import { findFiles } from '../utils.ts';
 
 export default async function () {
-	const rootClientDirectory = 'dist/client/';
+	const rootClientDirectory = './dist/client/';
 	const relativeClientFiles = await findFiles(rootClientDirectory, '**/*.js');
 	const rootClientFiles = relativeClientFiles.map((file) => rootClientDirectory + file);
 
@@ -11,7 +10,7 @@ export default async function () {
 		outdir: rootClientDirectory,
 		target: 'browser',
 		external: ['*'],
-		root: 'dist/client/',
+		root: './dist/client/',
 		minify: true
 	});
 
@@ -22,6 +21,4 @@ export default async function () {
 
 		process.exit(1);
 	}
-
-	$`rm -rf dist/server/`;
 }

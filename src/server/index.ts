@@ -1,9 +1,8 @@
-import { type Serve } from 'bun';
-import '../../dist/server/entry.mjs';
-import { renderPage } from 'vike/server';
+import type { Serve } from 'bun';
 import mime from 'mime';
-import { loadMemory, memory } from './memory.ts';
+import { renderPage } from 'vike/server';
 import { logger } from './logger.ts';
+import { loadMemory, memory } from './memory.ts';
 
 const encodings = {
 	br: '.br',
@@ -11,15 +10,16 @@ const encodings = {
 	gzip: '.gz'
 };
 
-process.env.NODE_ENV = 'production';
 const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 3000;
+
+logger.set(2);
 
 const staticDirectory = 'client/';
 
-logger.info(`[SERVER] Preloading memory from ${staticDirectory}`);
+logger.info(`Preloading memory from: "${staticDirectory}"`);
 await loadMemory(staticDirectory);
 
-logger.info(`[SERVER] Listening on http://localhost:${port}`);
+logger.info(`Listening on http://localhost:${port}`);
 
 // TODO: 103 Early Hints -> https://github.com/oven-sh/bun/issues/8690
 export default {
@@ -58,6 +58,8 @@ export default {
 				headers['Cache-Control'] = 'public, max-age=3600, no-transform';
 			}
 
+			logger.debug(req.method, url.pathname + (selectedEncoding ? encodings[selectedEncoding] : ''));
+
 			return new Response(memory[url.pathname + (selectedEncoding ? encodings[selectedEncoding] : '')], {
 				headers: headers
 			});
@@ -74,6 +76,8 @@ export default {
 		const { readable, writable } = new TransformStream();
 
 		response.pipe(writable);
+
+		logger.debug(req.method, url.pathname);
 
 		return new Response(readable, {
 			status: response.statusCode,

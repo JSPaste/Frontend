@@ -1,7 +1,10 @@
 import FooterComponent from '@x-component/Footer';
 import HeaderComponent, { type HeaderProps } from '@x-component/Header';
+import GenericFallback from '@x-component/screens/GenericFallback.tsx';
 import { useState } from 'react';
-import EditorComponent from '@x-component/Editor';
+import { clientOnly } from 'vike-react/clientOnly';
+
+const EditorComponent = clientOnly(() => import('@x-component/Editor'));
 
 type EditorScreenProps = {
 	documentName?: string;
@@ -23,6 +26,7 @@ export default function ({ documentName, enableEdit = false, overrideDocumentCon
 		<div className='flex flex-col h-lvh overflow-hidden'>
 			<HeaderComponent lineNumber={position.lineNumber} columnNumber={position.columnNumber} />
 			<EditorComponent
+				fallback={<GenericFallback />}
 				setCursorLocation={setPosition}
 				setValue={setValue}
 				value={overrideDocumentContent ? overrideDocumentContent : value}

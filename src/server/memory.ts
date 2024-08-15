@@ -1,12 +1,12 @@
-import { file as bunFile, Glob } from 'bun';
 import { resolve } from 'node:path';
+import { Glob, file as bunFile } from 'bun';
 
 export const memory: Record<string, ArrayBuffer> = {};
 
 export const loadMemory = async (directory: string) => {
 	const glob = new Glob('**');
 
-	let relativeFiles = await Array.fromAsync(
+	const relativeFiles = await Array.fromAsync(
 		glob.scan({
 			cwd: directory,
 			onlyFiles: true
@@ -14,8 +14,8 @@ export const loadMemory = async (directory: string) => {
 	);
 
 	for (const relativeFile of relativeFiles) {
-		memory['/' + relativeFile] = await bunFile(
-			resolve(directory + '/' + relativeFile).replace(/\/+/g, '/')
+		memory[`/${relativeFile}`] = await bunFile(
+			resolve(`${directory}/${relativeFile}`).replace(/\/+/g, '/')
 		).arrayBuffer();
 	}
 };

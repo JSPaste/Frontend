@@ -1,8 +1,8 @@
 import FooterButtonComponent from '@x-component/FooterButton';
+import SettingsModal from '@x-component/modals/settings/Settings';
 import { themeStore } from '@x-util/store';
 import { type Dispatch, type SetStateAction, useState } from 'react';
 import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
-import SettingsModal from '@x-component/modals/settings/Settings';
 
 type ControlsProps = {
 	documentName?: string;

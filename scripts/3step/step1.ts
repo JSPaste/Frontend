@@ -1,12 +1,11 @@
+import { $ } from 'bun';
 import { findFiles } from '../utils.ts';
 
 export default async function () {
 	const serverBuildStatus = await Bun.build({
-		entrypoints: ['src/server/index.ts'],
-		outdir: 'dist/',
-		naming: 'server.js',
-		target: 'bun',
-		external: ['vike']
+		entrypoints: ['./dist/server/index.mjs'],
+		outdir: './dist/server/',
+		target: 'bun'
 	});
 
 	if (!serverBuildStatus.success) {
@@ -17,7 +16,10 @@ export default async function () {
 		process.exit(1);
 	}
 
-	const rootClientDirectory = 'dist/client/';
+	await $`rm -f ./dist/server/importBuild*`;
+	await $`rm ./dist/server/index.mjs`;
+
+	const rootClientDirectory = './dist/client/';
 	const relativeClientFiles = await findFiles(rootClientDirectory, '**/*.js');
 	const rootClientFiles = relativeClientFiles.map((file) => rootClientDirectory + file);
 
@@ -26,7 +28,7 @@ export default async function () {
 		outdir: rootClientDirectory,
 		target: 'browser',
 		external: ['*'],
-		root: 'dist/client/'
+		root: './dist/client/'
 	});
 
 	if (!clientBuildStatus.success) {

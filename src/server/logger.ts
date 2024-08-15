@@ -26,19 +26,23 @@ export const logger = {
 		}
 	},
 
+	// biome-ignore lint/suspicious/noExplicitAny: We don't know the type
 	error: (...msg: any[]) => {
-		log.error(chalk.red('[ERROR]'), ...msg);
+		log.error(chalk.bgBlack(chalk.red('[ERROR]'), chalk.yellow('[SERVER]'), ...msg));
 	},
 
+	// biome-ignore lint/suspicious/noExplicitAny: We don't know the type
 	warn: (...msg: any[]) => {
-		log.warn(chalk.yellow('[WARN]'), ...msg);
+		log.warn(chalk.bgBlack(chalk.yellow('[WARN]'), chalk.yellow('[SERVER]'), ...msg));
 	},
 
+	// biome-ignore lint/suspicious/noExplicitAny: We don't know the type
 	info: (...msg: any[]) => {
-		log.info(chalk.blue('[INFO]'), ...msg);
+		log.info(chalk.bgBlack(chalk.blue('[INFO]'), chalk.yellow('[SERVER]'), ...msg));
 	},
 
+	// biome-ignore lint/suspicious/noExplicitAny: We don't know the type
 	debug: (...msg: any[]) => {
-		log.debug(chalk.gray('[DEBUG]'), ...msg);
+		log.debug(chalk.bgBlack(chalk.gray('[DEBUG]'), chalk.yellow('[SERVER]'), ...msg));
 	}
 } as const;
