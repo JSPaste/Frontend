@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@0d381219ddf674d61a7572ddd19d7941e271515c # v2.9.0
+        uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
         with:
           egress-policy: audit
 
@@ -106,7 +106,7 @@ jobs:
 
       - if: ${{ inputs.image-action == 'build-release' }}
         name: Attest image
-        uses: actions/attest-build-provenance@210c1913531870065f03ce1f9440dd87bc0938cd # v1.4.0
+        uses: actions/attest-build-provenance@310b0a4a3b0b78ef57ecda988ee04b132db73ef8 # v1.4.1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ steps.build-image.outputs.image }}
           subject-digest: ${{ steps.push-image.outputs.digest }}
