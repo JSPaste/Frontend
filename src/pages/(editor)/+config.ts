@@ -5,5 +5,5 @@ export default {
 	title: siteManifest.siteTitle,
 	description: siteManifest.description,
 	clientRouting: false,
-	ssr: false
+	ssr: true
 } satisfies Config;

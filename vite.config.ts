@@ -10,7 +10,8 @@ export default {
 		target: 'es2022',
 		rollupOptions: {
 			external: ['bun']
-		}
+		},
+		reportCompressedSize: false
 	},
 	resolve: {
 		alias: {

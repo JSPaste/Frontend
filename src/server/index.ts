@@ -4,69 +4,73 @@ import { renderPage } from 'vike/server';
 import { logger } from './logger.ts';
 import { loadMemory, memory } from './memory.ts';
 
-const encodings = {
-	br: '.br',
-	zstd: '.zst',
-	gzip: '.gz'
+type Encoding = 'br' | 'zstd' | 'gzip';
+
+const encodings: Record<Encoding, { extension: string; weight: number }> = {
+	br: { extension: '.br', weight: 0 },
+	zstd: { extension: '.zst', weight: 1 },
+	gzip: { extension: '.gz', weight: 2 }
 };
 
 const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 3000;
 
 logger.set(2);
 
-const staticDirectory = 'client/';
+const staticDirectory = ['client/'];
 
-logger.info(`Preloading memory from: "${staticDirectory}"`);
-await loadMemory(staticDirectory);
+for (const directory of staticDirectory) {
+	logger.info(`Preloading memory from: "${directory}"`);
+	await loadMemory(directory);
+}
 
 logger.info(`Listening on http://localhost:${port}`);
 
 // TODO: 103 Early Hints -> https://github.com/oven-sh/bun/issues/8690
 export default {
 	async fetch(req) {
-		const url = new URL(req.url);
+		const reqURL = new URL(req.url);
 
 		// Static files
-		if (Object.hasOwn(memory, url.pathname)) {
-			const acceptEncoding = req.headers.get('Accept-Encoding');
-			let selectedEncoding: keyof typeof encodings | undefined;
+		if (Object.hasOwn(memory, reqURL.pathname)) {
+			const headers: HeadersInit = {
+				'Content-Type': mime.getType(reqURL.pathname) || 'application/octet-stream'
+			};
 
-			if (acceptEncoding) {
-				for (const encoding of acceptEncoding.split(',').map((encoding) => encoding.trim())) {
-					for (const [availableEncoding, extension] of Object.entries(encodings)) {
-						if (availableEncoding !== encoding) continue;
+			const acceptEncodings =
+				req.headers
+					.get('Accept-Encoding')
+					?.split(',')
+					.map((encoding) => encoding.trim())
+					.filter((encoding): encoding is Encoding => Object.hasOwn(encodings, encoding))
+					.sort((a, b) => encodings[a].weight - encodings[b].weight) || [];
 
-						if (Object.hasOwn(memory, url.pathname + extension)) {
-							selectedEncoding = availableEncoding as keyof typeof encodings;
-							break;
-						}
-					}
+			for (const acceptEncoding of acceptEncodings) {
+				if (!Object.hasOwn(encodings, acceptEncoding)) continue;
+
+				const extension = encodings[acceptEncoding as keyof typeof encodings].extension;
+
+				if (Object.hasOwn(memory, reqURL.pathname + extension)) {
+					headers['Content-Encoding'] = acceptEncoding;
+					reqURL.pathname += extension;
+					break;
 				}
 			}
 
-			const headers: HeadersInit = {
-				'Content-Type': mime.getType(url.pathname) || 'application/octet-stream'
-			};
-
-			if (selectedEncoding) {
-				headers['Content-Encoding'] = selectedEncoding;
-			}
-
-			if (url.pathname.startsWith('/assets/')) {
+			if (reqURL.pathname.startsWith('/assets/')) {
 				headers['Cache-Control'] = 'public, max-age=31536000, immutable';
 			} else {
 				headers['Cache-Control'] = 'public, max-age=3600, no-transform';
 			}
 
-			logger.debug(req.method, url.pathname + (selectedEncoding ? encodings[selectedEncoding] : ''));
+			logger.debug(req.method, reqURL.pathname);
 
-			return new Response(memory[url.pathname + (selectedEncoding ? encodings[selectedEncoding] : '')], {
+			return new Response(memory[reqURL.pathname], {
 				headers: headers
 			});
 		}
 
 		// Dynamic pages
-		const pageContext = await renderPage({ urlOriginal: url.href });
+		const pageContext = await renderPage({ urlOriginal: reqURL.href });
 		const response = pageContext.httpResponse;
 
 		if (!response) {
@@ -77,7 +81,7 @@ export default {
 
 		response.pipe(writable);
 
-		logger.debug(req.method, url.pathname);
+		logger.debug(req.method, reqURL.pathname);
 
 		return new Response(readable, {
 			status: response.statusCode,

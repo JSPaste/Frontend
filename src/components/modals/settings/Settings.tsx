@@ -1,5 +1,7 @@
-import ThemeSection from '@x-component/modals/settings/ThemeSection';
 import { themeStore } from '@x-util/store';
+import { clientOnly } from 'vike-react/clientOnly';
+
+const ThemeSection = clientOnly(() => import('@x-component/modals/settings/ThemeSection'));
 
 export default function () {
 	const { getTheme } = themeStore();

@@ -18,7 +18,8 @@
 		"postbuild:compress": "bun run ./scripts/compress.ts",
 		"start": "bun run start:server",
 		"start:dev": "bun vite",
-		"start:server": "bun run build:standalone && NODE_ENV=production bun run --cwd=./dist/ ./server/index.js"
+		"start:force": "bun run build && bun run start:server",
+		"start:server": "NODE_ENV=production bun run --cwd=./dist/ ./server/index.js"
 	},
 	"dependencies": {
 		"@swc/core": "~1.7.11",
@@ -44,13 +45,13 @@
 		"typescript": "~5.5.4",
 		"vike": "~0.4.184",
 		"vike-node": "~0.1.14",
-		"vike-react": "~0.5.2",
+		"vike-react": "~0.5.3",
 		"vite": "~5.4.1",
 		"zustand": "~4.5.5"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "~1.8.3",
-		"lefthook": "~1.7.12",
+		"lefthook": "~1.7.13",
 		"sort-package-json": "~2.10.0"
 	},
 	"trustedDependencies": [
