@@ -1,12 +1,10 @@
-import { siteManifest } from '@x-page/manifest.ts';
+import { pwaManifest, siteManifest } from '@x-page/manifest.ts';
 import './root.css';
 
 export default function () {
 	return (
 		<>
-			<meta charSet='UTF-8' />
-			<meta name='viewport' content='initial-scale=1, width=device-width' />
-			<meta name='theme-color' content='#FFE285' />
+			<meta name='theme-color' content={pwaManifest.theme_color} />
 
 			<meta property='og:type' content={siteManifest.type} />
 			<meta property='og:url' content={siteManifest.baseURL} />
@@ -15,6 +13,9 @@ export default function () {
 
 			<link rel='icon' type='image/svg+xml' href={siteManifest.logotype.localRoute} />
 			<link rel='icon' type='image/x-icon' href='/favicon.ico' />
+			<link rel='manifest' href='/manifest.webmanifest' />
+
+			<script defer src='/registerSW.js' />
 		</>
 	);
 }

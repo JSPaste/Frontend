@@ -4,6 +4,5 @@ import type { Config } from 'vike/types';
 export default {
 	title: siteManifest.siteTitle,
 	description: siteManifest.description,
-	clientRouting: false,
-	ssr: true
+	hydrationCanBeAborted: true
 } satisfies Config;

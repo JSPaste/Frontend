@@ -2,7 +2,6 @@ import type { Data } from '@x-page/(editor)/@documentName/+data.ts';
 import { useData } from 'vike-react/useData';
 import { redirect } from 'vike/abort';
 
-// FIXME: Uncaught Error: AbortRender
 export default function () {
 	const data = useData<Data>();
 

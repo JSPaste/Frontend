@@ -47,6 +47,7 @@
 		"vike-node": "~0.1.14",
 		"vike-react": "~0.5.3",
 		"vite": "~5.4.1",
+		"vite-plugin-pwa": "~0.20.1",
 		"zustand": "~4.5.5"
 	},
 	"devDependencies": {
