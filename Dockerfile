@@ -17,4 +17,4 @@ ENV NODE_ENV=production
 
 EXPOSE 3000
 
-ENTRYPOINT ["bun", "run", "server/index.js"]
+ENTRYPOINT ["bun", "run", "./server/index.js"]
