@@ -1,9 +1,5 @@
 import { transform } from '@swc/core';
-import { $ } from 'bun';
 import { findFiles, writeFile } from './utils.ts';
-
-const serverTarget = 'esnext';
-const clientTarget = 'es2020';
 
 const serverAssets = async () => {
 	const rootStaticDirectory = './dist/server/';
@@ -16,7 +12,7 @@ const serverAssets = async () => {
 				isModule: true,
 				minify: true,
 				jsc: {
-					target: serverTarget,
+					target: 'esnext',
 					minify: {
 						compress: {
 							arguments: true,
@@ -48,7 +44,7 @@ const clientAssets = async () => {
 				isModule: true,
 				minify: true,
 				jsc: {
-					target: clientTarget,
+					target: 'es2020',
 					minify: {
 						compress: {
 							arguments: true,
@@ -70,7 +66,7 @@ const clientAssets = async () => {
 };
 
 console.info('[MINIFY] Running...');
-await $`rm -f ./dist/server/importBuild*`;
-
+console.info('[MINIFY] Minifying server...');
 await serverAssets();
+console.info('[MINIFY] Minifying client...');
 await clientAssets();

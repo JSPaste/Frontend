@@ -6,9 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "bun run build:standalone",
-		"build:standalone": "rm -rf .dist/ && bun run build:vite && bun run postbuild:standalone && bun run postbuild:minify && bun run postbuild:precompress",
-		"postbuild:standalone": "bun run --bun scripts/standalone.ts",
-		"build:test": "rm -rf .dist/ && bun run build:vite && bun run postbuild:standalone && bun run start:server",
+		"build:standalone": "rm -rf ./dist/ && bun run build:vite && bun run script:standalone && bun run script:minify && bun run script:compress",
 		"build:vite": "bun --bun vite build",
 		"fix": "bun run fix:biome && bun run fix:package",
 		"fix:biome": "bun --bun biome check --write",
@@ -16,12 +14,13 @@
 		"lint": "bun run lint:biome && bun run lint:tsc",
 		"lint:biome": "bun --bun biome lint",
 		"lint:tsc": "bun --bun tsc --noEmit",
-		"postbuild:minify": "bun run --bun scripts/minify.ts",
-		"postbuild:precompress": "bun run --bun scripts/compress.ts",
+		"script:compress": "bun run --bun ./scripts/compress.ts",
+		"script:minify": "bun run --bun ./scripts/minify.ts",
+		"script:standalone": "bun run --bun ./scripts/standalone.ts",
 		"start": "bun run start:server",
-		"start:build": "bun run build:standalone && bun run start:server",
 		"start:dev": "bun --bun vite",
-		"start:server": "NODE_ENV=production bun run --bun --cwd=./dist/ ./server/index.mjs"
+		"start:rebuild": "bun run build:standalone && bun run start:server",
+		"start:server": "NODE_ENV=production bun run --bun --cwd=./dist/ ./server/index.js"
 	},
 	"dependencies": {
 		"@swc/core": "~1.7.11",

@@ -1,32 +1,20 @@
-// DIRTY PORT FROM vike-node
-
-import * as fs from 'node:fs';
-import * as path from 'node:path';
+import { cp, readdir, rm, stat } from 'node:fs/promises';
+import { dirname } from 'node:path';
+import { join, relative } from 'node:path/posix';
 import { nodeFileTrace } from '@vercel/nft';
+import { $ } from 'bun';
 import esbuild from 'esbuild';
-import { type ResolvedConfig, searchForWorkspaceRoot } from 'vite';
+import { searchForWorkspaceRoot } from 'vite';
 
-const viteConfig = (await import(path.resolve(process.cwd(), 'vite.config.ts'))).default as ResolvedConfig;
 const root = process.cwd();
-const outDir = './dist/server/';
-const outDirAbs = path.posix.join(root, outDir);
+const serverOutDir = './dist/server/';
+const serverOutDirAbs = join(root, serverOutDir);
 const serverEntrypoint = ['./src/server/index.ts'];
 const base = searchForWorkspaceRoot(root);
-const relativeRoot = path.posix.relative(base, root);
-const relativeOutDir = path.posix.join(relativeRoot, outDir);
+const relativeRoot = relative(base, root);
+const relativeOutDir = join(relativeRoot, serverOutDir);
 
-function generateBanner() {
-	return [
-		"import { dirname as dirname987 } from 'path';",
-		"import { fileURLToPath as fileURLToPath987 } from 'url';",
-		"import { createRequire as createRequire987 } from 'module';",
-		'var require = createRequire987(import.meta.url);',
-		'var __filename = fileURLToPath987(import.meta.url);',
-		'var __dirname = dirname987(__filename);'
-	].join('\n');
-}
-
-function findCommonAncestor(paths: string[]): string {
+const findCommonAncestor = (paths: string[]): string => {
 	if (paths.length <= 1) return '';
 
 	const pathComponents = paths.map((path) => path.split('/'));
@@ -39,61 +27,53 @@ function findCommonAncestor(paths: string[]): string {
 	}
 
 	return commonAncestor ? commonAncestor.slice(0, -1) : '';
-}
+};
 
-async function buildWithEsbuild() {
-	return esbuild.build({
+const buildWithEsbuild = async () => {
+	const result = await esbuild.build({
 		platform: 'node',
 		target: 'esnext',
 		format: 'esm',
 		bundle: true,
+		minify: true,
+		treeShaking: true,
 		external: ['bun'],
 		entryPoints: serverEntrypoint,
-		sourcemap: viteConfig.build.sourcemap === 'hidden' ? true : viteConfig.build.sourcemap,
-		outExtension: { '.js': '.mjs' },
-		outdir: outDirAbs,
+		sourcemap: false,
+		outdir: serverOutDirAbs,
 		splitting: false,
 		allowOverwrite: true,
 		metafile: true,
-		logOverride: { 'ignored-bare-import': 'silent' },
-		banner: { js: generateBanner() }
+		logOverride: { 'ignored-bare-import': 'silent' }
 	});
-}
 
-async function removeLeftoverFiles(res: Awaited<ReturnType<typeof buildWithEsbuild>>) {
-	// Remove bundled files from outDir
-	const bundledFilesFromOutDir = Object.keys(res.metafile.inputs).filter(
-		(relativeFile) =>
-			!serverEntrypoint.some((entryFilePath) => entryFilePath.endsWith(relativeFile)) &&
-			relativeFile.startsWith(viteConfig.build.outDir)
+	const bundledFilesFromOutDir = Object.keys(result.metafile.inputs).filter(
+		(relativeFile) => relativeFile.endsWith(relativeFile) && relativeFile.startsWith('dist/')
 	);
 
 	await Promise.all(
 		bundledFilesFromOutDir.map(async (relativeFile) => {
-			fs.rmSync(path.posix.join(root, relativeFile));
-			if (![false, 'inline'].includes(viteConfig.build.sourcemap)) {
-				fs.rmSync(path.posix.join(root, `${relativeFile}.map`));
-			}
+			await rm(join(root, relativeFile));
 		})
 	);
 
-	// Remove empty directories
-	const relativeDirs = new Set(bundledFilesFromOutDir.map((file) => path.dirname(file)));
+	const relativeDirs = new Set(bundledFilesFromOutDir.map((file) => dirname(file)));
 	for (const relativeDir of relativeDirs) {
-		const absDir = path.posix.join(root, relativeDir);
-		const files = fs.readdirSync(absDir);
+		const absDir = join(root, relativeDir);
+		const files = await readdir(absDir);
 		if (!files.length) {
-			fs.rmSync(absDir, { recursive: true });
-			if (relativeDir.startsWith(outDir)) {
-				relativeDirs.add(path.dirname(relativeDir));
+			await rm(absDir, { recursive: true });
+			if (relativeDir.startsWith(serverOutDir)) {
+				relativeDirs.add(dirname(relativeDir));
 			}
 		}
 	}
-}
 
-async function traceAndCopyDependencies(base: string, relativeRoot: string, relativeOutDir: string) {
+	await $`rm -f ./dist/server/importBuild*`;
+};
+
+const traceAndCopyDependencies = async (base: string, relativeRoot: string, relativeOutDir: string) => {
 	const result = await nodeFileTrace(serverEntrypoint, { base });
-
 	const tracedDeps = new Set(
 		[...result.fileList].filter(
 			(file) => !result.reasons.get(file)?.type.includes('initial') && !file.startsWith('usr/')
@@ -108,23 +88,21 @@ async function traceAndCopyDependencies(base: string, relativeRoot: string, rela
 	const copiedFiles = new Set<string>();
 
 	await Promise.all(
-		filesToCopy.map((relativeFile) => {
-			const tracedFilePath = path.posix.join(base, relativeFile);
+		filesToCopy.map(async (relativeFile) => {
+			const tracedFilePath = join(base, relativeFile);
 			const isNodeModules = relativeFile.includes('node_modules');
+			const relativeFileClean = relativeFile.replace(relativeRoot, '').replace(commonAncestor, '');
+			const relativeFileHoisted = `node_modules${relativeFileClean.split('node_modules').pop()}`;
+			const fileOutputPath = join(serverOutDirAbs, isNodeModules ? relativeFileHoisted : relativeFileClean);
 
-			// biome-ignore lint/style/noParameterAssign: Dirty
-			relativeFile = relativeFile.replace(relativeRoot, '').replace(commonAncestor, '');
-			const relativeFileHoisted = `node_modules${relativeFile.split('node_modules').pop()}`;
-			const fileOutputPath = path.posix.join(outDirAbs, isNodeModules ? relativeFileHoisted : relativeFile);
-
-			if (!fs.statSync(tracedFilePath).isDirectory() && !copiedFiles.has(fileOutputPath)) {
+			if (!(await stat(tracedFilePath)).isDirectory() && !copiedFiles.has(fileOutputPath)) {
 				copiedFiles.add(fileOutputPath);
-				fs.cpSync(tracedFilePath, fileOutputPath, { recursive: true, dereference: true });
+				await cp(tracedFilePath, fileOutputPath, { recursive: true, dereference: true });
 			}
 		})
 	);
-}
+};
 
-const esbuildResult = await buildWithEsbuild();
-await removeLeftoverFiles(esbuildResult);
+console.info('[STANDALONE] Running...');
+await buildWithEsbuild();
 await traceAndCopyDependencies(base, relativeRoot, relativeOutDir);
