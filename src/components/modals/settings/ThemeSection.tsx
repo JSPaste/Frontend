@@ -19,7 +19,7 @@ export default function () {
 	const nextIndex = () => setCurrentIndex((currentIndex + 1) % themes.length);
 	const previousIndex = () => setCurrentIndex((currentIndex - 1 + themes.length) % themes.length);
 
-	const { themeId, setTheme } = themeStore();
+	const { themeId, setTheme, getTheme } = themeStore();
 
 	return (
 		<div className='flex flex-col gap-4'>
@@ -28,11 +28,21 @@ export default function () {
 				<button
 					type='button'
 					aria-label='Previous'
-					className='btn btn-sm btn-neutral'
+					className='btn btn-sm h-8 min-h-8 w-8 min-w-8'
+					style={
+						currentIndex === 0
+							? {
+									backgroundColor: getTheme().palette.lowTransparency,
+									color: getTheme().palette.textMuted
+								}
+							: { backgroundColor: getTheme().palette.highTransparency }
+					}
 					onClick={previousIndex}
 					disabled={currentIndex === 0}
 				>
-					<IoIosArrowBack />
+					<span>
+						<IoIosArrowBack />
+					</span>
 				</button>
 				<div
 					className='w-full pl-5 pr-5 grid grid-flow-col gap-4'
@@ -84,11 +94,21 @@ export default function () {
 				<button
 					type='button'
 					aria-label='Next'
-					className='btn btn-sm btn-neutral'
+					className='btn btn-sm h-8 min-h-8 w-8 min-w-8'
+					style={
+						currentIndex === themes.length - maxColumns
+							? {
+									backgroundColor: getTheme().palette.lowTransparency,
+									color: getTheme().palette.textMuted
+								}
+							: { backgroundColor: getTheme().palette.highTransparency }
+					}
 					onClick={nextIndex}
 					disabled={currentIndex === themes.length - maxColumns}
 				>
-					<IoIosArrowForward />
+					<span>
+						<IoIosArrowForward />
+					</span>
 				</button>
 			</div>
 		</div>

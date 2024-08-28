@@ -1,7 +1,6 @@
+import LanguageSection from '@x-component/modals/settings/LanguageSection.tsx';
+import ThemeSection from '@x-component/modals/settings/ThemeSection';
 import { themeStore } from '@x-util/store';
-import { clientOnly } from 'vike-react/clientOnly';
-
-const ThemeSection = clientOnly(() => import('@x-component/modals/settings/ThemeSection'));
 
 export default function () {
 	const { getTheme } = themeStore();
@@ -11,7 +10,10 @@ export default function () {
 			<div className='modal-box flex flex-col' style={{ backgroundColor: getTheme().palette.popup }}>
 				<h3 className='font-bold text-lg'>SETTINGS</h3>
 				<div className='divider m-0.5' />
-				<ThemeSection />
+				<div className='flex flex-col gap-4'>
+					<ThemeSection />
+					<LanguageSection />
+				</div>
 			</div>
 			<form method='dialog' className='modal-backdrop'>
 				<button type='submit' className='cursor-default' />

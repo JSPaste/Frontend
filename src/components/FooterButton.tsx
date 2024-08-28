@@ -22,7 +22,15 @@ export default function ({ label, icon, onClick, isDisabled, isLoading }: Action
 			<button
 				type='button'
 				aria-label={label}
-				className='btn btn-sm btn-neutral'
+				className='btn btn-sm h-8 min-h-8 w-8 min-w-8'
+				style={
+					isDisabled
+						? {
+								backgroundColor: getTheme().palette.lowTransparency,
+								color: getTheme().palette.textMuted
+							}
+						: { backgroundColor: getTheme().palette.highTransparency }
+				}
 				onClick={onClick}
 				disabled={isDisabled ?? false}
 			>

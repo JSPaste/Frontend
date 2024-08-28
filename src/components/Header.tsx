@@ -1,5 +1,5 @@
 import HeaderLabelComponent from '@x-component/HeaderLabel';
-import { themeStore } from '@x-util/store';
+import { languageStore, themeStore } from '@x-util/store';
 import { MdClass } from 'react-icons/md';
 import { PiGithubLogoFill } from 'react-icons/pi';
 
@@ -10,6 +10,7 @@ export type HeaderProps = {
 
 export default function ({ lineNumber, columnNumber }: HeaderProps) {
 	const { getTheme } = themeStore();
+	const { language } = languageStore();
 
 	return (
 		<div className='flex min-h-6 pl-2 pr-2' style={{ backgroundColor: getTheme().palette.information }}>
@@ -17,7 +18,7 @@ export default function ({ lineNumber, columnNumber }: HeaderProps) {
 				label={`Ln ${lineNumber.toString().padStart(2, '0')} Col
             ${columnNumber.toString().padStart(2, '0')}`}
 			/>
-			<HeaderLabelComponent label={'Lang (TODO)'} />
+			<HeaderLabelComponent label={`Lang ${language}`} />
 			<span className='flex-auto' />
 			<div className='flex max-sm:hidden'>
 				{/* TODO: Expose Backend API route location */}
