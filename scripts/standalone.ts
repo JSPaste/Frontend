@@ -2,7 +2,6 @@ import { cp, readdir, rm, stat } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { join, relative } from 'node:path/posix';
 import { nodeFileTrace } from '@vercel/nft';
-import { $ } from 'bun';
 import esbuild from 'esbuild';
 import { searchForWorkspaceRoot } from 'vite';
 
@@ -68,8 +67,6 @@ const buildWithEsbuild = async () => {
 			}
 		}
 	}
-
-	await $`rm -f ./dist/server/importBuild*`;
 };
 
 const traceAndCopyDependencies = async (base: string, relativeRoot: string, relativeOutDir: string) => {

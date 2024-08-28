@@ -33,7 +33,10 @@ export const themeStore = create(
 	persist<ThemeState>(
 		(set, get) => ({
 			themeId: ThemeId.Default,
-			setTheme: (id) => set({ themeId: id }),
+			setTheme: (id) => {
+				set({ themeId: id });
+				document.documentElement.setAttribute('data-theme', id);
+			},
 			getTheme: () => {
 				return themes.find((theme) => theme.id === get().themeId) as Theme;
 			}

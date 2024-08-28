@@ -1,7 +1,8 @@
 import FooterComponent from '@x-component/Footer';
 import HeaderComponent, { type HeaderProps } from '@x-component/Header';
 import GenericFallback from '@x-component/screens/GenericFallback.tsx';
-import { useState } from 'react';
+import { themeStore } from '@x-util/store.ts';
+import { useEffect, useState } from 'react';
 import { clientOnly } from 'vike-react/clientOnly';
 
 const EditorComponent = clientOnly(() => import('@x-component/Editor'));
@@ -21,6 +22,14 @@ export default function ({ documentName, enableEdit = false, overrideDocumentCon
 	const [value, setValue] = useState<string>('');
 
 	const [isEditing, setIsEditing] = useState<boolean>(false);
+
+	const { themeId } = themeStore();
+
+	useEffect(() => {
+		if (themeId) {
+			document.documentElement.setAttribute('data-theme', themeId);
+		}
+	}, [themeId]);
 
 	return (
 		<div className='flex flex-col h-lvh overflow-hidden'>
