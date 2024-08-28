@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+#root {
+	isolation: isolate;
 	user-select: none;
 }

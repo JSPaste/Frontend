@@ -32,7 +32,7 @@ export default function ({ documentName, enableEdit = false, overrideDocumentCon
 	}, [themeId]);
 
 	return (
-		<div className='flex flex-col h-lvh overflow-hidden'>
+		<div className='flex flex-col h-screen overflow-hidden'>
 			<HeaderComponent lineNumber={position.lineNumber} columnNumber={position.columnNumber} />
 			<EditorComponent
 				fallback={<GenericFallback />}
