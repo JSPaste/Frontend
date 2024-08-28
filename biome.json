@@ -1,7 +1,7 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
 	"files": {
-		"ignore": ["./.next/", "**/node_modules/", "./dist/", "./out/"],
+		"ignore": ["./dist/**", "*.spec.ts"],
 		"ignoreUnknown": true
 	},
 	"formatter": {
@@ -11,6 +11,26 @@
 		"indentWidth": 4,
 		"lineEnding": "lf",
 		"lineWidth": 120
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"a11y": {
+				"useKeyWithClickEvents": "off"
+			},
+			"complexity": {
+				"noStaticOnlyClass": "off"
+			},
+			"suspicious": {
+				"noAssignInExpressions": "off"
+			}
+		}
+	},
+	"css": {
+		"formatter": {
+			"enabled": true
+		}
 	},
 	"javascript": {
 		"formatter": {
@@ -22,30 +42,12 @@
 			"quoteProperties": "asNeeded",
 			"quoteStyle": "single",
 			"semicolons": "always",
-			"trailingComma": "none"
+			"trailingCommas": "none"
 		}
 	},
 	"json": {
 		"formatter": {
 			"enabled": true
-		}
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true,
-			"style": {
-				"noParameterAssign": "off"
-			},
-			"complexity": {
-				"useLiteralKeys": "off",
-				"noStaticOnlyClass": "off"
-			},
-			"suspicious": {
-				"noAssignInExpressions": "off",
-				"noExplicitAny": "off",
-				"noConsoleLog": "warn"
-			}
 		}
 	},
 	"organizeImports": {
