@@ -1,19 +1,19 @@
-name: "CD -> Release"
+name: CD -> Release
 on:
   workflow_dispatch:
     inputs:
       image-action:
-        description: "Container image action"
+        description: Container image action
         type: choice
         required: true
-        default: "none"
+        default: none
         options:
-          - "none"
-          - "build"
-          - "build-release"
+          - none
+          - build
+          - build-release
 
 concurrency:
-  group: "${{ github.workflow }}-${{ github.ref }}"
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -22,8 +22,8 @@ permissions:
 jobs:
   container:
     if: ${{ github.repository_owner == 'jspaste' && inputs.image-action != 'none' }}
-    name: "Build container image"
-    runs-on: ubuntu-latest
+    name: Build container image
+    runs-on: ubuntu-24.04
     env:
       REGISTRY: ghcr.io
 
@@ -33,17 +33,20 @@ jobs:
       packages: write
 
     steps:
-      - name: "Harden Runner"
-        uses: step-security/harden-runner@a4aa98b93cab29d9b1101a6143fb8bce00e2eac4 # v2.7.1
+      - name: Harden Runner
+        uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
         with:
           egress-policy: audit
 
-      - name: "Setup QEMU"
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@4bc047ad259df6fc24a6c9b0f9a0cb08cf17fbe5 # v2.0.1
+
+      - name: Setup QEMU
         run: |
           sudo apt-get update
           sudo apt-get install -y qemu-user-static
 
-      - name: "Setup tags"
+      - name: Setup tags
         id: tags-image
         run: |
           TIMESTAMP="$(date +%Y.%m.%d)"
@@ -62,25 +65,30 @@ jobs:
 
           echo "tags=${TAGS[*]}" >>"$GITHUB_OUTPUT"
 
-      - name: "Checkout"
-        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           persist-credentials: false
 
-      - name: "Build image"
+      - name: Setup production dependencies
+        run: bun install --frozen-lockfile --production
+
+      - name: Run build:standalone
+        run: bun run build:standalone
+
+      - name: Build image
         id: build-image
         uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056 # v2.13
         with:
-          archs: amd64, arm64
           containerfiles: Dockerfile
+          platforms: linux/amd64,linux/arm64
           image: ${{ github.repository }}
           layers: true
           oci: true
           tags: ${{ steps.tags-image.outputs.tags }}
-          extra-args: --squash
 
       - if: ${{ inputs.image-action == 'build-release' }}
-        name: "Login to GHCR"
+        name: Login to GHCR
         uses: redhat-actions/podman-login@4934294ad0449894bcd1e9f191899d7292469603 # v1.7
         with:
           username: ${{ github.repository_owner }}
@@ -88,7 +96,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
 
       - if: ${{ inputs.image-action == 'build-release' }}
-        name: "Push to GHCR"
+        name: Push to GHCR
         id: push-image
         uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c # v2.8
         with:
@@ -97,9 +105,9 @@ jobs:
           registry: ${{ env.REGISTRY }}
 
       - if: ${{ inputs.image-action == 'build-release' }}
-        name: "Attest image"
-        uses: actions/attest-build-provenance@173725a1209d09b31f9d30a3890cf2757ebbff0d # v1.1.2
+        name: Attest image
+        uses: actions/attest-build-provenance@6149ea5740be74af77f260b9db67e633f6b0a9a1 # v1.4.2
         with:
-          subject-name: "${{ env.REGISTRY }}/${{ steps.build-image.outputs.image }}"
+          subject-name: ${{ env.REGISTRY }}/${{ steps.build-image.outputs.image }}
           subject-digest: ${{ steps.push-image.outputs.digest }}
           push-to-registry: false

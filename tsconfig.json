@@ -2,16 +2,16 @@
 	"$schema": "https://json.schemastore.org/tsconfig.json",
 	"compilerOptions": {
 		"jsx": "preserve",
+		"jsxImportSource": "react",
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
-		"target": "ESNext",
 		"module": "ESNext",
-		"moduleDetection": "force",
 		"moduleResolution": "Bundler",
+		"target": "ES2022",
 
-		"allowJs": true,
 		"allowImportingTsExtensions": true,
+		"allowJs": true,
+		"checkJs": true,
 		"esModuleInterop": true,
-		"incremental": true,
 		"noEmit": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
@@ -25,7 +25,7 @@
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitOverride": true,
 		"noImplicitReturns": true,
-		"noPropertyAccessFromIndexSignature": true,
+		"noPropertyAccessFromIndexSignature": false,
 		"noUncheckedIndexedAccess": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
@@ -33,14 +33,12 @@
 
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@x-component/*": ["./src/components/*"],
+			"@x-hook/*": ["./src/hooks/*"],
+			"@x-page/*": ["./src/pages/*"],
+			"@x-util/*": ["./src/utils/*"]
 		},
-		"plugins": [
-			{
-				"name": "next"
-			}
-		]
+		"types": ["vite/client", "vike-react"]
 	},
-	"include": [".next/types/**/*.ts", "./src/**/*", "next-env.d.ts"],
-	"exclude": ["**/node_modules/"]
+	"exclude": ["./dist/**"]
 }

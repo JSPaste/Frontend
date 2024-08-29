@@ -16,6 +16,9 @@ lerna-debug.log*
 # Finder (MacOS) folder config
 .DS_Store/
 
+# Million lint
+.million
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
