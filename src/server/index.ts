@@ -1,4 +1,4 @@
-import type { Serve } from 'bun';
+import { type Serve, env } from 'bun';
 import mime from 'mime';
 import { renderPage } from 'vike/server';
 import { logger } from './logger.ts';
@@ -12,7 +12,7 @@ const encodings: Record<Encoding, { extension: string; weight: number }> = {
 	gzip: { extension: '.gz', weight: 2 }
 };
 
-const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 3000;
+const hostname = env.HOSTNAME || env.HOST || 'localhost';
 
 logger.set(2);
 
@@ -23,7 +23,7 @@ for (const directory of staticDirectory) {
 	await loadMemory(directory);
 }
 
-logger.info(`Listening on http://localhost:${port}`);
+logger.info(`Listening on http://${hostname}:${env.PORT}`);
 
 // TODO: 103 Early Hints -> https://github.com/oven-sh/bun/issues/8690
 export default {
@@ -88,7 +88,7 @@ export default {
 			headers: response.headers
 		});
 	},
-	port: port
+	hostname: hostname
 } satisfies Serve;
 
 // TODO: Support graceful shutdown
