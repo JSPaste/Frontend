@@ -13,6 +13,7 @@ const encodings: Record<Encoding, { extension: string; weight: number }> = {
 };
 
 const hostname = env.HOSTNAME || env.HOST || 'localhost';
+const port = env.PORT || 3000;
 
 logger.set(2);
 
@@ -23,7 +24,7 @@ for (const directory of staticDirectory) {
 	await loadMemory(directory);
 }
 
-logger.info(`Listening on http://${hostname}:${env.PORT}`);
+logger.info(`Listening on http://${hostname}:${port}`);
 
 // TODO: 103 Early Hints -> https://github.com/oven-sh/bun/issues/8690
 export default {
@@ -88,7 +89,8 @@ export default {
 			headers: response.headers
 		});
 	},
-	hostname: hostname
+	hostname: hostname,
+	port: port
 } satisfies Serve;
 
 // TODO: Support graceful shutdown
