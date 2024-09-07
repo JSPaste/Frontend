@@ -120,7 +120,5 @@ const editorThemes: Record<ThemeId, 'dark' | 'light' | Extension> = {
 		theme: 'dark'
 	}),
 	[ThemeId.Dark]: vscodeDark,
-	[ThemeId.Light]: vscodeLight,
-	[ThemeId.Midnight]: 'dark',
-	[ThemeId.Amoled]: 'dark'
+	[ThemeId.Light]: vscodeLight
 };

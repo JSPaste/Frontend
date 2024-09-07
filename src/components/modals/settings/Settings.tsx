@@ -1,13 +1,10 @@
 import LanguageSection from '@x-component/modals/settings/LanguageSection.tsx';
 import ThemeSection from '@x-component/modals/settings/ThemeSection';
-import { themeStore } from '@x-util/store';
 
 export default function () {
-	const { getTheme } = themeStore();
-
 	return (
 		<dialog id='modal_settings' className='modal modal-bottom sm:modal-middle'>
-			<div className='modal-box flex flex-col' style={{ backgroundColor: getTheme().palette.popup }}>
+			<div className='modal-box flex flex-col bg-base-200'>
 				<h3 className='font-bold text-lg'>SETTINGS</h3>
 				<div className='divider m-0.5' />
 				<div className='flex flex-col gap-4'>

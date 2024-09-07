@@ -10,10 +10,9 @@ const EditorComponent = clientOnly(() => import('@x-component/Editor'));
 type EditorScreenProps = {
 	documentName?: string;
 	enableEdit?: boolean;
-	overrideDocumentContent?: string;
 };
 
-export default function ({ documentName, enableEdit = false, overrideDocumentContent }: EditorScreenProps) {
+export default function ({ documentName, enableEdit = false }: EditorScreenProps) {
 	const [position, setPosition] = useState<HeaderProps>({
 		lineNumber: 1,
 		columnNumber: 1
@@ -38,7 +37,7 @@ export default function ({ documentName, enableEdit = false, overrideDocumentCon
 				fallback={<GenericFallback />}
 				setCursorLocation={setPosition}
 				setValue={setValue}
-				value={overrideDocumentContent ? overrideDocumentContent : value}
+				value={value}
 				documentName={documentName}
 				isEditing={isEditing}
 				enableEdit={enableEdit}
