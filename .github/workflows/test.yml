@@ -43,8 +43,8 @@ jobs:
       - name: Setup production dependencies
         run: bun install --frozen-lockfile --production
 
-      - name: Run build:standalone
-        run: bun run build:standalone
+      - name: Run build:server
+        run: bun run build:server
 
       - name: Setup development dependencies
         run: bun install --frozen-lockfile

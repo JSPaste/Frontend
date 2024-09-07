@@ -38,7 +38,7 @@
 			"@x-page/*": ["./src/pages/*"],
 			"@x-util/*": ["./src/utils/*"]
 		},
-		"types": ["vite/client", "vike-react"]
+		"types": ["vite/client", "vite-plugin-pwa/client", "vike-react"]
 	},
 	"exclude": ["./dist/**"]
 }

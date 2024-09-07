@@ -1,9 +1,9 @@
 import { resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
+import { pwaManifest } from '@x-page/manifest.ts';
 import vike from 'vike/plugin';
 import type { UserConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
-import { pwaManifest } from './src/pages/manifest';
 
 export default {
 	build: {
@@ -21,12 +21,13 @@ export default {
 		react(),
 		vike(),
 		VitePWA({
-			registerType: 'prompt',
+			registerType: 'autoUpdate',
 			injectRegister: 'script-defer',
 			manifest: pwaManifest,
 			workbox: {
-				globPatterns: ['**/*.{js,wasm,css,html,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
-				navigateFallback: null
+				globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,gif,webp,ico}'],
+				navigateFallback: null,
+				cleanupOutdatedCaches: true
 			}
 		})
 	]

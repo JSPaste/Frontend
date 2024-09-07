@@ -1,7 +1,7 @@
 import type { LanguageSupport, StreamLanguage } from '@codemirror/language';
 import { langs } from '@uiw/codemirror-extensions-langs';
-import type { LangsKey } from '@x-util/langs';
-import { ThemeId } from '@x-util/themes';
+import type { LangKeys } from '@x-util/langs';
+import type { ThemeKeys } from '@x-util/themes';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -24,18 +24,15 @@ export const frontendStore = create(
 );
 
 type ThemeState = {
-	themeId: ThemeId;
-	setTheme: (id: ThemeId) => void;
+	themeId: ThemeKeys;
+	setTheme: (id: ThemeKeys) => void;
 };
 
 export const themeStore = create(
 	persist<ThemeState>(
 		(set) => ({
-			themeId: ThemeId.Default,
-			setTheme: (id) => {
-				set({ themeId: id });
-				document.documentElement.setAttribute('data-theme', id);
-			}
+			themeId: 'default',
+			setTheme: (id) => set({ themeId: id })
 		}),
 		{
 			name: 'x-jspaste-frontend-theme',
@@ -45,8 +42,8 @@ export const themeStore = create(
 );
 
 type LanguageState = {
-	language: LangsKey;
-	setLanguage: (language: LangsKey) => void;
+	language: LangKeys;
+	setLanguage: (language: LangKeys) => void;
 	getLanguage: () => StreamLanguage<unknown> | LanguageSupport;
 };
 
