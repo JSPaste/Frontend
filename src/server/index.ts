@@ -3,11 +3,11 @@ import { Hono } from 'hono';
 import vike from 'vike-node/hono';
 import { logger } from './logger.ts';
 
-const hostname = env.HOSTNAME || env.HOST || 'localhost';
-const port = env.PORT || 3000;
+process.on('SIGTERM', () => frontend.stop());
 
 logger.set(2);
 
+const port = env.PORT || 3000;
 const server = new Hono();
 
 server.use(
@@ -21,14 +21,7 @@ server.use(
 
 const frontend = serve({
 	fetch: server.fetch,
-	hostname: hostname,
 	port: port
 });
 
-logger.info(`Listening on http://${hostname}:${port}`);
-
-// TODO: Support graceful shutdown
-process.on('SIGTERM', () => {
-	frontend.stop();
-	//process.exit(0)
-});
+logger.info(`Listening on http://${frontend.hostname}:${frontend.port}`);
