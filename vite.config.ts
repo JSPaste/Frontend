@@ -1,6 +1,5 @@
 import { resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
-import vikeNode from 'vike-node/plugin';
 import vike from 'vike/plugin';
 import type { UserConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -29,11 +28,6 @@ export default {
 				globPatterns: ['**/*.{js,wasm,css,html,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
 				navigateFallback: null
 			}
-		}),
-		vikeNode({
-			entry: './src/server/index.ts',
-			standalone: true,
-			external: ['bun']
 		})
 	]
 } satisfies UserConfig;

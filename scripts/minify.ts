@@ -4,10 +4,7 @@ import { findFiles, writeFile } from './utils.ts';
 const serverAssets = async () => {
 	const rootStaticDirectory = './dist/server/';
 	const relativeStaticFilesPath = await findFiles(rootStaticDirectory, '**/*.js');
-	const relativeModuleStaticFilesPath = await findFiles(rootStaticDirectory, '**/*.mjs');
-	const rootStaticFilesPath = [...relativeStaticFilesPath, ...relativeModuleStaticFilesPath].map(
-		(file) => rootStaticDirectory + file
-	);
+	const rootStaticFilesPath = relativeStaticFilesPath.map((file) => rootStaticDirectory + file);
 
 	await Promise.all(
 		rootStaticFilesPath.map(async (file) => {
