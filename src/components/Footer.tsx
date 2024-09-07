@@ -1,6 +1,5 @@
 import FooterButtonComponent from '@x-component/FooterButton';
 import SettingsModal from '@x-component/modals/settings/Settings';
-import { themeStore } from '@x-util/store';
 import { type Dispatch, type SetStateAction, useState } from 'react';
 import { MdEdit, MdSave, MdSettings, MdSubject } from 'react-icons/md';
 
@@ -15,8 +14,6 @@ type ControlsProps = {
 export default function ({ documentName, value, isEditing, setIsEditing, enableEdit }: ControlsProps) {
 	const [isSaveLoading, setIsSaveLoading] = useState(false);
 
-	const { getTheme } = themeStore();
-
 	const handleSave = async () => {
 		setIsSaveLoading(true);
 		const result = null;
@@ -27,7 +24,7 @@ export default function ({ documentName, value, isEditing, setIsEditing, enableE
 	};
 
 	return (
-		<div className='flex gap-3 pt-2 pb-2 pl-2.5 pr-2.5' style={{ backgroundColor: getTheme().palette.information }}>
+		<div className='flex gap-3 pt-2 pb-2 pl-2.5 pr-2.5 bg-base-200'>
 			<div className='flex-auto' />
 			<FooterButtonComponent
 				icon={<MdSave fontSize='20px' />}

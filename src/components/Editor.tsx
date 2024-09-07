@@ -5,7 +5,7 @@ import createTheme from '@uiw/codemirror-themes';
 import ReactCodeMirror, { type Extension, type ReactCodeMirrorRef } from '@uiw/react-codemirror';
 import type { HeaderProps } from '@x-component/Header';
 import { languageStore, themeStore } from '@x-util/store';
-import { ThemeId } from '@x-util/themes.ts';
+import type { ThemeKeys } from '@x-util/themes.ts';
 import { useCallback, useRef } from 'react';
 
 type EditorProps = {
@@ -70,17 +70,17 @@ export default function ({ setCursorLocation, setValue, value, isEditing, enable
 	);
 }
 
-const editorThemes: Record<ThemeId, 'dark' | 'light' | Extension> = {
-	[ThemeId.Default]: createTheme({
+const editorThemes: Record<ThemeKeys, 'dark' | 'light' | Extension> = {
+	default: createTheme({
 		settings: {
-			background: '#2E2E2E',
-			foreground: '#FFF',
+			background: '#202020',
+			foreground: '#CDCDCD',
 			caret: '#FFE184',
 			selection: '#FFE18419',
 			selectionMatch: '#FFE18433',
-			gutterBackground: '#232323',
+			gutterBackground: '#1A1A1A',
 			gutterForeground: '#838383',
-			gutterActiveForeground: '#FFF',
+			gutterActiveForeground: '#CDCDCD',
 			lineHighlight: '#FFE18407'
 		},
 		styles: [
@@ -119,8 +119,6 @@ const editorThemes: Record<ThemeId, 'dark' | 'light' | Extension> = {
 		],
 		theme: 'dark'
 	}),
-	[ThemeId.Dark]: vscodeDark,
-	[ThemeId.Light]: vscodeLight,
-	[ThemeId.Midnight]: 'dark',
-	[ThemeId.Amoled]: 'dark'
+	dark: vscodeDark,
+	light: vscodeLight
 };

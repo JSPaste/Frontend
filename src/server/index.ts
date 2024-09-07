@@ -1,58 +1,45 @@
-import { type Serve, env } from 'bun';
-import mime from 'mime';
+import { logger } from '@x-util/logger.ts';
+import { env, serve } from 'bun';
 import { renderPage } from 'vike/server';
-import { logger } from './logger.ts';
-import { loadMemory, memory } from './memory.ts';
 
-type Encoding = 'br' | 'zstd' | 'gzip';
-
-const encodings: Record<Encoding, { extension: string; weight: number }> = {
-	br: { extension: '.br', weight: 0 },
-	zstd: { extension: '.zst', weight: 1 },
-	gzip: { extension: '.gz', weight: 2 }
-};
-
-const hostname = env.HOSTNAME || env.HOST || 'localhost';
-const port = env.PORT || 3000;
+process.on('SIGTERM', () => frontend.stop());
 
 logger.set(2);
 
-const staticDirectory = ['client/'];
+const encodings = {
+	br: '.br',
+	// zstd: '.zst',
+	gzip: '.gz'
+} as const;
 
-for (const directory of staticDirectory) {
-	logger.info(`Preloading memory from: "${directory}"`);
-	await loadMemory(directory);
-}
-
-logger.info(`Listening on http://${hostname}:${port}`);
+const port = env.PORT || 3000;
 
 // TODO: 103 Early Hints -> https://github.com/oven-sh/bun/issues/8690
-export default {
+const frontend = serve({
 	async fetch(req) {
 		const reqURL = new URL(req.url);
 
 		// Static files
-		if (Object.hasOwn(memory, reqURL.pathname)) {
-			const headers: HeadersInit = {
-				'Content-Type': mime.getType(reqURL.pathname) || 'application/octet-stream'
-			};
+		let content = Bun.file(`./client${reqURL.pathname}`);
+		if (await content.exists()) {
+			const headers: HeadersInit = {};
 
 			const acceptEncodings =
 				req.headers
 					.get('Accept-Encoding')
 					?.split(',')
 					.map((encoding) => encoding.trim())
-					.filter((encoding): encoding is Encoding => Object.hasOwn(encodings, encoding))
-					.sort((a, b) => encodings[a].weight - encodings[b].weight) || [];
+					.filter((encoding): encoding is keyof typeof encodings => Object.hasOwn(encodings, encoding))
+					.sort((a, b) => Object.keys(encodings).indexOf(a) - Object.keys(encodings).indexOf(b)) ?? [];
 
-			for (const acceptEncoding of acceptEncodings) {
-				if (!Object.hasOwn(encodings, acceptEncoding)) continue;
+			for (const encoding of acceptEncodings) {
+				const candidateContent = Bun.file(`./client${reqURL.pathname + encodings[encoding]}`);
 
-				const extension = encodings[acceptEncoding as keyof typeof encodings].extension;
-
-				if (Object.hasOwn(memory, reqURL.pathname + extension)) {
-					headers['Content-Encoding'] = acceptEncoding;
-					reqURL.pathname += extension;
+				if (await candidateContent.exists()) {
+					headers['Content-Encoding'] = encoding;
+					headers['Content-Type'] = content.type;
+					headers.Vary = 'Accept-Encoding';
+					content = candidateContent;
 					break;
 				}
 			}
@@ -65,7 +52,7 @@ export default {
 
 			logger.debug(req.method, reqURL.pathname);
 
-			return new Response(memory[reqURL.pathname], {
+			return new Response(content, {
 				headers: headers
 			});
 		}
@@ -89,9 +76,7 @@ export default {
 			headers: response.headers
 		});
 	},
-	hostname: hostname,
 	port: port
-} satisfies Serve;
+});
 
-// TODO: Support graceful shutdown
-process.on('SIGTERM', () => process.exit(0));
+logger.info(`Listening on http://${frontend.hostname}:${frontend.port}`);
