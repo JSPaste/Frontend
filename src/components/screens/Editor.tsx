@@ -10,10 +10,9 @@ const EditorComponent = clientOnly(() => import('@x-component/Editor'));
 type EditorScreenProps = {
 	documentName?: string;
 	enableEdit?: boolean;
-	overrideDocumentContent?: string;
 };
 
-export default function ({ documentName, enableEdit = false, overrideDocumentContent }: EditorScreenProps) {
+export default function ({ documentName, enableEdit = false }: EditorScreenProps) {
 	const [position, setPosition] = useState<HeaderProps>({
 		lineNumber: 1,
 		columnNumber: 1
@@ -32,13 +31,13 @@ export default function ({ documentName, enableEdit = false, overrideDocumentCon
 	}, [themeId]);
 
 	return (
-		<div className='flex flex-col h-screen overflow-hidden'>
+		<div className='flex flex-col h-dvh overflow-hidden'>
 			<HeaderComponent lineNumber={position.lineNumber} columnNumber={position.columnNumber} />
 			<EditorComponent
 				fallback={<GenericFallback />}
 				setCursorLocation={setPosition}
 				setValue={setValue}
-				value={overrideDocumentContent ? overrideDocumentContent : value}
+				value={value}
 				documentName={documentName}
 				isEditing={isEditing}
 				enableEdit={enableEdit}

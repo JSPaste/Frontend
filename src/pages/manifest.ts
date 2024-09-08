@@ -23,13 +23,14 @@ export const siteManifest = {
 } as const;
 
 export const pwaManifest: Partial<ManifestOptions> = {
+	id: '/',
 	start_url: '/',
 	name: siteManifest.siteShortTitle,
 	short_name: siteManifest.siteShortTitle,
 	description: siteManifest.description,
 	theme_color: '#FFE285',
 	background_color: '#2E2E2E',
-	display: 'minimal-ui',
+	display: 'standalone',
 	icons: [
 		{
 			src: '/media/jspaste.bg.rounded.svg',
