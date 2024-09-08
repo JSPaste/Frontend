@@ -19,7 +19,11 @@ export default {
 	},
 	plugins: [
 		react(),
-		vike(),
+		vike({
+			prerender: {
+				partial: true
+			}
+		}),
 		VitePWA({
 			registerType: 'autoUpdate',
 			injectRegister: 'script-defer',

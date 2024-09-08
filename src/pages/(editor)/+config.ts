@@ -5,6 +5,5 @@ export default {
 	title: siteManifest.siteTitle,
 	description: siteManifest.description,
 	hydrationCanBeAborted: true,
-	// Doesn't work well on theming
 	ssr: false
 } satisfies Config;
