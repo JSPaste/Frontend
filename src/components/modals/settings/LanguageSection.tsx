@@ -13,9 +13,11 @@ export default function () {
 				onChange={(e) => setLanguage(e.target.value as LangKeys)}
 				value={language}
 			>
-				{Object.keys(langs).map((lang) => (
-					<option key={lang}>{lang}</option>
-				))}
+				{Object.keys(langs)
+					.sort()
+					.map((lang) => (
+						<option key={lang}>{lang}</option>
+					))}
 			</select>
 		</div>
 	);
