@@ -25,8 +25,9 @@ export default {
 			}
 		}),
 		VitePWA({
-			registerType: 'autoUpdate',
+			registerType: 'prompt',
 			injectRegister: 'script-defer',
+			selfDestroying: true,
 			manifest: pwaManifest,
 			workbox: {
 				globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,gif,webp,ico}'],
