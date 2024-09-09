@@ -1,5 +1,3 @@
-import type { ManifestOptions } from 'vite-plugin-pwa';
-
 export const siteManifest = {
 	type: 'website',
 	baseURL: 'https://jspaste.eu',
@@ -20,27 +18,4 @@ export const siteManifest = {
 		width: 1024,
 		height: 1024
 	}
-} as const;
-
-export const pwaManifest: Partial<ManifestOptions> = {
-	id: '/',
-	start_url: '/',
-	name: siteManifest.siteShortTitle,
-	short_name: siteManifest.siteShortTitle,
-	description: siteManifest.description,
-	theme_color: '#FFE285',
-	background_color: '#2E2E2E',
-	display: 'standalone',
-	icons: [
-		{
-			src: '/media/jspaste.bg.rounded.svg',
-			sizes: '1024x1024',
-			type: 'image/svg+xml'
-		},
-		{
-			src: '/favicon.ico',
-			sizes: '96x96',
-			type: 'image/x-icon'
-		}
-	]
 } as const;

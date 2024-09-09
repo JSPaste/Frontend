@@ -1,10 +1,21 @@
-import { pwaManifest, siteManifest } from '@x-page/manifest.ts';
+import { siteManifest } from '@x-page/manifest.ts';
+import { useEffect } from 'react';
 import './root.css';
 
 export default function () {
+	useEffect(() => {
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.getRegistrations().then((registrations) => {
+				for (const registration of registrations) {
+					registration.unregister();
+				}
+			});
+		}
+	});
+
 	return (
 		<>
-			<meta name='theme-color' content={pwaManifest.theme_color} />
+			<meta name='theme-color' content='#FFE285' />
 
 			<meta property='og:type' content={siteManifest.type} />
 			<meta property='og:url' content={siteManifest.baseURL} />
@@ -14,8 +25,6 @@ export default function () {
 			<link rel='icon' type='image/svg+xml' href={siteManifest.logotype.localRoute} />
 			<link rel='icon' type='image/x-icon' href='/favicon.ico' />
 			<link rel='manifest' href='/manifest.webmanifest' />
-
-			<script defer src='/registerSW.js' />
 		</>
 	);
 }
