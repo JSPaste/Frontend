@@ -20,6 +20,14 @@ export default {
 	plugins: [
 		react(),
 		vike({
+			redirects: {
+				// FIXME: Vike crashes, maybe Bun issue?
+				'/github': 'https://github.com/jspaste',
+
+				// TODO: Expose Backend API route locations
+				'/@documentName/r': '/api/document/@documentName/raw',
+				'/@documentName/raw': '/api/document/@documentName/raw'
+			},
 			prerender: {
 				partial: true
 			}
