@@ -1,6 +1,6 @@
-import vikeReact from 'vike-react/config';
+import { config } from 'vike-react/config';
 import type { Config } from 'vike/types';
 
 export default {
-	extends: [vikeReact]
+	extends: [config]
 } satisfies Config;

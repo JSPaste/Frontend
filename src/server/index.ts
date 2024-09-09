@@ -57,7 +57,7 @@ const frontend = serve({
 			}
 
 			if (localStatic.endsWith('.html')) {
-				headers['Cache-Control'] = 'max-age=0, private, must-revalidate';
+				headers['Cache-Control'] = 'max-age=0, no-store';
 			}
 
 			logger.debug(req.method, reqURL.pathname);
