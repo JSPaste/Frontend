@@ -56,7 +56,7 @@ const frontend = serve({
 				headers['Cache-Control'] = 'max-age=3600, public, no-transform';
 			}
 
-			if (headers['Content-Type']?.includes('text/html')) {
+			if (localStatic.endsWith('.html')) {
 				headers['Cache-Control'] = 'max-age=0, private, must-revalidate';
 			}
 
