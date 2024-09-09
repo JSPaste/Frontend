@@ -7,6 +7,7 @@
 	"scripts": {
 		"build": "bun run build:server",
 		"build:server": "rm -rf ./dist/ && bun --bun vite build && bun run script:standalone && bun run script:minify && bun run script:compress",
+		"build:server:safe": "rm -rf ./dist/ && bun --bun vite build && bun run script:standalone",
 		"dev": "bun run start:dev",
 		"fix": "bun run fix:biome && bun run fix:package",
 		"fix:biome": "bun biome check --write",
@@ -20,6 +21,7 @@
 		"start": "bun run start:server",
 		"start:dev": "bun --bun vite",
 		"start:rebuild": "bun run build:server && bun run start:server",
+		"start:rebuild:safe": "bun run build:server:safe && bun run start:server",
 		"start:server": "NODE_ENV=production bun run --cwd=./dist/ ./server/index.js"
 	},
 	"dependencies": {

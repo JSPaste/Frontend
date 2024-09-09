@@ -4,7 +4,7 @@ import { renderPage } from 'vike/server';
 
 process.on('SIGTERM', () => frontend.stop());
 
-logger.set(2);
+logger.set(Number.parseInt(env.LOGLEVEL as string, 10));
 
 const encodings = {
 	br: '.br',
@@ -72,14 +72,16 @@ const frontend = serve({
 		const response = pageContext.httpResponse;
 
 		if (!response) {
-			return new Response('NOT FOUND', { status: 404 });
+			logger.debug(req.method, reqURL.pathname, '(DYNAMIC UNKNOWN)');
+
+			return new Response(null, { status: 500 });
 		}
 
 		const { readable, writable } = new TransformStream();
 
 		response.pipe(writable);
 
-		logger.debug(req.method, reqURL.pathname, '(RENDER)');
+		logger.debug(req.method, reqURL.pathname, '(DYNAMIC)');
 
 		return new Response(readable, {
 			status: response.statusCode,
