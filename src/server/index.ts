@@ -4,7 +4,7 @@ import { renderPage } from 'vike/server';
 
 process.on('SIGTERM', () => frontend.stop());
 
-logger.set(2);
+logger.set(Number.parseInt(env.LOGLEVEL as string, 10));
 
 const encodings = {
 	br: '.br',
@@ -20,7 +20,13 @@ const frontend = serve({
 		const reqURL = new URL(req.url);
 
 		// Static files
-		let content = Bun.file(`./client${reqURL.pathname}`);
+		let localStatic = `./client${reqURL.pathname}`;
+		let content = Bun.file(localStatic);
+
+		if (!(await content.exists())) {
+			content = Bun.file((localStatic += '/index.html'));
+		}
+
 		if (await content.exists()) {
 			const headers: HeadersInit = {};
 
@@ -33,7 +39,7 @@ const frontend = serve({
 					.sort((a, b) => Object.keys(encodings).indexOf(a) - Object.keys(encodings).indexOf(b)) ?? [];
 
 			for (const encoding of acceptEncodings) {
-				const candidateContent = Bun.file(`./client${reqURL.pathname + encodings[encoding]}`);
+				const candidateContent = Bun.file(localStatic + encodings[encoding]);
 
 				if (await candidateContent.exists()) {
 					headers['Content-Encoding'] = encoding;
@@ -45,9 +51,13 @@ const frontend = serve({
 			}
 
 			if (reqURL.pathname.startsWith('/assets/')) {
-				headers['Cache-Control'] = 'public, max-age=31536000, immutable';
+				headers['Cache-Control'] = 'max-age=31536000, public, immutable';
 			} else {
-				headers['Cache-Control'] = 'public, max-age=3600, no-transform';
+				headers['Cache-Control'] = 'max-age=3600, public, no-transform';
+			}
+
+			if (localStatic.endsWith('.html')) {
+				headers['Cache-Control'] = 'max-age=0, private, must-revalidate';
 			}
 
 			logger.debug(req.method, reqURL.pathname);
@@ -62,14 +72,16 @@ const frontend = serve({
 		const response = pageContext.httpResponse;
 
 		if (!response) {
-			return new Response('NOT FOUND', { status: 404 });
+			logger.debug(req.method, reqURL.pathname, '(DYNAMIC UNKNOWN)');
+
+			return new Response(null, { status: 500 });
 		}
 
 		const { readable, writable } = new TransformStream();
 
 		response.pipe(writable);
 
-		logger.debug(req.method, reqURL.pathname);
+		logger.debug(req.method, reqURL.pathname, '(DYNAMIC)');
 
 		return new Response(readable, {
 			status: response.statusCode,

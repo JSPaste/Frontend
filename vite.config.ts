@@ -1,9 +1,7 @@
 import { resolve } from 'node:path';
-import react from '@vitejs/plugin-react';
-import { pwaManifest } from '@x-page/manifest.ts';
+import react from '@vitejs/plugin-react-swc';
 import vike from 'vike/plugin';
 import type { UserConfig } from 'vite';
-import { VitePWA } from 'vite-plugin-pwa';
 
 export default {
 	build: {
@@ -19,15 +17,17 @@ export default {
 	},
 	plugins: [
 		react(),
-		vike(),
-		VitePWA({
-			registerType: 'autoUpdate',
-			injectRegister: 'script-defer',
-			manifest: pwaManifest,
-			workbox: {
-				globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,gif,webp,ico}'],
-				navigateFallback: null,
-				cleanupOutdatedCaches: true
+		vike({
+			redirects: {
+				// FIXME: Vike crashes, maybe Bun issue?
+				'/github': 'https://github.com/jspaste',
+
+				// TODO: Expose Backend API route locations
+				'/@documentName/r': '/api/document/@documentName/raw',
+				'/@documentName/raw': '/api/document/@documentName/raw'
+			},
+			prerender: {
+				partial: true
 			}
 		})
 	]

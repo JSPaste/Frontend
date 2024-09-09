@@ -1,0 +1,16 @@
+{
+	"name": "JSPaste",
+	"short_name": "JSPaste",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#2E2E2E",
+	"lang": "en",
+	"scope": "/",
+	"id": "/",
+	"description": "Create and share code with JSPaste! The developer website for easy code sharing.",
+	"theme_color": "#FFE285",
+	"icons": [
+		{ "src": "/media/jspaste.bg.rounded.svg", "sizes": "1024x1024", "type": "image/svg+xml" },
+		{ "src": "/favicon.ico", "sizes": "96x96", "type": "image/x-icon" }
+	]
+}
