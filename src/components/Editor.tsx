@@ -16,97 +16,115 @@ import {
 	rectangularSelection
 } from '@codemirror/view';
 import { hyperLinkExtension, hyperLinkStyle } from '@uiw/codemirror-extensions-hyper-link';
-import type { HeaderProps } from '@x-component/Header';
-import { editorThemes } from '@x-util/editorThemes.ts';
+import { EditorContext } from '@x-component/screens/Editor';
+import { editorThemes } from '@x-util/editorThemes';
 import { languageStore, themeStore } from '@x-util/store';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { createEffect, createSignal, on, onCleanup, onMount, useContext } from 'solid-js';
 
 type EditorProps = {
-	setCursorLocation: (info: HeaderProps) => void;
-	setValue: (value: string) => void;
-	value: string;
-	documentName?: string;
-	isEditing: boolean;
 	enableEdit: boolean;
 };
 
-export default function ({ setCursorLocation, setValue, value, isEditing, enableEdit }: EditorProps) {
-	const container = useRef<HTMLDivElement>(null);
-	const view = useRef<EditorView>();
-	const [initialValue] = useState(value);
+export default function Editor({ enableEdit }: EditorProps) {
+	const [container, setContainer] = createSignal<HTMLDivElement>();
+	const [editorView, setEditorView] = createSignal<EditorView>();
 
-	const updateCursorInformation = useCallback(() => {
-		if (view.current) {
-			const { from } = view.current.state.selection.main;
-			const cursorPosition = view.current.state.doc.lineAt(from);
+	const { value, setCursor, isEditing, setValue } = useContext(EditorContext);
 
-			setCursorLocation({
-				lineNumber: cursorPosition.number,
-				columnNumber: from - cursorPosition.from + 1
+	const updateCursorInformation = () => {
+		const view = editorView();
+
+		if (view) {
+			const { from } = view.state.selection.main;
+			const cursorPosition = view.state.doc.lineAt(from);
+
+			setCursor({
+				line: cursorPosition.number,
+				column: from - cursorPosition.from + 1
 			});
 		}
-	}, [setCursorLocation]);
+	};
 
-	const { getLanguage } = languageStore();
-	const { themeId } = themeStore();
+	const languageState = languageStore();
+	const themeState = themeStore();
 
-	useEffect(() => {
-		if (!container.current) return;
+	createEffect(
+		on(container, async (container) => {
+			const currentView = new EditorView({
+				parent: container,
+				state: EditorState.create({
+					doc: value(),
+					extensions: [
+						placeholder(
+							"Start writing here! When you're done, hit the save button to generate a unique URL with your content."
+						),
+						lineNumbers(),
+						highlightActiveLineGutter(),
+						highlightSpecialChars(),
+						history(),
+						drawSelection(),
+						dropCursor(),
+						indentOnInput(),
+						syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+						bracketMatching(),
+						closeBrackets(),
+						rectangularSelection(),
+						crosshairCursor(),
+						highlightActiveLine(),
+						keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap]),
+						editorThemes[themeState().themeId],
+						await languageState().getLanguage(),
+						hyperLinkExtension(),
+						hyperLinkStyle,
+						EditorState.readOnly.of(enableEdit && !isEditing),
+						EditorView.theme({
+							'&': {
+								height: '100%'
+							},
+							'& .cm-scroller': {
+								height: '100% !important'
+							},
+							'& .cm-lineNumbers .cm-gutterElement': {
+								padding: '0 5px'
+							}
+						}),
+						EditorView.contentAttributes.of({ 'data-lt-active': 'false' }),
+						EditorView.updateListener.of((vu) => {
+							if (vu.docChanged) {
+								updateCursorInformation();
+								setValue(vu.state.doc.toString());
+							}
+						})
+					]
+				})
+			});
 
-		view.current = new EditorView({
-			parent: container.current,
-			state: EditorState.create({
-				doc: initialValue,
-				extensions: [
-					placeholder(
-						"Start writing here! When you're done, hit the save button to generate a unique URL with your content."
-					),
-					lineNumbers(),
-					highlightActiveLineGutter(),
-					highlightSpecialChars(),
-					history(),
-					drawSelection(),
-					dropCursor(),
-					indentOnInput(),
-					syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-					bracketMatching(),
-					closeBrackets(),
-					rectangularSelection(),
-					crosshairCursor(),
-					highlightActiveLine(),
-					keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap]),
-					editorThemes[themeId],
-					getLanguage(),
-					hyperLinkExtension(),
-					hyperLinkStyle,
-					EditorState.readOnly.of(enableEdit && !isEditing),
-					EditorView.theme({
-						'&': {
-							height: '100%'
-						},
-						'& .cm-scroller': {
-							height: '100% !important'
-						},
-						'& .cm-lineNumbers .cm-gutterElement': {
-							padding: '0 5px'
+			onMount(() => setEditorView(currentView));
+
+			onCleanup(() => {
+				editorView()?.destroy();
+				setEditorView(undefined);
+			});
+		})
+	);
+
+	createEffect(
+		on(
+			editorView,
+			(editorView) => {
+				if (editorView && editorView?.state.doc.toString() !== value()) {
+					editorView.dispatch({
+						changes: {
+							from: 0,
+							to: editorView?.state.doc.length,
+							insert: value() ?? ''
 						}
-					}),
-					EditorView.contentAttributes.of({ 'data-lt-active': 'false' }),
-					EditorView.updateListener.of((vu) => {
-						if (vu.docChanged) {
-							updateCursorInformation();
-							setValue(vu.state.doc.toString());
-						}
-					})
-				]
-			})
-		});
+					});
+				}
+			},
+			{ defer: true }
+		)
+	);
 
-		return () => {
-			view.current?.destroy();
-			view.current = undefined;
-		};
-	}, [themeId, getLanguage, initialValue, enableEdit, isEditing, setValue, updateCursorInformation]);
-
-	return <div ref={container} className='flex-grow overflow-hidden' />;
+	return <div ref={setContainer} class='flex-grow overflow-hidden' />;
 }

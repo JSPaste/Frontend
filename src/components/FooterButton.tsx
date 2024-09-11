@@ -1,25 +1,25 @@
-import GenericLoad from '@x-component/screens/GenericFallback.tsx';
-import type { ReactElement } from 'react';
+import GenericFallback from '@x-component/screens/GenericFallback';
+import type { JSXElement } from 'solid-js';
 
 type ActionButtonProps = {
 	label: string;
-	icon?: ReactElement;
+	icon?: JSXElement;
 	onClick?: () => void;
 	isDisabled?: boolean;
 	isLoading?: boolean;
 };
 
-export default function ({ label, icon, onClick, isDisabled, isLoading }: ActionButtonProps) {
+export default function FooterButton({ label, icon, onClick, isDisabled, isLoading }: ActionButtonProps) {
 	return (
-		<div className='lg:tooltip tooltip-top' data-tip={!isDisabled ? label : `${label} (Disabled)`}>
+		<div class='lg:tooltip tooltip-top' data-tip={!isDisabled ? label : `${label} (Disabled)`}>
 			<button
 				type='button'
 				aria-label={label}
-				className='btn btn-sm h-8 min-h-8 w-8 min-w-8 bg-base-100'
+				class='btn btn-square btn-sm bg-base-100'
 				onClick={onClick}
 				disabled={isDisabled ?? false}
 			>
-				<span>{isLoading ? <GenericLoad /> : icon}</span>
+				{isLoading ? <GenericFallback /> : icon}
 			</button>
 		</div>
 	);

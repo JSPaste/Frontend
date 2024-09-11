@@ -1,7 +1,7 @@
 import type { Extension } from '@codemirror/state';
 import { tags as t } from '@lezer/highlight';
 import createTheme from '@uiw/codemirror-themes';
-import type { ThemeKeys } from '@x-util/themes.ts';
+import type { ThemeKeys } from '@x-util/themes';
 
 export const editorThemes: Record<ThemeKeys, Extension> = {
 	default: createTheme({

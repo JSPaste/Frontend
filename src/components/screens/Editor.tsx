@@ -1,54 +1,81 @@
-import FooterComponent from '@x-component/Footer';
-import HeaderComponent, { type HeaderProps } from '@x-component/Header';
-import GenericFallback from '@x-component/screens/GenericFallback.tsx';
-import { themeStore } from '@x-util/store.ts';
-import { useEffect, useState } from 'react';
-import { clientOnly } from 'vike-react/clientOnly';
+import Footer from '@x-component/Footer';
+import Header from '@x-component/Header';
+import GenericFallback from '@x-component/screens/GenericFallback';
+import { themeStore } from '@x-util/store';
+import {
+	type Accessor,
+	type Setter,
+	Suspense,
+	createContext,
+	createEffect,
+	createSignal,
+	lazy,
+	onMount
+} from 'solid-js';
 
-const EditorComponent = clientOnly(() => import('@x-component/Editor'));
+const Editor = lazy(() => import('@x-component/Editor'));
 
 type EditorScreenProps = {
 	documentName?: string;
 	enableEdit?: boolean;
 };
 
-export default function ({ documentName, enableEdit = false }: EditorScreenProps) {
-	const [position, setPosition] = useState<HeaderProps>({
-		lineNumber: 1,
-		columnNumber: 1
+type EditorContext = {
+	cursor: Accessor<{ line: number; column: number }>;
+	setCursor: Setter<{ line: number; column: number }>;
+	value: Accessor<string>;
+	setValue: Setter<string>;
+	isEditing: Accessor<boolean>;
+	setIsEditing: Setter<boolean>;
+};
+
+export const EditorContext = createContext<EditorContext>({
+	cursor: () => ({ line: 1, column: 1 }),
+	setCursor: () => {},
+	value: () => '',
+	setValue: () => {},
+	isEditing: () => false,
+	setIsEditing: () => {}
+});
+
+export const EditorScreen = ({ documentName, enableEdit = false }: EditorScreenProps) => {
+	const [cursor, setCursor] = createSignal({
+		line: 1,
+		column: 1
 	});
 
-	const [value, setValue] = useState<string>('');
+	const [value, setValue] = createSignal('');
 
-	const [isEditing, setIsEditing] = useState<boolean>(false);
+	const [isEditing, setIsEditing] = createSignal(false);
 
-	const { themeId } = themeStore();
+	createEffect(() => console.info(cursor()));
 
-	useEffect(() => {
-		if (themeId) {
-			document.documentElement.setAttribute('data-theme', themeId);
+	onMount(() => {
+		const themeState = themeStore();
+
+		if (themeState().themeId) {
+			document.documentElement.setAttribute('data-theme', themeState().themeId);
 		}
-	}, [themeId]);
+	});
 
 	return (
-		<div className='flex flex-col h-dvh overflow-hidden'>
-			<HeaderComponent lineNumber={position.lineNumber} columnNumber={position.columnNumber} />
-			<EditorComponent
-				fallback={<GenericFallback />}
-				setCursorLocation={setPosition}
-				setValue={setValue}
-				value={value}
-				documentName={documentName}
-				isEditing={isEditing}
-				enableEdit={enableEdit}
-			/>
-			<FooterComponent
-				value={value}
-				documentName={documentName}
-				isEditing={isEditing}
-				setIsEditing={setIsEditing}
-				enableEdit={enableEdit}
-			/>
-		</div>
+		<EditorContext.Provider
+			value={{
+				cursor,
+				setCursor,
+				value,
+				setValue,
+				isEditing,
+				setIsEditing
+			}}
+		>
+			<div class='flex flex-col h-dvh overflow-hidden'>
+				<Header />
+				<Suspense fallback={<GenericFallback />}>
+					<Editor enableEdit={enableEdit} />
+				</Suspense>
+				<Footer documentName={documentName} enableEdit={enableEdit} />
+			</div>
+		</EditorContext.Provider>
 	);
-}
+};

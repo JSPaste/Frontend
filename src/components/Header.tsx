@@ -1,34 +1,28 @@
-import HeaderLabelComponent from '@x-component/HeaderLabel';
+import { IconCode, IconPuzzle } from '@tabler/icons-solidjs';
+import HeaderLabel from '@x-component/HeaderLabel';
+import { EditorContext } from '@x-component/screens/Editor';
 import { languageStore } from '@x-util/store';
-import { MdClass } from 'react-icons/md';
-import { PiGithubLogoFill } from 'react-icons/pi';
+import { useContext } from 'solid-js';
 
-export type HeaderProps = {
-	lineNumber: number;
-	columnNumber: number;
-};
+export default function Header() {
+	const languageState = languageStore();
 
-export default function ({ lineNumber, columnNumber }: HeaderProps) {
-	const { language } = languageStore();
+	const { cursor } = useContext(EditorContext);
 
 	return (
-		<div className='flex min-h-6 pl-2 pr-2 bg-base-200'>
-			<HeaderLabelComponent
-				label={`Ln ${lineNumber.toString().padStart(2, '0')} Col
-            ${columnNumber.toString().padStart(2, '0')}`}
+		<div class='flex min-h-6 pl-2 pr-2 bg-base-200'>
+			<HeaderLabel
+				label={`Ln ${cursor().line.toString().padStart(2, '0')} Col
+            ${cursor().column.toString().padStart(2, '0')}`}
 			/>
-			<HeaderLabelComponent label={`Lang ${language}`} />
-			<span className='flex-auto' />
-			<div className='flex max-sm:hidden'>
+			<HeaderLabel label={`Lang ${languageState().language}`} />
+			<span class='flex-auto' />
+			<div class='flex max-sm:hidden'>
 				{/* TODO: Expose Backend API route location */}
-				<HeaderLabelComponent
-					label='Docs'
-					icon={<MdClass size='12' />}
-					onClick={() => window.open('/api/docs')}
-				/>
-				<HeaderLabelComponent
-					label='GitHub'
-					icon={<PiGithubLogoFill size='12' />}
+				<HeaderLabel label='API' icon={<IconPuzzle size={12} />} onClick={() => window.open('/api/docs')} />
+				<HeaderLabel
+					label='Source'
+					icon={<IconCode size={12} />}
 					onClick={() => window.open('https://github.com/jspaste')}
 				/>
 			</div>

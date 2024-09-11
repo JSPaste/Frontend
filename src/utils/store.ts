@@ -1,8 +1,7 @@
 import type { LanguageSupport, StreamLanguage } from '@codemirror/language';
-import { langs } from '@uiw/codemirror-extensions-langs';
-import type { LangKeys } from '@x-util/langs';
+import { type LangKeys, langs } from '@x-util/langs';
 import type { ThemeKeys } from '@x-util/themes';
-import { create } from 'zustand';
+import { createWithSignal } from 'solid-zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 type FrontendState = {
@@ -10,7 +9,7 @@ type FrontendState = {
 	setApiURL: (url: string) => void;
 };
 
-export const frontendStore = create(
+export const frontendStore = createWithSignal(
 	persist<FrontendState>(
 		(set) => ({
 			apiURL: 'https://jspaste.eu/api/v2/documents',
@@ -28,7 +27,7 @@ type ThemeState = {
 	setTheme: (id: ThemeKeys) => void;
 };
 
-export const themeStore = create(
+export const themeStore = createWithSignal(
 	persist<ThemeState>(
 		(set) => ({
 			themeId: 'default',
@@ -44,13 +43,14 @@ export const themeStore = create(
 type LanguageState = {
 	language: LangKeys;
 	setLanguage: (language: LangKeys) => void;
-	getLanguage: () => StreamLanguage<unknown> | LanguageSupport;
+	getLanguage: () => Promise<StreamLanguage<unknown> | LanguageSupport>;
 };
 
-export const languageStore = create<LanguageState>((set, get) => ({
+export const languageStore = createWithSignal<LanguageState>((set, get) => ({
 	language: 'markdown',
 	setLanguage: (language) => set({ language: language }),
-	getLanguage: () => {
-		return langs[get().language]();
+	getLanguage: async () => {
+		const lang = await langs[get().language]();
+		return lang();
 	}
 }));

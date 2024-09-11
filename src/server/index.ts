@@ -1,4 +1,4 @@
-import { logger } from '@x-util/logger.ts';
+import { logger } from '@x-util/logger';
 import { env, serve } from 'bun';
 import { renderPage } from 'vike/server';
 

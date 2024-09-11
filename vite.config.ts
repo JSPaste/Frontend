@@ -1,5 +1,5 @@
 import { resolve } from 'node:path';
-import react from '@vitejs/plugin-react-swc';
+import solid from 'vike-solid/vite';
 import vike from 'vike/plugin';
 import type { UserConfig } from 'vite';
 
@@ -16,7 +16,7 @@ export default {
 		}
 	},
 	plugins: [
-		react(),
+		solid(),
 		vike({
 			redirects: {
 				// FIXME: Vike crashes, maybe Bun issue?

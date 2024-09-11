@@ -1,4 +1,4 @@
-import { siteManifest } from '@x-page/manifest.ts';
+import { siteManifest } from '@x-page/manifest';
 import type { Config } from 'vike/types';
 
 export default {

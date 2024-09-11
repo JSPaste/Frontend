@@ -1,9 +1,9 @@
-import { siteManifest } from '@x-page/manifest.ts';
-import { useEffect } from 'react';
+import { siteManifest } from '@x-page/manifest';
+import { onMount } from 'solid-js';
 import './root.css';
 
 export default function () {
-	useEffect(() => {
+	onMount(() => {
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker.getRegistrations().then((registrations) => {
 				for (const registration of registrations) {
