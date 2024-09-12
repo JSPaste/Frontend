@@ -1,12 +1,12 @@
+import { createBreakpoints } from '@solid-primitives/media';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-solidjs';
-import { createBreakpoint } from '@x-util/createBreakpoint.ts';
-import { themeStore } from '@x-util/store';
+import { breakpoints } from '@x-util/breakpoints';
+import { setTheme, theme } from '@x-util/store';
 import { type ThemeKeys, Themes } from '@x-util/themes';
 import { createEffect, createSignal } from 'solid-js';
 
 export default function ThemeSection() {
-	const breakpoint = createBreakpoint();
-	const themeState = themeStore();
+	const matches = createBreakpoints(breakpoints);
 
 	const [maxColumns, setMaxColumns] = createSignal(0);
 	const [currentIndex, setCurrentIndex] = createSignal(0);
@@ -15,7 +15,7 @@ export default function ThemeSection() {
 		setCurrentIndex((prev) => (prev + delta + Object.keys(Themes).length) % Object.keys(Themes).length);
 	};
 
-	createEffect(() => setMaxColumns(breakpoint() === 'sm' ? 2 : 3));
+	createEffect(() => setMaxColumns(matches.sm ? 3 : 2));
 
 	createEffect(() => {
 		const maxIndex = Math.max(0, Object.keys(Themes).length - maxColumns());
@@ -43,13 +43,13 @@ export default function ThemeSection() {
 						.slice(currentIndex(), currentIndex() + maxColumns())
 						.map(([id, name]) => (
 							<input
-								checked={themeState().themeId === id}
+								checked={theme() === id}
 								type='radio'
 								name='theme-button'
 								class='btn theme-controller join-horizontal bg-base-200'
 								aria-label={name}
 								value={id}
-								onChange={() => themeState().setTheme(id as ThemeKeys)}
+								onChange={() => setTheme(id as ThemeKeys)}
 							/>
 						))}
 				</div>

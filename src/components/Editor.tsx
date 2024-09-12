@@ -18,8 +18,7 @@ import {
 import { hyperLinkExtension, hyperLinkStyle } from '@uiw/codemirror-extensions-hyper-link';
 import { EditorContext } from '@x-component/screens/Editor';
 import { editorThemes } from '@x-util/editorThemes';
-import { languageStore, themeStore } from '@x-util/store';
-import type { ThemeKeys } from '@x-util/themes.ts';
+import { getLanguage, language, theme } from '@x-util/store';
 import { createEffect, createSignal, on, onCleanup, onMount, useContext } from 'solid-js';
 
 type EditorProps = {
@@ -31,9 +30,6 @@ export default function Editor({ enableEdit }: EditorProps) {
 	const [editorView, setEditorView] = createSignal<EditorView>();
 
 	const { value, setCursor, isEditing, setValue } = useContext(EditorContext);
-
-	const languageState = languageStore();
-	const themeState = themeStore();
 
 	const themeCompartment = new Compartment();
 	const languageCompartment = new Compartment();
@@ -50,18 +46,6 @@ export default function Editor({ enableEdit }: EditorProps) {
 				column: from - cursorPosition.from + 1
 			});
 		}
-	};
-
-	const reconfigureTheme = (themeId: ThemeKeys) => {
-		editorView()?.dispatch({
-			effects: themeCompartment.reconfigure(editorThemes[themeId])
-		});
-	};
-
-	const reconfigureLanguage = async () => {
-		editorView()?.dispatch({
-			effects: languageCompartment.reconfigure(await languageState().getLanguage())
-		});
 	};
 
 	onMount(async () => {
@@ -87,8 +71,8 @@ export default function Editor({ enableEdit }: EditorProps) {
 					crosshairCursor(),
 					highlightActiveLine(),
 					keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap]),
-					themeCompartment.of(editorThemes[themeState().themeId]),
-					languageCompartment.of(await languageState().getLanguage()),
+					themeCompartment.of(editorThemes[theme()]),
+					languageCompartment.of(await getLanguage()),
 					hyperLinkExtension(),
 					hyperLinkStyle,
 					EditorState.readOnly.of(enableEdit && !isEditing),
@@ -119,10 +103,12 @@ export default function Editor({ enableEdit }: EditorProps) {
 
 	createEffect(
 		on(
-			[editorView, themeState],
-			([view, themeState]) => {
+			[editorView, theme],
+			([view, theme]) => {
 				if (view) {
-					reconfigureTheme(themeState.themeId);
+					editorView()?.dispatch({
+						effects: themeCompartment.reconfigure(editorThemes[theme])
+					});
 				}
 			},
 			{ defer: true }
@@ -131,10 +117,12 @@ export default function Editor({ enableEdit }: EditorProps) {
 
 	createEffect(
 		on(
-			[editorView, languageState],
+			[editorView, language],
 			async ([view]) => {
 				if (view) {
-					await reconfigureLanguage();
+					editorView()?.dispatch({
+						effects: languageCompartment.reconfigure(await getLanguage())
+					});
 				}
 			},
 			{ defer: true }

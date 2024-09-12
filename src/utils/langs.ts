@@ -1,4 +1,4 @@
-export const langs = {
+export const newLangs = {
 	angular: () => import('@codemirror/lang-angular').then((lang) => lang.angular),
 	cpp: () => import('@codemirror/lang-cpp').then((lang) => lang.cpp),
 	css: () => import('@codemirror/lang-css').then((lang) => lang.css),
@@ -20,9 +20,9 @@ export const langs = {
 
 export const legacyLangs = {} as const;
 
-export const comboLangs = {
-	...langs,
+export const langs = {
+	...newLangs,
 	...legacyLangs
 } as const;
 
-export type LangKeys = keyof typeof comboLangs;
+export type LangKeys = keyof typeof langs;

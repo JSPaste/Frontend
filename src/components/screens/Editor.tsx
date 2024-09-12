@@ -1,7 +1,7 @@
 import Footer from '@x-component/Footer';
 import Header from '@x-component/Header';
 import GenericFallback from '@x-component/screens/GenericFallback';
-import { themeStore } from '@x-util/store';
+import { theme } from '@x-util/store';
 import {
 	type Accessor,
 	type Setter,
@@ -51,11 +51,7 @@ export const EditorScreen = ({ documentName, enableEdit = false }: EditorScreenP
 	createEffect(() => console.info(cursor()));
 
 	onMount(() => {
-		const themeState = themeStore();
-
-		if (themeState().themeId) {
-			document.documentElement.setAttribute('data-theme', themeState().themeId);
-		}
+		document.documentElement.setAttribute('data-theme', theme());
 	});
 
 	return (
