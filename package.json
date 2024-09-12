@@ -61,7 +61,7 @@
 		"postcss": "~8.4.45",
 		"solid-js": "~1.8.22",
 		"solid-zustand": "~1.8.1",
-		"tailwindcss": "~3.4.10",
+		"tailwindcss": "~3.4.11",
 		"typescript": "~5.6.2",
 		"vike": "~0.4.195",
 		"vike-solid": "~0.7.5",

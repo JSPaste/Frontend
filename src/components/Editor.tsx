@@ -1,7 +1,7 @@
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { bracketMatching, defaultHighlightStyle, indentOnInput, syntaxHighlighting } from '@codemirror/language';
-import { EditorState } from '@codemirror/state';
+import { Compartment, EditorState } from '@codemirror/state';
 import {
 	EditorView,
 	crosshairCursor,
@@ -19,6 +19,7 @@ import { hyperLinkExtension, hyperLinkStyle } from '@uiw/codemirror-extensions-h
 import { EditorContext } from '@x-component/screens/Editor';
 import { editorThemes } from '@x-util/editorThemes';
 import { languageStore, themeStore } from '@x-util/store';
+import type { ThemeKeys } from '@x-util/themes.ts';
 import { createEffect, createSignal, on, onCleanup, onMount, useContext } from 'solid-js';
 
 type EditorProps = {
@@ -30,6 +31,12 @@ export default function Editor({ enableEdit }: EditorProps) {
 	const [editorView, setEditorView] = createSignal<EditorView>();
 
 	const { value, setCursor, isEditing, setValue } = useContext(EditorContext);
+
+	const languageState = languageStore();
+	const themeState = themeStore();
+
+	const themeCompartment = new Compartment();
+	const languageCompartment = new Compartment();
 
 	const updateCursorInformation = () => {
 		const view = editorView();
@@ -45,86 +52,99 @@ export default function Editor({ enableEdit }: EditorProps) {
 		}
 	};
 
-	const languageState = languageStore();
-	const themeState = themeStore();
+	const reconfigureTheme = (themeId: ThemeKeys) => {
+		editorView()?.dispatch({
+			effects: themeCompartment.reconfigure(editorThemes[themeId])
+		});
+	};
 
-	createEffect(
-		on(container, async (container) => {
-			const currentView = new EditorView({
-				parent: container,
-				state: EditorState.create({
-					doc: value(),
-					extensions: [
-						placeholder(
-							"Start writing here! When you're done, hit the save button to generate a unique URL with your content."
-						),
-						lineNumbers(),
-						highlightActiveLineGutter(),
-						highlightSpecialChars(),
-						history(),
-						drawSelection(),
-						dropCursor(),
-						indentOnInput(),
-						syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-						bracketMatching(),
-						closeBrackets(),
-						rectangularSelection(),
-						crosshairCursor(),
-						highlightActiveLine(),
-						keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap]),
-						editorThemes[themeState().themeId],
-						await languageState().getLanguage(),
-						hyperLinkExtension(),
-						hyperLinkStyle,
-						EditorState.readOnly.of(enableEdit && !isEditing),
-						EditorView.theme({
-							'&': {
-								height: '100%'
-							},
-							'& .cm-scroller': {
-								height: '100% !important'
-							},
-							'& .cm-lineNumbers .cm-gutterElement': {
-								padding: '0 5px'
-							}
-						}),
-						EditorView.contentAttributes.of({ 'data-lt-active': 'false' }),
-						EditorView.updateListener.of((vu) => {
-							if (vu.docChanged) {
-								updateCursorInformation();
-								setValue(vu.state.doc.toString());
-							}
-						})
-					]
-				})
-			});
+	const reconfigureLanguage = async () => {
+		editorView()?.dispatch({
+			effects: languageCompartment.reconfigure(await languageState().getLanguage())
+		});
+	};
 
-			onMount(() => setEditorView(currentView));
+	onMount(async () => {
+		const currentView = new EditorView({
+			parent: container(),
+			state: EditorState.create({
+				doc: value(),
+				extensions: [
+					placeholder(
+						"Start writing here! When you're done, hit the save button to generate a unique URL with your content."
+					),
+					lineNumbers(),
+					highlightActiveLineGutter(),
+					highlightSpecialChars(),
+					history(),
+					drawSelection(),
+					dropCursor(),
+					indentOnInput(),
+					syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+					bracketMatching(),
+					closeBrackets(),
+					rectangularSelection(),
+					crosshairCursor(),
+					highlightActiveLine(),
+					keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap]),
+					themeCompartment.of(editorThemes[themeState().themeId]),
+					languageCompartment.of(await languageState().getLanguage()),
+					hyperLinkExtension(),
+					hyperLinkStyle,
+					EditorState.readOnly.of(enableEdit && !isEditing),
+					EditorView.theme({
+						'&': {
+							height: '100%'
+						},
+						'& .cm-scroller': {
+							height: '100% !important'
+						},
+						'& .cm-lineNumbers .cm-gutterElement': {
+							padding: '0 5px'
+						}
+					}),
+					EditorView.contentAttributes.of({ 'data-lt-active': 'false' }),
+					EditorView.updateListener.of((vu) => {
+						if (vu.docChanged) {
+							updateCursorInformation();
+							setValue(vu.state.doc.toString());
+						}
+					})
+				]
+			})
+		});
 
-			onCleanup(() => {
-				editorView()?.destroy();
-				setEditorView(undefined);
-			});
-		})
-	);
+		setEditorView(currentView);
+	});
 
 	createEffect(
 		on(
-			editorView,
-			(editorView) => {
-				if (editorView && editorView?.state.doc.toString() !== value()) {
-					editorView.dispatch({
-						changes: {
-							from: 0,
-							to: editorView?.state.doc.length,
-							insert: value() ?? ''
-						}
-					});
+			[editorView, themeState],
+			([view, themeState]) => {
+				if (view) {
+					reconfigureTheme(themeState.themeId);
 				}
 			},
 			{ defer: true }
 		)
 	);
+
+	createEffect(
+		on(
+			[editorView, languageState],
+			async ([view]) => {
+				if (view) {
+					await reconfigureLanguage();
+				}
+			},
+			{ defer: true }
+		)
+	);
+
+	onCleanup(() => {
+		editorView()?.destroy();
+		setEditorView(undefined);
+	});
 
 	return <div ref={setContainer} class='flex-grow overflow-hidden' />;
 }
