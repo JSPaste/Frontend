@@ -5,7 +5,6 @@ const rootClientDirectory = './dist/client/';
 const relativeClientFiles = await findFiles(rootClientDirectory, undefined, /\.(js|mjs|cjs|json|css|html|wasm|svg)$/);
 const rootClientFiles = relativeClientFiles.map((file) => rootClientDirectory + file);
 
-console.info('[COMPRESS] Running...');
 await Promise.all(
 	rootClientFiles.map(async (file) => {
 		const fileContent = await Bun.file(file).arrayBuffer();
