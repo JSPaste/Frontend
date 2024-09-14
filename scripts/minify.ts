@@ -1,36 +1,24 @@
-import { transform } from '@swc/core';
-import { findFiles, writeFile } from './utils.ts';
+import { findFiles } from './utils.ts';
 
 const serverAssets = async () => {
 	const rootStaticDirectory = './dist/server/';
 	const relativeStaticFilesPath = await findFiles(rootStaticDirectory, '**/*.js');
 	const rootStaticFilesPath = relativeStaticFilesPath.map((file) => rootStaticDirectory + file);
 
-	await Promise.all(
-		rootStaticFilesPath.map(async (file) => {
-			const min = await transform(await Bun.file(file).text(), {
-				isModule: true,
-				minify: true,
-				jsc: {
-					target: 'esnext',
-					minify: {
-						compress: {
-							arguments: true,
-							hoist_funs: true,
-							hoist_vars: true,
-							unsafe: true
-						},
-						format: {
-							comments: false
-						},
-						mangle: true
-					}
-				}
-			});
+	const result = await Bun.build({
+		entrypoints: rootStaticFilesPath,
+		target: 'bun',
+		format: 'esm',
+		splitting: false,
+		packages: 'external',
+		sourcemap: 'none',
+		minify: true
+	});
 
-			await writeFile(file, min.code);
-		})
-	);
+	if (!result.success) {
+		console.error(result.logs);
+		process.exit(1);
+	}
 };
 
 const clientAssets = async () => {
@@ -38,31 +26,20 @@ const clientAssets = async () => {
 	const relativeStaticFilesPath = await findFiles(rootStaticDirectory, '**/*.js');
 	const rootStaticFilesPath = relativeStaticFilesPath.map((file) => rootStaticDirectory + file);
 
-	await Promise.all(
-		rootStaticFilesPath.map(async (file) => {
-			const min = await transform(await Bun.file(file).text(), {
-				isModule: true,
-				minify: true,
-				jsc: {
-					target: 'es2020',
-					minify: {
-						compress: {
-							arguments: true,
-							hoist_funs: true,
-							hoist_vars: true,
-							unsafe: true
-						},
-						format: {
-							comments: false
-						},
-						mangle: true
-					}
-				}
-			});
+	const result = await Bun.build({
+		entrypoints: rootStaticFilesPath,
+		target: 'browser',
+		format: 'esm',
+		splitting: false,
+		packages: 'external',
+		sourcemap: 'none',
+		minify: true
+	});
 
-			await writeFile(file, min.code);
-		})
-	);
+	if (!result.success) {
+		console.error(result.logs);
+		process.exit(1);
+	}
 };
 
 console.info('[MINIFY] Running...');

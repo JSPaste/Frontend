@@ -1,0 +1,12 @@
+diff --git a/package.json b/package.json
+index 5df4273caa43cec18c53b77c6934b86f52b21e47..a3039433193efd197c7a5f745d7cf2ba24b8a5ff 100644
+--- a/package.json
++++ b/package.json
+@@ -20,6 +20,7 @@
+   "main": "./dist/cjs/tabler-icons-solidjs.cjs",
+   "module": "./dist/esm/tabler-icons-solidjs.mjs",
+   "types": "./dist/cjs/tabler-icons-solidjs.d.cts",
++  "sideEffects": false,
+   "files": [
+     "dist"
+   ],

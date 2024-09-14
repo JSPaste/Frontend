@@ -11,7 +11,14 @@ await Promise.all(
 		const fileContent = await Bun.file(file).arrayBuffer();
 
 		console.debug('[COMPRESS] Compressing:', file);
-		await writeFile(`${file}.gz`, gzipSync(fileContent).buffer);
+
+		await writeFile(
+			`${file}.gz`,
+			gzipSync(fileContent, {
+				level: 9
+			}).buffer
+		);
+
 		await writeFile(`${file}.br`, brotliCompressSync(fileContent).buffer);
 	})
 );
