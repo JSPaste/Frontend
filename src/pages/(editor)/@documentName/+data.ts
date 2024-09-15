@@ -1,9 +1,9 @@
-import type { PageContextServer } from 'vike/types';
+import type { PageContext } from 'vike/types';
 
 export type Data = Awaited<ReturnType<typeof data>>;
 
-export const data = (pageContext: PageContextServer) => {
+export const data = (ctx: PageContext) => {
 	return {
-		documentName: pageContext.routeParams.documentName
+		documentName: ctx.routeParams.documentName
 	};
 };

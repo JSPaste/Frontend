@@ -27,6 +27,7 @@
 		"noImplicitReturns": true,
 		"noPropertyAccessFromIndexSignature": false,
 		"noUncheckedIndexedAccess": true,
+		"noUncheckedSideEffectImports": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"verbatimModuleSyntax": true,
@@ -38,7 +39,7 @@
 			"@x-page/*": ["./src/pages/*"],
 			"@x-util/*": ["./src/utils/*"]
 		},
-		"types": ["vite/client", "vite-plugin-pwa/client", "vike-react"]
+		"types": ["vite/client", "vike-react"]
 	},
 	"exclude": ["./dist/**"]
 }

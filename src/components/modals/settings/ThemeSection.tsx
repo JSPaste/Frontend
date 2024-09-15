@@ -45,7 +45,7 @@ export default function () {
 								key={id}
 								checked={themeId === id}
 								type='radio'
-								name='theme-buttons'
+								name='theme-button'
 								className='btn theme-controller join-horizontal bg-base-200'
 								aria-label={name}
 								value={id}

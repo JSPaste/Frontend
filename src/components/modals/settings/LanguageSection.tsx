@@ -9,13 +9,16 @@ export default function () {
 		<div className='flex flex-col gap-4'>
 			<p>Editor lang:</p>
 			<select
+				name='language-select'
 				className='select w-full max-w-xs bg-base-200'
 				onChange={(e) => setLanguage(e.target.value as LangKeys)}
 				value={language}
 			>
-				{Object.keys(langs).map((lang) => (
-					<option key={lang}>{lang}</option>
-				))}
+				{Object.keys(langs)
+					.sort()
+					.map((lang) => (
+						<option key={lang}>{lang}</option>
+					))}
 			</select>
 		</div>
 	);
