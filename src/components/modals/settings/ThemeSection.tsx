@@ -3,19 +3,21 @@ import { IconChevronLeft, IconChevronRight } from '@tabler/icons-solidjs';
 import { breakpoints } from '@x-util/breakpoints';
 import { setTheme, theme } from '@x-util/store';
 import { type ThemeKeys, Themes } from '@x-util/themes';
-import { createEffect, createSignal } from 'solid-js';
+import { createEffect, createMemo, createSignal } from 'solid-js';
 
 export default function ThemeSection() {
 	const matches = createBreakpoints(breakpoints);
 
-	const [maxColumns, setMaxColumns] = createSignal(0);
+	const breakpoint = createMemo(() => (matches.sm ? 3 : 2));
+
+	const [maxColumns, setMaxColumns] = createSignal(breakpoint());
 	const [currentIndex, setCurrentIndex] = createSignal(0);
 
 	const changeIndex = (delta: number) => {
 		setCurrentIndex((prev) => (prev + delta + Object.keys(Themes).length) % Object.keys(Themes).length);
 	};
 
-	createEffect(() => setMaxColumns(matches.sm ? 3 : 2));
+	createEffect(() => setMaxColumns(breakpoint()));
 
 	createEffect(() => {
 		const maxIndex = Math.max(0, Object.keys(Themes).length - maxColumns());

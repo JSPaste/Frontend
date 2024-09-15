@@ -38,6 +38,8 @@ export const EditorContext = createContext<EditorContext>({
 	setIsEditing: () => {}
 });
 
+createEffect(() => document.documentElement.setAttribute('data-theme', theme()));
+
 export const EditorScreen = ({ documentName, enableEdit = false }: EditorScreenProps) => {
 	const [cursor, setCursor] = createSignal({
 		line: 1,
