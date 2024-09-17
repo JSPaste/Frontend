@@ -12,6 +12,11 @@ const encodings = {
 	gzip: '.gz'
 } as const;
 
+const encodingsSortedKeys = Object.keys(encodings) as (keyof typeof encodings)[];
+
+const encodingCompatibleMIME =
+	/^\s*(?:text\/[^;\s]+|application\/(?:javascript|json|xml|xml-dtd|ecmascript|dart|postscript|rtf|tar|toml|vnd\.dart|vnd\.ms-fontobject|vnd\.ms-opentype|wasm|x-httpd-php|x-javascript|x-ns-proxy-autoconfig|x-sh|x-tar|x-virtualbox-hdd|x-virtualbox-ova|x-virtualbox-ovf|x-virtualbox-vbox|x-virtualbox-vdi|x-virtualbox-vhd|x-virtualbox-vmdk|x-www-form-urlencoded)|font\/(?:otf|ttf)|image\/(?:bmp|vnd\.adobe\.photoshop|vnd\.microsoft\.icon|vnd\.ms-dds|x-icon|x-ms-bmp)|message\/rfc822|model\/gltf-binary|x-shader\/x-fragment|x-shader\/x-vertex|[^;\s]+?\+(?:json|text|xml|yaml))(?:[;\s]|$)/i;
+
 const port = env.PORT || 3000;
 
 // TODO: 103 Early Hints -> https://github.com/oven-sh/bun/issues/8690
@@ -30,23 +35,26 @@ const frontend = serve({
 		if (await content.exists()) {
 			const headers: HeadersInit = {};
 
-			const acceptEncodings =
-				req.headers
-					.get('Accept-Encoding')
-					?.split(',')
-					.map((encoding) => encoding.trim())
-					.filter((encoding): encoding is keyof typeof encodings => Object.hasOwn(encodings, encoding))
-					.sort((a, b) => Object.keys(encodings).indexOf(a) - Object.keys(encodings).indexOf(b)) ?? [];
+			if (encodingCompatibleMIME.test(content.type)) {
+				const acceptEncodings = new Set(
+					req.headers
+						.get('Accept-Encoding')
+						?.split(',')
+						.map((encoding) => encoding.trim())
+				);
 
-			for (const encoding of acceptEncodings) {
-				const candidateContent = Bun.file(localStatic + encodings[encoding]);
+				for (const encoding of encodingsSortedKeys) {
+					if (!acceptEncodings.has(encoding)) continue;
 
-				if (await candidateContent.exists()) {
-					headers['Content-Encoding'] = encoding;
-					headers['Content-Type'] = content.type;
-					headers.Vary = 'Accept-Encoding';
-					content = candidateContent;
-					break;
+					const candidateContent = Bun.file(localStatic + encodings[encoding]);
+
+					if (await candidateContent.exists()) {
+						headers['Content-Encoding'] = encoding;
+						headers['Content-Type'] = content.type;
+						headers.Vary = 'Accept-Encoding';
+						content = candidateContent;
+						break;
+					}
 				}
 			}
 
@@ -62,9 +70,7 @@ const frontend = serve({
 
 			logger.debug(req.method, reqURL.pathname);
 
-			return new Response(content, {
-				headers: headers
-			});
+			return new Response(content, { headers });
 		}
 
 		// Dynamic pages

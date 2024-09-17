@@ -1,5 +1,7 @@
+import { readdir, rm } from 'node:fs/promises';
+import { dirname } from 'node:path';
 import { join } from 'node:path/posix';
-import { $ } from 'bun';
+import esbuild from 'esbuild';
 
 const root = process.cwd();
 const serverOutDir = './dist/server/';
@@ -7,26 +9,44 @@ const serverOutDirAbs = join(root, serverOutDir);
 const serverEntrypoint = ['./src/server/index.ts'];
 
 const buildStandalone = async () => {
-	const result = await Bun.build({
-		entrypoints: serverEntrypoint,
-		outdir: serverOutDirAbs,
-		target: 'bun',
+	const result = await esbuild.build({
+		platform: 'node',
+		target: 'esnext',
 		format: 'esm',
+		bundle: true,
+		minify: true,
+		treeShaking: true,
+		external: ['bun'],
+		entryPoints: serverEntrypoint,
+		sourcemap: false,
+		outdir: serverOutDirAbs,
 		splitting: false,
-		packages: 'bundle',
-		sourcemap: 'none',
-		minify: true
+		allowOverwrite: true,
+		metafile: true,
+		logOverride: { 'ignored-bare-import': 'silent' }
 	});
 
-	if (!result.success) {
-		console.error(result.logs);
-		process.exit(1);
-	}
+	const bundledFilesFromOutDir = Object.keys(result.metafile.inputs).filter(
+		(relativeFile) => relativeFile.endsWith(relativeFile) && relativeFile.startsWith('dist/')
+	);
 
-	// Remove bundled files...
-	await $`rm -rf ${serverOutDirAbs}/chunks/`;
-	await $`rm -rf ${serverOutDirAbs}/entries/`;
-	await $`rm -rf ${serverOutDirAbs}/entry.mjs`;
+	await Promise.all(
+		bundledFilesFromOutDir.map(async (relativeFile) => {
+			await rm(join(root, relativeFile));
+		})
+	);
+
+	const relativeDirs = new Set(bundledFilesFromOutDir.map((file) => dirname(file)));
+	for (const relativeDir of relativeDirs) {
+		const absDir = join(root, relativeDir);
+		const files = await readdir(absDir);
+		if (!files.length) {
+			await rm(absDir, { recursive: true });
+			if (relativeDir.startsWith(serverOutDir)) {
+				relativeDirs.add(dirname(relativeDir));
+			}
+		}
+	}
 };
 
 console.info('[STANDALONE] Running...');
