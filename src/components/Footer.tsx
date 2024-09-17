@@ -1,18 +1,18 @@
 import { IconAlignJustified, IconDeviceFloppy, IconPencil, IconSettings } from '@tabler/icons-solidjs';
 import FooterButton from '@x-component/FooterButton';
 import Settings from '@x-component/modals/settings/Settings';
-import { EditorContext } from '@x-component/screens/Editor';
-import { createSignal, useContext } from 'solid-js';
+import { type Accessor, type Setter, createSignal } from 'solid-js';
 
-type ControlsProps = {
+type FooterProps = {
 	documentName?: string;
 	enableEdit: boolean;
+	isEditing: Accessor<boolean>;
+	setIsEditing: Setter<boolean>;
+	value: Accessor<string>;
 };
 
-export default function Footer({ documentName, enableEdit }: ControlsProps) {
+export default function Footer({ documentName, enableEdit, isEditing, setIsEditing, value }: FooterProps) {
 	const [isSaveLoading, setIsSaveLoading] = createSignal(false);
-
-	const { value, setIsEditing, isEditing } = useContext(EditorContext);
 
 	const handleSave = async () => {
 		setIsSaveLoading(true);
@@ -28,7 +28,7 @@ export default function Footer({ documentName, enableEdit }: ControlsProps) {
 			<div class='flex-auto' />
 			<FooterButton
 				icon={<IconDeviceFloppy size={20} />}
-				label={!value ? 'You need to write something to save!' : 'Save'}
+				label={value() ? 'Save' : 'You need to write something to save!'}
 				onClick={handleSave}
 				isLoading={isSaveLoading()}
 				isDisabled={!value()}

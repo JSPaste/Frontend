@@ -1,15 +1,15 @@
 import GenericFallback from '@x-component/screens/GenericFallback';
 import type { JSXElement } from 'solid-js';
 
-type ActionButtonProps = {
-	label: string;
+type FooterButtonProps = {
 	icon?: JSXElement;
-	onClick?: () => void;
 	isDisabled?: boolean;
 	isLoading?: boolean;
+	label: string;
+	onClick?: () => void;
 };
 
-export default function FooterButton({ label, icon, onClick, isDisabled, isLoading }: ActionButtonProps) {
+export default function FooterButton({ icon, isDisabled, isLoading, label, onClick }: FooterButtonProps) {
 	return (
 		<div class='lg:tooltip tooltip-top' data-tip={!isDisabled ? label : `${label} (Disabled)`}>
 			<button

@@ -1,12 +1,14 @@
 import { IconCode, IconPuzzle } from '@tabler/icons-solidjs';
 import HeaderLabel from '@x-component/HeaderLabel';
-import { EditorContext } from '@x-component/screens/Editor';
+import type { Cursor } from '@x-component/screens/Editor';
 import { language } from '@x-util/store';
-import { useContext } from 'solid-js';
+import type { Accessor } from 'solid-js';
 
-export default function Header() {
-	const { cursor } = useContext(EditorContext);
+type HeaderProps = {
+	cursor: Accessor<Cursor>;
+};
 
+export default function Header({ cursor }: HeaderProps) {
 	return (
 		<div class='flex min-h-6 pl-2 pr-2 bg-base-200'>
 			<HeaderLabel

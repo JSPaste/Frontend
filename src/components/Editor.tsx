@@ -16,20 +16,22 @@ import {
 	rectangularSelection
 } from '@codemirror/view';
 import { hyperLinkExtension, hyperLinkStyle } from '@uiw/codemirror-extensions-hyper-link';
-import { EditorContext } from '@x-component/screens/Editor';
+import type { Cursor } from '@x-component/screens/Editor';
 import { editorThemes } from '@x-util/editorThemes';
 import { getLanguage, language, theme } from '@x-util/store';
-import { createEffect, createSignal, on, onCleanup, onMount, useContext } from 'solid-js';
+import { type Accessor, type Setter, createEffect, createSignal, on, onCleanup, onMount } from 'solid-js';
 
 type EditorProps = {
 	enableEdit: boolean;
+	isEditing: Accessor<boolean>;
+	setCursor: Setter<Cursor>;
+	setValue: Setter<string>;
+	value: Accessor<string>;
 };
 
-export default function Editor({ enableEdit }: EditorProps) {
+export default function Editor({ enableEdit, isEditing, setCursor, setValue, value }: EditorProps) {
 	const [container, setContainer] = createSignal<HTMLDivElement>();
 	const [editorView, setEditorView] = createSignal<EditorView>();
-
-	const { value, setCursor, isEditing, setValue } = useContext(EditorContext);
 
 	const themeCompartment = new Compartment();
 	const languageCompartment = new Compartment();
