@@ -11,7 +11,7 @@ type FooterProps = {
 	value: Accessor<string>;
 };
 
-export default function Footer({ documentName, enableEdit, isEditing, setIsEditing, value }: FooterProps) {
+export default function Footer(props: FooterProps) {
 	const [isSaveLoading, setIsSaveLoading] = createSignal(false);
 
 	const handleSave = async () => {
@@ -28,22 +28,22 @@ export default function Footer({ documentName, enableEdit, isEditing, setIsEditi
 			<div class='flex-auto' />
 			<FooterButton
 				icon={<IconDeviceFloppy size={20} />}
-				label={value() ? 'Save' : 'You need to write something to save!'}
+				label={props.value() ? 'Save' : 'You need to write something to save!'}
 				onClick={handleSave}
 				isLoading={isSaveLoading()}
-				isDisabled={!value()}
+				isDisabled={!props.value()}
 			/>
 			<FooterButton
 				icon={<IconPencil size={20} />}
 				label='Edit'
-				onClick={() => setIsEditing(true)}
-				isDisabled={isEditing() || !enableEdit}
+				onClick={() => props.setIsEditing(true)}
+				isDisabled={props.isEditing() || !props.enableEdit}
 			/>
 			<FooterButton
 				icon={<IconAlignJustified size={20} />}
 				label='View Raw'
-				onClick={() => (location.href = `/${documentName}/raw`)}
-				isDisabled={!documentName || isEditing()}
+				onClick={() => (location.href = `/${props.documentName}/raw`)}
+				isDisabled={!props.documentName || props.isEditing()}
 			/>
 			<FooterButton
 				icon={<IconSettings size={20} />}

@@ -1,8 +1,7 @@
 import Footer from '@x-component/Footer';
 import Header from '@x-component/Header';
 import GenericFallback from '@x-component/screens/GenericFallback';
-import { theme } from '@x-util/store';
-import { Suspense, createEffect, createSignal, lazy } from 'solid-js';
+import { Suspense, createSignal, lazy } from 'solid-js';
 
 const Editor = lazy(() => import('@x-component/Editor'));
 
@@ -16,7 +15,7 @@ export type Cursor = {
 	column: number;
 };
 
-export const EditorScreen = ({ documentName, enableEdit = false }: EditorScreenProps) => {
+export const EditorScreen = (props: EditorScreenProps) => {
 	const [cursor, setCursor] = createSignal<Cursor>({
 		line: 1,
 		column: 1
@@ -25,8 +24,6 @@ export const EditorScreen = ({ documentName, enableEdit = false }: EditorScreenP
 	const [value, setValue] = createSignal('');
 
 	const [isEditing, setIsEditing] = createSignal(false);
-
-	createEffect(() => document.documentElement.setAttribute('data-theme', theme()));
 
 	return (
 		<div class='flex flex-col h-dvh overflow-hidden'>
@@ -37,15 +34,15 @@ export const EditorScreen = ({ documentName, enableEdit = false }: EditorScreenP
 					setValue={setValue}
 					value={value}
 					isEditing={isEditing}
-					enableEdit={enableEdit}
+					enableEdit={props.enableEdit ?? false}
 				/>
 			</Suspense>
 			<Footer
 				value={value}
-				documentName={documentName}
+				documentName={props.documentName}
 				isEditing={isEditing}
 				setIsEditing={setIsEditing}
-				enableEdit={enableEdit}
+				enableEdit={props.enableEdit ?? false}
 			/>
 		</div>
 	);

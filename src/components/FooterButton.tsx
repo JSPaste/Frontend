@@ -9,17 +9,17 @@ type FooterButtonProps = {
 	onClick?: () => void;
 };
 
-export default function FooterButton({ icon, isDisabled, isLoading, label, onClick }: FooterButtonProps) {
+export default function FooterButton(props: FooterButtonProps) {
 	return (
-		<div class='lg:tooltip tooltip-top' data-tip={!isDisabled ? label : `${label} (Disabled)`}>
+		<div class='lg:tooltip tooltip-top' data-tip={!props.isDisabled ? props.label : `${props.label} (Disabled)`}>
 			<button
 				type='button'
-				aria-label={label}
+				aria-label={props.label}
 				class='btn btn-square btn-sm bg-base-100'
-				onClick={onClick}
-				disabled={isDisabled ?? false}
+				onClick={props.onClick}
+				disabled={props.isDisabled ?? false}
 			>
-				{isLoading ? <GenericFallback /> : icon}
+				{props.isLoading ? <GenericFallback /> : props.icon}
 			</button>
 		</div>
 	);

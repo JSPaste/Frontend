@@ -3,12 +3,12 @@ import { IconChevronLeft, IconChevronRight } from '@tabler/icons-solidjs';
 import { breakpoints } from '@x-util/breakpoints';
 import { setTheme, theme } from '@x-util/store';
 import { type ThemeKeys, Themes } from '@x-util/themes';
-import { createEffect, createMemo, createSignal } from 'solid-js';
+import { For, createEffect, createSignal } from 'solid-js';
 
 export default function ThemeSection() {
 	const matches = createBreakpoints(breakpoints);
 
-	const breakpoint = createMemo(() => (matches.sm ? 3 : 2));
+	const breakpoint = () => (matches.sm ? 3 : 2);
 
 	const [maxColumns, setMaxColumns] = createSignal(breakpoint());
 	const [currentIndex, setCurrentIndex] = createSignal(0);
@@ -16,6 +16,8 @@ export default function ThemeSection() {
 	const changeIndex = (delta: number) => {
 		setCurrentIndex((prev) => (prev + delta + Object.keys(Themes).length) % Object.keys(Themes).length);
 	};
+
+	createEffect(() => document.documentElement.setAttribute('data-theme', theme()));
 
 	createEffect(() => setMaxColumns(breakpoint()));
 
@@ -41,9 +43,8 @@ export default function ThemeSection() {
 					<IconChevronLeft />
 				</button>
 				<div class={`w-full pl-5 pr-5 grid grid-flow-col gap-4 grid-cols-${maxColumns()}`}>
-					{Object.entries(Themes)
-						.slice(currentIndex(), currentIndex() + maxColumns())
-						.map(([id, name]) => (
+					<For each={Object.entries(Themes).slice(currentIndex(), currentIndex() + maxColumns())}>
+						{([id, name]) => (
 							<input
 								checked={theme() === id}
 								type='radio'
@@ -53,7 +54,8 @@ export default function ThemeSection() {
 								value={id}
 								onChange={() => setTheme(id as ThemeKeys)}
 							/>
-						))}
+						)}
+					</For>
 				</div>
 				<button
 					type='button'

@@ -29,7 +29,7 @@ type EditorProps = {
 	value: Accessor<string>;
 };
 
-export default function Editor({ enableEdit, isEditing, setCursor, setValue, value }: EditorProps) {
+export default function Editor(props: EditorProps) {
 	const [container, setContainer] = createSignal<HTMLDivElement>();
 	const [editorView, setEditorView] = createSignal<EditorView>();
 
@@ -43,7 +43,7 @@ export default function Editor({ enableEdit, isEditing, setCursor, setValue, val
 			const { from } = view.state.selection.main;
 			const cursorPosition = view.state.doc.lineAt(from);
 
-			setCursor({
+			props.setCursor({
 				line: cursorPosition.number,
 				column: from - cursorPosition.from + 1
 			});
@@ -54,7 +54,7 @@ export default function Editor({ enableEdit, isEditing, setCursor, setValue, val
 		const currentView = new EditorView({
 			parent: container(),
 			state: EditorState.create({
-				doc: value(),
+				doc: props.value(),
 				extensions: [
 					placeholder(
 						"Start writing here! When you're done, hit the save button to generate a unique URL with your content."
@@ -77,7 +77,7 @@ export default function Editor({ enableEdit, isEditing, setCursor, setValue, val
 					languageCompartment.of(await getLanguage()),
 					hyperLinkExtension(),
 					hyperLinkStyle,
-					EditorState.readOnly.of(enableEdit && !isEditing),
+					EditorState.readOnly.of(props.enableEdit && !props.isEditing),
 					EditorView.theme({
 						'&': {
 							height: '100%'
@@ -93,7 +93,7 @@ export default function Editor({ enableEdit, isEditing, setCursor, setValue, val
 					EditorView.updateListener.of((vu) => {
 						if (vu.docChanged) {
 							updateCursorInformation();
-							setValue(vu.state.doc.toString());
+							props.setValue(vu.state.doc.toString());
 						}
 					})
 				]

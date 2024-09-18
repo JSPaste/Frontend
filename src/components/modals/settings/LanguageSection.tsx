@@ -1,5 +1,6 @@
 import { type LangKeys, langs } from '@x-util/langs';
 import { language, setLanguage } from '@x-util/store';
+import { For } from 'solid-js';
 
 export default function LanguageSection() {
 	return (
@@ -11,11 +12,7 @@ export default function LanguageSection() {
 				onChange={(e) => setLanguage(e.target.value as LangKeys)}
 				value={language()}
 			>
-				{Object.keys(langs)
-					.sort()
-					.map((lang) => (
-						<option>{lang}</option>
-					))}
+				<For each={Object.keys(langs).sort()}>{(lang) => <option>{lang}</option>}</For>
 			</select>
 		</div>
 	);
