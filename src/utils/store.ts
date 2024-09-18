@@ -1,56 +1,28 @@
 import type { LanguageSupport, StreamLanguage } from '@codemirror/language';
-import { langs } from '@uiw/codemirror-extensions-langs';
-import type { LangKeys } from '@x-util/langs';
+import { makePersisted } from '@solid-primitives/storage';
+import { type LangKeys, langs } from '@x-util/langs';
 import type { ThemeKeys } from '@x-util/themes';
-import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { createSignal } from 'solid-js';
+import { createStore } from 'solid-js/store';
 
-type FrontendState = {
-	apiURL: string;
-	setApiURL: (url: string) => void;
-};
-
-export const frontendStore = create(
-	persist<FrontendState>(
-		(set) => ({
-			apiURL: 'https://jspaste.eu/api/v2/documents',
-			setApiURL: (url) => set({ apiURL: url })
-		}),
-		{
-			name: 'x-jspaste-frontend',
-			storage: createJSONStorage(() => localStorage)
-		}
-	)
-);
-
-type ThemeState = {
-	themeId: ThemeKeys;
-	setTheme: (id: ThemeKeys) => void;
-};
-
-export const themeStore = create(
-	persist<ThemeState>(
-		(set) => ({
-			themeId: 'default',
-			setTheme: (id) => set({ themeId: id })
-		}),
-		{
-			name: 'x-jspaste-frontend-theme',
-			storage: createJSONStorage(() => localStorage)
-		}
-	)
-);
-
-type LanguageState = {
-	language: LangKeys;
-	setLanguage: (language: LangKeys) => void;
-	getLanguage: () => StreamLanguage<unknown> | LanguageSupport;
-};
-
-export const languageStore = create<LanguageState>((set, get) => ({
-	language: 'markdown',
-	setLanguage: (language) => set({ language: language }),
-	getLanguage: () => {
-		return langs[get().language]();
+export const [frontend, setFrontend] = makePersisted(
+	createStore({
+		apiURL: 'https://jspaste.eu/api/v2/documents'
+	}),
+	{
+		storage: localStorage,
+		name: 'x-jspaste-frontend'
 	}
-}));
+);
+
+export const [theme, setTheme] = makePersisted(createSignal<ThemeKeys>('default'), {
+	storage: localStorage,
+	name: 'x-jspaste-frontend-editor-theme'
+});
+
+export const [language, setLanguage] = createSignal<LangKeys>('markdown');
+
+export const getLanguage = async (): Promise<StreamLanguage<unknown> | LanguageSupport> => {
+	const lang = await langs[language()]();
+	return lang();
+};

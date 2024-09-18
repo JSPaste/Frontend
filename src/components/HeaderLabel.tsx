@@ -1,22 +1,22 @@
-import type { ReactElement } from 'react';
+import type { JSXElement } from 'solid-js';
 
 type HeaderLabelProps = {
+	icon?: JSXElement;
 	label: string;
-	icon?: ReactElement;
 	onClick?: () => void;
 };
 
-export default function ({ label, icon, onClick }: HeaderLabelProps) {
+export default function HeaderLabel(props: HeaderLabelProps) {
 	return (
 		<div
-			className={`flex items-center gap-1 pl-2 pr-2 ${onClick && 'hover:bg-base-100 hover:cursor-pointer'}`}
+			class={`flex items-center gap-1 pl-2 pr-2 ${props.onClick && 'hover:bg-base-100 hover:cursor-pointer'}`}
 			style={{
-				fontSize: '12px'
+				'font-size': '12px'
 			}}
-			onClick={onClick}
+			onClick={props.onClick}
 		>
-			{icon}
-			<p>{label}</p>
+			{props.icon}
+			<p>{props.label}</p>
 		</div>
 	);
 }

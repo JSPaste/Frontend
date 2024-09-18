@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.9.1/schema.json",
 	"files": {
 		"ignore": ["./dist/**", "*.spec.ts"],
 		"ignoreUnknown": true
@@ -18,6 +18,9 @@
 			"recommended": true,
 			"a11y": {
 				"useKeyWithClickEvents": "off"
+			},
+			"correctness": {
+				"useJsxKeyInIterable": "off"
 			},
 			"complexity": {
 				"noStaticOnlyClass": "off"

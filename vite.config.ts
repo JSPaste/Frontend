@@ -1,5 +1,5 @@
 import { resolve } from 'node:path';
-import react from '@vitejs/plugin-react-swc';
+import solid from 'vike-solid/vite';
 import vike from 'vike/plugin';
 import type { UserConfig } from 'vite';
 
@@ -16,12 +16,10 @@ export default {
 		}
 	},
 	plugins: [
-		react(),
+		solid(),
 		vike({
+			// Other static redirects on "server.ts"...
 			redirects: {
-				// FIXME: Vike crashes, maybe Bun issue?
-				'/github': 'https://github.com/jspaste',
-
 				// TODO: Expose Backend API route locations
 				'/@documentName/r': '/api/document/@documentName/raw',
 				'/@documentName/raw': '/api/document/@documentName/raw'

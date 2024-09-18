@@ -1,34 +1,27 @@
-import HeaderLabelComponent from '@x-component/HeaderLabel';
-import { languageStore } from '@x-util/store';
-import { MdClass } from 'react-icons/md';
-import { PiGithubLogoFill } from 'react-icons/pi';
+import { IconCode, IconCrane } from '@tabler/icons-solidjs';
+import HeaderLabel from '@x-component/HeaderLabel';
+import type { Cursor } from '@x-component/screens/Editor';
+import { language } from '@x-util/store';
+import type { Accessor } from 'solid-js';
 
-export type HeaderProps = {
-	lineNumber: number;
-	columnNumber: number;
+type HeaderProps = {
+	cursor: Accessor<Cursor>;
 };
 
-export default function ({ lineNumber, columnNumber }: HeaderProps) {
-	const { language } = languageStore();
-
+export default function Header(props: HeaderProps) {
 	return (
-		<div className='flex min-h-6 pl-2 pr-2 bg-base-200'>
-			<HeaderLabelComponent
-				label={`Ln ${lineNumber.toString().padStart(2, '0')} Col
-            ${columnNumber.toString().padStart(2, '0')}`}
+		<div class='flex min-h-6 pl-2 pr-2 bg-base-200'>
+			<HeaderLabel
+				label={`Ln ${props.cursor().line.toString().padStart(2, '0')} Col ${props.cursor().column.toString().padStart(2, '0')}`}
 			/>
-			<HeaderLabelComponent label={`Lang ${language}`} />
-			<span className='flex-auto' />
-			<div className='flex max-sm:hidden'>
+			<HeaderLabel label={`Lang ${language()}`} />
+			<span class='flex-auto' />
+			<div class='flex max-sm:hidden'>
 				{/* TODO: Expose Backend API route location */}
-				<HeaderLabelComponent
-					label='Docs'
-					icon={<MdClass size='12' />}
-					onClick={() => window.open('/api/docs')}
-				/>
-				<HeaderLabelComponent
-					label='GitHub'
-					icon={<PiGithubLogoFill size='12' />}
+				<HeaderLabel label='API' icon={<IconCrane size={12} />} onClick={() => window.open('/api/docs')} />
+				<HeaderLabel
+					label='Source'
+					icon={<IconCode size={12} />}
 					onClick={() => window.open('https://github.com/jspaste')}
 				/>
 			</div>

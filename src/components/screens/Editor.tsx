@@ -1,54 +1,51 @@
-import FooterComponent from '@x-component/Footer';
-import HeaderComponent, { type HeaderProps } from '@x-component/Header';
-import GenericFallback from '@x-component/screens/GenericFallback.tsx';
-import { themeStore } from '@x-util/store.ts';
-import { useEffect, useState } from 'react';
-import { clientOnly } from 'vike-react/clientOnly';
+import Footer from '@x-component/Footer';
+import Header from '@x-component/Header';
+import GenericFallback from '@x-component/screens/GenericFallback';
+import { Suspense, createSignal, lazy } from 'solid-js';
 
-const EditorComponent = clientOnly(() => import('@x-component/Editor'));
+const Editor = lazy(() => import('@x-component/Editor'));
 
 type EditorScreenProps = {
 	documentName?: string;
 	enableEdit?: boolean;
 };
 
-export default function ({ documentName, enableEdit = false }: EditorScreenProps) {
-	const [position, setPosition] = useState<HeaderProps>({
-		lineNumber: 1,
-		columnNumber: 1
+export type Cursor = {
+	line: number;
+	column: number;
+};
+
+export const EditorScreen = (props: EditorScreenProps) => {
+	props.enableEdit = props.enableEdit ?? false;
+
+	const [cursor, setCursor] = createSignal<Cursor>({
+		line: 1,
+		column: 1
 	});
 
-	const [value, setValue] = useState<string>('');
+	const [value, setValue] = createSignal('');
 
-	const [isEditing, setIsEditing] = useState<boolean>(false);
-
-	const { themeId } = themeStore();
-
-	useEffect(() => {
-		if (themeId) {
-			document.documentElement.setAttribute('data-theme', themeId);
-		}
-	}, [themeId]);
+	const [isEditing, setIsEditing] = createSignal(false);
 
 	return (
-		<div className='flex flex-col h-dvh overflow-hidden'>
-			<HeaderComponent lineNumber={position.lineNumber} columnNumber={position.columnNumber} />
-			<EditorComponent
-				fallback={<GenericFallback />}
-				setCursorLocation={setPosition}
-				setValue={setValue}
+		<div class='flex flex-col h-dvh overflow-hidden'>
+			<Header cursor={cursor} />
+			<Suspense fallback={<GenericFallback />}>
+				<Editor
+					setCursor={setCursor}
+					setValue={setValue}
+					value={value}
+					isEditing={isEditing}
+					enableEdit={props.enableEdit}
+				/>
+			</Suspense>
+			<Footer
 				value={value}
-				documentName={documentName}
-				isEditing={isEditing}
-				enableEdit={enableEdit}
-			/>
-			<FooterComponent
-				value={value}
-				documentName={documentName}
+				documentName={props.documentName}
 				isEditing={isEditing}
 				setIsEditing={setIsEditing}
-				enableEdit={enableEdit}
+				enableEdit={props.enableEdit}
 			/>
 		</div>
 	);
-}
+};
