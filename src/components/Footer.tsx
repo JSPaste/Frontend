@@ -42,7 +42,7 @@ export default function Footer(props: FooterProps) {
 			<FooterButton
 				icon={<IconAlignJustified size={20} />}
 				label='View Raw'
-				onClick={() => (location.href = `/${props.documentName}/raw`)}
+				onClick={() => window.open(`/${props.documentName}/raw`)}
 				isDisabled={!props.documentName || props.isEditing()}
 			/>
 			<FooterButton
