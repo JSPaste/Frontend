@@ -15,6 +15,7 @@ import {
 	placeholder,
 	rectangularSelection
 } from '@codemirror/view';
+import { debounce } from '@solid-primitives/scheduled';
 import { hyperLinkExtension, hyperLinkStyle } from '@uiw/codemirror-extensions-hyper-link';
 import type { Cursor } from '@x-component/screens/Editor';
 import { editorThemes } from '@x-util/editorThemes';
@@ -33,10 +34,11 @@ export default function Editor(props: EditorProps) {
 	const [container, setContainer] = createSignal<HTMLDivElement>();
 	const [editorView, setEditorView] = createSignal<EditorView>();
 
+	const readOnlyCompartment = new Compartment();
 	const themeCompartment = new Compartment();
 	const languageCompartment = new Compartment();
 
-	const updateCursorInformation = () => {
+	const updateCursorInformation = debounce(() => {
 		const view = editorView();
 
 		if (view) {
@@ -48,7 +50,11 @@ export default function Editor(props: EditorProps) {
 				column: from - cursorPosition.from + 1
 			});
 		}
-	};
+	}, 200);
+
+	const setValue = debounce((value: string) => {
+		props.setValue(value);
+	}, 500);
 
 	onMount(async () => {
 		const currentView = new EditorView({
@@ -77,7 +83,7 @@ export default function Editor(props: EditorProps) {
 					languageCompartment.of(await getLanguage()),
 					hyperLinkExtension(),
 					hyperLinkStyle,
-					EditorState.readOnly.of(props.enableEdit && !props.isEditing),
+					readOnlyCompartment.of(EditorState.readOnly.of(props.enableEdit && !props.isEditing())),
 					EditorView.theme({
 						'&': {
 							height: '100%'
@@ -91,9 +97,12 @@ export default function Editor(props: EditorProps) {
 					}),
 					EditorView.contentAttributes.of({ 'data-lt-active': 'false' }),
 					EditorView.updateListener.of((vu) => {
-						if (vu.docChanged) {
+						if (vu.geometryChanged) {
 							updateCursorInformation();
-							props.setValue(vu.state.doc.toString());
+						}
+
+						if (vu.docChanged) {
+							setValue(vu.state.doc.toString());
 						}
 					})
 				]
@@ -104,14 +113,20 @@ export default function Editor(props: EditorProps) {
 	});
 
 	createEffect(
+		on([props.isEditing], (isEditing) => {
+			editorView()?.dispatch({
+				effects: readOnlyCompartment.reconfigure(EditorState.readOnly.of(props.enableEdit && !isEditing))
+			});
+		})
+	);
+
+	createEffect(
 		on(
-			[editorView, theme],
-			([view, theme]) => {
-				if (view) {
-					editorView()?.dispatch({
-						effects: themeCompartment.reconfigure(editorThemes[theme])
-					});
-				}
+			theme,
+			(theme) => {
+				editorView()?.dispatch({
+					effects: themeCompartment.reconfigure(editorThemes[theme])
+				});
 			},
 			{ defer: true }
 		)
@@ -119,13 +134,11 @@ export default function Editor(props: EditorProps) {
 
 	createEffect(
 		on(
-			[editorView, language],
-			async ([view]) => {
-				if (view) {
-					editorView()?.dispatch({
-						effects: languageCompartment.reconfigure(await getLanguage())
-					});
-				}
+			language,
+			async () => {
+				editorView()?.dispatch({
+					effects: languageCompartment.reconfigure(await getLanguage())
+				});
 			},
 			{ defer: true }
 		)

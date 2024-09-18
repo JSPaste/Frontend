@@ -16,6 +16,8 @@ export type Cursor = {
 };
 
 export const EditorScreen = (props: EditorScreenProps) => {
+	props.enableEdit = props.enableEdit ?? false;
+
 	const [cursor, setCursor] = createSignal<Cursor>({
 		line: 1,
 		column: 1
@@ -34,7 +36,7 @@ export const EditorScreen = (props: EditorScreenProps) => {
 					setValue={setValue}
 					value={value}
 					isEditing={isEditing}
-					enableEdit={props.enableEdit ?? false}
+					enableEdit={props.enableEdit}
 				/>
 			</Suspense>
 			<Footer
@@ -42,7 +44,7 @@ export const EditorScreen = (props: EditorScreenProps) => {
 				documentName={props.documentName}
 				isEditing={isEditing}
 				setIsEditing={setIsEditing}
-				enableEdit={props.enableEdit ?? false}
+				enableEdit={props.enableEdit}
 			/>
 		</div>
 	);

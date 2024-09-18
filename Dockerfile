@@ -1,4 +1,4 @@
-# Required to build the standalone locally before building the image container: "bun run build:standalone"
+# Required to build the server locally before building the image container: "bun run build:server"
 FROM docker.io/oven/bun:1-distroless
 WORKDIR /frontend/
 
