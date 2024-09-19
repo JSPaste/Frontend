@@ -1,4 +1,4 @@
-import { config } from 'vike-react/config';
+import config from 'vike-solid/config';
 import type { Config } from 'vike/types';
 
 export default {

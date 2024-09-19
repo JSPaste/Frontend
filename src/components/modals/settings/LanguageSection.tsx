@@ -1,24 +1,18 @@
-import { langs } from '@uiw/codemirror-extensions-langs';
-import type { LangKeys } from '@x-util/langs.ts';
-import { languageStore } from '@x-util/store.ts';
+import { type LangKeys, langs } from '@x-util/langs';
+import { language, setLanguage } from '@x-util/store';
+import { For } from 'solid-js';
 
-export default function () {
-	const { language, setLanguage } = languageStore();
-
+export default function LanguageSection() {
 	return (
-		<div className='flex flex-col gap-4'>
+		<div class='flex flex-col gap-4'>
 			<p>Editor lang:</p>
 			<select
 				name='language-select'
-				className='select w-full max-w-xs bg-base-200'
+				class='select w-full max-w-xs bg-base-200'
 				onChange={(e) => setLanguage(e.target.value as LangKeys)}
-				value={language}
+				value={language()}
 			>
-				{Object.keys(langs)
-					.sort()
-					.map((lang) => (
-						<option key={lang}>{lang}</option>
-					))}
+				<For each={Object.keys(langs).sort()}>{(lang) => <option>{lang}</option>}</For>
 			</select>
 		</div>
 	);
