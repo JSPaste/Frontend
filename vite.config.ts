@@ -1,4 +1,5 @@
 import { resolve } from 'node:path';
+import tailwindcss from '@tailwindcss/vite';
 import solid from 'vike-solid/vite';
 import vike from 'vike/plugin';
 import type { UserConfig } from 'vite';
@@ -16,6 +17,7 @@ export default {
 		}
 	},
 	plugins: [
+		tailwindcss(),
 		solid(),
 		vike({
 			// Other static redirects on "server.ts"...
