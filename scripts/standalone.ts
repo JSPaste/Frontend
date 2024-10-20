@@ -6,7 +6,7 @@ import esbuild from 'esbuild';
 const root = process.cwd();
 const serverOutDir = './dist/server/';
 const serverOutDirAbs = join(root, serverOutDir);
-const serverEntrypoint = ['./src/server/index.ts'];
+const serverEntrypoint = ['./src/server.ts'];
 
 const buildStandalone = async () => {
 	const result = await esbuild.build({
@@ -19,7 +19,7 @@ const buildStandalone = async () => {
 		external: ['bun'],
 		entryPoints: serverEntrypoint,
 		sourcemap: false,
-		outdir: serverOutDirAbs,
+		outfile: `${serverOutDirAbs}index.js`,
 		splitting: false,
 		allowOverwrite: true,
 		metafile: true,
