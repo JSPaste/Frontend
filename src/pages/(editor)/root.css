@@ -12,6 +12,7 @@
 	name: "default";
 	/* biome-ignore lint/correctness/noUnknownProperty: test */
 	default: true;
+	color-scheme: dark;
 	--color-primary: #ffe184;
 	--color-secondary: #202020;
 	--color-accent: #303030;
