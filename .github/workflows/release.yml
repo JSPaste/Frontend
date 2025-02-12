@@ -73,7 +73,7 @@ jobs:
           oci: true
           tags: ${{ steps.tags-image.outputs.tags }}
           extra-args: |
-            --squash-all
+            --squash
 
       - if: ${{ inputs.image-action == 'build-release' }}
         name: Login to GHCR
