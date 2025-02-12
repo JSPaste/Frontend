@@ -38,11 +38,6 @@ jobs:
         with:
           egress-policy: audit
 
-      - name: Setup QEMU
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-user-static
-
       - name: Setup tags
         id: tags-image
         run: |
@@ -77,6 +72,8 @@ jobs:
           layers: true
           oci: true
           tags: ${{ steps.tags-image.outputs.tags }}
+          extra-args: |
+            --squash-all
 
       - if: ${{ inputs.image-action == 'build-release' }}
         name: Login to GHCR
