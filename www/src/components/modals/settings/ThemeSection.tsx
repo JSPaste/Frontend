@@ -61,7 +61,7 @@ export default function ThemeSection() {
 				label='Theme selector'
 				labelValue={theme()}
 				listValues={Object.keys(Theme)}
-				onClick={(e) => e.currentTarget.innerHTML in Theme && setTheme(e.currentTarget.innerHTML as ThemeKeys)}
+				onClick={(e) => e.target.innerHTML in Theme && setTheme(e.target.innerHTML as ThemeKeys)}
 			/>
 		</fieldset>
 	);

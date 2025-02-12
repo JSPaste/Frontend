@@ -11,9 +11,7 @@ export default function LanguageSection() {
 				listPosition='dropdown-top'
 				labelValue={language()}
 				listValues={Object.keys(langs).sort()}
-				onClick={(e) =>
-					e.currentTarget.innerHTML in langs && setLanguage(e.currentTarget.innerHTML as LangKeys)
-				}
+				onClick={(e) => e.target.innerHTML in langs && setLanguage(e.target.innerHTML as LangKeys)}
 			/>
 		</fieldset>
 	);
