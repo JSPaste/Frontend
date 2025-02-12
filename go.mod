@@ -2,7 +2,7 @@ module github.com/jspaste/frontend
 
 go 1.22
 
-toolchain go1.23
+toolchain go1.24
 
 require (
 	github.com/andybalholm/brotli v1.1.1
