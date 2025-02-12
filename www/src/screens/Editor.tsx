@@ -1,5 +1,5 @@
 import { useLocation } from '@solidjs/router';
-import { Suspense, lazy, onMount } from 'solid-js';
+import { Suspense, createEffect, lazy, on } from 'solid-js';
 import Header from '#component/Header.tsx';
 import GenericFallback from '#screen/GenericFallback.tsx';
 import { type LangKeys, langs, setLanguage } from '#util/langs.ts';
@@ -17,7 +17,11 @@ export default function EditorScreen() {
 		setLanguage(language as LangKeys);
 	}
 
-	onMount(() => document.documentElement.setAttribute('data-theme', themeScheme()));
+	createEffect(
+		on(themeScheme, (themeScheme) => {
+			document.documentElement.setAttribute('data-theme', themeScheme);
+		})
+	);
 
 	return (
 		/* FIXME: Overflows when width is over 1024px */

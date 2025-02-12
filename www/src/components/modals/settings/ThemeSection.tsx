@@ -42,7 +42,7 @@ export default function ThemeSection() {
 					<input
 						type='checkbox'
 						id='theme-color-scheme-toggle'
-						class='toggle theme-controller'
+						class='toggle'
 						value='light'
 						disabled={themeSchemeMode() === 'device'}
 						checked={themeScheme() === 'light'}
