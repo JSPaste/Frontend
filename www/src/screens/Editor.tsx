@@ -24,8 +24,8 @@ export default function EditorScreen() {
 	);
 
 	return (
-		/* FIXME: Overflows when width is over 1024px */
-		<div class='flex flex-col h-lvh overflow-hidden'>
+		/* FIXME: Overflows when width is over 1024px? */
+		<div class='flex flex-col h-svh overflow-hidden'>
 			<Header />
 			<Suspense fallback={<GenericFallback />}>
 				<Editor />
