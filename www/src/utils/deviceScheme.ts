@@ -1,0 +1,11 @@
+import { createSignal } from 'solid-js';
+
+export type DeviceScheme = 'dark' | 'light';
+
+const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+export const [deviceScheme, setDeviceScheme] = createSignal<DeviceScheme>(mediaQuery.matches ? 'dark' : 'light');
+
+mediaQuery.addEventListener('change', (event) => {
+	setDeviceScheme(event.matches ? 'dark' : 'light');
+});

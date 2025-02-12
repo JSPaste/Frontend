@@ -1,8 +1,9 @@
 import { useLocation } from '@solidjs/router';
-import { Suspense, lazy } from 'solid-js';
+import { Suspense, lazy, onMount } from 'solid-js';
 import Header from '#component/Header.tsx';
 import GenericFallback from '#screen/GenericFallback.tsx';
 import { type LangKeys, langs, setLanguage } from '#util/langs.ts';
+import { themeScheme } from '#util/persistence.ts';
 
 const Editor = lazy(() => import('#component/Editor.tsx'));
 const Footer = lazy(() => import('#component/Footer.tsx'));
@@ -15,6 +16,8 @@ export default function EditorScreen() {
 	if (language && language in langs) {
 		setLanguage(language as LangKeys);
 	}
+
+	onMount(() => document.documentElement.setAttribute('data-theme', themeScheme()));
 
 	return (
 		/* FIXME: Overflows when width is over 1024px */
