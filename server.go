@@ -22,6 +22,7 @@ func main() {
 		FS:             www.Bundle(),
 		Compress:       true,
 		CompressBrotli: true,
+		CompressZstd:   true,
 	}
 
 	requestHandler := fs.NewRequestHandler()
@@ -53,10 +54,6 @@ func main() {
 			ctx.Response.Header.Set("Cache-Control", "max-age=0, no-store")
 		} else {
 			ctx.Response.Header.Set("Cache-Control", "max-age=600, public, no-transform")
-		}
-
-		if len(ctx.Response.Header.Peek("Content-Encoding")) > 0 {
-			ctx.Response.Header.Set("Vary", "Accept-Encoding")
 		}
 
 		ctx.Response.Header.Del("Last-Modified")

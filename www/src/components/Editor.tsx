@@ -22,8 +22,8 @@ import { extensionLoader } from '#util/extensionLoader.ts';
 import { getEditorContext } from '#util/getEditorContext.ts';
 import { langs, language } from '#util/langs.ts';
 import { lazyExtensionLoader } from '#util/lazyExtensionLoader.ts';
-import { editorContent, setEditorContent, theme } from '#util/persistence.ts';
-import { editorThemes } from '#util/themes.ts';
+import { editorContent, setEditorContent } from '#util/persistence.ts';
+import { editorThemeExtension } from '#util/theme.ts';
 
 export default function Editor() {
 	const ctx = getEditorContext();
@@ -53,61 +53,63 @@ export default function Editor() {
 		}
 	}, 500);
 
-	extensionLoader(() => editorThemes[theme()], editorView);
+	extensionLoader(() => editorThemeExtension(), editorView);
 	extensionLoader(() => EditorState.readOnly.of(ctx.editable() && !ctx.writing()), editorView);
 	lazyExtensionLoader(() => langs[language()](), editorView);
 
 	onMount(() => {
-		const currentView = new EditorView({
-			parent: container(),
-			state: EditorState.create({
-				doc: editorContent(),
-				extensions: [
-					placeholder(
-						"Start writing here! When you're done, hit the save button to generate a unique URL with your content."
-					),
-					lineNumbers(),
-					highlightActiveLineGutter(),
-					highlightSpecialChars(),
-					history(),
-					drawSelection(),
-					dropCursor(),
-					indentOnInput(),
-					syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-					bracketMatching(),
-					closeBrackets(),
-					rectangularSelection(),
-					crosshairCursor(),
-					highlightActiveLine(),
-					keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap]),
-					hyperLinkExtension(),
-					hyperLinkStyle,
-					EditorView.theme({
-						'&': {
-							height: '100%'
-						},
-						'& .cm-scroller': {
-							height: '100% !important'
-						},
-						'& .cm-lineNumbers .cm-gutterElement': {
-							padding: '0 5px'
-						}
-					}),
-					EditorView.contentAttributes.of({ 'data-lt-active': 'false' }),
-					EditorView.updateListener.of((vu) => {
-						if (vu.selectionSet) {
-							updateCursor();
-						}
+		const state = EditorState.create({
+			doc: editorContent(),
+			extensions: [
+				placeholder(
+					"Start writing here! When you're done, hit the save button to generate a unique URL with your content."
+				),
+				lineNumbers(),
+				highlightActiveLineGutter(),
+				highlightSpecialChars(),
+				history(),
+				drawSelection(),
+				dropCursor(),
+				indentOnInput(),
+				syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+				bracketMatching(),
+				closeBrackets(),
+				rectangularSelection(),
+				crosshairCursor(),
+				highlightActiveLine(),
+				keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap]),
+				hyperLinkExtension(),
+				hyperLinkStyle,
+				EditorView.theme({
+					'&': {
+						height: '100%'
+					},
+					'& .cm-scroller': {
+						height: '100% !important'
+					},
+					'& .cm-lineNumbers .cm-gutterElement': {
+						padding: '0 5px'
+					}
+				}),
+				EditorView.contentAttributes.of({ 'data-lt-active': 'false' }),
+				EditorView.updateListener.of((vu) => {
+					if (vu.selectionSet) {
+						updateCursor();
+					}
 
-						if (vu.docChanged) {
-							saveEditorContent();
-						}
-					})
-				]
-			})
+					if (vu.docChanged) {
+						saveEditorContent();
+					}
+				})
+			]
 		});
 
-		setEditorView(currentView);
+		const view = new EditorView({
+			parent: container(),
+			state: state
+		});
+
+		setEditorView(view);
 	});
 
 	onCleanup(() => {

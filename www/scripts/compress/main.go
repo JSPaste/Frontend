@@ -3,6 +3,7 @@ package main
 import (
 	"compress/gzip"
 	"github.com/andybalholm/brotli"
+	"github.com/klauspost/compress/zstd"
 	"io"
 	"log"
 	"os"
@@ -15,15 +16,21 @@ var compressors = []struct {
 	writer    func(io.Writer) (io.WriteCloser, error)
 }{
 	{
-		".fasthttp.gz",
-		func(writer io.Writer) (io.WriteCloser, error) {
-			return gzip.NewWriterLevel(writer, gzip.BestCompression)
-		},
-	},
-	{
 		".fasthttp.br",
 		func(writer io.Writer) (io.WriteCloser, error) {
 			return brotli.NewWriterLevel(writer, brotli.BestCompression), nil
+		},
+	},
+	{
+		".fasthttp.zst",
+		func(writer io.Writer) (io.WriteCloser, error) {
+			return zstd.NewWriter(writer, zstd.WithEncoderLevel(zstd.SpeedBestCompression))
+		},
+	},
+	{
+		".fasthttp.gz",
+		func(writer io.Writer) (io.WriteCloser, error) {
+			return gzip.NewWriterLevel(writer, gzip.BestCompression)
 		},
 	},
 }

@@ -1,21 +1,22 @@
 version: '3'
 
 tasks:
-  default:
-    silent: true
-    cmds:
-      - echo "See all tasks with --list-all"
-
   ### BUILD
   build:
-    - task: build-www
-    - task: build-server
+    desc: Builds "www/" and the server
+    cmds:
+      - task: build-www
+      - task: build-server
 
   build-server:
+    desc: Build the server
+    vars:
+      OUTPUT: '{{if eq .GOOS "windows"}}./dist/server.exe{{else}}./dist/server{{end}}'
     cmds:
-      - go build -o ./dist/server ./server.go
+      - go build -o {{.OUTPUT}} ./server.go
 
   build-www:
+    desc: Build "www/"
     cmds:
       - task: clean-dist-www
       - bun --cwd=./www/ vite build
@@ -29,10 +30,13 @@ tasks:
 
   ### CLEAN
   clean:
-    - task: clean-www
-    - task: clean-server
+    desc: Cleans "www/" and the server
+    cmds:
+      - task: clean-www
+      - task: clean-server
 
   clean-git:
+    desc: Clean GIT (careful)
     cmds:
       - task: clean-git-untracked
       - task: clean-git-gc
@@ -51,11 +55,13 @@ tasks:
       - git clean -d -x -i
 
   clean-server:
+    desc: Clean the server
     cmds:
       - task: clean-dist-server
       - go clean
 
   clean-www:
+    desc: Clean "www/"
     cmds:
       - task: clean-dist-www
       - bun --cwd=./www/ exec "rm -rf ./node_modules/"
@@ -63,45 +69,63 @@ tasks:
       - bun --cwd=./www/ exec "rm -f bundle.html"
 
   clean-dist:
-    - task: clean-dist-www
-    - task: clean-dist-server
+    desc: Cleans only dist from "www/" and the server
+    cmds:
+      - task: clean-dist-www
+      - task: clean-dist-server
 
   clean-dist-server:
+    desc: Cleans only dist from the server
     cmds:
       - bun exec "rm -rf ./dist/"
 
   clean-dist-www:
+    desc: Cleans only dist from "www/"
     cmds:
       - bun --cwd=./www/ exec "rm -rf ./dist/"
 
   dev-www:
+    desc: Run "www/" in HMR mode
     cmds:
       - bun --cwd=./www/ vite dev
 
   ### FIX
   fix:
-    - task: fix-www
-    - task: fix-server
+    desc: Run formatters on "www/" and the server
+    cmds:
+      - task: fix-www
+      - task: fix-server
 
   fix-server:
+    desc: Run formatters on the server
     cmds:
       - go fmt
 
   fix-www:
+    desc: Run formatters on "www/"
     cmds:
       - bun --cwd=./www/ biome check --write
       - bun --cwd=./www/ sort-package-json --quiet
 
   ### INSTALL
   install:
-    - task: install-www
-    - task: install-server
+    desc: Installs dependencies for "www/" and the server
+    cmds:
+      - task: install-www
+      - task: install-server
+
+  install-ci:
+    cmds:
+      - task: install-www-ci
+      - task: install-server
 
   install-server:
+    desc: Install dependencies for the server
     cmds:
       - go mod download
 
   install-www:
+    desc: Install dependencies for "www/"
     cmds:
       - bun --cwd=./www/ install
 
@@ -111,17 +135,49 @@ tasks:
 
   ### LINT
   lint:
-    - task: lint-www
-    - task: lint-server
+    desc: Run linters on "www/" and the server
+    cmds:
+      - task: lint-www
+      - task: lint-server
 
   lint-server:
+    desc: Run linters on the server
     cmds:
       - golangci-lint run
 
   lint-www:
+    desc: Run linters on "www/"
     cmds:
       - bun --cwd=./www/ biome lint
       - bun --cwd=./www/ tsc --noEmit
+
+  start-server:
+    desc: Start the server (requires building "www/")
+    cmds:
+      - go run ./server.go
+
+  start-www:
+    desc: Start "www/" in preview mode (requires building "www/")
+    cmds:
+      - bun --cwd=./www/ vite preview
+
+  ### TIDY
+  tidy:
+    desc: Tidy "www/" and the server
+    cmds:
+      - task: tidy-www
+      - task: tidy-server
+
+  tidy-server:
+    desc: Tidy the server
+    cmds:
+      - go mod tidy
+
+  tidy-www:
+    desc: Tidy "www/"
+    cmds:
+      - bun --cwd=./www/ exec "rm -f bun.lock"
+      - bun --cwd=./www/ install -f
 
   x-script-www-minify:
     internal: true
@@ -132,25 +188,3 @@ tasks:
     internal: true
     cmds:
       - go run ./www/scripts/compress/main.go
-
-  start-server:
-    cmds:
-      - go run ./server.go
-
-  start-www:
-    cmds:
-      - bun --cwd=./www/ vite preview
-
-  ### TIDY
-  tidy:
-    - task: tidy-www
-    - task: tidy-server
-
-  tidy-server:
-    cmds:
-      - go mod tidy
-
-  tidy-www:
-    cmds:
-      - bun --cwd=./www/ exec "rm -f bun.lock"
-      - bun --cwd=./www/ install -f
