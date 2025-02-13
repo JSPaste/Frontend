@@ -1,4 +1,4 @@
-import { IconFocusAuto, IconFocusCentered } from '@tabler/icons-solidjs';
+import { IconFocusAuto, IconMaximize } from '@tabler/icons-solidjs';
 import { createEffect, on } from 'solid-js';
 import Dropdown from '#component/Dropdown.tsx';
 import { deviceScheme } from '#util/deviceScheme.ts';
@@ -27,7 +27,7 @@ export default function ThemeSection() {
 	return (
 		<fieldset class='fieldset p-4 border border-base-300 rounded-box gap-4'>
 			<legend class='fieldset-legend'>Theme</legend>
-			<div class='flex gap-2'>
+			<div class='flex gap-2 items-center'>
 				<label class='swap swap-rotate'>
 					<input
 						type='checkbox'
@@ -36,7 +36,7 @@ export default function ThemeSection() {
 						onClick={(e) => setThemeSchemeMode(e.currentTarget.checked ? 'device' : 'manual')}
 					/>
 					<IconFocusAuto class='swap-on' />
-					<IconFocusCentered class='swap-off' />
+					<IconMaximize class='swap-off' />
 				</label>
 				<label class='fieldset-label text-base-content gap-2'>
 					<input
@@ -48,12 +48,12 @@ export default function ThemeSection() {
 						checked={themeScheme() === 'light'}
 						onClick={(e) => setThemeScheme(e.currentTarget.checked ? 'light' : 'dark')}
 					/>
-					{themeSchemeMode() === 'device'
-						? 'Device color scheme'
-						: themeScheme() === 'dark'
-							? 'Dark color scheme'
-							: 'Light color scheme'}
 				</label>
+				{themeSchemeMode() === 'device'
+					? 'Device color scheme'
+					: themeScheme() === 'dark'
+						? 'Dark color scheme'
+						: 'Light color scheme'}
 			</div>
 			<Dropdown
 				disabled

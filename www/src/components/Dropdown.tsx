@@ -25,7 +25,8 @@ export default function Dropdown(props: DropdownProps) {
 				disabled={props.disabled}
 				type='button'
 				name={props.dropdownId}
-				class='btn'
+				// FIXME: cursor-not-allowed not working
+				class={`btn${props.disabled ? ' cursor-not-allowed' : ''}`}
 				style={`anchor-name:--${props.dropdownId}-dropdown-list-anchor`}
 				popovertarget={`${props.dropdownId}-dropdown-list`}
 			>
@@ -37,7 +38,7 @@ export default function Dropdown(props: DropdownProps) {
 			<ul
 				popover
 				id={`${props.dropdownId}-dropdown-list`}
-				class={`dropdown ${props.listPosition && props.listPosition} menu bg-base-200 w-52 max-h-54 rounded-box shadow-sm`}
+				class={`dropdown${props.listPosition ? ` ${props.listPosition}` : ''} menu bg-base-200 w-52 max-h-54 rounded-box shadow-sm`}
 				style={`position-anchor:--${props.dropdownId}-dropdown-list-anchor`}
 			>
 				<For each={props.listValues}>
