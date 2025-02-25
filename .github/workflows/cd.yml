@@ -1,4 +1,4 @@
-name: CD -> Release
+name: CD
 on:
   workflow_dispatch:
     inputs:
@@ -31,7 +31,7 @@ permissions:
 jobs:
   artifact:
     if: ${{ github.repository_owner == 'jspaste' && inputs.artifact-action != 'none' }}
-    name: Build artifact
+    name: Release artifact
     runs-on: ubuntu-latest
     permissions:
       attestations: write
@@ -124,7 +124,7 @@ jobs:
 
   container:
     if: ${{ github.repository_owner == 'jspaste' && inputs.image-action != 'none' }}
-    name: Build container image
+    name: Release container image
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
