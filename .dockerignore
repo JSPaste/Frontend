@@ -1,6 +1,7 @@
 *
 
 # Project files
+!/env.go
 !/go.mod
 !/go.sum
 !/LICENSE

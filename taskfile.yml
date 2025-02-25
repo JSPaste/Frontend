@@ -13,7 +13,7 @@ tasks:
     vars:
       OUTPUT: '{{if eq .GOOS "windows"}}./dist/server.exe{{else}}./dist/server{{end}}'
     cmds:
-      - go build -o {{.OUTPUT}} ./server.go
+      - go build -o {{.OUTPUT}}
 
   build-www:
     desc: Build "www/"

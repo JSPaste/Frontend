@@ -1,4 +1,4 @@
-name: CI -> Test
+name: CI/CD -> Preview
 on:
   workflow_dispatch:
   merge_group:
@@ -66,3 +66,34 @@ jobs:
           SERVER_PID=$!
           sleep 10
           kill $SERVER_PID
+
+      - name: Upload "www/" dist
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+        with:
+          name: dist-www
+          path: ./www/dist/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 1
+
+  preview:
+    name: Preview
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
+        with:
+          egress-policy: audit
+
+      - name: Download "www/" dist
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          name: dist-www
+          path: ./www/dist/
+
+      - name: Deploy preview
+        uses: cloudflare/wrangler-action@392082e81ffbcb9ebdde27400634aa004b35ea37 # v3.14.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_PAGES_DEPLOY_TOKEN }}
+          command: pages deploy ./www/dist --project-name=jspaste

@@ -1,0 +1,14 @@
+/*
+    Cache-Control: max-age=600, public, no-transform
+    X-Frame-Options: DENY
+    X-Robots-Tag: noindex, nofollow, noarchive, nositelinkssearchbox, nosnippet, notranslate, noimageindex
+    ! Access-Control-Allow-Origin
+    ! NEL
+    ! Report-To
+    ! Server-Timing
+
+/assets/*
+    Cache-Control: max-age=31536000, public, immutable, no-transform
+
+/*.html
+    Cache-Control: max-age=0, public, must-revalidate
