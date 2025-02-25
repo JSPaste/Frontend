@@ -13,7 +13,7 @@ tasks:
     vars:
       OUTPUT: '{{if eq .GOOS "windows"}}./dist/server.exe{{else}}./dist/server{{end}}'
     cmds:
-      - go build -o {{.OUTPUT}}
+      - go build -o {{.OUTPUT}} ./
 
   build-www:
     desc: Build "www/"
@@ -154,7 +154,7 @@ tasks:
   start-server:
     desc: Start the server (requires building "www/")
     cmds:
-      - go run ./server.go
+      - go run ./
 
   start-www:
     desc: Start "www/" in preview mode (requires building "www/")
