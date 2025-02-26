@@ -16,19 +16,19 @@ var compressors = []struct {
 	writer    func(io.Writer) (io.WriteCloser, error)
 }{
 	{
-		".fasthttp.br",
+		".br",
 		func(writer io.Writer) (io.WriteCloser, error) {
 			return brotli.NewWriterLevel(writer, brotli.BestCompression), nil
 		},
 	},
 	{
-		".fasthttp.zst",
+		".zst",
 		func(writer io.Writer) (io.WriteCloser, error) {
 			return zstd.NewWriter(writer, zstd.WithEncoderLevel(zstd.SpeedBestCompression))
 		},
 	},
 	{
-		".fasthttp.gz",
+		".gz",
 		func(writer io.Writer) (io.WriteCloser, error) {
 			return gzip.NewWriterLevel(writer, gzip.BestCompression)
 		},
