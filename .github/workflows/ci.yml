@@ -25,6 +25,10 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.ctx.outputs.branch }}
+      sha: ${{ steps.ctx.outputs.sha }}
+      sha_short: ${{ steps.ctx.outputs.sha_short }}
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
@@ -108,4 +112,4 @@ jobs:
         uses: cloudflare/wrangler-action@392082e81ffbcb9ebdde27400634aa004b35ea37 # v3.14.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_PAGES_DEPLOY_TOKEN }}
-          command: pages deploy ./www/dist --project-name=jspaste --branch="${{ steps.ctx.outputs.branch }}-${{ github.event.pull_request.number }}" --commit-hash="${{ steps.ctx.outputs.sha_short }}" --commit-message="${{ github.event.head_commit.message }}"
+          command: pages deploy ./www/dist --project-name=jspaste --branch="${{ needs.test.outputs.branch }}-${{ github.event.pull_request.number }}" --commit-hash="${{ needs.test.outputs.sha_short }}" --commit-message="${{ github.event.head_commit.message }}"
