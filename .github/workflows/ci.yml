@@ -130,4 +130,9 @@ jobs:
         uses: cloudflare/wrangler-action@392082e81ffbcb9ebdde27400634aa004b35ea37 # v3.14.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_PAGES_DEPLOY_TOKEN }}
-          command: pages deploy ./www/dist --project-name=jspaste --branch="${{ needs.test.outputs.branch }}-${{ github.event.pull_request.number }}" --commit-hash="${{ needs.test.outputs.sha }}" --commit-message="${{ github.event.head_commit.message }}"
+          command: >-
+            pages deploy ./www/dist
+            --project-name=jspaste
+            --branch="${{ github.event_name == 'pull_request' && format('{0}-{1}', needs.test.outputs.branch, github.event.pull_request.number) || needs.test.outputs.branch }}"
+            --commit-hash="${{ needs.test.outputs.sha }}"
+            --commit-message="${{ github.event.head_commit.message }}"
