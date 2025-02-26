@@ -17,7 +17,12 @@ func main() {
 	portEnv := getEnv("JSPF_PORT", uint16(3000)).(uint16)
 
 	fs := &fasthttp.FS{
-		FS:             www.Bundle(),
+		FS: www.Bundle(),
+		CompressedFileSuffixes: map[string]string{
+			"gzip": ".gz",
+			"br":   ".br",
+			"zstd": ".zst",
+		},
 		Compress:       true,
 		CompressBrotli: true,
 		CompressZstd:   true,
