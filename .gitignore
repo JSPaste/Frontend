@@ -2,6 +2,7 @@
 
 # Project files
 !/.env.example
+!/env.go
 !/go.mod
 !/go.sum
 !/LICENSE
