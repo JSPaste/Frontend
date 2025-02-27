@@ -69,7 +69,7 @@ func getEnv(key string, defaultValue interface{}) interface{} {
 			return value
 		}
 
-		slog.Info("Unexpected value for env key, falling back to default;", "key", key, "parseUint", value, "defaultValue", defaultValue)
+		slog.Info("Unexpected value for env key, falling back to default;", "key", key, "value", value, "defaultValue", defaultValue)
 	}
 
 	return defaultValue
