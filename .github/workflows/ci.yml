@@ -135,4 +135,4 @@ jobs:
             --project-name=jspaste
             --branch="${{ github.event_name == 'pull_request' && format('{0}-{1}', needs.test.outputs.branch, github.event.pull_request.number) || needs.test.outputs.branch }}"
             --commit-hash="${{ needs.test.outputs.sha }}"
-            --commit-message="${{ github.event.head_commit.message }}"
+            --commit-message="${{ needs.test.outputs.sha }}"
