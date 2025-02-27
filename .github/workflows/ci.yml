@@ -35,6 +35,16 @@ jobs:
         with:
           egress-policy: audit
 
+      - name: Save context information
+        id: ctx
+        env:
+          CTX_BRANCH: ${{ github.head_ref || github.ref_name }}
+          CTX_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          echo "branch=${CTX_BRANCH}" >>"$GITHUB_OUTPUT"
+          echo "sha=${CTX_SHA}" >>"$GITHUB_OUTPUT"
+          echo "sha_short=${CTX_SHA::7}" >>"$GITHUB_OUTPUT"
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@4bc047ad259df6fc24a6c9b0f9a0cb08cf17fbe5 # v2.0.1
 
@@ -73,7 +83,7 @@ jobs:
       - if: |
           ${{
             github.repository_owner == 'jspaste' && (
-              (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'renovate/')) ||
+              (github.event_name == 'pull_request' && !startsWith(needs.test.outputs.branch, 'renovate/')) ||
               (github.event_name == 'push' && needs.test.outputs.branch == 'dev')
             )
           }}
@@ -86,28 +96,11 @@ jobs:
           retention-days: 1
           compression-level: 0
 
-      - if: |
-          ${{
-            github.repository_owner == 'jspaste' && (
-              (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'renovate/')) ||
-              (github.event_name == 'push' && needs.test.outputs.branch == 'dev')
-            )
-          }}
-        name: Save context information
-        id: ctx
-        env:
-          CTX_BRANCH: ${{ github.head_ref || github.ref_name }}
-          CTX_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-        run: |
-          echo "branch=${CTX_BRANCH}" >>"$GITHUB_OUTPUT"
-          echo "sha=${CTX_SHA}" >>"$GITHUB_OUTPUT"
-          echo "sha_short=${CTX_SHA::7}" >>"$GITHUB_OUTPUT"
-
   preview:
     if: |
       ${{
         github.repository_owner == 'jspaste' && (
-          (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'renovate/')) ||
+          (github.event_name == 'pull_request' && !startsWith(needs.test.outputs.branch, 'renovate/')) ||
           (github.event_name == 'push' && needs.test.outputs.branch == 'dev')
         )
       }}
