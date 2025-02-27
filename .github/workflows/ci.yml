@@ -83,7 +83,7 @@ jobs:
       - if: |
           ${{
             github.repository_owner == 'jspaste' && (
-              (github.event_name == 'pull_request' && !startsWith(steps.ctx.outputs.branch, 'renovate/')) ||
+              (github.event_name == 'pull_request' && !startsWith(steps.ctx.outputs.branch, 'renovate/')) && !startsWith(steps.ctx.outputs.branch, 'gh-readonly-queue/') ||
               (github.event_name == 'push' && steps.ctx.outputs.branch == 'dev')
             )
           }}
@@ -100,7 +100,7 @@ jobs:
     if: |
       ${{
         github.repository_owner == 'jspaste' && (
-          (github.event_name == 'pull_request' && !startsWith(needs.test.outputs.branch, 'renovate/')) ||
+          (github.event_name == 'pull_request' && !startsWith(needs.test.outputs.branch, 'renovate/')) && !startsWith(steps.ctx.outputs.branch, 'gh-readonly-queue/') ||
           (github.event_name == 'push' && needs.test.outputs.branch == 'dev')
         )
       }}
