@@ -1,21 +1,29 @@
 import { makePersisted } from '@solid-primitives/storage';
 import { createSignal } from 'solid-js';
-import type { ThemeKeys } from '#util/themes.ts';
+import { type DeviceScheme, deviceScheme } from '#util/deviceScheme.ts';
+import type { ThemeKeys, ThemeSchemeMode } from '#util/theme.ts';
 
-export const [editorAPI, setEditorAPI] = makePersisted(createSignal('https://jspaste.eu/api/v2/documents'), {
+export const [editorBackendAuthority, setEditorBackendAuthority] = makePersisted(createSignal('https://jspaste.eu'), {
 	storage: localStorage,
-	name: 'x-jspaste-frontend-editor-api'
+	name: 'jspaste-backend-authority-v1'
 });
 
 export const [editorContent, setEditorContent] = makePersisted(createSignal(''), {
 	storage: localStorage,
-	name: 'x-jspaste-frontend-editor-content'
+	name: 'jspaste-editor-content-v1'
 });
 
-export const [theme, setTheme] = makePersisted(
-	createSignal<ThemeKeys>(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
-	{
-		storage: localStorage,
-		name: 'x-jspaste-frontend-editor-theme'
-	}
-);
+export const [theme, setTheme] = makePersisted(createSignal<ThemeKeys>('default'), {
+	storage: localStorage,
+	name: 'jspaste-theme-v1'
+});
+
+export const [themeScheme, setThemeScheme] = makePersisted(createSignal<DeviceScheme>(deviceScheme()), {
+	storage: localStorage,
+	name: 'jspaste-theme-scheme-v1'
+});
+
+export const [themeSchemeMode, setThemeSchemeMode] = makePersisted(createSignal<ThemeSchemeMode>('device'), {
+	storage: localStorage,
+	name: 'jspaste-theme-scheme-mode-v1'
+});

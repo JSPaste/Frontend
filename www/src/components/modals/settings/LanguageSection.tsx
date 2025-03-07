@@ -1,20 +1,18 @@
-import { For } from 'solid-js';
+import Dropdown from '#component/Dropdown.tsx';
 import { type LangKeys, langs, language, setLanguage } from '#util/langs.ts';
 
 export default function LanguageSection() {
 	return (
-		<div class='flex flex-col gap-4'>
-			<p>Editor lang:</p>
-			<select
-				name='language-select'
-				class='select select-bordered w-full max-w-xs'
-				onChange={(e) => setLanguage(e.target.value as LangKeys)}
-				value={language()}
-			>
-				<For each={Object.keys(langs).sort((a, b) => a.localeCompare(b))}>
-					{(lang) => <option>{lang}</option>}
-				</For>
-			</select>
-		</div>
+		<fieldset class='fieldset p-4 border border-base-300 rounded-box gap-4'>
+			<legend class='fieldset-legend'>Language</legend>
+			<Dropdown
+				dropdownId='language'
+				label='Language selector'
+				listPosition='dropdown-top'
+				labelValue={language()}
+				listValues={Object.keys(langs).sort()}
+				onClick={(e) => e.target.innerHTML in langs && setLanguage(e.target.innerHTML as LangKeys)}
+			/>
+		</fieldset>
 	);
 }

@@ -1,72 +1,68 @@
-import { createBreakpoints } from '@solid-primitives/media';
-import { IconChevronLeft, IconChevronRight } from '@tabler/icons-solidjs';
-import { For, createEffect, createSignal } from 'solid-js';
-import { breakpoints } from '#util/breakpoints.ts';
-import { setTheme, theme } from '#util/persistence.ts';
-import { type ThemeKeys, Themes } from '#util/themes.ts';
+import { IconFocusAuto, IconMaximize } from '@tabler/icons-solidjs';
+import { createEffect, on } from 'solid-js';
+import Dropdown from '#component/Dropdown.tsx';
+import { deviceScheme } from '#util/deviceScheme.ts';
+import {
+	setTheme,
+	setThemeScheme,
+	setThemeSchemeMode,
+	theme,
+	themeScheme,
+	themeSchemeMode
+} from '#util/persistence.ts';
+import { Theme, type ThemeKeys } from '#util/theme.ts';
 
 export default function ThemeSection() {
-	const matches = createBreakpoints(breakpoints);
+	createEffect(
+		on([themeSchemeMode, deviceScheme], ([themeSchemeMode, deviceScheme]) => {
+			if (themeSchemeMode === 'device') {
+				setThemeScheme(deviceScheme);
+			}
 
-	const breakpoint = () => (matches.sm ? 3 : 2);
-
-	const [maxColumns, setMaxColumns] = createSignal(breakpoint());
-	const [currentIndex, setCurrentIndex] = createSignal(0);
-
-	const changeIndex = (delta: number) => {
-		setCurrentIndex((prev) => (prev + delta + Object.keys(Themes).length) % Object.keys(Themes).length);
-	};
-
-	createEffect(() => document.documentElement.setAttribute('data-theme', theme()));
-
-	createEffect(() => setMaxColumns(breakpoint()));
-
-	createEffect(() => {
-		const maxIndex = Math.max(0, Object.keys(Themes).length - maxColumns());
-
-		if (currentIndex() > maxIndex) {
-			setCurrentIndex(maxIndex);
-		}
-	});
+			(document.getElementById('theme-color-scheme-toggle') as HTMLInputElement).indeterminate =
+				themeSchemeMode === 'device';
+		})
+	);
 
 	return (
-		<div class='flex flex-col gap-4'>
-			<p>Editor theme:</p>
-			<div class='flex justify-between align-middle items-center'>
-				<button
-					type='button'
-					aria-label='Previous'
-					class='btn btn-square btn-sm'
-					onClick={() => changeIndex(-1)}
-					disabled={currentIndex() === 0}
-				>
-					<IconChevronLeft />
-				</button>
-				<div class={`w-full pl-5 pr-5 grid grid-flow-col gap-4 grid-cols-${maxColumns()}`}>
-					<For each={Object.entries(Themes).slice(currentIndex(), currentIndex() + maxColumns())}>
-						{([id, name]) => (
-							<input
-								checked={id === theme()}
-								type='radio'
-								name='theme-button'
-								class='btn theme-controller join-horizontal'
-								aria-label={name}
-								value={id}
-								onChange={() => setTheme(id as ThemeKeys)}
-							/>
-						)}
-					</For>
-				</div>
-				<button
-					type='button'
-					aria-label='Next'
-					class='btn btn-square btn-sm'
-					onClick={() => changeIndex(1)}
-					disabled={currentIndex() === Object.keys(Themes).length - maxColumns()}
-				>
-					<IconChevronRight />
-				</button>
+		<fieldset class='fieldset p-4 border border-base-300 rounded-box gap-4'>
+			<legend class='fieldset-legend'>Theme</legend>
+			<div class='flex gap-2 items-center'>
+				<label class='swap swap-rotate'>
+					<input
+						type='checkbox'
+						name='theme-device-scheme-swap'
+						checked={themeSchemeMode() === 'device'}
+						onClick={(e) => setThemeSchemeMode(e.currentTarget.checked ? 'device' : 'manual')}
+					/>
+					<IconFocusAuto class='swap-on' />
+					<IconMaximize class='swap-off' />
+				</label>
+				<label class='fieldset-label text-base-content gap-2'>
+					<input
+						type='checkbox'
+						id='theme-color-scheme-toggle'
+						class='toggle'
+						value='light'
+						disabled={themeSchemeMode() === 'device'}
+						checked={themeScheme() === 'light'}
+						onClick={(e) => setThemeScheme(e.currentTarget.checked ? 'light' : 'dark')}
+					/>
+				</label>
+				{themeSchemeMode() === 'device'
+					? 'Device color scheme'
+					: themeScheme() === 'dark'
+						? 'Dark color scheme'
+						: 'Light color scheme'}
 			</div>
-		</div>
+			<Dropdown
+				disabled
+				dropdownId='theme'
+				label='Theme selector'
+				labelValue={theme()}
+				listValues={Object.keys(Theme)}
+				onClick={(e) => e.target.innerHTML in Theme && setTheme(e.target.innerHTML as ThemeKeys)}
+			/>
+		</fieldset>
 	);
 }

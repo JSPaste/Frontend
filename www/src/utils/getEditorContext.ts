@@ -5,7 +5,7 @@ export const getEditorContext = () => {
 	const ctx = useContext(ContextEditor);
 
 	if (!ctx) {
-		throw new Error('???');
+		throw new Error('getEditorContext: no ContextEditor available');
 	}
 
 	return ctx;

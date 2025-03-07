@@ -9,13 +9,13 @@ type FooterButtonProps = {
 
 export default function FooterButton(props: FooterButtonProps) {
 	return (
-		<div class='lg:tooltip tooltip-top' data-tip={!props.isDisabled ? props.label : `${props.label} (Disabled)`}>
+		<div class='sm:tooltip tooltip-top' data-tip={props.isDisabled ? `${props.label} (Disabled)` : props.label}>
 			<button
+				disabled={props.isDisabled}
 				type='button'
 				aria-label={props.label}
 				class='btn btn-square btn-sm'
 				onClick={props.onClick}
-				disabled={props.isDisabled ?? false}
 			>
 				{props.icon}
 			</button>

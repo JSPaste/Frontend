@@ -1,17 +1,13 @@
-FROM docker.io/oven/bun:1-alpine AS builder-www
+FROM --platform=$BUILDPLATFORM docker.io/oven/bun:1-alpine AS builder-www
 WORKDIR /build/
 
-# TODO: Still on Alpine 3.20, so only golang 1.22 is available
-COPY --from=docker.io/library/golang:1.23-alpine /usr/local/go/ /usr/local/go/
 COPY . ./
 
-ENV PATH="/usr/local/go/bin:${PATH}"
-
 # Vite requires Node.js on build process
-RUN apk add --no-cache go-task nodejs
+RUN apk add --no-cache go go-task nodejs
 RUN go-task install-www build-www
 
-FROM docker.io/library/golang:1.23-alpine AS builder-server
+FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.24-alpine AS builder-server
 WORKDIR /build/
 
 # TODO: Uncomment when CI updates to buildah >=v1.38.0
@@ -20,10 +16,13 @@ WORKDIR /build/
 #COPY --from=builder-www --exclude=./www/ /build/. ./
 COPY --from=builder-www /build/. ./
 
-RUN apk add --no-cache go-task
-RUN go-task install-server build-server
+ARG TARGETOS
+ARG TARGETARCH
 
-FROM docker.io/library/alpine:3.21
+RUN apk add --no-cache go-task
+RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go-task install-server build-server
+
+FROM --platform=$BUILDPLATFORM docker.io/library/alpine:3.21
 WORKDIR /frontend/
 
 RUN addgroup jspaste && \
