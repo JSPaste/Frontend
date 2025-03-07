@@ -1,3 +1,4 @@
+---
 name: CD
 on:
   workflow_dispatch:
@@ -30,7 +31,7 @@ permissions:
 
 jobs:
   artifact:
-    if: ${{ github.repository_owner == 'jspaste' && inputs.artifact-action != 'none' }}
+    if: github.repository_owner == 'jspaste' && inputs.artifact-action != 'none'
     name: Release artifact
     runs-on: ubuntu-latest
     permissions:
@@ -116,7 +117,7 @@ jobs:
           zip -j -X -9 -l -o ./dist/frontend_${{ steps.tags.outputs.tag }}_windows-amd64.zip .env.example LICENSE README.md ./dist/server.exe
           zip -T ./dist/frontend_${{ steps.tags.outputs.tag }}_windows-amd64.zip
 
-      - if: ${{ inputs.artifact-action == 'build-release' }}
+      - if: inputs.artifact-action == 'build-release'
         name: Release artifact
         uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1.16.0
         with:
@@ -127,7 +128,7 @@ jobs:
           prerelease: ${{ steps.ctx.outputs.branch != 'stable' }}
           generateReleaseNotes: ${{ steps.ctx.outputs.branch == 'stable' }}
 
-      - if: ${{ inputs.artifact-action == 'build-release' }}
+      - if: inputs.artifact-action == 'build-release'
         name: Attest artifact
         uses: actions/attest-build-provenance@c074443f1aee8d4aeeae555aebba3282517141b2 # v2.2.3
         with:
@@ -136,7 +137,7 @@ jobs:
             dist/*.zip
 
   container:
-    if: ${{ github.repository_owner == 'jspaste' && inputs.image-action != 'none' }}
+    if: github.repository_owner == 'jspaste' && inputs.image-action != 'none'
     name: Release container image
     runs-on: ubuntu-latest
     env:
@@ -201,7 +202,7 @@ jobs:
           extra-args: |
             --squash
 
-      - if: ${{ inputs.image-action == 'build-release' }}
+      - if: inputs.image-action == 'build-release'
         name: Login to GHCR
         uses: redhat-actions/podman-login@4934294ad0449894bcd1e9f191899d7292469603 # v1.7
         with:
@@ -209,7 +210,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ${{ env.REGISTRY }}
 
-      - if: ${{ inputs.image-action == 'build-release' }}
+      - if: inputs.image-action == 'build-release'
         name: Push to GHCR
         id: push-image
         uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c # v2.8
@@ -218,7 +219,7 @@ jobs:
           tags: ${{ steps.build-image.outputs.tags }}
           registry: ${{ env.REGISTRY }}
 
-      - if: ${{ inputs.image-action == 'build-release' }}
+      - if: inputs.image-action == 'build-release'
         name: Attest image
         uses: actions/attest-build-provenance@c074443f1aee8d4aeeae555aebba3282517141b2 # v2.2.3
         with:
