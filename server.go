@@ -49,11 +49,11 @@ func main() {
 		path = string(ctx.Request.URI().Path())
 
 		if strings.HasPrefix(path, "/assets/") {
-			ctx.Response.Header.Set("Cache-Control", "max-age=31536000, public, immutable, no-transform")
+			ctx.Response.Header.Set("Cache-Control", "max-age=31536000, public, immutable")
 		} else if strings.HasSuffix(path, ".html") {
 			ctx.Response.Header.Set("Cache-Control", "max-age=0, public, must-revalidate")
 		} else {
-			ctx.Response.Header.Set("Cache-Control", "max-age=600, public, no-transform")
+			ctx.Response.Header.Set("Cache-Control", "max-age=600, public")
 		}
 
 		ctx.Response.Header.Del("Last-Modified")
