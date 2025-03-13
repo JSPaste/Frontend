@@ -182,6 +182,7 @@ jobs:
           TAGS+=("${SHA}")
           TAGS+=("${TIMESTAMP}-${SHA_SHORT}")
 
+          echo "version=${TIMESTAMP}-${SHA_SHORT}" >>"$GITHUB_OUTPUT"
           echo "list=${TAGS[*]}" >>"$GITHUB_OUTPUT"
 
       - name: Checkout
@@ -201,6 +202,10 @@ jobs:
           tags: ${{ steps.tags.outputs.list }}
           extra-args: |
             --squash
+            --identity-label=false
+            --label="org.opencontainers.image.created=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            --label="org.opencontainers.image.revision=${{ steps.ctx.outputs.sha }}"
+            --label="org.opencontainers.image.version=${{ steps.tags.outputs.version }}"
 
       - if: inputs.image-action == 'build-release'
         name: Login to GHCR
