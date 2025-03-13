@@ -206,9 +206,9 @@ jobs:
           extra-args: |
             --squash
             --identity-label=false
-            --label="org.opencontainers.image.created=${{ steps.tags.outputs.timestamp_iso }}"
-            --label="org.opencontainers.image.revision=${{ steps.ctx.outputs.sha }}"
-            --label="org.opencontainers.image.version=${{ steps.tags.outputs.version }}"
+            --label=org.opencontainers.image.created=${{ steps.tags.outputs.timestamp_iso }}
+            --label=org.opencontainers.image.revision=${{ steps.ctx.outputs.sha }}
+            --label=org.opencontainers.image.version=${{ steps.tags.outputs.version }}
 
       - if: inputs.image-action == 'build-release'
         name: Login to GHCR
