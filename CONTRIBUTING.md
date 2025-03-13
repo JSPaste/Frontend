@@ -3,7 +3,7 @@
 To work on the project we need some tools..:
 
 - [Bun](https://bun.sh) (latest version; runtime)
-- [Go](https://go.dev) (version tracked in [`go.mod`](go.mod); runtime)
+- [Go](https://go.dev) (version tracked in *toolchain* [`go.mod`](go.mod); runtime)
 - [task](https://taskfile.dev/installation/) (latest version; scripts execution)
 - [golangci-lint](https://golangci-lint.run/welcome/install/#local-installation) (latest version; linting)
 
@@ -15,7 +15,7 @@ task install
 
 ## Scripts
 
-The project uses `task` to manage scripts. To list all available scripts, run the following command:
+The project uses `task` to manage scripts. To list all available scripts, run the following command..:
 
 ```shell
 task --list-all
@@ -63,7 +63,7 @@ task build-server
 ## Maintenance
 
 Over time, local repositories can become messy with untracked files, registered hooks, and temporary files in the .git
-folder. To clean up the repository (and possibly all your uncommitted work), run the following command:
+folder. To clean up the repository (and possibly all your uncommitted work), run the following command..:
 
 ```shell
 task clean-git

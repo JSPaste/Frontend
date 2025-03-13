@@ -1,6 +1,6 @@
 # Frontend
 
-This repository contains the frontend code for [JSPaste](https://jspaste.eu).
+The web based editor for JSPaste.
 
 ## Supported Browsers
 
