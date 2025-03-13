@@ -7,13 +7,14 @@ import (
 	"io"
 	"log"
 	"log/slog"
+	"net"
 	"os"
 	"strings"
 	"time"
 )
 
 func main() {
-	bindAddressEnv := getEnv("JSPF_BIND_ADDRESS", "localhost").(string)
+	bindAddressEnv := getEnv("JSPF_BIND_ADDRESS", "[::]").(string)
 	portEnv := getEnv("JSPF_PORT", uint16(3000)).(uint16)
 
 	fs := &fasthttp.FS{
@@ -68,9 +69,15 @@ func main() {
 		WriteTimeout:          60 * time.Second,
 	}
 
-	slog.Info("Server running;", "bindAddress", bindAddressEnv, "port", portEnv)
+	listen, err := net.Listen("tcp", fmt.Sprintf("%s:%d", bindAddressEnv, portEnv))
+	if err != nil {
+		slog.Error("Can't listen address;", "error", err)
+		os.Exit(1)
+	}
 
-	if err := server.ListenAndServe(fmt.Sprintf("%s:%d", bindAddressEnv, portEnv)); err != nil {
+	slog.Info("Server running;", "bindAddress", listen.Addr().(*net.TCPAddr).IP, "port", listen.Addr().(*net.TCPAddr).Port)
+
+	if err = server.Serve(listen); err != nil {
 		slog.Error("Unexpected server status;", "error", err)
 		os.Exit(1)
 	}

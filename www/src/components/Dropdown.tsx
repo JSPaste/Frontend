@@ -1,4 +1,5 @@
 import { IconCaretDownFilled } from '@tabler/icons-solidjs';
+import { clsx } from 'clsx/lite';
 import { For, type JSX } from 'solid-js';
 
 type DropdownProps = {
@@ -26,7 +27,7 @@ export default function Dropdown(props: DropdownProps) {
 				type='button'
 				name={props.dropdownId}
 				// FIXME: cursor-not-allowed not working
-				class={`btn${props.disabled ? ' cursor-not-allowed' : ''}`}
+				class={clsx('btn', props.disabled && 'cursor-not-allowed')}
 				style={`anchor-name:--${props.dropdownId}-dropdown-list-anchor`}
 				popovertarget={`${props.dropdownId}-dropdown-list`}
 			>
@@ -38,7 +39,11 @@ export default function Dropdown(props: DropdownProps) {
 			<ul
 				popover
 				id={`${props.dropdownId}-dropdown-list`}
-				class={`dropdown${props.listPosition ? ` ${props.listPosition}` : ''} menu bg-base-200 w-52 max-h-54 rounded-box shadow-sm`}
+				class={clsx(
+					'dropdown',
+					props.listPosition && props.listPosition,
+					'menu bg-base-200 w-52 max-h-54 rounded-box shadow-sm'
+				)}
 				style={`position-anchor:--${props.dropdownId}-dropdown-list-anchor`}
 			>
 				<For each={props.listValues}>

@@ -12,7 +12,7 @@ export default {
 	appType: 'spa',
 	cacheDir: './node_modules/.tmp',
 	build: {
-		target: 'es2022',
+		target: 'es2023',
 		cssMinify: 'lightningcss',
 		outDir: './dist/',
 		reportCompressedSize: false,
@@ -27,7 +27,7 @@ export default {
 	css: {
 		transformer: 'lightningcss',
 		lightningcss: {
-			targets: browserslistToTargets(browserslist('defaults'))
+			targets: browserslistToTargets(browserslist('Chrome >= 114, Firefox >= 125, Safari >= 17'))
 		}
 	},
 	plugins: [

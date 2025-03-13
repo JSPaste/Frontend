@@ -1,7 +1,7 @@
+---
 version: '3'
 
 tasks:
-  ### BUILD
   build:
     desc: Builds "www/" and the server
     cmds:
@@ -11,9 +11,11 @@ tasks:
   build-server:
     desc: Build the server
     vars:
+      FLAG_RACE: '{{if eq .RACE "true"}}-race{{end}}'
+      FLAGS: '{{if eq .DEBUG "true"}}-gcflags="all=-N -l" {{.FLAG_RACE}}{{else}}-ldflags="-w -s" -trimpath {{.FLAG_RACE}}{{end}}'
       OUTPUT: '{{if eq .GOOS "windows"}}./dist/server.exe{{else}}./dist/server{{end}}'
     cmds:
-      - go build -o {{.OUTPUT}} ./
+      - go build {{.FLAGS}} -o {{.OUTPUT}} ./
 
   build-www:
     desc: Build "www/"
@@ -28,7 +30,6 @@ tasks:
       - task: clean-dist-www
       - NODE_ENV=development bun --cwd=./www/ vite build
 
-  ### CLEAN
   clean:
     desc: Cleans "www/" and the server
     cmds:
@@ -89,7 +90,6 @@ tasks:
     cmds:
       - bun --cwd=./www/ vite dev
 
-  ### FIX
   fix:
     desc: Run formatters on "www/" and the server
     cmds:
@@ -107,7 +107,6 @@ tasks:
       - bun --cwd=./www/ biome check --write
       - bun --cwd=./www/ sort-package-json --quiet
 
-  ### INSTALL
   install:
     desc: Installs dependencies for "www/" and the server
     cmds:
@@ -133,7 +132,6 @@ tasks:
     cmds:
       - bun --cwd=./www/ install --frozen-lockfile
 
-  ### LINT
   lint:
     desc: Run linters on "www/" and the server
     cmds:
@@ -161,7 +159,6 @@ tasks:
     cmds:
       - bun --cwd=./www/ vite preview
 
-  ### TIDY
   tidy:
     desc: Tidy "www/" and the server
     cmds:
