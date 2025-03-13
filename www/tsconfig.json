@@ -3,10 +3,10 @@
 	"compilerOptions": {
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js",
-		"lib": ["DOM", "DOM.Iterable", "ES2022"],
+		"lib": ["DOM", "DOM.Iterable", "ES2023"],
 		"module": "ESNext",
 		"moduleResolution": "Bundler",
-		"target": "ES2022",
+		"target": "ES2023",
 
 		"allowImportingTsExtensions": true,
 		"allowJs": true,

@@ -12,7 +12,7 @@ export default {
 	appType: 'spa',
 	cacheDir: './node_modules/.tmp',
 	build: {
-		target: 'es2022',
+		target: 'es2023',
 		cssMinify: 'lightningcss',
 		outDir: './dist/',
 		reportCompressedSize: false,
