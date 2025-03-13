@@ -172,6 +172,7 @@ jobs:
           SHA_SHORT: ${{ steps.ctx.outputs.sha_short }}
         run: |
           TIMESTAMP="$(date +%Y.%m.%d)"
+          TIMESTAMP_ISO="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
           if [[ "${BRANCH}" == "stable" ]]; then
             TAGS+=("latest")
@@ -182,6 +183,8 @@ jobs:
           TAGS+=("${SHA}")
           TAGS+=("${TIMESTAMP}-${SHA_SHORT}")
 
+          echo "timestamp=${TIMESTAMP}" >>"$GITHUB_OUTPUT"
+          echo "timestamp_iso=${TIMESTAMP_ISO}" >>"$GITHUB_OUTPUT"
           echo "version=${TIMESTAMP}-${SHA_SHORT}" >>"$GITHUB_OUTPUT"
           echo "list=${TAGS[*]}" >>"$GITHUB_OUTPUT"
 
@@ -203,7 +206,7 @@ jobs:
           extra-args: |
             --squash
             --identity-label=false
-            --label="org.opencontainers.image.created=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            --label="org.opencontainers.image.created=${{ steps.tags.outputs.timestamp_iso }}"
             --label="org.opencontainers.image.revision=${{ steps.ctx.outputs.sha }}"
             --label="org.opencontainers.image.version=${{ steps.tags.outputs.version }}"
 
