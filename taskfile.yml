@@ -10,12 +10,14 @@ tasks:
 
   build-server:
     desc: Build the server
+    env:
+      CGO_ENABLED: '{{if eq .RACE "true"}}1{{else}}0{{end}}'
     vars:
       FLAG_RACE: '{{if eq .RACE "true"}}-race{{end}}'
       FLAGS: '{{if eq .DEBUG "true"}}-gcflags="all=-N -l" {{.FLAG_RACE}}{{else}}-ldflags="-w -s" -trimpath {{.FLAG_RACE}}{{end}}'
       OUTPUT: '{{if eq .GOOS "windows"}}./dist/server.exe{{else}}./dist/server{{end}}'
     cmds:
-      - CGO_ENABLED=0 go build {{.FLAGS}} -o {{.OUTPUT}} ./
+      - go build {{.FLAGS}} -o {{.OUTPUT}} ./
 
   build-www:
     desc: Build "www/"
@@ -26,9 +28,11 @@ tasks:
       - task: x-script-www-compress
 
   build-www-debug:
+    env:
+      NODE_ENV: development
     cmds:
       - task: clean-dist-www
-      - NODE_ENV=development bun --cwd=./www/ vite build
+      - bun --cwd=./www/ vite build
 
   clean:
     desc: Cleans "www/" and the server
