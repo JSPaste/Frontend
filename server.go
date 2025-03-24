@@ -40,28 +40,28 @@ func main() {
 
 		if !strings.Contains(path, ".") {
 			ctx.Request.SetRequestURI("/index.html")
-			ctx.Response.Header.Set("Content-Type", "text/html; charset=utf-8")
+			ctx.SetContentType("text/html; charset=utf-8")
 		}
 
 		requestHandler(ctx)
 
 		if ctx.Response.StatusCode() == fasthttp.StatusNotFound {
 			ctx.Request.SetRequestURI("/index.html")
-			ctx.Response.Header.Set("Content-Type", "text/html; charset=utf-8")
+			ctx.SetContentType("text/html; charset=utf-8")
 			requestHandler(ctx)
 		}
 
 		path = string(ctx.Request.URI().Path())
 
 		if strings.HasPrefix(path, "/assets/") {
-			ctx.Response.Header.Set("Cache-Control", "max-age=31536000, public, immutable")
+			ctx.Response.Header.Set(fasthttp.HeaderCacheControl, "max-age=31536000, public, immutable")
 		} else if strings.HasSuffix(path, ".html") {
-			ctx.Response.Header.Set("Cache-Control", "max-age=0, public, must-revalidate")
+			ctx.Response.Header.Set(fasthttp.HeaderCacheControl, "max-age=0, public, must-revalidate")
 		} else {
-			ctx.Response.Header.Set("Cache-Control", "max-age=600, public")
+			ctx.Response.Header.Set(fasthttp.HeaderCacheControl, "max-age=600, public")
 		}
 
-		ctx.Response.Header.Del("Last-Modified")
+		ctx.Response.Header.Del(fasthttp.HeaderLastModified)
 	}
 
 	server := &fasthttp.Server{
@@ -79,7 +79,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	slog.Info("Server running;", "bindAddress", listen.Addr().(*net.TCPAddr).IP, "port", listen.Addr().(*net.TCPAddr).Port)
+	slog.Info("Server running;", "listening", listen.Addr())
 
 	if err = server.Serve(listen); err != nil {
 		slog.Error("Unexpected server status;", "error", err)

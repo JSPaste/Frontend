@@ -15,7 +15,7 @@ tasks:
       FLAGS: '{{if eq .DEBUG "true"}}-gcflags="all=-N -l" {{.FLAG_RACE}}{{else}}-ldflags="-w -s" -trimpath {{.FLAG_RACE}}{{end}}'
       OUTPUT: '{{if eq .GOOS "windows"}}./dist/server.exe{{else}}./dist/server{{end}}'
     cmds:
-      - go build {{.FLAGS}} -o {{.OUTPUT}} ./
+      - CGO_ENABLED=0 go build {{.FLAGS}} -o {{.OUTPUT}} ./
 
   build-www:
     desc: Build "www/"
