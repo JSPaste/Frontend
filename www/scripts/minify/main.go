@@ -30,7 +30,7 @@ func main() {
 		}
 
 		if !info.IsDir() {
-			if err := minify(m, path); err != nil {
+			if err = minify(m, path); err != nil {
 				return err
 			}
 
@@ -58,7 +58,7 @@ func minify(m *min.M, path string) error {
 		return err
 	}
 
-	if err := os.WriteFile(path, minified, 0644); err != nil {
+	if err = os.WriteFile(path, minified, 0644); err != nil {
 		return err
 	}
 

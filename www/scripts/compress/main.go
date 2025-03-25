@@ -43,7 +43,7 @@ func main() {
 
 		if !info.IsDir() && regexp.MustCompile(`\.(css|html|js|json|svg|xml)$`).MatchString(info.Name()) {
 			for _, compressor := range compressors {
-				if err := compress(path, compressor.extension, compressor.writer); err != nil {
+				if err = compress(path, compressor.extension, compressor.writer); err != nil {
 					return err
 				}
 			}
@@ -63,19 +63,19 @@ func compress(path, extension string, compressor func(io.Writer) (io.WriteCloser
 	if err != nil {
 		return err
 	}
-	defer inFile.Close()
+	defer inFile.Close() //nolint:errcheck
 
 	outFile, err := os.Create(path + extension)
 	if err != nil {
 		return err
 	}
-	defer outFile.Close()
+	defer outFile.Close() //nolint:errcheck
 
 	writer, err := compressor(outFile)
 	if err != nil {
 		return err
 	}
-	defer writer.Close()
+	defer writer.Close() //nolint:errcheck
 
 	_, err = io.Copy(writer, inFile)
 	return err
