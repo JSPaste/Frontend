@@ -11,7 +11,6 @@ var dist embed.FS
 
 func Bundle() fs.FS {
 	build, err := fs.Sub(dist, "dist")
-
 	if err != nil {
 		log.Fatal(err)
 	}
