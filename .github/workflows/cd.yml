@@ -136,17 +136,13 @@ jobs:
             dist/*.tar.xz
             dist/*.zip
 
-  container:
+  container-build:
     if: github.repository_owner == 'jspaste' && inputs.image-action != 'none'
-    name: Release container image
+    name: Build container image
     runs-on: ubuntu-latest
-    env:
-      REGISTRY: ghcr.io
-
-    permissions:
-      attestations: write
-      id-token: write
-      packages: write
+    outputs:
+      image: ${{ steps.build-image.outputs.image }}
+      tags: ${{ steps.build-image.outputs.tags }}
 
     steps:
       - name: Harden Runner
@@ -211,26 +207,74 @@ jobs:
             --label=org.opencontainers.image.version=${{ steps.tags.outputs.version }}
 
       - if: inputs.image-action == 'build-release'
-        name: Login to GHCR
-        uses: redhat-actions/podman-login@4934294ad0449894bcd1e9f191899d7292469603 # v1.7
-        with:
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: ${{ env.REGISTRY }}
+        name: Export container image
+        run: |
+          mkdir -p /tmp/.container
+          buildah push --format oci ${{ steps.ctx.outputs.sha }} oci-archive:/tmp/.container/frontend.tar
 
       - if: inputs.image-action == 'build-release'
-        name: Push to GHCR
+        name: Upload container archive
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: container-archive
+          path: /tmp/.container/frontend.tar
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+
+  container-release:
+    if: github.repository_owner == 'jspaste' && inputs.image-action == 'build-release'
+    name: Release container image
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        registry:
+          - domain: ghcr.io
+            user: ${{ github.repository_owner }}
+            token: ${{ secrets.GITHUB_TOKEN }}
+          - name: quay.io
+            user: ${{ secrets.QUAY_PRODUCTION_CD_USER }}
+            token: ${{ secrets.QUAY_PRODUCTION_CD_TOKEN }}
+
+    permissions:
+      attestations: write
+      id-token: write
+      packages: write
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@c6295a65d1254861815972266d5933fd6e532bdf # v2.11.1
+        with:
+          egress-policy: audit
+
+      - name: Download container archive
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
+        with:
+          name: container-archive
+          path: /tmp/.container/frontend.tar
+
+      - name: Import container image
+        run: |
+          buildah pull oci-archive:/tmp/.container/frontend.tar
+
+      - name: Login to registry
+        uses: redhat-actions/podman-login@4934294ad0449894bcd1e9f191899d7292469603 # v1.7
+        with:
+          registry: ${{ matrix.registry.domain }}
+          username: ${{ matrix.registry.user }}
+          password: ${{ matrix.registry.token }}
+
+      - name: Push to registry
         id: push-image
         uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c # v2.8
         with:
-          image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tags }}
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ matrix.registry.domain }}
+          image: ${{ needs.container-build.outputs.image }}
+          tags: ${{ needs.container-build.outputs.tags }}
 
-      - if: inputs.image-action == 'build-release'
-        name: Attest image
+      - name: Attest image
         uses: actions/attest-build-provenance@c074443f1aee8d4aeeae555aebba3282517141b2 # v2.2.3
         with:
-          subject-name: "${{ env.REGISTRY }}/${{ steps.build-image.outputs.image }}"
+          subject-name: "${{ matrix.registry.domain }}/${{ needs.container-build.outputs.image }}"
           subject-digest: ${{ steps.push-image.outputs.digest }}
           push-to-registry: false
