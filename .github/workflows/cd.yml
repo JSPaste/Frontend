@@ -210,15 +210,15 @@ jobs:
       - if: inputs.image-action == 'build-release'
         name: Export container image
         run: |
-          mkdir -p /tmp/.container
-          buildah push --format oci ${{ steps.ctx.outputs.sha }} oci-archive:/tmp/.container/frontend.tar
+          mkdir -p /tmp/.container/
+          buildah push --format oci ${{ steps.build-image.outputs.image-with-tag }} oci-archive:/tmp/.container/frontend.tar
 
       - if: inputs.image-action == 'build-release'
         name: Upload container archive
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: container-archive
-          path: /tmp/.container/frontend.tar
+          path: /tmp/.container/
           if-no-files-found: error
           retention-days: 1
           compression-level: 0
@@ -249,7 +249,7 @@ jobs:
         uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
         with:
           name: container-archive
-          path: /tmp/.container/frontend.tar
+          path: /tmp/.container/
 
       - name: Import container image
         run: |
