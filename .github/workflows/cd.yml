@@ -12,6 +12,7 @@ on:
           - none
           - build
           - build-release
+
       image-action:
         description: Container image action
         type: choice
@@ -227,15 +228,21 @@ jobs:
     name: Release container image
     runs-on: ubuntu-latest
     needs: container-build
+    env:
+      GHCR_PRODUCTION_CD_USER: ${{ github.repository_owner }}
+      GHCR_PRODUCTION_CD_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      QUAY_PRODUCTION_CD_USER: ${{ secrets.QUAY_PRODUCTION_CD_USER }}
+      QUAY_PRODUCTION_CD_TOKEN: ${{ secrets.QUAY_PRODUCTION_CD_TOKEN }}
+
     strategy:
       matrix:
         registry:
           - domain: ghcr.io
-            user: ${{ github.repository_owner }}
-            token: ${{ secrets.GITHUB_TOKEN }}
+            user: ${{ env.GHCR_PRODUCTION_CD_USER }}
+            token: ${{ env.GHCR_PRODUCTION_CD_TOKEN }}
           - domain: quay.io
-            user: ${{ secrets.QUAY_PRODUCTION_CD_USER }}
-            token: ${{ secrets.QUAY_PRODUCTION_CD_TOKEN }}
+            user: ${{ env.QUAY_PRODUCTION_CD_USER }}
+            token: ${{ env.QUAY_PRODUCTION_CD_TOKEN }}
 
     permissions:
       attestations: write
