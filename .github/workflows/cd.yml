@@ -232,7 +232,7 @@ jobs:
           - domain: ghcr.io
             user: ${{ github.repository_owner }}
             token: ${{ secrets.GITHUB_TOKEN }}
-          - name: quay.io
+          - domain: quay.io
             user: ${{ secrets.QUAY_PRODUCTION_CD_USER }}
             token: ${{ secrets.QUAY_PRODUCTION_CD_TOKEN }}
 
