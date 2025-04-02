@@ -210,7 +210,7 @@ jobs:
       - if: inputs.image-action == 'build-release'
         name: Export container image
         run: |
-          buildah images list
+          buildah images
 
           mkdir -p /tmp/.container/
           buildah push --format oci ${{ steps.build-image.outputs.image }} oci-archive:/tmp/.container/frontend.tar
