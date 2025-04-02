@@ -226,6 +226,7 @@ jobs:
     if: github.repository_owner == 'jspaste' && inputs.image-action == 'build-release'
     name: Release container image
     runs-on: ubuntu-latest
+    needs: container-build
     strategy:
       matrix:
         registry:
