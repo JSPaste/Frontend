@@ -228,21 +228,11 @@ jobs:
     name: Release container image
     runs-on: ubuntu-latest
     needs: container-build
-    env:
-      GHCR_PRODUCTION_CD_USER: ${{ github.repository_owner }}
-      GHCR_PRODUCTION_CD_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      QUAY_PRODUCTION_CD_USER: ${{ secrets.QUAY_PRODUCTION_CD_USER }}
-      QUAY_PRODUCTION_CD_TOKEN: ${{ secrets.QUAY_PRODUCTION_CD_TOKEN }}
-
     strategy:
       matrix:
         registry:
-          - domain: ghcr.io
-            user: ${{ env.GHCR_PRODUCTION_CD_USER }}
-            token: ${{ env.GHCR_PRODUCTION_CD_TOKEN }}
-          - domain: quay.io
-            user: ${{ env.QUAY_PRODUCTION_CD_USER }}
-            token: ${{ env.QUAY_PRODUCTION_CD_TOKEN }}
+          - ghcr.io
+          - quay.io
 
     permissions:
       attestations: write
@@ -268,21 +258,21 @@ jobs:
       - name: Login to registry
         uses: redhat-actions/podman-login@4934294ad0449894bcd1e9f191899d7292469603 # v1.7
         with:
-          registry: ${{ matrix.registry.domain }}
-          username: ${{ matrix.registry.user }}
-          password: ${{ matrix.registry.token }}
+          registry: ${{ matrix.registry }}
+          username: ${{ matrix.registry == 'ghcr.io' && github.repository_owner || secrets.QUAY_PRODUCTION_CD_USER }}
+          password: ${{ matrix.registry == 'ghcr.io' && secrets.GITHUB_TOKEN || secrets.QUAY_PRODUCTION_CD_TOKEN }}
 
       - name: Push to registry
         id: push-image
         uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c # v2.8
         with:
-          registry: ${{ matrix.registry.domain }}
+          registry: ${{ matrix.registry }}
           image: ${{ needs.container-build.outputs.image }}
           tags: ${{ needs.container-build.outputs.tags }}
 
       - name: Attest image
         uses: actions/attest-build-provenance@c074443f1aee8d4aeeae555aebba3282517141b2 # v2.2.3
         with:
-          subject-name: "${{ matrix.registry.domain }}/${{ needs.container-build.outputs.image }}"
+          subject-name: "${{ matrix.registry }}/${{ needs.container-build.outputs.image }}"
           subject-digest: ${{ steps.push-image.outputs.digest }}
           push-to-registry: false
