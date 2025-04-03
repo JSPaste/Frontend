@@ -43,5 +43,5 @@ fi
 set -u
 
 # If running in GHA, set output variables
-echo "digest=$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tags[0]}_${registry}_digest.txt")" >>"$GITHUB_OUTPUT"
+echo "digest=$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tags[0]}_${registries[0]}_digest.txt")" >>"$GITHUB_OUTPUT"
 echo "registries=[$(printf '"%s",' "${registries[@]}" | sed 's/,$//')]" >>"$GITHUB_OUTPUT"
