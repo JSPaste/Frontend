@@ -20,12 +20,13 @@ for i in "${!registries[@]}"; do
 
     buildah login --username "$account" --password-stdin "$registry" <<<"$token"
 
+    set -x
     for tag in "${tags[@]}"; do
         buildah manifest push --digestfile "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tag}_${registry}_digest.txt" \
             "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" "docker://$registry/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
 
         digest="$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tag}_${registry}_digest.txt")"
-        digest_cmp="$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tags[0]}_${registry}_digest.txt")"
+        digest_cmp="$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tags[0]}_${registries[0]}_digest.txt")"
 
         # digests should be the same independent of the registry/tags used but just in case
         if [[ "$digest" != "$digest_cmp" ]]; then
@@ -45,3 +46,4 @@ set -u
 # If running in GHA, set output variables
 echo "digest=$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tags[0]}_${registries[0]}_digest.txt")" >>"$GITHUB_OUTPUT"
 echo "registries=[$(printf '"%s",' "${registries[@]}" | sed 's/,$//')]" >>"$GITHUB_OUTPUT"
+set +x
