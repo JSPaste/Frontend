@@ -27,7 +27,7 @@ for i in "${!registries[@]}"; do
     set -x
     for tag in "${tags[@]}"; do
         buildah manifest push --all --digestfile "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tag}_${registry}_digest.txt" \
-            "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" "docker://$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE"
+            "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" "docker://$registry/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE"
 
         digest="$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tag}_${registry}_digest.txt")"
         digest_cmp="$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tags[0]}_${registries[0]}_digest.txt")"
