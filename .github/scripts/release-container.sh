@@ -12,6 +12,10 @@ fi
 
 IFS=' ' read -ra tags <<<"$GHA_TAG"
 
+for tag in "${tags[@]}"; do
+    buildah manifest exists "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
+done
+
 # Release container images
 for i in "${!registries[@]}"; do
     registry="${registries[$i]}"
@@ -22,8 +26,8 @@ for i in "${!registries[@]}"; do
 
     set -x
     for tag in "${tags[@]}"; do
-        buildah manifest push --digestfile "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tag}_${registry}_digest.txt" \
-            "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" "docker://$registry/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
+        buildah manifest push --all --digestfile "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tag}_${registry}_digest.txt" \
+            "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" "$registry/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
 
         digest="$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tag}_${registry}_digest.txt")"
         digest_cmp="$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tags[0]}_${registries[0]}_digest.txt")"
