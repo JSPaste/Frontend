@@ -30,7 +30,7 @@ for platform in "${platforms[@]}"; do
         -t "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch-pure" \
         .
 
-    podman build --platform "$platform" --format=oci --squash-all --identity-label=false \
+    podman build --platform "$platform" --format=oci --squash --identity-label=false \
         --label=org.opencontainers.image.created="$timestamp_iso" \
         --label=org.opencontainers.image.revision="$GHA_SHA" \
         --label=org.opencontainers.image.version="$version" \
@@ -41,7 +41,8 @@ done
 
 # Create manifests
 for tag in "${tags[@]}"; do
-    podman manifest rm --ignore "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
+    # TODO: Replace error redir with "--ignore" on podman v5?
+    podman manifest rm "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" 2>/dev/null || true
     podman manifest create "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
 
     for platform in "${platforms[@]}"; do
