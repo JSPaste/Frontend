@@ -50,7 +50,7 @@ for tag in "${tags[@]}"; do
 
         podman manifest add \
             "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" \
-            "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch"
+            "containers-storage:localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch"
     done
 done
 
