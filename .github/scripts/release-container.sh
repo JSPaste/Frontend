@@ -23,9 +23,6 @@ for tag in "${tags[@]}"; do
     podman manifest exists "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
 done
 
-# TODO: Remove
-podman image list
-
 # Release container images
 for i in "${!registries[@]}"; do
     registry="${registries[$i]}"
@@ -54,7 +51,6 @@ for id in $(podman images --format="{{.ID}}" --filter=reference="localhost/$GHA_
     podman rmi "$id" 2>/dev/null || true
 done
 
-# TODO: Remove
 podman image list
 
 # If running locally, we are done
@@ -65,5 +61,5 @@ fi
 set -u
 
 # If running in GHA, set output variables
-echo "digest=./container-image_digest.txt" >>"$GITHUB_OUTPUT"
+echo "digest=$(cat ./container-image_digest.txt)" >>"$GITHUB_OUTPUT"
 echo "registries=[$(printf '"%s",' "${registries[@]}" | sed 's/,$//')]" >>"$GITHUB_OUTPUT"
