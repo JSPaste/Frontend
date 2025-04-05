@@ -30,7 +30,7 @@ for platform in "${platforms[@]}"; do
         -t "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch-pure" \
         .
 
-    podman build --platform "$platform" --format=oci --layers --squash --identity-label=false \
+    podman build --platform "$platform" --format=oci --squash-all --identity-label=false \
         --label=org.opencontainers.image.created="$timestamp_iso" \
         --label=org.opencontainers.image.revision="$GHA_SHA" \
         --label=org.opencontainers.image.version="$version" \
