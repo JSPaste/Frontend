@@ -4,74 +4,82 @@ The web based editor for JSPaste.
 
 ## Supported Browsers
 
-In case you are using an older browser than the ones listed, please do not open issues about it.
+Please do not open issues with older browsers than those listed:
 
 - Chromium >= 114
 - Firefox >= 125
 - Safari >= 17
 
-*Last checked commit
+*Last checked:
 [`34a0d90`](https://github.com/jspaste/frontend/commit/34a0d909168e83bbfc6373fff38984065c52ac79) on 13 March 2025*
 
-## Setup
+## Installation
 
-### Binary
+### Binaries
 
-- Download the [latest release](https://github.com/jspaste/frontend/releases/latest) and uncompress it to a new folder
-- Edit the `.env.example` file and rename it to `.env`
-- Run the binary...
+1. Download the [latest release](https://github.com/jspaste/frontend/releases/latest) and extract it to a new folder
+2. Copy `.env.example` to `.env` and configure it
+3. Run the binary:
 
-Linux & macOS:
+**Linux & macOS:**
 
 ```shell
 ./server
 ```
 
-Windows:
+**Windows:**
 
 ```powershell
 powershell -c ".\server.exe"
 ```
 
-### Container
+### Container images
 
-- Pull latest image and run the container:
+We publish images to multiple registries for redundancy:
+
+- [`ghcr.io`](https://github.com/jspaste/frontend/pkgs/container/frontend)
+- [`quay.io`](https://quay.io/repository/jspaste/frontend)
+
+To pull and run the container:
 
 ```shell
-docker pull ghcr.io/jspaste/frontend:latest
-docker run --env-file=.env -d -p 127.0.0.1:3000:3000 \
-  ghcr.io/jspaste/frontend:latest
+docker pull quay.io/jspaste/frontend:latest
+docker run --env-file=.env -d -p [::1]:3000:3000 quay.io/jspaste/frontend:latest
 ```
 
-## Validate
+## Security
 
 > [!IMPORTANT]
-> All artifacts and images originate from GitHub `JSPaste/Frontend` repository, no other artifacts or
-> images built and distributed outside that repository are considered secure nor trusted by the JSPaste team.
+> Only binaries and container images built from the official GitHub `JSPaste/Frontend` repository
+> are considered secure by the JSPaste developers.
 
-You can verify the integrity and origin of an artifact and/or image using the GitHub CLI or manually
-at [JSPaste Attestations](https://github.com/jspaste/frontend/attestations).
+All attestations can be manually checked at [JSPaste Attestations](https://github.com/jspaste/frontend/attestations).
 
-Artifacts are attested and can be verified using the following command:
+### Binaries
+
+With [GH-CLI](https://cli.github.com).
+You must verify the tarball, not its content:
 
 ```shell
-gh attestation verify ./frontend_latest_linux-amd64.tar.xz \
-  --owner JSPaste
+gh attestation verify ./frontend_latest_linux-amd64.tar.xz --owner jspaste
 ```
 
-Since container version
+### Container images
+
+With [GH-CLI](https://cli.github.com).
+Since version
 [`2024.05.19-c3f18d0`](https://github.com/jspaste/frontend/pkgs/container/frontend/218171024?tag=2024.05.19-c3f18d0),
-images are attested and can be verified using the following command:
+container images are also attested:
 
 ```shell
-gh attestation verify oci://ghcr.io/jspaste/frontend:latest \
-  --owner JSPaste
+gh attestation verify oci://quay.io/jspaste/frontend:latest --owner jspaste
 ```
 
-## Development
+## Contributing
 
-See the [`CONTRIBUTING`](CONTRIBUTING.md) file for more details.
+See [`CONTRIBUTING`](CONTRIBUTING.md) for more details.
 
 ## License
 
-This project is licensed under the EUPL License. See the [`LICENSE`](LICENSE) file for more details.
+This project is licensed under the European Union Public License (EUPL).
+See [`LICENSE`](LICENSE) for more details.
