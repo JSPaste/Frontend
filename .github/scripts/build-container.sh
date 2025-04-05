@@ -22,23 +22,34 @@ tags+=("${version}")
 for platform in "${platforms[@]}"; do
     arch=$(echo "$platform" | cut --delimiter='/' --fields=2)
 
-    buildah build --platform "$platform" --format=oci --layers=true --squash --identity-label=false \
+    podman build --platform "$platform" --format=oci --layers --identity-label=false \
         --label=org.opencontainers.image.created="$timestamp_iso" \
         --label=org.opencontainers.image.revision="$GHA_SHA" \
         --label=org.opencontainers.image.version="$version" \
         -f ./Dockerfile \
-        -t "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch" .
+        -t "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch-pure" \
+        .
+
+    podman build --platform "$platform" --format=oci --layers --squash --identity-label=false \
+        --label=org.opencontainers.image.created="$timestamp_iso" \
+        --label=org.opencontainers.image.revision="$GHA_SHA" \
+        --label=org.opencontainers.image.version="$version" \
+        -f ./Dockerfile \
+        -t "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch" \
+        .
 done
 
 # Create manifests
 for tag in "${tags[@]}"; do
-    buildah manifest rm "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" 2>/dev/null || true
-    buildah manifest create "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
+    podman manifest rm --ignore "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
+    podman manifest create "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
 
     for platform in "${platforms[@]}"; do
         arch=$(echo "$platform" | cut --delimiter='/' --fields=2)
 
-        buildah manifest add "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch"
+        podman manifest add \
+            "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" \
+            "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch"
     done
 done
 

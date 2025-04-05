@@ -2,11 +2,12 @@
 set -euo pipefail
 
 registries=()
-registry_accounts=()
-registry_tokens=()
-
 IFS=' ' read -ra registries <<<"$GHA_REGISTRY"
+
+registry_accounts=()
 IFS=' ' read -ra registry_accounts <<<"$GHA_REGISTRY_ACCOUNT_NAME"
+
+registry_tokens=()
 IFS=' ' read -ra registry_tokens <<<"$GHA_REGISTRY_ACCOUNT_TOKEN"
 
 # shellcheck disable=SC2055
@@ -16,7 +17,6 @@ if [[ "${#registries[@]}" != "${#registry_accounts[@]}" || "${#registries[@]}" !
 fi
 
 tags=()
-
 IFS=' ' read -ra tags <<<"$GHA_TAG"
 
 for tag in "${tags[@]}"; do
@@ -34,23 +34,22 @@ for i in "${!registries[@]}"; do
 
     podman login --username "$account" --password-stdin "$registry" <<<"$token"
 
-    set -x
     for tag in "${tags[@]}"; do
-        podman manifest push --all --rm --tls-verify --digestfile "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tag}_${registry}_digest.txt" \
-            "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" "docker://$registry/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
-
-        digest="$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tag}_${registry}_digest.txt")"
-        digest_cmp="$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tags[0]}_${registries[0]}_digest.txt")"
-
-        # digests should be the same independent of the registry/tags used but just in case
-        if [[ "$digest" != "$digest_cmp" ]]; then
-            echo "Digests do not match for $tag; (\"$digest\" != \"$digest_cmp\"). Exiting..."
-            exit 1
-        fi
+        podman manifest push --all --tls-verify --digestfile=./container-image_digest.txt \
+            "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" \
+            "docker://$registry/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
     done
-    set +x
 
     podman logout --all
+done
+
+# Cleanup
+for tag in "${tags[@]}"; do
+    podman manifest rm --ignore "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
+done
+
+for id in $(podman images --format="{{.ID}}" --filter=reference="localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE*"); do
+    podman rmi -i "$id"
 done
 
 # TODO: Remove
@@ -64,5 +63,5 @@ fi
 set -u
 
 # If running in GHA, set output variables
-echo "digest=$(cat "./$GHA_CONTAINER_ORGANIZATION-$GHA_CONTAINER_IMAGE-${tags[0]}_${registries[0]}_digest.txt")" >>"$GITHUB_OUTPUT"
+echo "digest=./container-image_digest.txt" >>"$GITHUB_OUTPUT"
 echo "registries=[$(printf '"%s",' "${registries[@]}" | sed 's/,$//')]" >>"$GITHUB_OUTPUT"
