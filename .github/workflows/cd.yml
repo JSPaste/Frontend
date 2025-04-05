@@ -146,6 +146,9 @@ jobs:
       digest: ${{ steps.release.outputs.digest }}
       registries: ${{ steps.release.outputs.registries }}
 
+    permissions:
+      packages: write
+
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@c6295a65d1254861815972266d5933fd6e532bdf # v2.11.1
@@ -201,7 +204,6 @@ jobs:
     permissions:
       attestations: write
       id-token: write
-      packages: write
 
     steps:
       - name: Harden Runner

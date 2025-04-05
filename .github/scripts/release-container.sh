@@ -23,6 +23,9 @@ for tag in "${tags[@]}"; do
     podman manifest exists "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
 done
 
+# TODO: Remove
+podman image list
+
 # Release container images
 for i in "${!registries[@]}"; do
     registry="${registries[$i]}"
@@ -49,6 +52,9 @@ for i in "${!registries[@]}"; do
 
     podman logout --all
 done
+
+# TODO: Remove
+podman image list
 
 # If running locally, we are done
 set +u
