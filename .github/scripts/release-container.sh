@@ -45,11 +45,13 @@ done
 
 # Cleanup
 for tag in "${tags[@]}"; do
-    podman manifest rm --ignore "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag"
+    # TODO: Replace error redir with "--ignore" on podman v5?
+    podman manifest rm --ignore "localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$tag" 2>/dev/null || true
 done
 
 for id in $(podman images --format="{{.ID}}" --filter=reference="localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE*"); do
-    podman rmi -i "$id"
+    # TODO: Replace error redir with "--ignore" on podman v5?
+    podman rmi "$id" 2>/dev/null || true
 done
 
 # TODO: Remove
