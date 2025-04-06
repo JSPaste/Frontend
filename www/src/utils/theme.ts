@@ -1,6 +1,5 @@
-import type { Extension } from '@codemirror/state';
 import { tags as t } from '@lezer/highlight';
-import createTheme from '@uiw/codemirror-themes';
+import type { CreateThemeOptions } from '@uiw/codemirror-themes';
 import { deviceScheme } from '#util/deviceScheme.ts';
 import { theme, themeScheme, themeSchemeMode } from '#util/persistence.ts';
 
@@ -11,8 +10,8 @@ export enum Theme {
 export type ThemeKeys = keyof typeof Theme;
 
 type ThemeScheme = {
-	dark: Extension;
-	light: Extension;
+	dark: CreateThemeOptions;
+	light: CreateThemeOptions;
 };
 
 export type ThemeSchemeMode = 'device' | 'manual';
@@ -51,7 +50,7 @@ const syntaxLight = {
 
 export const editorThemes: Record<ThemeKeys, ThemeScheme> = {
 	default: {
-		light: createTheme({
+		light: {
 			theme: 'light',
 			settings: {
 				background: 'oklch(100% 0 0)',
@@ -143,8 +142,8 @@ export const editorThemes: Record<ThemeKeys, ThemeScheme> = {
 					textDecoration: 'line-through'
 				}
 			]
-		}),
-		dark: createTheme({
+		},
+		dark: {
 			theme: 'dark',
 			settings: {
 				background: 'oklch(24% 0 0)',
@@ -236,7 +235,7 @@ export const editorThemes: Record<ThemeKeys, ThemeScheme> = {
 					textDecoration: 'line-through'
 				}
 			]
-		})
+		}
 	}
 } as const;
 

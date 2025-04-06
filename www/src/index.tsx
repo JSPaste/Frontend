@@ -1,19 +1,18 @@
 import { Route, Router } from '@solidjs/router';
 import { lazy } from 'solid-js';
 import { render } from 'solid-js/web';
-import Context from '#component/Context.tsx';
-import NotFoundScreen from '#screen/NotFound.tsx';
+import NotFoundGenericScreen from '#screen/NotFoundGenericScreen.tsx';
+import Context from './Context.tsx';
 import './index.css';
 
-const EditorScreen = lazy(() => import('#screen/Editor.tsx'));
+const EditorScreen = lazy(() => import('#screen/EditorScreen'));
 
 render(
 	() => (
 		<Router root={Context}>
 			<Route path='/' component={EditorScreen} />
 			<Route path='/:documentName' component={EditorScreen} />
-			<Route path='/404' component={NotFoundScreen} />
-			<Route path='*' component={() => <>{(window.location.href = '/404')}</>} />
+			<Route path='*' component={NotFoundGenericScreen} />
 		</Router>
 	),
 	document.body

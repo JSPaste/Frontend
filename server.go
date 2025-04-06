@@ -18,8 +18,8 @@ func main() {
 	slog.SetLogLoggerLevel(slog.LevelInfo)
 	flag.Parse()
 
-	bindAddressEnv := getEnv("JSPF_BIND_ADDRESS", "[::]").(string)
-	portEnv := getEnv("JSPF_PORT", uint16(3000)).(uint16)
+	bindAddress := getEnv("JSPF_BIND_ADDRESS", "[::]").(string)
+	port := getEnv("JSPF_PORT", uint16(3000)).(uint16)
 
 	fs := &fasthttp.FS{
 		FS: www.Bundle(),
@@ -37,12 +37,10 @@ func main() {
 
 	handler := func(ctx *fasthttp.RequestCtx) {
 		path := string(ctx.Request.URI().Path())
-
 		if !strings.Contains(path, ".") {
 			ctx.Request.SetRequestURI("/index.html")
 			ctx.SetContentType("text/html; charset=utf-8")
 		}
-
 		requestHandler(ctx)
 
 		if ctx.Response.StatusCode() == fasthttp.StatusNotFound {
@@ -52,7 +50,6 @@ func main() {
 		}
 
 		path = string(ctx.Request.URI().Path())
-
 		if strings.HasPrefix(path, "/assets/") {
 			ctx.Response.Header.Set(fasthttp.HeaderCacheControl, "max-age=31536000, public, immutable")
 		} else if strings.HasSuffix(path, ".html") {
@@ -73,7 +70,7 @@ func main() {
 		WriteTimeout:          60 * time.Second,
 	}
 
-	listen, err := net.Listen("tcp", fmt.Sprintf("%s:%d", bindAddressEnv, portEnv))
+	listen, err := net.Listen("tcp", fmt.Sprintf("%s:%d", bindAddress, port))
 	if err != nil {
 		slog.Error("Can't listen address;", "error", err)
 		os.Exit(1)

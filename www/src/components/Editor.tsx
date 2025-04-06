@@ -17,6 +17,7 @@ import {
 } from '@codemirror/view';
 import { debounce } from '@solid-primitives/scheduled';
 import { hyperLinkExtension, hyperLinkStyle } from '@uiw/codemirror-extensions-hyper-link';
+import createTheme from '@uiw/codemirror-themes';
 import { createSignal, onCleanup, onMount } from 'solid-js';
 import { extensionLoader } from '#util/extensionLoader.ts';
 import { getEditorContext } from '#util/getEditorContext.ts';
@@ -28,7 +29,6 @@ import { editorThemeExtension } from '#util/theme.ts';
 export default function Editor() {
 	const ctx = getEditorContext();
 
-	const [container, setContainer] = createSignal<HTMLDivElement>();
 	const [editorView, setEditorView] = createSignal<EditorView>();
 
 	const updateCursor = debounce(() => {
@@ -53,13 +53,13 @@ export default function Editor() {
 		}
 	}, 500);
 
-	extensionLoader(() => editorThemeExtension(), editorView);
-	extensionLoader(() => EditorState.readOnly.of(ctx.editable() && !ctx.writing()), editorView);
+	extensionLoader(() => createTheme(editorThemeExtension()), editorView);
+	extensionLoader(() => EditorState.readOnly.of(!ctx.editable()), editorView);
 	lazyExtensionLoader(() => langs[language()](), editorView);
 
 	onMount(() => {
 		const state = EditorState.create({
-			doc: editorContent(),
+			doc: ctx.content() || editorContent(),
 			extensions: [
 				placeholder(
 					"Start writing here! When you're done, hit the save button to generate a unique URL with your content."
@@ -83,12 +83,6 @@ export default function Editor() {
 				EditorView.theme({
 					'&': {
 						height: '100%'
-					},
-					'& .cm-scroller': {
-						height: '100% !important'
-					},
-					'& .cm-lineNumbers .cm-gutterElement': {
-						padding: '0 5px'
 					}
 				}),
 				EditorView.contentAttributes.of({ 'data-lt-active': 'false' }),
@@ -98,14 +92,18 @@ export default function Editor() {
 					}
 
 					if (vu.docChanged) {
-						saveEditorContent();
+						ctx.setWriting(true);
+
+						if (ctx.editable()) {
+							saveEditorContent();
+						}
 					}
 				})
 			]
 		});
 
 		const view = new EditorView({
-			parent: container(),
+			parent: ctx.container(),
 			state: state
 		});
 
@@ -117,5 +115,5 @@ export default function Editor() {
 		setEditorView(undefined);
 	});
 
-	return <div ref={setContainer} class='grow overflow-hidden' />;
+	return <div ref={ctx.setContainer} class='h-full' />;
 }

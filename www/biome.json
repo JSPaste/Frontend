@@ -28,16 +28,6 @@
 			"suspicious": {
 				"noAssignInExpressions": "off",
 				"noConsoleLog": "error"
-			},
-			"nursery": {
-				"noRestrictedImports": {
-					"level": "error",
-					"options": {
-						"paths": {
-							"clsx": "Use `clsx/lite` instead"
-						}
-					}
-				}
 			}
 		}
 	},

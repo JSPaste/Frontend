@@ -22,15 +22,17 @@
 		"@codemirror/language": "^6.10.0",
 		"@codemirror/state": "^6.5.0",
 		"@codemirror/view": "^6.36.0",
+		"@jspaste/library": "https://github.com/JSPaste/Library#alpine-tornado",
 		"@solid-primitives/media": "~2.3.0",
 		"@solid-primitives/scheduled": "~1.5.0",
+		"@solid-primitives/scroll": "~2.1.0",
 		"@solid-primitives/storage": "~4.3.0",
 		"@solidjs/router": "~0.15.0",
 		"@tabler/icons-solidjs": "^3.28.0",
 		"@uiw/codemirror-extensions-hyper-link": "^4.23.0",
 		"@uiw/codemirror-themes": "^4.23.0",
-		"clsx": "^2.0.0",
 		"daisyui": "~5.0.0",
+		"deepmerge-ts": "^7.1.0",
 		"solid-js": "~1.9.0"
 	},
 	"devDependencies": {
