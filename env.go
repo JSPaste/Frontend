@@ -1,19 +1,25 @@
 package main
 
 import (
+	"flag"
 	"github.com/joho/godotenv"
 	"log/slog"
 	"os"
 	"strconv"
 )
 
+var fileChecked = false
+
 func loadEnvFile() {
-	if !checkedEnvFile {
-		if err := godotenv.Load(".env.local", ".env"); err != nil {
-			slog.Debug(".env file not loaded;", "reason", err)
+	if !fileChecked {
+		if flag.NArg() > 0 {
+			path := flag.Arg(0)
+			if err := godotenv.Load(path); err != nil {
+				slog.Debug(".env file not loaded;", "path", path, "reason", err)
+			}
 		}
 
-		checkedEnvFile = true
+		fileChecked = true
 	}
 }
 
@@ -74,6 +80,3 @@ func getEnv(key string, defaultValue interface{}) interface{} {
 
 	return defaultValue
 }
-
-// one time check for .env file
-var checkedEnvFile = false
