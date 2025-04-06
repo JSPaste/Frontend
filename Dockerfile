@@ -1,6 +1,8 @@
-FROM --platform=$BUILDPLATFORM docker.io/oven/bun:1-alpine AS builder-www
+FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.24-alpine AS builder-www
 
-RUN apk add --no-cache go go-task
+RUN apk add --no-cache go-task curl bash libstdc++ \
+ && curl -fsSL https://bun.sh/install | bash \
+ && ln -s $HOME/.bun/bin/bun /usr/bin/bun
 
 WORKDIR /build/
 COPY . ./

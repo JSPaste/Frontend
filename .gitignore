@@ -25,8 +25,10 @@
 
 # GitHub
 !/.github/
-!/.github/**
 !/.github/renovate.json
+!/.github/scripts/
+!/.github/scripts/*.sh
+!/.github/workflows/
 !/.github/workflows/*.yml
 
 # Docker

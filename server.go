@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/jspaste/frontend/www"
 	"github.com/valyala/fasthttp"
@@ -14,6 +15,9 @@ import (
 )
 
 func main() {
+	slog.SetLogLoggerLevel(slog.LevelInfo)
+	flag.Parse()
+
 	bindAddressEnv := getEnv("JSPF_BIND_ADDRESS", "[::]").(string)
 	portEnv := getEnv("JSPF_PORT", uint16(3000)).(uint16)
 
