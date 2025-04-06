@@ -9,23 +9,20 @@ import {
 } from '#util/contextEditor.ts';
 
 export default function Context(props: RouteSectionProps) {
+	const [container, setContainer] = createSignal<Container>(undefined);
 	const [content, setContent] = createSignal<Content>(null);
 	const [cursor, setCursor] = createSignal<Cursor>({ line: 1, column: 1 });
 	const [editable, setEditable] = createSignal(false);
-	const [container, setContainer] = createSignal<Container>(undefined);
-	const [writing, setWriting] = createSignal(false);
 
 	const contextEditorWrapper: ContextEditorType = {
+		container,
 		content,
 		cursor,
 		editable,
-		container,
-		writing,
+		setContainer,
 		setContent,
 		setCursor,
-		setEditable,
-		setContainer,
-		setWriting
+		setEditable
 	};
 
 	return <ContextEditor.Provider value={contextEditorWrapper}>{props.children}</ContextEditor.Provider>;

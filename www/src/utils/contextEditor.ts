@@ -14,12 +14,10 @@ export type ContextEditorType = {
 	content: Accessor<Content>;
 	cursor: Accessor<Cursor>;
 	editable: Accessor<boolean>;
-	writing: Accessor<boolean>;
 	setContainer: Setter<Container>;
 	setContent: Setter<Content>;
 	setCursor: Setter<Cursor>;
 	setEditable: Setter<boolean>;
-	setWriting: Setter<boolean>;
 };
 
 export const ContextEditor = createContext<ContextEditorType>();

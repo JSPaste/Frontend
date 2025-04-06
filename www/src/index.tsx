@@ -1,7 +1,7 @@
 import { Route, Router } from '@solidjs/router';
 import { lazy } from 'solid-js';
 import { render } from 'solid-js/web';
-import NotFoundGenericScreen from '#screen/NotFoundGenericScreen.tsx';
+import NotFoundScreen from '#screen/NotFoundScreen.tsx';
 import Context from './Context.tsx';
 import './index.css';
 
@@ -12,7 +12,7 @@ render(
 		<Router root={Context}>
 			<Route path='/' component={EditorScreen} />
 			<Route path='/:documentName' component={EditorScreen} />
-			<Route path='*' component={NotFoundGenericScreen} />
+			<Route path='*' component={NotFoundScreen} />
 		</Router>
 	),
 	document.body

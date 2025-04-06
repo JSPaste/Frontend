@@ -4,6 +4,7 @@ import { bracketMatching, defaultHighlightStyle, indentOnInput, syntaxHighlighti
 import { EditorState } from '@codemirror/state';
 import {
 	EditorView,
+	type ViewUpdate,
 	crosshairCursor,
 	drawSelection,
 	dropCursor,
@@ -31,30 +32,27 @@ export default function Editor() {
 
 	const [editorView, setEditorView] = createSignal<EditorView>();
 
-	const updateCursor = debounce(() => {
-		const view = editorView();
-
-		if (view) {
-			const { from } = view.state.selection.main;
-			const cursorPosition = view.state.doc.lineAt(from);
+	const updateCursor = debounce((update: ViewUpdate) => {
+		if (update.selectionSet) {
+			const { from } = update.view.state.selection.main;
+			const cursorPosition = update.view.state.doc.lineAt(from);
 
 			ctx.setCursor({
 				line: cursorPosition.number,
 				column: from - cursorPosition.from + 1
 			});
 		}
-	}, 200);
+	}, 250);
 
-	const saveEditorContent = debounce(() => {
-		const view = editorView();
-
-		if (view) {
-			setEditorContent(view.state.doc.toString());
+	const saveEditorContent = debounce((update: ViewUpdate) => {
+		if (update.docChanged && ctx.editable()) {
+			setEditorContent(update.view.state.doc.toString());
 		}
 	}, 500);
 
 	extensionLoader(() => createTheme(editorThemeExtension()), editorView);
 	extensionLoader(() => EditorState.readOnly.of(!ctx.editable()), editorView);
+	extensionLoader(() => EditorView.editable.of(ctx.editable()), editorView);
 	lazyExtensionLoader(() => langs[language()](), editorView);
 
 	onMount(() => {
@@ -80,25 +78,14 @@ export default function Editor() {
 				keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap]),
 				hyperLinkExtension(),
 				hyperLinkStyle,
-				EditorView.theme({
+				EditorView.baseTheme({
 					'&': {
 						height: '100%'
 					}
 				}),
 				EditorView.contentAttributes.of({ 'data-lt-active': 'false' }),
-				EditorView.updateListener.of((vu) => {
-					if (vu.selectionSet) {
-						updateCursor();
-					}
-
-					if (vu.docChanged) {
-						ctx.setWriting(true);
-
-						if (ctx.editable()) {
-							saveEditorContent();
-						}
-					}
-				})
+				EditorView.updateListener.of(updateCursor),
+				EditorView.updateListener.of(saveEditorContent)
 			]
 		});
 

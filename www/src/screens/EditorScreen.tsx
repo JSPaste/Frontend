@@ -3,7 +3,7 @@ import { Match, Switch, createEffect, createResource, createSignal, lazy, on } f
 import Navbar from '#component/Navbar.tsx';
 import SettingsModal from '#component/modals/settings/SettingsModal.tsx';
 import LoadingGenericScreen from '#screen/LoadingGenericScreen.tsx';
-import NotFoundDocumentScreen from '#screen/NotFoundDocumentScreen.tsx';
+import NotFoundScreen from '#screen/NotFoundScreen.tsx';
 import { getEditorContext } from '#util/getEditorContext.ts';
 import { type LangKeys, langs, setLanguage } from '#util/langs.ts';
 import { client } from '#util/library.ts';
@@ -68,7 +68,7 @@ export default function EditorScreen() {
 				<LoadingGenericScreen />
 			</Match>
 			<Match when={paste.error}>
-				<NotFoundDocumentScreen />
+				<NotFoundScreen title='The existing document has expired or has been deleted' />
 			</Match>
 		</Switch>
 	);
