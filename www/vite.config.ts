@@ -2,18 +2,14 @@ import { resolve } from 'node:path';
 import tailwindcss from '@tailwindcss/vite';
 import browserslist from 'browserslist';
 import { browserslistToTargets } from 'lightningcss';
-import { visualizer } from 'rollup-plugin-visualizer';
 import type { UserConfig } from 'vite';
 import solid from 'vite-plugin-solid';
-
-const devMode = process.env.NODE_ENV === 'development';
 
 export default {
 	appType: 'spa',
 	cacheDir: './node_modules/.tmp',
 	build: {
 		target: 'es2023',
-		cssMinify: 'lightningcss',
 		outDir: './dist/',
 		reportCompressedSize: false,
 		rollupOptions: {
@@ -24,21 +20,16 @@ export default {
 			}
 		}
 	},
+	experimental: {
+		enableNativePlugin: true
+	},
 	css: {
 		transformer: 'lightningcss',
 		lightningcss: {
 			targets: browserslistToTargets(browserslist('Chrome >= 114, Firefox >= 125, Safari >= 17'))
 		}
 	},
-	plugins: [
-		solid(),
-		tailwindcss(),
-		visualizer({
-			emitFile: devMode,
-			filename: 'bundle.html',
-			template: 'treemap'
-		})
-	],
+	plugins: [solid(), tailwindcss()],
 	resolve: {
 		alias: {
 			'#component': resolve('./src/components'),
