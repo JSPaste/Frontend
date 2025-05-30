@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import browserslist from 'browserslist';
 import { browserslistToTargets } from 'lightningcss';
 import type { UserConfig } from 'vite';
+import { analyzer } from 'vite-bundle-analyzer';
 import solid from 'vite-plugin-solid';
 
 export default {
@@ -29,7 +30,15 @@ export default {
 			targets: browserslistToTargets(browserslist('Chrome >= 114, Firefox >= 125, Safari >= 17'))
 		}
 	},
-	plugins: [solid(), tailwindcss()],
+	plugins: [
+		solid(),
+		tailwindcss(),
+		analyzer({
+			enabled: process.env.VITE_ANALYZE === 'true',
+			analyzerMode: 'server',
+			openAnalyzer: true
+		})
+	],
 	resolve: {
 		alias: {
 			'#component': resolve('./src/components'),

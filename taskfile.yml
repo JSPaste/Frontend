@@ -2,6 +2,13 @@
 version: '3'
 
 tasks:
+  analyze-www:
+    desc: Analyze "www/" bundle size
+    env:
+      VITE_ANALYZE: 'true'
+    cmds:
+      - bun --cwd=./www/ vite build
+
   build:
     desc: Builds "www/" and the server
     cmds:

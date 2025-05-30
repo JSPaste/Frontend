@@ -43,6 +43,7 @@
 		"lightningcss": "^1.0.0",
 		"sort-package-json": "^3.0.0",
 		"vite": "npm:rolldown-vite@latest",
+		"vite-bundle-analyzer": "~0.22.0",
 		"vite-plugin-solid": "^2.0.0"
 	},
 	"peerDependencies": {
