@@ -11,6 +11,7 @@ export default {
 	cacheDir: './node_modules/.tmp',
 	build: {
 		target: 'es2023',
+		cssMinify: 'lightningcss',
 		outDir: './dist/',
 		reportCompressedSize: false,
 		rollupOptions: {
@@ -20,9 +21,6 @@ export default {
 				assetFileNames: 'assets/chunk-[hash][extname]'
 			}
 		}
-	},
-	experimental: {
-		enableNativePlugin: true
 	},
 	css: {
 		transformer: 'lightningcss',
@@ -42,6 +40,7 @@ export default {
 	resolve: {
 		alias: {
 			'#component': resolve('./src/components'),
+			'#extension': resolve('./src/extensions'),
 			'#screen': resolve('./src/screens'),
 			'#util': resolve('./src/utils')
 		}
