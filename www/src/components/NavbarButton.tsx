@@ -10,10 +10,11 @@ type NavbarButtonProps = {
 
 export default function NavbarButton(props: NavbarButtonProps) {
 	return (
-		<div class='flex flex-col items-center cursor-pointer w-16' onClick={props.onClick} aria-label={props.label}>
+		<div class='flex flex-col items-center w-16'>
 			<button
 				disabled={props.disabled}
 				type='button'
+				onClick={props.onClick}
 				class='btn btn-sm'
 				classList={{ 'btn-soft btn-primary': props.highlight, 'btn-ghost': !props.highlight }}
 			>

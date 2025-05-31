@@ -3,18 +3,18 @@ import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { bracketMatching, defaultHighlightStyle, indentOnInput, syntaxHighlighting } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
 import {
-	EditorView,
-	type ViewUpdate,
 	crosshairCursor,
 	drawSelection,
 	dropCursor,
+	EditorView,
 	highlightActiveLine,
 	highlightActiveLineGutter,
 	highlightSpecialChars,
 	keymap,
 	lineNumbers,
 	placeholder,
-	rectangularSelection
+	rectangularSelection,
+	type ViewUpdate
 } from '@codemirror/view';
 import { debounce } from '@solid-primitives/scheduled';
 import { hyperLinkExtension, hyperLinkStyle } from '@uiw/codemirror-extensions-hyper-link';

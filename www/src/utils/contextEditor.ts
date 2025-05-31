@@ -1,4 +1,4 @@
-import { type Accessor, type Setter, createContext } from 'solid-js';
+import { type Accessor, createContext, type Setter } from 'solid-js';
 
 export type Container = HTMLDivElement | undefined;
 

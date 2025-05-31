@@ -1,7 +1,7 @@
 import { useLocation, useParams } from '@solidjs/router';
-import { Match, Switch, createEffect, createResource, createSignal, lazy, on } from 'solid-js';
-import Navbar from '#component/Navbar.tsx';
+import { createEffect, createResource, createSignal, lazy, Match, on, Switch } from 'solid-js';
 import SettingsModal from '#component/modals/settings/SettingsModal.tsx';
+import Navbar from '#component/Navbar.tsx';
 import LoadingGenericScreen from '#screen/LoadingGenericScreen.tsx';
 import NotFoundScreen from '#screen/NotFoundScreen.tsx';
 import { getEditorContext } from '#util/getEditorContext.ts';

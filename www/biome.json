@@ -1,8 +1,14 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.0.0-beta.5/schema.json",
 	"files": {
-		"ignore": ["./dist/**", "*.spec.ts"],
+		"includes": ["**", "!dist/**", "!node_modules/**", "!**/*.spec.ts"],
 		"ignoreUnknown": true
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"recommended": true
+		}
 	},
 	"formatter": {
 		"enabled": true,
@@ -27,13 +33,13 @@
 			},
 			"suspicious": {
 				"noAssignInExpressions": "off",
-				"noConsoleLog": "error"
+				"noConsole": {
+					"level": "warn",
+					"options": {
+						"allow": ["debug", "info", "warn", "error"]
+					}
+				}
 			}
-		}
-	},
-	"css": {
-		"formatter": {
-			"enabled": true
 		}
 	},
 	"javascript": {
@@ -41,20 +47,11 @@
 			"arrowParentheses": "always",
 			"bracketSameLine": false,
 			"bracketSpacing": true,
-			"enabled": true,
 			"jsxQuoteStyle": "single",
 			"quoteProperties": "asNeeded",
 			"quoteStyle": "single",
 			"semicolons": "always",
 			"trailingCommas": "none"
 		}
-	},
-	"json": {
-		"formatter": {
-			"enabled": true
-		}
-	},
-	"organizeImports": {
-		"enabled": true
 	}
 }
