@@ -1,5 +1,5 @@
 import Dropdown from '#component/Dropdown.tsx';
-import { type LangKeys, langs, language, setLanguage } from '#util/langs.ts';
+import { type EditorLanguageKeys, editorLanguage, setEditorLanguage } from '../../../extensions/language.ts';
 
 export default function LanguageSection() {
 	return (
@@ -9,9 +9,11 @@ export default function LanguageSection() {
 				dropdownId='language'
 				label='Language selector'
 				listPosition='dropdown-top'
-				labelValue={language()}
-				listValues={Object.keys(langs).sort()}
-				onClick={(e) => e.target.innerHTML in langs && setLanguage(e.target.innerHTML as LangKeys)}
+				labelValue={editorLanguage()}
+				listValues={Object.keys(editorLanguage).sort()}
+				onClick={(e) =>
+					e.target.innerHTML in editorLanguage && setEditorLanguage(e.target.innerHTML as EditorLanguageKeys)
+				}
 			/>
 		</fieldset>
 	);

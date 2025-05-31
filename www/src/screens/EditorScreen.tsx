@@ -5,9 +5,9 @@ import SettingsModal from '#component/modals/settings/SettingsModal.tsx';
 import LoadingGenericScreen from '#screen/LoadingGenericScreen.tsx';
 import NotFoundScreen from '#screen/NotFoundScreen.tsx';
 import { getEditorContext } from '#util/getEditorContext.ts';
-import { type LangKeys, langs, setLanguage } from '#util/langs.ts';
 import { client } from '#util/library.ts';
 import { themeScheme } from '#util/persistence.ts';
+import { type EditorLanguageKeys, editorLanguageExtension, setEditorLanguage } from '../extensions/language.ts';
 
 const Editor = lazy(() => import('#component/Editor.tsx'));
 
@@ -24,8 +24,8 @@ export default function EditorScreen() {
 
 	const language = location.query.language as string | undefined;
 
-	if (language && language in langs) {
-		setLanguage(language as LangKeys);
+	if (language && language in editorLanguageExtension) {
+		setEditorLanguage(language as EditorLanguageKeys);
 	}
 
 	createEffect(

@@ -10,7 +10,7 @@ import {
 	themeScheme,
 	themeSchemeMode
 } from '#util/persistence.ts';
-import { Theme, type ThemeKeys } from '#util/theme.ts';
+import { EditorTheme, type EditorThemeKeys } from '../../../extensions/editorTheme.ts';
 
 export default function ThemeSection() {
 	createEffect(
@@ -60,8 +60,8 @@ export default function ThemeSection() {
 				dropdownId='theme'
 				label='Theme selector'
 				labelValue={theme()}
-				listValues={Object.keys(Theme)}
-				onClick={(e) => e.target.innerHTML in Theme && setTheme(e.target.innerHTML as ThemeKeys)}
+				listValues={Object.keys(EditorTheme)}
+				onClick={(e) => e.target.innerHTML in EditorTheme && setTheme(e.target.innerHTML as EditorThemeKeys)}
 			/>
 		</fieldset>
 	);

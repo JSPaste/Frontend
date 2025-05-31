@@ -3,20 +3,20 @@ import type { CreateThemeOptions } from '@uiw/codemirror-themes';
 import { deviceScheme } from '#util/deviceScheme.ts';
 import { theme, themeScheme, themeSchemeMode } from '#util/persistence.ts';
 
-export enum Theme {
+export enum EditorTheme {
 	default = 'Default'
 }
 
-export type ThemeKeys = keyof typeof Theme;
+export type EditorThemeKeys = keyof typeof EditorTheme;
 
-type ThemeScheme = {
+type EditorThemeScheme = {
 	dark: CreateThemeOptions;
 	light: CreateThemeOptions;
 };
 
-export type ThemeSchemeMode = 'device' | 'manual';
+export type EditorThemeSchemeMode = 'device' | 'manual';
 
-const syntaxDark = {
+const defaultThemeSyntaxDark = {
 	invalid: 'oklch(70% 0.1 20)',
 	heading: 'oklch(70% 0.1 333)',
 	comment: 'oklch(65% 0 0)',
@@ -32,7 +32,7 @@ const syntaxDark = {
 	regexp: 'oklch(80% 0.1 200)'
 } as const;
 
-const syntaxLight = {
+const defaultThemeSyntaxLight = {
 	invalid: 'oklch(70% 0.2 20)',
 	heading: 'oklch(40% 0.2 333)',
 	comment: 'oklch(50% 0 0)',
@@ -48,7 +48,7 @@ const syntaxLight = {
 	regexp: 'oklch(50% 0.2 250)'
 } as const;
 
-export const editorThemes: Record<ThemeKeys, ThemeScheme> = {
+export const editorTheme: Record<EditorThemeKeys, EditorThemeScheme> = {
 	default: {
 		light: {
 			theme: 'light',
@@ -66,36 +66,36 @@ export const editorThemes: Record<ThemeKeys, ThemeScheme> = {
 			styles: [
 				{
 					tag: t.invalid,
-					color: syntaxLight.invalid
+					color: defaultThemeSyntaxLight.invalid
 				},
 				{
 					tag: t.heading,
 					fontWeight: 'bold',
-					color: syntaxLight.heading
+					color: defaultThemeSyntaxLight.heading
 				},
 				{
 					tag: [t.comment, t.meta],
-					color: syntaxLight.comment
+					color: defaultThemeSyntaxLight.comment
 				},
 				{
 					tag: [t.annotation, t.tagName],
-					color: syntaxLight.tag
+					color: defaultThemeSyntaxLight.tag
 				},
 				{
 					tag: [t.bool, t.keyword],
-					color: syntaxLight.keyword
+					color: defaultThemeSyntaxLight.keyword
 				},
 				{
 					tag: [t.changed, t.modifier, t.namespace, t.self, t.typeName],
-					color: syntaxLight.type
+					color: defaultThemeSyntaxLight.type
 				},
 				{
 					tag: [t.constant(t.name), t.standard(t.name)],
-					color: syntaxLight.constant
+					color: defaultThemeSyntaxLight.constant
 				},
 				{
 					tag: [t.function(t.variableName), t.labelName, t.propertyName],
-					color: syntaxLight.function
+					color: defaultThemeSyntaxLight.function
 				},
 				{
 					tag: [
@@ -107,23 +107,23 @@ export const editorThemes: Record<ThemeKeys, ThemeScheme> = {
 						t.name,
 						t.special(t.variableName)
 					],
-					color: syntaxLight.variable
+					color: defaultThemeSyntaxLight.variable
 				},
 				{
 					tag: t.className,
-					color: syntaxLight.class
+					color: defaultThemeSyntaxLight.class
 				},
 				{
 					tag: [t.docComment, t.inserted, t.processingInstruction, t.special(t.string), t.string],
-					color: syntaxLight.string
+					color: defaultThemeSyntaxLight.string
 				},
 				{
 					tag: [t.color, t.number],
-					color: syntaxLight.number
+					color: defaultThemeSyntaxLight.number
 				},
 				{
 					tag: [t.escape, t.link, t.regexp, t.url],
-					color: syntaxLight.regexp
+					color: defaultThemeSyntaxLight.regexp
 				},
 				{
 					tag: t.strong,
@@ -159,36 +159,36 @@ export const editorThemes: Record<ThemeKeys, ThemeScheme> = {
 			styles: [
 				{
 					tag: t.invalid,
-					color: syntaxDark.invalid
+					color: defaultThemeSyntaxDark.invalid
 				},
 				{
 					tag: t.heading,
 					fontWeight: 'bold',
-					color: syntaxDark.heading
+					color: defaultThemeSyntaxDark.heading
 				},
 				{
 					tag: [t.comment, t.meta],
-					color: syntaxDark.comment
+					color: defaultThemeSyntaxDark.comment
 				},
 				{
 					tag: [t.annotation, t.tagName],
-					color: syntaxDark.tag
+					color: defaultThemeSyntaxDark.tag
 				},
 				{
 					tag: [t.bool, t.keyword],
-					color: syntaxDark.keyword
+					color: defaultThemeSyntaxDark.keyword
 				},
 				{
 					tag: [t.changed, t.modifier, t.namespace, t.self, t.typeName],
-					color: syntaxDark.type
+					color: defaultThemeSyntaxDark.type
 				},
 				{
 					tag: [t.constant(t.name), t.standard(t.name)],
-					color: syntaxDark.constant
+					color: defaultThemeSyntaxDark.constant
 				},
 				{
 					tag: [t.function(t.variableName), t.labelName, t.propertyName],
-					color: syntaxDark.function
+					color: defaultThemeSyntaxDark.function
 				},
 				{
 					tag: [
@@ -200,23 +200,23 @@ export const editorThemes: Record<ThemeKeys, ThemeScheme> = {
 						t.name,
 						t.special(t.variableName)
 					],
-					color: syntaxDark.variable
+					color: defaultThemeSyntaxDark.variable
 				},
 				{
 					tag: t.className,
-					color: syntaxDark.class
+					color: defaultThemeSyntaxDark.class
 				},
 				{
 					tag: [t.docComment, t.inserted, t.processingInstruction, t.special(t.string), t.string],
-					color: syntaxDark.string
+					color: defaultThemeSyntaxDark.string
 				},
 				{
 					tag: [t.color, t.number],
-					color: syntaxDark.number
+					color: defaultThemeSyntaxDark.number
 				},
 				{
 					tag: [t.escape, t.link, t.regexp, t.url],
-					color: syntaxDark.regexp
+					color: defaultThemeSyntaxDark.regexp
 				},
 				{
 					tag: t.strong,
@@ -240,4 +240,4 @@ export const editorThemes: Record<ThemeKeys, ThemeScheme> = {
 } as const;
 
 export const editorThemeExtension = () =>
-	themeSchemeMode() === 'device' ? editorThemes[theme()][deviceScheme()] : editorThemes[theme()][themeScheme()];
+	themeSchemeMode() === 'device' ? editorTheme[theme()][deviceScheme()] : editorTheme[theme()][themeScheme()];

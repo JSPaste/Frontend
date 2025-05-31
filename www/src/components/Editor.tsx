@@ -22,10 +22,11 @@ import createTheme from '@uiw/codemirror-themes';
 import { createSignal, onCleanup, onMount } from 'solid-js';
 import { extensionLoader } from '#util/extensionLoader.ts';
 import { getEditorContext } from '#util/getEditorContext.ts';
-import { langs, language } from '#util/langs.ts';
 import { lazyExtensionLoader } from '#util/lazyExtensionLoader.ts';
 import { editorContent, setEditorContent } from '#util/persistence.ts';
-import { editorThemeExtension } from '#util/theme.ts';
+import { editorThemeExtension } from '../extensions/editorTheme.ts';
+import { editorLanguage, editorLanguageExtension } from '../extensions/language.ts';
+import { zoomExtension, zoomKeymap } from '../extensions/zoom.ts';
 
 export default function Editor() {
 	const ctx = getEditorContext();
@@ -53,15 +54,17 @@ export default function Editor() {
 	extensionLoader(() => createTheme(editorThemeExtension()), editorView);
 	extensionLoader(() => EditorState.readOnly.of(!ctx.editable()), editorView);
 	extensionLoader(() => EditorView.editable.of(ctx.editable()), editorView);
-	lazyExtensionLoader(() => langs[language()](), editorView);
+	extensionLoader(() => zoomExtension(), editorView);
+
+	lazyExtensionLoader(() => editorLanguageExtension[editorLanguage()](), editorView);
+
+	// TODO: Move heavy extensions to lazyExtensionLoader
 
 	onMount(() => {
 		const state = EditorState.create({
 			doc: ctx.content() || editorContent(),
 			extensions: [
-				placeholder(
-					"Start writing here! When you're done, hit the save button to generate a unique URL with your content."
-				),
+				placeholder('...'),
 				lineNumbers(),
 				highlightActiveLineGutter(),
 				highlightSpecialChars(),
@@ -75,10 +78,10 @@ export default function Editor() {
 				rectangularSelection(),
 				crosshairCursor(),
 				highlightActiveLine(),
-				keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap]),
+				keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap, ...zoomKeymap]),
 				hyperLinkExtension(),
 				hyperLinkStyle,
-				EditorView.baseTheme({
+				EditorView.theme({
 					'&': {
 						height: '100%'
 					}
