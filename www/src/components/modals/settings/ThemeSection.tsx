@@ -10,7 +10,7 @@ import {
 	themeScheme,
 	themeSchemeMode
 } from '#util/persistence.ts';
-import { EditorTheme, type EditorThemeKeys } from '../../../extensions/editorTheme.ts';
+import { EditorTheme, type EditorThemeKeys } from '../../../extensions/theme.ts';
 
 export default function ThemeSection() {
 	createEffect(

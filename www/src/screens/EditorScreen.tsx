@@ -1,12 +1,14 @@
+import { JSP } from '@jspaste/library/src';
 import { useLocation, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, lazy, Match, on, Switch } from 'solid-js';
 import SettingsModal from '#component/modals/settings/SettingsModal.tsx';
 import Navbar from '#component/Navbar.tsx';
-import LoadingGenericScreen from '#screen/LoadingGenericScreen.tsx';
+import LoadingScreen from '#screen/LoadingScreen.tsx';
 import NotFoundScreen from '#screen/NotFoundScreen.tsx';
 import { getEditorContext } from '#util/getEditorContext.ts';
-import { client } from '#util/library.ts';
-import { themeScheme } from '#util/persistence.ts';
+import { client, setClient } from '#util/library.ts';
+import { LogSource, logger } from '#util/logger.ts';
+import { editorBackendAuthority, themeScheme } from '#util/persistence.ts';
 import { type EditorLanguageKeys, editorLanguageExtension, setEditorLanguage } from '../extensions/language.ts';
 
 const Editor = lazy(() => import('#component/Editor.tsx'));
@@ -35,16 +37,26 @@ export default function EditorScreen() {
 	);
 
 	createEffect(
+		on(editorBackendAuthority, (editorBackendAuthority) => {
+			const jsp = new JSP({
+				// FIXME: Temporary patch for the API URL
+				api: `${editorBackendAuthority}/api`
+			});
+
+			setClient(jsp);
+		})
+	);
+
+	createEffect(
 		on(
 			() => (paste.loading ? undefined : paste()),
 			(pasteData) => {
 				if (!paste.loading) {
 					if (pasteData) {
-						console.debug('Paste name provided.');
 						ctx.setEditable(false);
 						ctx.setContent(pasteData.data);
 					} else {
-						console.debug('No paste name provided, skipping API call...');
+						logger.debug(LogSource.Backend, 'No paste name provided, skipping API call...');
 						ctx.setEditable(true);
 					}
 				}
@@ -56,16 +68,16 @@ export default function EditorScreen() {
 		<Switch
 			fallback={
 				<>
-					<div class='h-svh'>
+					<Navbar />
+					<div class='h-svh portrait:pb-18 landscape:pl-16'>
 						<Editor />
 					</div>
-					<Navbar />
 					<SettingsModal />
 				</>
 			}
 		>
 			<Match when={paste.loading && pasteId()}>
-				<LoadingGenericScreen />
+				<LoadingScreen />
 			</Match>
 			<Match when={paste.error}>
 				<NotFoundScreen title='The existing document has expired or has been deleted' />

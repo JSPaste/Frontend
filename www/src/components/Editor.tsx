@@ -23,9 +23,10 @@ import { createSignal, onCleanup, onMount } from 'solid-js';
 import { extensionLoader } from '#util/extensionLoader.ts';
 import { getEditorContext } from '#util/getEditorContext.ts';
 import { lazyExtensionLoader } from '#util/lazyExtensionLoader.ts';
+import { LogSource, logger } from '#util/logger.ts';
 import { editorContent, setEditorContent } from '#util/persistence.ts';
-import { editorThemeExtension } from '../extensions/editorTheme.ts';
 import { editorLanguage, editorLanguageExtension } from '../extensions/language.ts';
+import { editorThemeExtension } from '../extensions/theme.ts';
 import { zoomExtension, zoomKeymap } from '../extensions/zoom.ts';
 
 export default function Editor() {
@@ -33,20 +34,20 @@ export default function Editor() {
 
 	const [editorView, setEditorView] = createSignal<EditorView>();
 
-	const updateCursor = debounce((update: ViewUpdate) => {
-		if (update.selectionSet) {
-			const { from } = update.view.state.selection.main;
-			const cursorPosition = update.view.state.doc.lineAt(from);
+	const eventUpdateCursor = debounce((update: ViewUpdate) => {
+		const { from } = update.view.state.selection.main;
+		const cursorPosition = update.view.state.doc.lineAt(from);
 
-			ctx.setCursor({
-				line: cursorPosition.number,
-				column: from - cursorPosition.from + 1
-			});
-		}
+		ctx.setCursor({
+			line: cursorPosition.number,
+			column: from - cursorPosition.from + 1
+		});
 	}, 250);
 
-	const saveEditorContent = debounce((update: ViewUpdate) => {
-		if (update.docChanged && ctx.editable()) {
+	const eventSaveContent = debounce((update: ViewUpdate) => {
+		if (ctx.editable()) {
+			logger.debug(LogSource.Editor, 'Saving editor content...');
+
 			setEditorContent(update.view.state.doc.toString());
 		}
 	}, 500);
@@ -87,8 +88,16 @@ export default function Editor() {
 					}
 				}),
 				EditorView.contentAttributes.of({ 'data-lt-active': 'false' }),
-				EditorView.updateListener.of(updateCursor),
-				EditorView.updateListener.of(saveEditorContent)
+				EditorView.updateListener.of((update) => {
+					// Prevent multiple updates shadowing possible document changes on debouncer
+					if (update.docChanged) {
+						eventSaveContent(update);
+					}
+
+					if (update.selectionSet) {
+						eventUpdateCursor(update);
+					}
+				})
 			]
 		});
 

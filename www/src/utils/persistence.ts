@@ -1,7 +1,7 @@
 import { makePersisted } from '@solid-primitives/storage';
 import { createSignal } from 'solid-js';
 import { type DeviceScheme, deviceScheme } from '#util/deviceScheme.ts';
-import type { EditorThemeKeys, EditorThemeSchemeMode } from '../extensions/editorTheme.ts';
+import type { EditorThemeKeys, EditorThemeSchemeMode } from '../extensions/theme.ts';
 
 export const [editorBackendAuthority, setEditorBackendAuthority] = makePersisted(createSignal('https://jspaste.eu'), {
 	storage: localStorage,
