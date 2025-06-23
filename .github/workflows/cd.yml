@@ -93,8 +93,8 @@ jobs:
           go-version: stable
           check-latest: true
 
-      - name: Install deps & build "www/"
-        run: task install-ci build-www
+      - name: Install deps & build "frontend/"
+        run: task install-ci build-frontend
 
       - name: Build artifact
         run: |
@@ -174,7 +174,7 @@ jobs:
         uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         with:
           path: ~/.local/share/containers
-          key: ${{ github.job }}-${{ hashFiles('./go.sum', './www/bun.lock') }}
+          key: ${{ github.job }}-${{ hashFiles('./go.sum', './frontend/bun.lock') }}
 
       - name: Build container image
         id: image

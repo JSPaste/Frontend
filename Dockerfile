@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.24-alpine AS builder-www
+FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.24-alpine AS builder-frontend
 
 RUN apk add --no-cache go-task curl bash libstdc++ \
  && curl -fsSL https://bun.sh/install | bash \
@@ -7,19 +7,19 @@ RUN apk add --no-cache go-task curl bash libstdc++ \
 WORKDIR /build/
 COPY . ./
 
-RUN go-task install-www build-www
+RUN go-task install-frontend build-frontend
 
 FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.24-alpine AS builder-server
 
 RUN apk add --no-cache go-task
 
 WORKDIR /build/
-COPY --from=builder-www /build/. ./
+COPY --from=builder-frontend /build/. ./
 
 ARG TARGETOS
 ARG TARGETARCH
 
-RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go-task install-server build-server
+RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go-task install-go build-server
 
 RUN addgroup jspaste \
  && adduser -G jspaste -u 7777 -s /bin/false -D jspaste \
@@ -31,7 +31,7 @@ COPY --from=builder-server /tmp/.frontend.passwd /etc/passwd
 COPY --from=builder-server /etc/group /etc/group
 
 WORKDIR /frontend/
-COPY --chown=jspaste:jspaste --from=builder-server /build/dist/server ./
+COPY --chown=jspaste:jspaste --from=builder-server /build/build/bin/server ./
 COPY --chown=jspaste:jspaste --from=builder-server /build/LICENSE ./
 
 LABEL org.opencontainers.image.created="0001-01-01T00:00:00Z" \

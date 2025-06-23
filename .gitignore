@@ -2,20 +2,28 @@
 
 # Project files
 !/.env.example
+!/app.go
 !/CONTRIBUTING.md
-!/env.go
+!/embed.go
 !/go.mod
 !/go.sum
 !/LICENSE
+!/main.go
 !/README.md
-!/server.go
 !/taskfile.yml
+!/wails.json
 
-# WWW
-!/www/
-!/www/**
-/www/dist/
-/www/node_modules/
+# Build
+!/build/
+!/build/**
+/build/bin/
+
+# Frontend
+!/frontend/
+!/frontend/**
+/frontend/dist/
+/frontend/node_modules/
+/frontend/wailsjs/
 
 # GIT
 !/.gitattributes
