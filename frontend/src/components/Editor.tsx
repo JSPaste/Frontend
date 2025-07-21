@@ -20,14 +20,14 @@ import { debounce } from '@solid-primitives/scheduled';
 import { hyperLinkExtension, hyperLinkStyle } from '@uiw/codemirror-extensions-hyper-link';
 import createTheme from '@uiw/codemirror-themes';
 import { createSignal, type JSXElement, onCleanup, onMount } from 'solid-js';
+import { editorLanguage, editorLanguageExtension } from '#extension/language.ts';
+import { editorTheme } from '#extension/theme.ts';
+import { zoomExtension, zoomKeymap } from '#extension/zoom.ts';
 import { extensionLoader } from '#util/extensionLoader.ts';
 import { getEditorContext } from '#util/getEditorContext.ts';
 import { lazyExtensionLoader } from '#util/lazyExtensionLoader.ts';
 import { LogSource, logger } from '#util/logger.ts';
 import { editorContent, setEditorContent } from '#util/persistence.ts';
-import { editorLanguage, editorLanguageExtension } from '../extensions/language.ts';
-import { editorTheme } from '../extensions/theme.ts';
-import { zoomExtension, zoomKeymap } from '../extensions/zoom.ts';
 
 export default function Editor(): JSXElement {
 	const ctx = getEditorContext();

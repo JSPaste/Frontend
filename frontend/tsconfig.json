@@ -36,6 +36,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"#component/*": ["./src/components/*"],
+			"#extension/*": ["./src/extensions/*"],
 			"#screen/*": ["./src/screens/*"],
 			"#util/*": ["./src/utils/*"]
 		},

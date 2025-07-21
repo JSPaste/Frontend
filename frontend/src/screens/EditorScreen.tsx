@@ -4,13 +4,13 @@ import { createEffect, createResource, type JSXElement, lazy, Match, on, Switch 
 import Information from '#component/Information.tsx';
 import SettingsModal from '#component/modals/settings/SettingsModal.tsx';
 import Navbar from '#component/Navbar.tsx';
+import { type EditorLanguageKeys, editorLanguageExtension, setEditorLanguage } from '#extension/language.ts';
 import LoadingScreen from '#screen/LoadingScreen.tsx';
 import NotFoundScreen from '#screen/NotFoundScreen.tsx';
 import { getEditorContext } from '#util/getEditorContext.ts';
 import { client, setClient } from '#util/library.ts';
 import { LogSource, logger } from '#util/logger.ts';
 import { editorBackendAuthority, themeScheme } from '#util/persistence.ts';
-import { type EditorLanguageKeys, editorLanguageExtension, setEditorLanguage } from '../extensions/language.ts';
 
 const Editor: () => JSXElement = lazy(() => import('#component/Editor.tsx'));
 

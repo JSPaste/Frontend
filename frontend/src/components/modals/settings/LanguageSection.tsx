@@ -5,7 +5,7 @@ import {
 	editorLanguage,
 	editorLanguageExtension,
 	setEditorLanguage
-} from '../../../extensions/language.ts';
+} from '#extension/language.ts';
 
 export default function LanguageSection(): JSXElement {
 	return (

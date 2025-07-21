@@ -1,6 +1,7 @@
 import { IconFocusAuto, IconMaximize } from '@tabler/icons-solidjs';
 import { createEffect, type JSXElement, on } from 'solid-js';
 import Dropdown from '#component/Dropdown.tsx';
+import { Theme, type ThemeKeys } from '#extension/theme.ts';
 import { deviceScheme } from '#util/deviceScheme.ts';
 import {
 	setTheme,
@@ -10,7 +11,6 @@ import {
 	themeScheme,
 	themeSchemeMode
 } from '#util/persistence.ts';
-import { Theme, type ThemeKeys } from '../../../extensions/theme.ts';
 
 export default function ThemeSection(): JSXElement {
 	createEffect(

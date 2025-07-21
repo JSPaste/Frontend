@@ -1,7 +1,7 @@
 import { makePersisted } from '@solid-primitives/storage';
 import { createSignal } from 'solid-js';
+import type { ThemeKeys, ThemeSchemeMode } from '#extension/theme.ts';
 import { type DeviceScheme, deviceScheme } from '#util/deviceScheme.ts';
-import type { ThemeKeys, ThemeSchemeMode } from '../extensions/theme.ts';
 
 // biome-ignore lint/nursery/useExplicitType: Signals are already typed on creation
 export const [editorBackendAuthority, setEditorBackendAuthority] = makePersisted(createSignal('https://jspaste.eu'), {
