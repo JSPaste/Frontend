@@ -4,6 +4,7 @@ To work on the project we need some tools..:
 
 - [Bun](https://bun.sh) (latest version; runtime)
 - [Go](https://go.dev) (version tracked in *toolchain* [`go.mod`](go.mod); runtime)
+- [wails](https://wails.io/docs/gettingstarted/installation#installing-wails) (latest version; app builder)
 - [task](https://taskfile.dev/installation/) (latest version; scripts execution)
 - [golangci-lint](https://golangci-lint.run/welcome/install/#local-installation) (latest version; linting)
 
@@ -27,16 +28,13 @@ This may not be desired in all cases, so it is recommended that scripts be run i
 
 ```shell
 # Bad
-task build start-server
+task build-frontend build-server start-server
 
 # Good, we don't need to build the server
-task build-www start-server
-
-# ...Or, we can preview everything with Vite
-task build-www start-www
+task build-frontend start-server
 
 # ...Or, we can use the dev server directly for HMR without building
-task dev-www
+task start-dev
 ```
 
 All scripts will run from any location within the project as if you were in the main directory, no fear.
@@ -51,11 +49,11 @@ task build
 
 It will prepare a standalone binary ready to be run at main directory in `dist/`.
 
-You could also avoid constantly building the server and build only "www/" (website) or the other way around..:
+You could also avoid constantly building the server and build only "frontend/" (website) or the other way around..:
 
 ```shell
 # Build the website
-task build-www
+task build-frontend
 # Or, build the server
 task build-server
 ```
@@ -78,6 +76,6 @@ task clean
 You can also clean specific things..:
 
 ```shell
-# We clean "www/" and all build remnants
-task clean-www clean-dist install-www
+# We clean frontend and all build remnants
+task clean-frontend clean-dist install-frontend
 ```

@@ -1,0 +1,62 @@
+{
+	"$schema": "https://json.schemastore.org/package.json",
+	"name": "@jspaste/frontend",
+	"version": "0.0.0",
+	"private": true,
+	"license": "EUPL-1.2",
+	"type": "module",
+	"browserslist": [
+		"> 0.5%",
+		"Firefox ESR",
+		"not dead"
+	],
+	"dependencies": {
+		"@codemirror/autocomplete": "^6.0.0",
+		"@codemirror/commands": "^6.0.0",
+		"@codemirror/lang-cpp": "^6.0.0",
+		"@codemirror/lang-css": "^6.0.0",
+		"@codemirror/lang-go": "^6.0.0",
+		"@codemirror/lang-html": "^6.0.0",
+		"@codemirror/lang-java": "^6.0.0",
+		"@codemirror/lang-javascript": "^6.0.0",
+		"@codemirror/lang-json": "^6.0.0",
+		"@codemirror/lang-markdown": "^6.0.0",
+		"@codemirror/lang-php": "^6.0.0",
+		"@codemirror/lang-python": "^6.0.0",
+		"@codemirror/lang-rust": "^6.0.0",
+		"@codemirror/lang-xml": "^6.0.0",
+		"@codemirror/lang-yaml": "^6.0.0",
+		"@codemirror/language": "^6.0.0",
+		"@codemirror/state": "^6.0.0",
+		"@codemirror/view": "^6.0.0",
+		"@jspaste/library": "https://github.com/jspaste/library#4cb83f1aa2ec245454b45c9aa2821defad37693c",
+		"@solid-primitives/scheduled": "~1.5.0",
+		"@solid-primitives/storage": "~4.3.0",
+		"@solidjs/router": "~0.15.0",
+		"@tabler/icons-solidjs": "^3.0.0",
+		"@uiw/codemirror-extensions-hyper-link": "^4.0.0",
+		"@uiw/codemirror-themes": "^4.0.0",
+		"daisyui": "~5.0.0",
+		"deepmerge-ts": "^7.0.0",
+		"solid-js": "~1.9.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.1.2",
+		"@tailwindcss/vite": "~4.1.0",
+		"@types/bun": "^1.0.0",
+		"browserslist": "^4.0.0",
+		"browserslist-to-esbuild": "^2.0.0",
+		"lightningcss": "^1.0.0",
+		"sort-package-json": "^3.0.0",
+		"vite": "npm:rolldown-vite@~7.0.9",
+		"vite-bundle-analyzer": "~1.1.0",
+		"vite-plugin-solid": "^2.0.0"
+	},
+	"peerDependencies": {
+		"typescript": "~5.8.0"
+	},
+	"trustedDependencies": [
+		"@biomejs/biome",
+		"@tailwindcss/oxide"
+	]
+}

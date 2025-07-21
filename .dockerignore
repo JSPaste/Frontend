@@ -1,16 +1,17 @@
 *
 
 # Project files
-!/env.go
 !/go.mod
 !/go.sum
 !/LICENSE
-!/server.go
 !/taskfile.yml
 
-# WWW
-!/www/**
-/www/dist/
-/www/node_modules/
-# TODO: rollup-plugin-visualizer issue
-/www/bundle.html
+# Build
+!/build/scripts/
+!/build/server/
+
+# Frontend
+!/frontend/**
+/frontend/dist/
+/frontend/node_modules/
+/frontend/wailsjs/
