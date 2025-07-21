@@ -115,7 +115,7 @@ jobs:
 
           GOOS=windows GOARCH=amd64 task build-server
           chmod 755 ./build/bin/server.exe
-          zip -j -X -9 -l -o ./dist/frontend_${{ steps.tags.outputs.tag }}_windows-amd64.zip .env.example LICENSE README.md ./build/bin/server.exe
+          zip -j -X -9 -l -o ./build/bin/frontend_${{ steps.tags.outputs.tag }}_windows-amd64.zip .env.example LICENSE README.md ./build/bin/server.exe
           zip -T ./build/bin/frontend_${{ steps.tags.outputs.tag }}_windows-amd64.zip
 
       - if: inputs.artifact-action == 'build-release'
