@@ -24,11 +24,14 @@ for platform in "${platforms[@]}"; do
 
     if [ "$GITHUB_ACTIONS" = "true" ]; then
         params_build_builder=" --cache-from=ghcr.io/$GHA_CONTAINER_ORGANIZATION/cache --cache-to=ghcr.io/$GHA_CONTAINER_ORGANIZATION/cache"
-    fi
 
-    # Tags
-    params_build=" --tag=localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:latest"
-    params_build+=" --tag=localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$DOCKER_TAG"
+        # Tags
+        params_build=" --tag=localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch"
+    else
+        # Tags
+        params_build=" --tag=localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:latest"
+        params_build+=" --tag=localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$DOCKER_TAG"
+    fi
 
     # shellcheck disable=SC2086
     podman build --platform="$platform" --target=builder --format=oci --layers --identity-label=false \
