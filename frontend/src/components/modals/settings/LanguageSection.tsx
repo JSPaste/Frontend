@@ -1,6 +1,11 @@
 import type { JSXElement } from 'solid-js';
 import Dropdown from '#component/Dropdown.tsx';
-import { type EditorLanguageKeys, editorLanguage, setEditorLanguage } from '../../../extensions/language.ts';
+import {
+	type EditorLanguageKeys,
+	editorLanguage,
+	editorLanguageExtension,
+	setEditorLanguage
+} from '../../../extensions/language.ts';
 
 export default function LanguageSection(): JSXElement {
 	return (
@@ -11,10 +16,10 @@ export default function LanguageSection(): JSXElement {
 				label='Language selector'
 				listPosition='dropdown-top'
 				labelValue={editorLanguage()}
-				listValues={Object.keys(editorLanguage).sort()}
+				listValues={Object.keys(editorLanguageExtension).sort()}
 				onClick={(e: MouseEvent): void => {
 					const target = e.target as HTMLElement | null;
-					if (target && target.innerHTML in editorLanguage) {
+					if (target && target.innerHTML in editorLanguageExtension) {
 						setEditorLanguage(target.innerHTML as EditorLanguageKeys);
 					}
 				}}
