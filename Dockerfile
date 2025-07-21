@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.24-alpine AS builder-frontend
+FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.24-alpine AS builder
 
 RUN apk add --no-cache go-task curl bash libstdc++ \
  && curl -fsSL https://bun.sh/install | bash \
@@ -7,14 +7,7 @@ RUN apk add --no-cache go-task curl bash libstdc++ \
 WORKDIR /build/
 COPY . ./
 
-RUN go-task install-frontend build-frontend
-
-FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.24-alpine AS builder-server
-
-RUN apk add --no-cache go-task
-
-WORKDIR /build/
-COPY --from=builder-frontend /build/. ./
+RUN go-task install-frontend build-frontend-compress
 
 ARG TARGETOS
 ARG TARGETARCH
@@ -25,14 +18,14 @@ RUN addgroup jspaste \
  && adduser -G jspaste -u 7777 -s /bin/false -D jspaste \
  && grep jspaste /etc/passwd > /tmp/.frontend.passwd
 
-FROM --platform=$BUILDPLATFORM scratch
+FROM --platform=$BUILDPLATFORM scratch AS dist
 
-COPY --from=builder-server /tmp/.frontend.passwd /etc/passwd
-COPY --from=builder-server /etc/group /etc/group
+COPY --from=builder /tmp/.frontend.passwd /etc/passwd
+COPY --from=builder /etc/group /etc/group
 
 WORKDIR /frontend/
-COPY --chown=jspaste:jspaste --from=builder-server /build/build/bin/server ./
-COPY --chown=jspaste:jspaste --from=builder-server /build/LICENSE ./
+COPY --chown=jspaste:jspaste --from=builder /build/build/bin/server ./
+COPY --chown=jspaste:jspaste --from=builder /build/LICENSE ./
 
 LABEL org.opencontainers.image.created="0001-01-01T00:00:00Z" \
       org.opencontainers.image.description="The web based editor for JSPaste" \

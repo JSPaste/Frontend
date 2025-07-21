@@ -19,7 +19,7 @@ import {
 import { debounce } from '@solid-primitives/scheduled';
 import { hyperLinkExtension, hyperLinkStyle } from '@uiw/codemirror-extensions-hyper-link';
 import createTheme from '@uiw/codemirror-themes';
-import { createSignal, onCleanup, onMount } from 'solid-js';
+import { createSignal, type JSXElement, onCleanup, onMount } from 'solid-js';
 import { extensionLoader } from '#util/extensionLoader.ts';
 import { getEditorContext } from '#util/getEditorContext.ts';
 import { lazyExtensionLoader } from '#util/lazyExtensionLoader.ts';
@@ -29,7 +29,7 @@ import { editorLanguage, editorLanguageExtension } from '../extensions/language.
 import { editorTheme } from '../extensions/theme.ts';
 import { zoomExtension, zoomKeymap } from '../extensions/zoom.ts';
 
-export default function Editor() {
+export default function Editor(): JSXElement {
 	const ctx = getEditorContext();
 
 	const [editorView, setEditorView] = createSignal<EditorView>();

@@ -1,8 +1,9 @@
+import type { JSXElement } from 'solid-js';
 import InformationCard from '#component/InformationCard.tsx';
 import { getEditorContext } from '#util/getEditorContext.ts';
 import { editorLanguage } from '../extensions/language.ts';
 
-export default function Information() {
+export default function Information(): JSXElement {
 	const ctx = getEditorContext();
 
 	return (

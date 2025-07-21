@@ -1,6 +1,6 @@
 import { JSP } from '@jspaste/library/src';
 import { useLocation, useParams } from '@solidjs/router';
-import { createEffect, createResource, lazy, Match, on, Switch } from 'solid-js';
+import { createEffect, createResource, type JSXElement, lazy, Match, on, Switch } from 'solid-js';
 import Information from '#component/Information.tsx';
 import SettingsModal from '#component/modals/settings/SettingsModal.tsx';
 import Navbar from '#component/Navbar.tsx';
@@ -12,9 +12,9 @@ import { LogSource, logger } from '#util/logger.ts';
 import { editorBackendAuthority, themeScheme } from '#util/persistence.ts';
 import { type EditorLanguageKeys, editorLanguageExtension, setEditorLanguage } from '../extensions/language.ts';
 
-const Editor = lazy(() => import('#component/Editor.tsx'));
+const Editor: () => JSXElement = lazy(() => import('#component/Editor.tsx'));
 
-export default function EditorScreen() {
+export default function EditorScreen(): JSXElement {
 	const ctx = getEditorContext();
 	const location = useLocation();
 	const params = useParams();

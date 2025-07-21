@@ -22,20 +22,31 @@ tags+=("${version}")
 for platform in "${platforms[@]}"; do
     arch=$(echo "$platform" | cut --delimiter='/' --fields=2)
 
-    podman build --platform "$platform" --format=oci --layers --identity-label=false \
+    if [ "$GITHUB_ACTIONS" = "true" ]; then
+        params_build_builder=" --cache-from=ghcr.io/$GHA_CONTAINER_ORGANIZATION/cache --cache-to=ghcr.io/$GHA_CONTAINER_ORGANIZATION/cache"
+    fi
+
+    # Tags
+    params_build=" --tag=localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:latest"
+    params_build+=" --tag=localhost/$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$DOCKER_TAG"
+
+    # shellcheck disable=SC2086
+    podman build --platform="$platform" --target=builder --format=oci --layers --identity-label=false \
         --label=org.opencontainers.image.created="$timestamp_iso" \
         --label=org.opencontainers.image.revision="$GHA_SHA" \
         --label=org.opencontainers.image.version="$version" \
-        -f ./Dockerfile \
-        -t "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch-pure" \
+        --tag="$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch-builder" \
+        --file=./Dockerfile \
+        $params_build_builder \
         .
 
-    podman build --platform "$platform" --format=oci --layers --squash-all --identity-label=false \
+    # shellcheck disable=SC2086
+    podman build --platform="$platform" --format=oci --layers --squash-all --omit-history --identity-label=false \
         --label=org.opencontainers.image.created="$timestamp_iso" \
         --label=org.opencontainers.image.revision="$GHA_SHA" \
         --label=org.opencontainers.image.version="$version" \
-        -f ./Dockerfile \
-        -t "$GHA_CONTAINER_ORGANIZATION/$GHA_CONTAINER_IMAGE:$arch" \
+        --file=./Dockerfile \
+        $params_build \
         .
 done
 

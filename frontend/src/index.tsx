@@ -1,11 +1,11 @@
 import { Route, Router } from '@solidjs/router';
-import { lazy } from 'solid-js';
+import { type JSXElement, lazy } from 'solid-js';
 import { render } from 'solid-js/web';
 import NotFoundScreen from '#screen/NotFoundScreen.tsx';
 import Context from './Context.tsx';
 import './index.css';
 
-const EditorScreen = lazy(() => import('#screen/EditorScreen'));
+const EditorScreen: () => JSXElement = lazy(() => import('#screen/EditorScreen'));
 
 render(
 	() => (

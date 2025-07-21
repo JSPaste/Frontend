@@ -5,7 +5,7 @@ tasks:
   analyze-frontend:
     desc: Analyze frontend bundle
     env:
-      VITE_ANALYZE: 'true'
+      VITE_BUNDLE_ANALYZE: 'true'
     dir: "./frontend/"
     cmds:
       - bun vite build
@@ -13,16 +13,17 @@ tasks:
   build:
     desc: Build (frontend; server)
     cmds:
-      - task: build-frontend
+      - task: build-frontend-compress
       - task: build-server
 
+  # TODO: Experimental
   build-app:
     desc: Build application
     env:
       CGO_ENABLED: '{{if eq .RACE "true"}}1{{else}}0{{end}}'
     vars:
-      FLAG_RACE: '{{if eq .RACE "true"}}-race{{end}}'
-      FLAGS: '{{if eq .DEBUG "true"}}-debug -ldflags="-w -s" -trimpath {{.FLAG_RACE}}{{end}} -m -nosyncgomod -skipbindings'
+      FLAG_RACE: '{{if eq .RACE "true"}}-race {{end}}'
+      FLAGS: '{{.FLAG_RACE}}{{if eq .DEBUG "true"}}-debug{{end}}-ldflags="-w -s" -m -trimpath -nosyncgomod -skipbindings'
     cmds:
       - wails build {{.FLAGS}}
 
@@ -31,8 +32,8 @@ tasks:
     env:
       CGO_ENABLED: '{{if eq .RACE "true"}}1{{else}}0{{end}}'
     vars:
-      FLAG_RACE: '{{if eq .RACE "true"}}-race{{end}}'
-      FLAGS: '{{if eq .DEBUG "true"}}-gcflags="all=-N -l" {{.FLAG_RACE}}{{else}}-ldflags="-w -s" -trimpath {{.FLAG_RACE}}{{end}}'
+      FLAG_RACE: '{{if eq .RACE "true"}}-race {{end}}'
+      FLAGS: '{{.FLAG_RACE}}{{if eq .DEBUG "true"}}-gcflags="all=-N -l"{{else}}-ldflags="-w -s" -trimpath{{end}}'
       OUTPUT: '{{if eq .GOOS "windows"}}./build/bin/server.exe{{else}}./build/bin/server{{end}}'
     cmds:
       - go build {{.FLAGS}} -o {{.OUTPUT}} ./build/server/
@@ -44,6 +45,12 @@ tasks:
       - task: clean-dist-frontend
       - bun vite build
       - task: x-script-minify
+
+  build-frontend-compress:
+    desc: Build frontend (with compression)
+    dir: "./frontend/"
+    cmds:
+      - task: build-frontend
       - task: x-script-compress
 
   clean:
@@ -176,7 +183,7 @@ tasks:
   start:
     desc: Start (frontend; server)
     cmds:
-      - task: build-frontend
+      - task: build-frontend-compress
       - task: start-server
 
   start-server:

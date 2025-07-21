@@ -8,7 +8,7 @@ type InformationCardProps = {
 	onClick?: () => void;
 };
 
-export default function InformationCard(props: InformationCardProps) {
+export default function InformationCard(props: InformationCardProps): JSXElement {
 	return (
 		<div class='flex items-center'>
 			{props.icon}

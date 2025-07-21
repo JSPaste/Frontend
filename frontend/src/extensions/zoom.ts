@@ -2,17 +2,17 @@ import type { Extension } from '@codemirror/state';
 import { EditorView, type KeyBinding } from '@codemirror/view';
 import { editorZoom, setEditorZoom } from '#util/persistence.ts';
 
-export const resetZoom = () => {
+export const resetZoom = (): void => {
 	setEditorZoom(100);
 };
 
-export const increaseZoom = () => {
+export const increaseZoom = (): void => {
 	if (editorZoom() >= 400) return;
 
 	setEditorZoom((prev) => prev + 15);
 };
 
-export const decreaseZoom = () => {
+export const decreaseZoom = (): void => {
 	if (editorZoom() <= 25) return;
 
 	setEditorZoom((prev) => prev - 15);

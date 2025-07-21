@@ -1,7 +1,7 @@
 import { useContext } from 'solid-js';
-import { ContextEditor } from '#util/contextEditor.ts';
+import { ContextEditor, type ContextEditorType } from '#util/contextEditor.ts';
 
-export const getEditorContext = () => {
+export const getEditorContext = (): ContextEditorType => {
 	const ctx = useContext(ContextEditor);
 
 	if (!ctx) {

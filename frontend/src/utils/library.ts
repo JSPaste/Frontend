@@ -9,4 +9,5 @@ const defaultLibraryOptions: ConstructorParameters<typeof JSP>[0] = {
 	api: `${editorBackendAuthority()}/api`
 };
 
+// biome-ignore lint/nursery/useExplicitType: Signals are already typed on creation
 export const [client, setClient] = createSignal<JSP>(new JSP(defaultLibraryOptions));

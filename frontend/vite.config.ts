@@ -1,17 +1,19 @@
 import { resolve } from 'node:path';
+import { constants as zlibConstants } from 'node:zlib';
 import tailwindcss from '@tailwindcss/vite';
-import browserslist from 'browserslist';
+import browserslistToEsbuild from 'browserslist-to-esbuild';
 import { browserslistToTargets } from 'lightningcss';
 import type { UserConfig } from 'vite';
 import { analyzer } from 'vite-bundle-analyzer';
 import solid from 'vite-plugin-solid';
+import manifest from './package.json' with { type: 'json' };
 
 export default {
 	appType: 'spa',
 	cacheDir: './node_modules/.tmp',
 	build: {
-		target: 'es2023',
-		cssMinify: 'lightningcss',
+		target: browserslistToEsbuild(manifest.browserslist),
+		cssTarget: browserslistToEsbuild(manifest.browserslist),
 		outDir: './dist/',
 		reportCompressedSize: false,
 		rollupOptions: {
@@ -25,16 +27,28 @@ export default {
 	css: {
 		transformer: 'lightningcss',
 		lightningcss: {
-			targets: browserslistToTargets(browserslist('Chrome >= 114, Firefox >= 125, Safari >= 17'))
-		}
+			targets: browserslistToTargets(manifest.browserslist)
+		},
+		devSourcemap: true
 	},
 	plugins: [
 		solid(),
 		tailwindcss(),
 		analyzer({
-			enabled: process.env.VITE_ANALYZE === 'true',
-			analyzerMode: 'server',
-			openAnalyzer: true
+			enabled: process.env.VITE_BUNDLE_ANALYZE === 'true',
+			analyzerPort: 'auto',
+			summary: true,
+			reportTitle: manifest.name,
+
+			// sidecars with max compression
+			gzipOptions: {
+				level: zlibConstants.Z_BEST_COMPRESSION
+			},
+			brotliOptions: {
+				params: {
+					[zlibConstants.BROTLI_PARAM_QUALITY]: zlibConstants.BROTLI_MAX_QUALITY
+				}
+			}
 		})
 	],
 	resolve: {
@@ -44,5 +58,8 @@ export default {
 			'#screen': resolve('./src/screens'),
 			'#util': resolve('./src/utils')
 		}
+	},
+	experimental: {
+		enableNativePlugin: true
 	}
 } satisfies UserConfig;

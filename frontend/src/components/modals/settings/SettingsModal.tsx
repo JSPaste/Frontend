@@ -1,7 +1,8 @@
+import type { JSXElement } from 'solid-js';
 import LanguageSection from '#component/modals/settings/LanguageSection.tsx';
 import ThemeSection from '#component/modals/settings/ThemeSection.tsx';
 
-export default function SettingsModal() {
+export default function SettingsModal(): JSXElement {
 	return (
 		<dialog id='modal_settings' class='modal modal-bottom sm:modal-middle select-none'>
 			<div class='modal-box flex flex-col'>

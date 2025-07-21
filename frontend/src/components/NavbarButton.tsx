@@ -8,7 +8,7 @@ type NavbarButtonProps = {
 	onClick?: () => void;
 };
 
-export default function NavbarButton(props: NavbarButtonProps) {
+export default function NavbarButton(props: NavbarButtonProps): JSXElement {
 	return (
 		<div class='flex flex-col items-center w-16'>
 			<button

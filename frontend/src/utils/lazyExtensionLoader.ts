@@ -5,10 +5,10 @@ import { type Accessor, createEffect, on } from 'solid-js';
 export function lazyExtensionLoader(
 	extension: () => Promise<Extension | null | undefined>,
 	view: Accessor<EditorView | undefined>
-) {
+): void {
 	const compartment = new Compartment();
 
-	const reconfigure = (extension: Extension) => {
+	const reconfigure = (extension: Extension): void => {
 		view()?.dispatch({
 			effects: compartment.reconfigure(extension)
 		});

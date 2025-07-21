@@ -2,6 +2,7 @@ import { createSignal } from 'solid-js';
 
 export type EditorLanguageKeys = keyof typeof editorLanguageExtension;
 
+// biome-ignore lint/nursery/useExplicitType: Signals are already typed on creation
 export const [editorLanguage, setEditorLanguage] = createSignal<EditorLanguageKeys>('markdown');
 
 export const editorLanguageExtension = {

@@ -1,5 +1,5 @@
 import { IconCaretDownFilled } from '@tabler/icons-solidjs';
-import { For, type JSX } from 'solid-js';
+import { For, type JSX, type JSXElement } from 'solid-js';
 
 type DropdownProps = {
 	disabled?: boolean;
@@ -18,7 +18,7 @@ type DropdownProps = {
 	onClick?: JSX.EventHandlerUnion<HTMLLIElement, MouseEvent, JSX.EventHandler<HTMLLIElement, MouseEvent>>;
 };
 
-export default function Dropdown(props: DropdownProps) {
+export default function Dropdown(props: DropdownProps): JSXElement {
 	return (
 		<>
 			<button
@@ -40,11 +40,11 @@ export default function Dropdown(props: DropdownProps) {
 				popover
 				id={`${props.dropdownId}-dropdown-list`}
 				class='dropdown menu bg-base-200 w-52 max-h-54 rounded-box shadow-sm'
-				classList={{ [props.listPosition as string]: !!props.listPosition }}
+				classList={{ [props.listPosition as string]: Boolean(props.listPosition) }}
 				style={`position-anchor:--${props.dropdownId}-dropdown-list-anchor`}
 			>
 				<For each={props.listValues}>
-					{(val) => (
+					{(val: string): JSXElement => (
 						<li onClick={props.onClick}>
 							{/* biome-ignore lint/a11y/useValidAnchor: needed for style */}
 							<a>{val}</a>

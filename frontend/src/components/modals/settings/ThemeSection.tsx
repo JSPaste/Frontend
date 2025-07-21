@@ -1,5 +1,5 @@
 import { IconFocusAuto, IconMaximize } from '@tabler/icons-solidjs';
-import { createEffect, on } from 'solid-js';
+import { createEffect, type JSXElement, on } from 'solid-js';
 import Dropdown from '#component/Dropdown.tsx';
 import { deviceScheme } from '#util/deviceScheme.ts';
 import {
@@ -12,7 +12,7 @@ import {
 } from '#util/persistence.ts';
 import { Theme, type ThemeKeys } from '../../../extensions/theme.ts';
 
-export default function ThemeSection() {
+export default function ThemeSection(): JSXElement {
 	createEffect(
 		on([themeSchemeMode, deviceScheme], ([themeSchemeMode, deviceScheme]) => {
 			if (themeSchemeMode === 'device') {
@@ -33,7 +33,11 @@ export default function ThemeSection() {
 						type='checkbox'
 						name='theme-device-scheme-swap'
 						checked={themeSchemeMode() === 'device'}
-						onClick={(e) => setThemeSchemeMode(e.currentTarget.checked ? 'device' : 'manual')}
+						onClick={(e: MouseEvent): void => {
+							setThemeSchemeMode(
+								(e.currentTarget as HTMLInputElement | null)?.checked ? 'device' : 'manual'
+							);
+						}}
 					/>
 					<IconFocusAuto class='swap-on' />
 					<IconMaximize class='swap-off' />
@@ -46,7 +50,9 @@ export default function ThemeSection() {
 						value='light'
 						disabled={themeSchemeMode() === 'device'}
 						checked={themeScheme() === 'light'}
-						onClick={(e) => setThemeScheme(e.currentTarget.checked ? 'light' : 'dark')}
+						onClick={(e: MouseEvent): void => {
+							setThemeScheme((e.currentTarget as HTMLInputElement | null)?.checked ? 'light' : 'dark');
+						}}
 					/>
 				</label>
 				{themeSchemeMode() === 'device'
@@ -61,7 +67,12 @@ export default function ThemeSection() {
 				label='Theme selector'
 				labelValue={theme()}
 				listValues={Object.keys(Theme)}
-				onClick={(e) => e.target.innerHTML in Theme && setTheme(e.target.innerHTML as ThemeKeys)}
+				onClick={(e: MouseEvent): void => {
+					const target = e.target as HTMLElement | null;
+					if (target && target.innerHTML in Theme) {
+						setTheme(target.innerHTML as ThemeKeys);
+					}
+				}}
 			/>
 		</fieldset>
 	);

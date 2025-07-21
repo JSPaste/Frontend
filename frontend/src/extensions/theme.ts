@@ -3,9 +3,9 @@ import type { CreateThemeOptions } from '@uiw/codemirror-themes';
 import { deviceScheme } from '#util/deviceScheme.ts';
 import { theme, themeScheme, themeSchemeMode } from '#util/persistence.ts';
 
-export enum Theme {
-	default = 'Default'
-}
+export const Theme = {
+	default: 'Default'
+} as const;
 
 export type ThemeKeys = keyof typeof Theme;
 
@@ -239,5 +239,5 @@ export const codemirrorTheme: Record<ThemeKeys, ThemeScheme> = {
 	}
 } as const;
 
-export const editorTheme = () =>
+export const editorTheme = (): CreateThemeOptions =>
 	themeSchemeMode() === 'device' ? codemirrorTheme[theme()][deviceScheme()] : codemirrorTheme[theme()][themeScheme()];

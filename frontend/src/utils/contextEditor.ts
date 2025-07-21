@@ -1,4 +1,4 @@
-import { type Accessor, createContext, type Setter } from 'solid-js';
+import { type Accessor, type Context, createContext, type Setter } from 'solid-js';
 
 export type Container = HTMLDivElement | undefined;
 
@@ -20,4 +20,4 @@ export type ContextEditorType = {
 	setEditable: Setter<boolean>;
 };
 
-export const ContextEditor = createContext<ContextEditorType>();
+export const ContextEditor: Context<ContextEditorType | undefined> = createContext<ContextEditorType>();
