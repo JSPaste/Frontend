@@ -53,7 +53,7 @@
 		"vite-plugin-solid": "^2.0.0"
 	},
 	"peerDependencies": {
-		"typescript": "~5.8.0"
+		"typescript": "~5.8.0 || ~5.9.0"
 	},
 	"trustedDependencies": [
 		"@biomejs/biome",
