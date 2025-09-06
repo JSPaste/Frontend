@@ -8,7 +8,7 @@ require (
 	github.com/andybalholm/brotli v1.2.0
 	github.com/joho/godotenv v1.5.1
 	github.com/klauspost/compress v1.18.0
-	github.com/tdewolff/minify/v2 v2.24.2
+	github.com/tdewolff/minify/v2 v2.24.3
 	github.com/valyala/fasthttp v1.65.0
 	github.com/wailsapp/wails/v2 v2.10.2
 )
