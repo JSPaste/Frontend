@@ -2,24 +2,22 @@ package main
 
 import (
 	"errors"
-	min "github.com/tdewolff/minify/v2"
-	"github.com/tdewolff/minify/v2/css"
-	"github.com/tdewolff/minify/v2/html"
-	"github.com/tdewolff/minify/v2/js"
-	"github.com/tdewolff/minify/v2/json"
-	"github.com/tdewolff/minify/v2/svg"
-	"github.com/tdewolff/minify/v2/xml"
 	"log"
 	"os"
 	"path/filepath"
+
+	min "github.com/tdewolff/minify/v2"
+	"github.com/tdewolff/minify/v2/html"
+	"github.com/tdewolff/minify/v2/json"
+	"github.com/tdewolff/minify/v2/svg"
+	"github.com/tdewolff/minify/v2/xml"
 )
 
 func main() {
 	m := min.New()
 
-	m.AddFunc(".css", css.Minify)
+	// TODO: Readd css/js comment stripping
 	m.AddFunc(".html", html.Minify)
-	m.AddFunc(".js", js.Minify)
 	m.AddFunc(".json", json.Minify)
 	m.AddFunc(".svg", svg.Minify)
 	m.AddFunc(".xml", xml.Minify)

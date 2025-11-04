@@ -2,13 +2,14 @@ package main
 
 import (
 	"compress/gzip"
-	"github.com/andybalholm/brotli"
-	"github.com/klauspost/compress/zstd"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
 	"regexp"
+
+	"github.com/andybalholm/brotli"
+	"github.com/klauspost/compress/zstd"
 )
 
 var compressors = []struct {

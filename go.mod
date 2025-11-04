@@ -1,15 +1,15 @@
 module github.com/jspaste/frontend
 
-go 1.23.0
+go 1.24.0
 
-toolchain go1.24.5
+toolchain go1.25.3
 
 require (
 	github.com/andybalholm/brotli v1.2.0
 	github.com/joho/godotenv v1.5.1
-	github.com/klauspost/compress v1.18.0
-	github.com/tdewolff/minify/v2 v2.23.9
-	github.com/valyala/fasthttp v1.64.0
+	github.com/klauspost/compress v1.18.1
+	github.com/tdewolff/minify/v2 v2.24.6
+	github.com/valyala/fasthttp v1.68.0
 	github.com/wailsapp/wails/v2 v2.10.2
 )
 
@@ -32,14 +32,14 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/samber/lo v1.49.1 // indirect
-	github.com/tdewolff/parse/v2 v2.8.1 // indirect
+	github.com/tdewolff/parse/v2 v2.8.5 // indirect
 	github.com/tkrajina/go-reflector v0.5.8 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/wailsapp/go-webview2 v1.0.19 // indirect
 	github.com/wailsapp/mimetype v1.4.1 // indirect
-	golang.org/x/crypto v0.40.0 // indirect
-	golang.org/x/net v0.42.0 // indirect
-	golang.org/x/sys v0.34.0 // indirect
-	golang.org/x/text v0.27.0 // indirect
+	golang.org/x/crypto v0.43.0 // indirect
+	golang.org/x/net v0.46.0 // indirect
+	golang.org/x/sys v0.37.0 // indirect
+	golang.org/x/text v0.30.0 // indirect
 )

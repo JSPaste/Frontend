@@ -13,7 +13,6 @@ export default {
 	cacheDir: './node_modules/.tmp',
 	build: {
 		target: browserslistToEsbuild(manifest.browserslist),
-		cssTarget: browserslistToEsbuild(manifest.browserslist),
 		outDir: './dist/',
 		reportCompressedSize: false,
 		rollupOptions: {
@@ -58,8 +57,5 @@ export default {
 			'#screen': resolve('./src/screens'),
 			'#util': resolve('./src/utils')
 		}
-	},
-	experimental: {
-		enableNativePlugin: true
 	}
 } satisfies UserConfig;
