@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.24-alpine AS builder
+FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.25-alpine AS builder
 
 RUN apk add --no-cache go-task curl bash libstdc++ \
  && curl -fsSL https://bun.sh/install | bash \
