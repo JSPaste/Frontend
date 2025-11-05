@@ -47,7 +47,7 @@
 		"browserslist-to-esbuild": "^2.1.1",
 		"lightningcss": "^1.30.2",
 		"sort-package-json": "^3.4.0",
-		"vite": "npm:rolldown-vite@~7.1.20",
+		"vite": "npm:rolldown-vite@~7.2.0",
 		"vite-bundle-analyzer": "~1.2.3",
 		"vite-plugin-solid": "^2.11.10"
 	},
