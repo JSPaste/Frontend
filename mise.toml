@@ -1,0 +1,137 @@
+[tools]
+bun = "latest"
+go = "latest"
+"aqua:golangci/golangci-lint" = "latest"
+
+[tasks."install"]
+description = "Install all dependencies"
+run = "mise run install:server; mise run install:frontend"
+
+[tasks."install:server"]
+description = "Install server dependencies"
+run = "mise exec -- go mod download"
+
+[tasks."install:frontend"]
+description = "Install frontend dependencies"
+run = '''
+if [ "${GITHUB_ACTIONS}" = "true" ]; then
+  mise exec -- bun install --frozen-lockfile;
+else
+  mise exec -- bun install;
+fi
+'''
+
+[tasks."clean"]
+description = "Clean project environment"
+run = "mise exec -- go clean; mise run clean:server; mise run clean:frontend"
+
+[tasks."clean:server"]
+description = "Clean Go artifacts"
+run = "mise exec -- bun exec 'rm -f ./dist/server*'"
+
+[tasks."clean:frontend"]
+description = "Clean frontend artifacts"
+run = "mise exec -- bun exec 'rm -rf ./dist/frontend/ ./node_modules/'"
+
+[tasks."clean:git"]
+description = "Clean git (careful)"
+run = "mise run clean:git:untracked; mise run clean:git:gc; mise run clean:git:hooks"
+
+[tasks."clean:git:gc"]
+run = "git gc --aggressive --prune"
+
+[tasks."clean:git:hooks"]
+run = "mise exec -- bun exec 'rm -rf ./.git/hooks/'"
+
+[tasks."clean:git:untracked"]
+run = "git clean -d -x -i"
+
+[tasks."build"]
+description = "Build"
+run = "mise run build:frontend:compress; mise run build:server"
+
+[tasks."build:frontend"]
+description = "Build frontend"
+depends = ["install:frontend"]
+run = "mise exec -- bun vite build; mise run x:script:minify"
+
+[tasks."build:frontend:compress"]
+description = "Build frontend (with compression)"
+run = "mise run build:frontend; mise run x:script:compress"
+
+[tasks."build:server"]
+description = "Build server binary (requires built frontend)"
+run = '''
+mise exec -- bun exec "mkdir -p ./dist/"
+
+if [ "${GOOS}" = "windows" ]; then
+  mise exec -- go build -ldflags="-w -s" -trimpath -o ./dist/server.exe .
+else
+  mise exec -- go build -ldflags="-w -s" -trimpath -o ./dist/server .
+fi
+'''
+
+[tasks."analyze"]
+description = "Analyze frontend bundle"
+depends = ["install:frontend"]
+env.VITE_ANALYZE = "true"
+run = "mise exec -- bun vite build"
+
+[tasks."lint"]
+description = "Run all linters"
+run = "mise run lint:server; mise run lint:frontend"
+
+[tasks."lint:server"]
+description = "Run server linters"
+run = "mise exec -- golangci-lint run"
+
+[tasks."lint:frontend"]
+description = "Run frontend linters"
+depends = ["install:frontend"]
+run = "mise exec -- bun biome check; mise exec -- bun tsc --noEmit"
+
+[tasks."fix"]
+description = "Run all formatters"
+run = "mise run fix:server; mise run fix:frontend"
+
+[tasks."fix:server"]
+description = "Run server formatters"
+run = "mise exec -- go fmt ."
+
+[tasks."fix:frontend"]
+description = "Run frontend formatters"
+depends = ["install:frontend"]
+run = "mise exec -- bun biome check --write; mise exec -- bun sort-package-json --quiet"
+
+[tasks."tidy"]
+description = "Tidy all"
+run = "mise run tidy:server; mise run tidy:frontend"
+
+[tasks."tidy:server"]
+description = "Tidy server dependencies"
+run = "mise exec -- go mod tidy"
+
+[tasks."tidy:frontend"]
+description = "Tidy frontend dependencies"
+run = "mise exec -- bun exec 'rm -f bun.lock'; mise exec -- bun install -f"
+
+[tasks."start"]
+description = "Start frontend"
+run = "mise run build:frontend:compress; mise run start:server"
+
+[tasks."start:server"]
+description = "Start dedicated server (requires built frontend)"
+run = "mise exec -- go run ."
+
+[tasks."start:dev"]
+description = "Start in HMR"
+depends = ["install:frontend"]
+run = "mise exec -- bun vite dev"
+
+[tasks."x:script:minify"]
+hide = true
+run = "mise exec -- go run ./scripts/minify"
+
+[tasks."x:script:compress"]
+hide = true
+run = "mise exec -- go run ./scripts/compress"

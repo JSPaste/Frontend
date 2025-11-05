@@ -44,7 +44,7 @@ for platform in "${platforms[@]}"; do
         .
 
     # shellcheck disable=SC2086
-    podman build --platform="$platform" --format=oci --layers --squash-all --omit-history --identity-label=false \
+    podman build --platform="$platform" --format=oci --layers --squash-all --identity-label=false \
         --label=org.opencontainers.image.created="$timestamp_iso" \
         --label=org.opencontainers.image.revision="$GHA_SHA" \
         --label=org.opencontainers.image.version="$version" \
