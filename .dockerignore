@@ -1,17 +1,19 @@
 *
 
-# Project files
+!/public/
+!/scripts/
+!/src/
+!/.env.example
+!/bun.lock
+!/bunfig.toml
+!/embed.go
+!/env.go
 !/go.mod
 !/go.sum
+!/index.html
 !/LICENSE
-!/taskfile.yml
-
-# Build
-!/build/scripts/
-!/build/server/
-
-# Frontend
-!/frontend/**
-/frontend/dist/
-/frontend/node_modules/
-/frontend/wailsjs/
+!/main.go
+!/mise.toml
+!/package.json
+!/tsconfig.json
+!/vite.config.ts

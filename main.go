@@ -1,37 +1,85 @@
 package main
 
 import (
-	"github.com/jspaste/frontend/frontend"
-	"github.com/wailsapp/wails/v2"
-	"github.com/wailsapp/wails/v2/pkg/logger"
-	"github.com/wailsapp/wails/v2/pkg/options"
-	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"flag"
+	"fmt"
+	"io"
+	"log"
+	"log/slog"
+	"net"
+	"os"
+	"strings"
+	"time"
+
+	"github.com/valyala/fasthttp"
 )
 
 func main() {
-	app := NewApp()
+	slog.SetLogLoggerLevel(slog.LevelInfo)
+	flag.Parse()
 
-	err := wails.Run(&options.App{
-		Title:            "JSPaste",
-		Width:            1024,
-		Height:           768,
-		MinWidth:         256,
-		MinHeight:        512,
-		BackgroundColour: &options.RGBA{R: 0, G: 0, B: 0, A: 1},
-		AssetServer: &assetserver.Options{
-			Assets: frontend.Embed(),
-		},
-		LogLevel:                         logger.DEBUG,
-		LogLevelProduction:               logger.INFO,
-		OnStartup:                        app.startup,
-		EnableFraudulentWebsiteDetection: false,
-		DragAndDrop: &options.DragAndDrop{
-			EnableFileDrop:     false,
-			DisableWebViewDrop: false,
-		},
-	})
+	bindAddress := getEnv("JSPF_BIND_ADDRESS", "[::]").(string)
+	port := getEnv("JSPF_PORT", uint16(3000)).(uint16)
 
+	fs := &fasthttp.FS{
+		FS: StaticEmbed(),
+		CompressedFileSuffixes: map[string]string{
+			"br":   ".br",
+			"zstd": ".zst",
+			"gzip": ".gz",
+		},
+		Compress:       true,
+		CompressBrotli: true,
+		CompressZstd:   true,
+	}
+
+	requestHandler := fs.NewRequestHandler()
+
+	handler := func(ctx *fasthttp.RequestCtx) {
+		path := string(ctx.Request.URI().Path())
+		if !strings.Contains(path, ".") {
+			ctx.Request.SetRequestURI("/index.html")
+			ctx.SetContentType("text/html; charset=utf-8")
+		}
+		requestHandler(ctx)
+
+		if ctx.Response.StatusCode() == fasthttp.StatusNotFound {
+			ctx.Request.SetRequestURI("/index.html")
+			ctx.SetContentType("text/html; charset=utf-8")
+			requestHandler(ctx)
+		}
+
+		path = string(ctx.Request.URI().Path())
+		if strings.HasPrefix(path, "/assets/") {
+			ctx.Response.Header.Set(fasthttp.HeaderCacheControl, "max-age=31536000, public, immutable")
+		} else if strings.HasSuffix(path, ".html") {
+			ctx.Response.Header.Set(fasthttp.HeaderCacheControl, "max-age=0, public, must-revalidate")
+		} else {
+			ctx.Response.Header.Set(fasthttp.HeaderCacheControl, "max-age=600, public")
+		}
+
+		ctx.Response.Header.Del(fasthttp.HeaderLastModified)
+	}
+
+	server := &fasthttp.Server{
+		GetOnly:               true,
+		Handler:               handler,
+		Logger:                log.New(io.Discard, "", 0),
+		NoDefaultServerHeader: true,
+		ReadTimeout:           60 * time.Second,
+		WriteTimeout:          60 * time.Second,
+	}
+
+	listen, err := net.Listen("tcp", fmt.Sprintf("%s:%d", bindAddress, port))
 	if err != nil {
-		panic(err)
+		slog.Error("Can't listen address;", "error", err)
+		os.Exit(1)
+	}
+
+	slog.Info("Server running;", "listening", listen.Addr())
+
+	if err = server.Serve(listen); err != nil {
+		slog.Error("Unexpected server status;", "error", err)
+		os.Exit(1)
 	}
 }

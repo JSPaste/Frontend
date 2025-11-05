@@ -11,7 +11,7 @@ Please do not open issues with older browsers than those listed:
 - Safari >= 17
 
 *Last checked:
-[`34a0d90`](https://github.com/jspaste/frontend/commit/34a0d909168e83bbfc6373fff38984065c52ac79) on 13 March 2025*
+[`1bab598`](https://github.com/jspaste/frontend/commit/1bab5981b4ce47c43d64c873a7224fbd79e9aafa) on 5 November 2025*
 
 ## Installation
 

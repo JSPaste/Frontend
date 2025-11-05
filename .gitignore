@@ -1,42 +1,37 @@
 *
 
-# Project files
-!/.env.example
-!/app.go
-!/CONTRIBUTING.md
-!/embed.go
-!/go.mod
-!/go.sum
-!/LICENSE
-!/main.go
-!/README.md
-!/taskfile.yml
-!/wails.json
-
-# Build
-!/build/
-!/build/**
-/build/bin/
-
-# Frontend
-!/frontend/
-!/frontend/**
-/frontend/dist/
-/frontend/node_modules/
-/frontend/wailsjs/
-
-# GIT
-!/.gitattributes
-!/.gitignore
-
-# GitHub
 !/.github/
 !/.github/renovate.json
 !/.github/scripts/
 !/.github/scripts/*.sh
 !/.github/workflows/
 !/.github/workflows/*.yml
-
-# Docker
+!/.zed/settings.json
+!/public/
+!/public/**
+!/scripts/
+!/scripts/**
+!/src/
+!/src/**
 !/.dockerignore
+!/.editorconfig
+!/.env.example
+!/.gitattributes
+!/.gitignore
+!/biome.json
+!/bun.lock
+!/bunfig.toml
+!/CONTRIBUTING.md
 !/Dockerfile
+!/embed.go
+!/env.go
+!/go.mod
+!/go.sum
+!/index.html
+!/LICENSE
+!/main.go
+!/mise.toml
+!/package.json
+!/README.md
+!/tsconfig.json
+!/vite.config.ts
