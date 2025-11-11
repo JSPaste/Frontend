@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "@jspaste/frontend",
@@ -29,7 +30,7 @@
         "@tabler/icons-solidjs": "^3.35.0",
         "@uiw/codemirror-extensions-hyper-link": "^4.25.3",
         "@uiw/codemirror-themes": "^4.25.3",
-        "daisyui": "~5.4.4",
+        "daisyui": "~5.5.0",
         "deepmerge-ts": "^7.1.5",
         "solid-js": "~1.9.10",
       },
@@ -317,7 +318,7 @@
 
     "csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
-    "daisyui": ["daisyui@5.4.4", "", {}, "sha512-FEfdwmGdb3ZbtYN3OqaZn/RMarlZTPOv6mWpGUo7KX42RkcBanEZk5tgYp2ZgirKl7QvH8pCiwpuy55wi2dHyQ=="],
+    "daisyui": ["daisyui@5.5.0", "", {}, "sha512-lfeimNM3U1FzjfBotV3iTrxNfBEncHs7kMP62lTLghmO99v7HVZ/lbcOLr/y0Q3JB6Lx7XEi2yC5RQ8BBxdKPA=="],
 
     "debug": ["debug@4.4.3", "", { "dependencies": { "ms": "^2.1.3" } }, "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA=="],
 
