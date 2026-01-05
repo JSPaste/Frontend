@@ -7,7 +7,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/klauspost/compress v1.18.2
 	github.com/tdewolff/minify/v2 v2.24.8
-	github.com/valyala/fasthttp v1.68.0
+	github.com/valyala/fasthttp v1.69.0
 )
 
 require (
