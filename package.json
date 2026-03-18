@@ -31,7 +31,7 @@
     "@jspaste/library": "https://github.com/jspaste/library#4cb83f1aa2ec245454b45c9aa2821defad37693c",
     "@solid-primitives/scheduled": "~1.5.2",
     "@solid-primitives/storage": "~4.3.3",
-    "@solidjs/router": "~0.15.3",
+    "@solidjs/router": "~0.16.0",
     "@tabler/icons-solidjs": "^3.35.0",
     "@uiw/codemirror-extensions-hyper-link": "^4.25.3",
     "@uiw/codemirror-themes": "^4.25.3",
