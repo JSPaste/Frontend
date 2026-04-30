@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/andybalholm/brotli v1.2.1
 	github.com/joho/godotenv v1.5.1
-	github.com/klauspost/compress v1.18.5
+	github.com/klauspost/compress v1.18.6
 	github.com/tdewolff/minify/v2 v2.24.13
 	github.com/valyala/fasthttp v1.70.0
 )
