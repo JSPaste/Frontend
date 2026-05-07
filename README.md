@@ -37,14 +37,14 @@ powershell -c ".\server.exe"
 
 We publish images to multiple registries for redundancy:
 
+- [`docker.io`](https://hub.docker.com/r/jspaste/frontend)
 - [`ghcr.io`](https://github.com/jspaste/frontend/pkgs/container/frontend)
-- [`quay.io`](https://quay.io/repository/jspaste/frontend)
 
 To pull and run the container:
 
 ```shell
-docker pull quay.io/jspaste/frontend:latest
-docker run --env-file=.env -d -p [::1]:3000:3000 quay.io/jspaste/frontend:latest
+docker pull docker.io/jspaste/frontend:latest
+docker run --env-file=.env -d -p [::1]:3000:3000 docker.io/jspaste/frontend:latest
 ```
 
 ## Security
@@ -72,7 +72,7 @@ Since version
 container images are also attested:
 
 ```shell
-gh attestation verify oci://quay.io/jspaste/frontend:latest --owner jspaste
+gh attestation verify oci://docker.io/jspaste/frontend:latest --owner jspaste
 ```
 
 ## Contributing

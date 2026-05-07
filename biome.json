@@ -1,8 +1,8 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.4/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!!dist", "!node_modules"]
+    "includes": ["**", "!!dist/*", "!node_modules/*"]
   },
   "assist": {
     "enabled": true,
@@ -31,33 +31,36 @@
       "complexity": {
         "noForEach": "error",
         "noImplicitCoercions": "error",
+        "noUselessCatchBinding": "warn",
+        "noUselessUndefined": "warn",
         "useSimplifiedLogicExpression": "error"
       },
       "correctness": {
         "noGlobalDirnameFilename": "error",
         "noSolidDestructuredProps": "error",
-        "noUndeclaredVariables": {
-          "level": "error",
-          "options": {
-            "checkTypes": true
-          }
-        },
         "useImportExtensions": "error",
         "useJsonImportAttributes": "error",
         "useSingleJsDocAsterisk": "error"
       },
       "nursery": {
         "noContinue": "warn",
-        "noDeprecatedImports": "warn",
+        "noEqualsToNull": "warn",
         "noFloatingPromises": "warn",
-        "noImportCycles": "warn",
+        "noForIn": "warn",
         "noIncrementDecrement": "warn",
         "noMisusedPromises": "warn",
+        "noMultiAssign": "warn",
+        "noMultiStr": "warn",
         "noParametersOnlyUsedInRecursion": "warn",
-        "noUselessCatchBinding": "warn",
-        "noUselessUndefined": "warn",
+        "noRedundantDefaultExport": "warn",
+        "noReturnAssign": "warn",
+        "useAwaitThenable": "off",
+        "useConsistentEnumValueType": "warn",
+        "useDestructuring": "warn",
         "useExhaustiveSwitchCases": "warn",
-        "useExplicitType": "warn"
+        "useExplicitType": "off",
+        "useFind": "warn",
+        "useRegexpExec": "warn"
       },
       "performance": {
         "noAwaitInLoops": "error",
@@ -130,11 +133,12 @@
       },
       "suspicious": {
         "noAlert": "error",
-        "noBitwiseOperators": "error",
         "noConsole": "error",
         "noConstantBinaryExpressions": "error",
+        "noDeprecatedImports": "warn",
         "noEmptyBlockStatements": "error",
         "noEvolvingTypes": "error",
+        "noImportCycles": "warn",
         "noUnassignedVariables": "error",
         "noVar": "error",
         "useNumberToFixedDigitsArgument": "error",
