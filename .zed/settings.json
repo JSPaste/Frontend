@@ -1,16 +1,5 @@
 // -*- mode: jsonc -*-
-
-// https://zed.dev/docs/configuring-zed#settings-files
-// https://biomejs.dev/reference/zed/#configuration
-
 {
-  // global settings
-  // (from .editorconfig)
-  "hard_tabs": false,
-  "tab_size": 2,
-  "preferred_line_length": 120,
-  "ensure_final_newline_on_save": true,
-
   // lsp
   "lsp": {
     "biome": {
@@ -18,69 +7,55 @@
         "require_config_file": true,
         "config_path": "./biome.json"
       }
+    },
+    "yaml-language-server": {
+      "settings": {
+        "yaml": {
+          "keyOrdering": false,
+          "format": {
+            "singleQuote": false
+          }
+        }
+      }
     }
   },
-
   // language specific (overrides global)
   "languages": {
-    "JavaScript": {
-      "formatter": { "language_server": { "name": "biome" } },
-      "language_servers": ["biome", "vtsls"],
-      "code_actions_on_format": {
-        "source.fixAll.biome": true,
-        "source.organizeImports.biome": true
-      }
-    },
-    "TypeScript": {
-      "formatter": { "language_server": { "name": "biome" } },
-      "language_servers": ["biome", "vtsls"],
-      "code_actions_on_format": {
-        "source.fixAll.biome": true,
-        "source.organizeImports.biome": true
-      }
+    "CSS": {
+      "formatter": "language_server",
+      "language_servers": ["biome", "tailwindcss-language-server"]
     },
     "HTML": {
-      "language_servers": ["biome"],
-      "formatter": { "language_server": { "name": "biome" } },
-      "code_actions_on_format": {
-        "source.fixAll.biome": true
-      }
-    },
-    "TSX": {
-      "language_servers": ["biome", "vtsls", "tailwindcss-language-server"],
-      "formatter": { "language_server": { "name": "biome" } },
-      "code_actions_on_format": {
-        "source.fixAll.biome": true,
-        "source.organizeImports.biome": true
-      }
+      "formatter": "language_server",
+      "language_servers": ["biome"]
     },
     "JSON": {
-      "language_servers": ["biome", "json-language-server"],
-      "formatter": { "language_server": { "name": "biome" } },
-      "code_actions_on_format": {
-        "source.fixAll.biome": true
-      }
+      "formatter": "language_server",
+      "language_servers": ["biome", "json-language-server"]
     },
     "JSONC": {
-      "language_servers": ["biome", "json-language-server"],
-      "formatter": { "language_server": { "name": "biome" } },
-      "code_actions_on_format": {
-        "source.fixAll.biome": true
-      }
+      "formatter": "language_server",
+      "language_servers": ["biome", "json-language-server"]
+    },
+    "JavaScript": {
+      "formatter": "language_server",
+      "language_servers": ["biome", "vtsls", "tailwindcss-language-server"]
+    },
+    "Markdown": {
+      "formatter": "language_server",
+      "language_servers": ["biome"]
+    },
+    "TSX": {
+      "formatter": "language_server",
+      "language_servers": ["biome", "vtsls", "tailwindcss-language-server"]
+    },
+    "TypeScript": {
+      "formatter": "language_server",
+      "language_servers": ["biome", "vtsls", "tailwindcss-language-server"]
     },
     "YAML": {
-      "language_servers": ["biome", "json-language-server"],
-      "formatter": { "language_server": { "name": "biome" } },
-      "code_actions_on_format": {
-        "source.fixAll.biome": true
-      }
-    },
-    "CSS": {
-      "language_servers": ["biome", "tailwindcss-language-server"],
-      "formatter": { "language_server": { "name": "biome" } },
-      "code_actions_on_format": {
-        "source.fixAll.biome": true
-      }
+      "formatter": "language_server",
+      "language_servers": ["biome"]
     }
   }
 }

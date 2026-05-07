@@ -145,13 +145,8 @@ jobs:
 
       - name: Setup podman
         env:
-          PODMAN_VERSION: "v5.6.2"
+          PODMAN_VERSION: "v5.8.2"
         run: |
-          # dpkg man-db trigger is very slow on GHA runners
-          # https://github.com/actions/runner-images/issues/10977
-          # https://github.com/actions/runner/issues/4030
-          sudo rm -f /var/lib/man-db/auto-update
-
           sudo apt-get purge -y podman runc crun conmon
 
           curl -fsSLO "https://github.com/mgoltzsche/podman-static/releases/download/${{ env.PODMAN_VERSION }}/podman-linux-amd64.tar.gz"
@@ -202,11 +197,11 @@ jobs:
         id: release
         env:
           GHA_TAG: "${{ steps.image.outputs.tags }}"
-          GHA_REGISTRY: "ghcr.io quay.io"
+          GHA_REGISTRY: "ghcr.io docker.io"
           GHA_CONTAINER_ORGANIZATION: "jspaste"
           GHA_CONTAINER_IMAGE: "frontend"
-          GHA_REGISTRY_ACCOUNT_NAME: "${{ github.repository_owner }} ${{ secrets.QUAY_PRODUCTION_CD_USER }}"
-          GHA_REGISTRY_ACCOUNT_TOKEN: "${{ secrets.GITHUB_TOKEN }} ${{ secrets.QUAY_PRODUCTION_CD_TOKEN }}"
+          GHA_REGISTRY_ACCOUNT_NAME: "${{ github.repository_owner }} ${{ secrets.DOCKER_USER }}"
+          GHA_REGISTRY_ACCOUNT_TOKEN: "${{ secrets.GITHUB_TOKEN }} ${{ secrets.DOCKER_TOKEN }}"
         run: ./.github/scripts/release-container.sh
 
   container-attest:
