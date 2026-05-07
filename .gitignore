@@ -6,6 +6,7 @@
 !/.github/scripts/*.sh
 !/.github/workflows/
 !/.github/workflows/*.yml
+!/.zed/
 !/.zed/settings.json
 !/public/
 !/public/**

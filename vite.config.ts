@@ -52,6 +52,7 @@ export default {
   ],
   resolve: {
     alias: {
+      "#": resolve("./src"),
       "#component": resolve("./src/components"),
       "#extension": resolve("./src/extensions"),
       "#screen": resolve("./src/screens"),
