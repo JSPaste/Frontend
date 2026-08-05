@@ -6,7 +6,7 @@ require (
 	github.com/andybalholm/brotli v1.2.2
 	github.com/joho/godotenv v1.5.1
 	github.com/klauspost/compress v1.19.1
-	github.com/tdewolff/minify/v2 v2.24.15
+	github.com/tdewolff/minify/v2 v2.24.16
 	github.com/valyala/fasthttp v1.72.0
 )
 
