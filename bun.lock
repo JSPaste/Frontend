@@ -23,7 +23,7 @@
         "@codemirror/language": "^6.12.3",
         "@codemirror/state": "^6.6.0",
         "@codemirror/view": "^6.42.0",
-        "@jspaste/library": "https://github.com/jspaste/library#4cb83f1aa2ec245454b45c9aa2821defad37693c",
+        "@jspaste/library": "https://github.com/jspaste/library#9267f4f5ecc5e88568609ba1b8530b8e1451bff8",
         "@solid-primitives/scheduled": "~1.5.3",
         "@solid-primitives/storage": "~4.3.4",
         "@solidjs/router": "~0.16.1",
@@ -164,7 +164,7 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@jspaste/library": ["@jspaste/library@github:jspaste/library#4cb83f1", {}, "JSPaste-Library-4cb83f1", "sha512-gSyA+OT3n3J+6a52RuvZZLywR9v1tvFdvsXoMSSegPxQAh4g0AFG6WpX2eGyqXdpXa6lIN5ZfP9mR83e3vwHQQ=="],
+    "@jspaste/library": ["@jspaste/library@github:jspaste/library#9267f4f", {}, "JSPaste-Library-9267f4f", "sha512-rU30JkRwoFUS1KNlGuMvDOBpBktEciFYa3xrWpGofeeb92bphkADy9IFavJSHsuD84Nr/hicBvBX9WbZRtP/Qg=="],
 
     "@lezer/common": ["@lezer/common@1.5.2", "", {}, "sha512-sxQE460fPZyU3sdc8lafxiPwJHBzZRy/udNFynGQky1SePYBdhkBl1kOagA9uT3pxR8K09bOrmTUqA9wb/PjSQ=="],
 
