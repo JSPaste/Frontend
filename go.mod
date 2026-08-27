@@ -3,7 +3,7 @@ module github.com/jspaste/frontend
 go 1.25.0
 
 require (
-	github.com/andybalholm/brotli v1.2.2
+	github.com/andybalholm/brotli v1.2.3
 	github.com/joho/godotenv v1.5.1
 	github.com/klauspost/compress v1.19.2
 	github.com/tdewolff/minify/v2 v2.24.17
