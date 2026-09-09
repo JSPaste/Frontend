@@ -28,7 +28,7 @@
     "@codemirror/language": "^6.12.3",
     "@codemirror/state": "^6.6.0",
     "@codemirror/view": "^6.42.0",
-    "@jspaste/library": "https://github.com/jspaste/library#4cb83f1aa2ec245454b45c9aa2821defad37693c",
+    "@jspaste/library": "https://github.com/jspaste/library#972898db295c4c4eec598e288062376e2ed46d40",
     "@solid-primitives/scheduled": "~1.5.3",
     "@solid-primitives/storage": "~4.3.4",
     "@solidjs/router": "~1.0.0",
