@@ -47,7 +47,7 @@
         "vite-plugin-solid": "^2.11.12",
       },
       "peerDependencies": {
-        "typescript": "^6.0.3",
+        "typescript": "^6.0.3 || ^7.0.0",
       },
     },
   },
