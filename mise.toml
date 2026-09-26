@@ -1,7 +1,7 @@
 [tools]
 bun = "latest"
 go = "latest"
-"aqua:golangci/golangci-lint" = "latest"
+golangci-lint = "latest"
 
 [tasks."install"]
 description = "Install all dependencies"

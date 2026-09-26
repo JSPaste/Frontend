@@ -1,6 +1,6 @@
 # Frontend
 
-The web based editor for JSPaste.
+Client-side lightweight web editor
 
 ## Supported Browsers
 
@@ -13,27 +13,27 @@ Please do not open issues with older browsers than those listed:
 *Last checked:
 [`1bab598`](https://github.com/jspaste/frontend/commit/1bab5981b4ce47c43d64c873a7224fbd79e9aafa) on 5 November 2025*
 
-## Installation
+## Setup
 
-### Binaries
+### Binary
 
-1. Download the [latest release](https://github.com/jspaste/frontend/releases/latest) and extract it to a new folder
-2. Copy `.env.example` to `.env` and configure it
-3. Run the binary:
+- Download the [latest release](https://github.com/jspaste/frontend/releases/latest) and uncompress it to a new folder
+- Edit the `.env.example` file and rename it to `.env`
+- Run the binary...
 
-**Linux & macOS:**
+Linux & macOS:
 
 ```shell
 ./server
 ```
 
-**Windows:**
+Windows:
 
 ```powershell
 powershell -c ".\server.exe"
 ```
 
-### Container images
+### Container
 
 We publish images to multiple registries for redundancy:
 
@@ -47,39 +47,25 @@ docker pull docker.io/jspaste/frontend:latest
 docker run --env-file=.env -d -p [::1]:3000:3000 docker.io/jspaste/frontend:latest
 ```
 
-## Security
+## Validate
 
 > [!IMPORTANT]
-> Only binaries and container images built from the official GitHub `JSPaste/Frontend` repository
-> are considered secure by the JSPaste developers.
+> All artifacts and images originate from GitHub `JSPaste/Frontend` repository, no other artifacts or images built and
+> distributed outside that repository are considered secure nor trusted by the JSPaste team.
 
-All attestations can be manually checked at [JSPaste Attestations](https://github.com/jspaste/frontend/attestations).
+You can verify the integrity and origin of an artifact using the GitHub CLI or manually at
+[JSPaste Attestations](https://github.com/jspaste/frontend/attestations).
 
-### Binaries
-
-With [GH-CLI](https://cli.github.com).
-You must verify the tarball, not its content:
+Artifacts are attested and can be verified using the following command:
 
 ```shell
-gh attestation verify ./frontend_latest_linux-amd64.tar.xz --owner jspaste
+gh attestation verify ./frontend_latest_linux-amd64.tar.xz --owner JSPaste
 ```
 
-### Container images
+## Development
 
-With [GH-CLI](https://cli.github.com).
-Since version
-[`2024.05.19-c3f18d0`](https://github.com/jspaste/frontend/pkgs/container/frontend/218171024?tag=2024.05.19-c3f18d0),
-container images are also attested:
-
-```shell
-gh attestation verify oci://docker.io/jspaste/frontend:latest --owner jspaste
-```
-
-## Contributing
-
-See [`CONTRIBUTING`](CONTRIBUTING.md) for more details.
+See the [`CONTRIBUTING`](CONTRIBUTING.md) file for more details.
 
 ## License
 
-This project is licensed under the European Union Public License (EUPL).
-See [`LICENSE`](LICENSE) for more details.
+This project is licensed under the EUPL License. See the [`LICENSE`](LICENSE) file for more details.

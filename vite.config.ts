@@ -10,13 +10,13 @@ import manifest from "./package.json" with { type: "json" };
 
 export default {
   appType: "spa",
-  cacheDir: "./node_modules/.tmp",
   build: {
     target: browserslistToEsbuild(manifest.browserslist),
     outDir: "./dist/frontend/",
     reportCompressedSize: false,
-    rollupOptions: {
+    rolldownOptions: {
       output: {
+        comments: false,
         entryFileNames: "assets/router-[hash].js",
         chunkFileNames: "assets/chunk-[hash].js",
         assetFileNames: "assets/chunk-[hash][extname]"
