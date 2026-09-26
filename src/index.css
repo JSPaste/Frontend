@@ -4,7 +4,8 @@
   --color-\*: initial;
 }
 
-@plugin "daisyui/index.js" {
+@plugin "daisyui" {
+  themes: false;
   logs: false;
 }
 
