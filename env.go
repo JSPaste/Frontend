@@ -24,7 +24,7 @@ func loadEnvFile() {
 	}
 }
 
-func getEnv(key string, defaultValue interface{}) interface{} {
+func getEnv(key string, defaultValue any) any {
 	loadEnvFile()
 
 	if value, exists := os.LookupEnv(key); exists {

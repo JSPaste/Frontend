@@ -2,12 +2,12 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!!dist/*", "!node_modules/*"]
+    "includes": ["**", "!!dist", "!node_modules"]
   },
   "assist": {
     "enabled": true,
     "actions": {
-      "recommended": true,
+      "preset": "recommended",
       "source": {
         "useSortedAttributes": "on",
         "useSortedProperties": "on"
@@ -27,12 +27,17 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
+      "a11y": {
+        "noSvgWithoutTitle": "off"
+      },
       "complexity": {
         "noForEach": "error",
         "noImplicitCoercions": "error",
-        "noUselessCatchBinding": "warn",
-        "noUselessUndefined": "warn",
+        "noRedundantDefaultExport": "error",
+        "noUselessCatchBinding": "error",
+        "noUselessUndefined": "error",
+        "useArrayFind": "error",
         "useSimplifiedLogicExpression": "error"
       },
       "correctness": {
@@ -43,23 +48,11 @@
         "useSingleJsDocAsterisk": "error"
       },
       "nursery": {
-        "noContinue": "warn",
-        "noEqualsToNull": "warn",
         "noFloatingPromises": "warn",
-        "noForIn": "warn",
-        "noIncrementDecrement": "warn",
         "noMisusedPromises": "warn",
-        "noMultiAssign": "warn",
-        "noMultiStr": "warn",
-        "noParametersOnlyUsedInRecursion": "warn",
-        "noRedundantDefaultExport": "warn",
-        "noReturnAssign": "warn",
         "useAwaitThenable": "off",
-        "useConsistentEnumValueType": "warn",
-        "useDestructuring": "warn",
         "useExhaustiveSwitchCases": "warn",
         "useExplicitType": "off",
-        "useFind": "warn",
         "useRegexpExec": "warn"
       },
       "performance": {
@@ -75,7 +68,10 @@
         "noCommonJs": "error",
         "noEnum": "error",
         "noImplicitBoolean": "error",
+        "noIncrementDecrement": "error",
         "noInferrableTypes": "error",
+        "noMultiAssign": "error",
+        "noMultilineString": "error",
         "noNamespace": "error",
         "noNegationElse": "error",
         "noNestedTernary": "error",
@@ -96,7 +92,7 @@
           }
         },
         "useConsistentBuiltinInstantiation": "error",
-        "useConsistentCurlyBraces": "error",
+        "useConsistentEnumValueType": "error",
         "useConsistentMemberAccessibility": {
           "level": "error",
           "options": {
@@ -116,6 +112,7 @@
           }
         },
         "useDefaultSwitchClause": "error",
+        "useDestructuring": "error",
         "useExplicitLengthCheck": "error",
         "useForOf": "error",
         "useGroupedAccessorPairs": "error",
@@ -133,12 +130,18 @@
       },
       "suspicious": {
         "noAlert": "error",
+        "noBitwiseOperators": "error",
         "noConsole": "error",
         "noConstantBinaryExpressions": "error",
-        "noDeprecatedImports": "warn",
+        "noDeprecatedImports": "error",
         "noEmptyBlockStatements": "error",
+        "noEqualsToNull": "error",
         "noEvolvingTypes": "error",
-        "noImportCycles": "warn",
+        "noForIn": "error",
+        "noImportCycles": "error",
+        "noNestedPromises": "error",
+        "noParametersOnlyUsedInRecursion": "error",
+        "noReturnAssign": "error",
         "noUnassignedVariables": "error",
         "noVar": "error",
         "useNumberToFixedDigitsArgument": "error",
@@ -154,8 +157,7 @@
       "quoteStyle": "double",
       "semicolons": "always",
       "trailingCommas": "none"
-    },
-    "globals": ["Bun"]
+    }
   },
   "css": {
     "parser": {

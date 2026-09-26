@@ -18,7 +18,7 @@ The project uses `mise` to manage scripts. To list all available scripts..:
 mise run
 ```
 
-Scripts are grouped, meaning that a script such as `task run build` will run
+Scripts are grouped, meaning that a script such as `mise run build` will run
 other scripts under its name to fulfil its function, in this case building the
 frontend and compiling the server.
 
@@ -26,13 +26,10 @@ This may not be desired in every case, so it is recommended that scripts be run
 in a more granular way..:
 
 ```shell
-# Bad
-mise run build:frontend build:server start:server
+# Build and start
+mise run build:server start:server
 
-# Good, we don't need to compile a binary
-mise run build:frontend start:server
-
-# Better, we can run the development server with HMR
+# Better, we can run the development server
 mise run start:dev
 ```
 
@@ -47,8 +44,7 @@ Building the Frontend is very straightforward..:
 mise run build
 ```
 
-It will prepare a standalone production binary ready to be run in
-`dist/server(.exe)`.
+It will prepare a standalone production binary ready to be run in `dist/`.
 
 You can also avoid constantly rebuilding the server and build frontend instead
 or the other way around..:
