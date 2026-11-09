@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	github.com/andybalholm/brotli v1.2.8
 	github.com/joho/godotenv v1.5.1
-	github.com/klauspost/compress v1.20.3
+	github.com/klauspost/compress v1.20.4
 	github.com/tdewolff/minify/v2 v2.24.25
 	github.com/valyala/fasthttp v1.77.0
 )
